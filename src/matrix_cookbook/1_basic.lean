@@ -3,6 +3,7 @@ import linear_algebra.matrix.trace
 import data.real.nnreal
 import topology.metric_space.basic
 import data.matrix.notation
+import ring_theory.power_series.basic
 
 /-! # Basics -/
 
@@ -61,11 +62,20 @@ lemma eq_26 {A : matrix (fin 3) (fin 3) R} :
 lemma eq_27 {A : matrix (fin 4) (fin 4) R} :
   det (1 + A) = 1 + det A + Tr A + 1/2*Tr A^2 - 1/2*Tr (A^2) + 1/6*Tr A^3 - 1/2*Tr A * Tr (A^2) + 1/3 * Tr (A^3) := sorry
 end
+/-! Note: it is likely that eq (28) is just wrong in the source material! -/
 section
 local notation `Tr` := matrix.trace _ ℝ ℝ
 -- TODO: is this statement correct?
 lemma eq_28 {A : matrix n n ℝ} :
   (λ ε : nnreal, det (1 + ε • A)) =ᶠ[filter.at_bot] (λ ε, 1 + det A + ε * Tr A + 1/2 * ε^2 * Tr(A)^2 - 1/2 * ε^2 * Tr (A^2)) := sorry
+end
+section
+local notation `Tr` := matrix.trace _ R _
+-- TODO: or is this statement correct?
+lemma eq_28' {A : matrix n n R} :
+  let ε : power_series R := power_series.X,
+      A : matrix n n (power_series R) := A.map (power_series.C _) in
+  (det (1 + ε • A)).trunc 2 = (1 + det A + ε • Tr A + (1/2 : R) •  ε^2 * Tr(A)^2 - (1/2 : R) • ε^2 * Tr (A^2)).trunc 2 := sorry
 end
 
 /-! ### The special case 2×2-/
