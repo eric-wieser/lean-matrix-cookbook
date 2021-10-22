@@ -19,7 +19,7 @@ open matrix
 -- anyone looking at the cookbook likely only cares about fields anyway!
 variables [field R]
 
-lemma eq_1 {A : matrix m m R} {B : matrix m m R} : (A * B)⁻¹ = B⁻¹ * A⁻¹ := sorry
+lemma eq_1 {A : matrix m m R} {B : matrix m m R} : (A * B)⁻¹ = B⁻¹ * A⁻¹ := matrix.mul_inv_rev _ _
 lemma eq_2 {l : list (matrix m m R)} : l.prod⁻¹ = (l.reverse.map has_inv.inv).prod := sorry
 lemma eq_3 {A : matrix m m R} : Aᵀ⁻¹ = A⁻¹ᵀ := (transpose_nonsing_inv _ sorry).symm
 lemma eq_4 {A B : matrix m n R} : (A + B)ᵀ = Aᵀ + Bᵀ := transpose_add _ _
@@ -52,7 +52,7 @@ lemma eq_19 (c : R) {A : matrix m m R} : det (c • A) = c ^ fintype.card m * de
 lemma eq_20 {A : matrix m m R} : det (Aᵀ) = det A := det_transpose _
 lemma eq_21 {A B : matrix m m R} : det (A * B) = det A * det B := det_mul _ _
 lemma eq_22 {A : matrix m m R} : det (A⁻¹) = (det A)⁻¹ := sorry
-lemma eq_23 {A : matrix m m R} (k : ℕ) : det (A ^ k) = (det A) ^ k := sorry
+lemma eq_23 {A : matrix m m R} (k : ℕ) : det (A ^ k) = (det A) ^ k := det_pow _ _
 lemma eq_24 {u v : m → R} : det (1 + col u ⬝ row v) = 1 + dot_product u v := sorry
 section
 local notation `Tr` := matrix.trace _ R R
