@@ -25,7 +25,7 @@ lemma eq_3 {A : matrix m m R} : Aᵀ⁻¹ = A⁻¹ᵀ := (transpose_nonsing_inv 
 lemma eq_4 {A B : matrix m n R} : (A + B)ᵀ = Aᵀ + Bᵀ := transpose_add _ _
 lemma eq_5 {A : matrix m n R} {B : matrix n p R} : (A ⬝ B)ᵀ = Bᵀ ⬝ Aᵀ := transpose_mul _ _
 lemma eq_6 {l : list (matrix m m R)} : l.prodᵀ = (l.map transpose).reverse.prod := matrix.transpose_list_prod _
-lemma eq_7 [star_ring R] {A : matrix m m R} : Aᴴ⁻¹ = A⁻¹ᴴ := sorry
+lemma eq_7 [star_ring R] {A : matrix m m R} : Aᴴ⁻¹ = A⁻¹ᴴ := (conj_transpose_nonsing_inv _).symm
 lemma eq_8 [star_ring R] {A B : matrix m n R} : (A + B)ᴴ = Aᴴ + Bᴴ := conj_transpose_add _ _
 lemma eq_9 [star_ring R] {A : matrix m n R} {B : matrix n p R} : (A ⬝ B)ᴴ = Bᴴ ⬝ Aᴴ := conj_transpose_mul _ _
 lemma eq_10 [star_ring R] {l : list (matrix m m R)} : l.prodᴴ = (l.map conj_transpose).reverse.prod := matrix.conj_transpose_list_prod _
@@ -51,7 +51,7 @@ lemma eq_18 {A : matrix m m R} (eigvals : m → R) : det A = ∏ i, eigvals i :=
 lemma eq_19 (c : R) {A : matrix m m R} : det (c • A) = c ^ fintype.card m * det A := det_smul _ _
 lemma eq_20 {A : matrix m m R} : det (Aᵀ) = det A := det_transpose _
 lemma eq_21 {A B : matrix m m R} : det (A * B) = det A * det B := det_mul _ _
-lemma eq_22 {A : matrix m m R} : det (A⁻¹) = (det A)⁻¹ := sorry
+lemma eq_22 {A : matrix m m R} : det (A⁻¹) = (det A)⁻¹ := (det_nonsing_inv _).trans (ring.inverse_eq_inv _)
 lemma eq_23 {A : matrix m m R} (k : ℕ) : det (A ^ k) = (det A) ^ k := det_pow _ _
 lemma eq_24 {u v : m → R} : det (1 + col u ⬝ row v) = 1 + dot_product u v := sorry
 section
@@ -101,7 +101,7 @@ lemma eq_30 {A : matrix (fin 2) (fin 2) R} : Tr A = A 0 0 + A 1 1 := trace_fin_t
 /-! Note: there are some non-numbered eigenvalue things here -/
 
 lemma eq_31 {A : matrix (fin 2) (fin 2) R} : A⁻¹ = (det A)⁻¹ • ![![A 1 1, -A 0 1], ![-A 1 0, A 0 0]] :=
-by rw [inv_def, adjugate_fin_two, inverse_eq_has_inv]
+by rw [inv_def, adjugate_fin_two, ring.inverse_eq_inv]
 
 end
 
