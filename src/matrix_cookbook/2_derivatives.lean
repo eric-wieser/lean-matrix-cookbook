@@ -3,7 +3,7 @@ import linear_algebra.matrix.trace
 import analysis.calculus.deriv
 import data.matrix.kronecker
 import data.matrix.hadamard
-import analysis.special_functions.exp_log
+import analysis.special_functions.log
 
 /-! # Derivatives -/
 
