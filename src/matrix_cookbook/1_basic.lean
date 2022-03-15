@@ -20,7 +20,7 @@ open matrix
 variables [field R]
 
 lemma eq_1 {A : matrix m m R} {B : matrix m m R} : (A * B)⁻¹ = B⁻¹ * A⁻¹ := matrix.mul_inv_rev _ _
-lemma eq_2 {l : list (matrix m m R)} : l.prod⁻¹ = (l.reverse.map has_inv.inv).prod := sorry
+lemma eq_2 {l : list (matrix m m R)} : l.prod⁻¹ = (l.reverse.map has_inv.inv).prod := matrix.list_prod_inv_reverse _
 lemma eq_3 {A : matrix m m R} : Aᵀ⁻¹ = A⁻¹ᵀ := (transpose_nonsing_inv _).symm
 lemma eq_4 {A B : matrix m n R} : (A + B)ᵀ = Aᵀ + Bᵀ := transpose_add _ _
 lemma eq_5 {A : matrix m n R} {B : matrix n p R} : (A ⬝ B)ᵀ = Bᵀ ⬝ Aᵀ := transpose_mul _ _
