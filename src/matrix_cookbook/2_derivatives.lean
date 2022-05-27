@@ -1,9 +1,9 @@
-import linear_algebra.matrix.nonsingular_inverse
-import linear_algebra.matrix.trace
 import analysis.calculus.deriv
+import analysis.matrix
 import data.matrix.kronecker
 import data.matrix.hadamard
-import analysis.special_functions.log
+import linear_algebra.matrix.nonsingular_inverse
+import linear_algebra.matrix.trace
 
 /-! # Derivatives -/
 
@@ -15,10 +15,14 @@ namespace matrix_cookbook
 
 variables [nondiscrete_normed_field R]
 
-attribute [instance] matrix.normed_group matrix.normed_space
+-- this should work but gives timeouts
+local attribute [instance] matrix.normed_group matrix.normed_space
+-- `matrix.normed_space` is about `semi_normed_group` which massively impacts the performance of
+-- typeclass search in later lemmas.
+local attribute [instance]
+noncomputable def matrix_field_normed_space : normed_space R (matrix m n R) :=
+by exact matrix.normed_space
 
-local notation `Tr` := matrix.trace _ R _
-local notation `Tr'` := matrix.trace _ ℝ _
 open_locale matrix kronecker
 open matrix
 
@@ -30,7 +34,7 @@ lemma eq_34 (c : R) (X : R → matrix m n R) (hX : differentiable R X) :
 lemma eq_35 (X Y : R → matrix m n R) (hX : differentiable R X) (hY : differentiable R Y) :
   deriv (X + Y) = deriv X + deriv Y := funext $ λ _, deriv_add (hX _) (hY _)
 lemma eq_36 (X : R → matrix m m R) (hX : differentiable R X) :
-  deriv (λ a, Tr (X a)) = λ a, Tr (deriv X a) := sorry
+  deriv (λ a, trace (X a)) = λ a, trace (deriv X a) := sorry
 lemma eq_37 (X : R → matrix m n R) (Y : R → matrix n p R) (hX : differentiable R X) (hY : differentiable R Y) :
   deriv (λ a, (X a) ⬝ (Y a)) = λ a, deriv X a ⬝ Y a + X a ⬝ deriv Y a := sorry
 lemma eq_38 (X Y : R → matrix n p R) (hX : differentiable R X) (hY : differentiable R Y) :
@@ -40,11 +44,11 @@ lemma eq_39 (X Y : R → matrix n p R) (hX : differentiable R X) (hY : different
 lemma eq_40 (X : R → matrix n n R) (hX : differentiable R X) :
   deriv (λ a, (X a)⁻¹) = λ a, -(X a)⁻¹ * deriv X a * (X a)⁻¹ := sorry
 lemma eq_41 (X : R → matrix n n R) (hX : differentiable R X) :
-  deriv (λ a, det (X a)) = λ a, Tr (adjugate (X a) * deriv X a) := sorry
+  deriv (λ a, det (X a)) = λ a, trace (adjugate (X a) * deriv X a) := sorry
 lemma eq_42 (X : R → matrix n n R) (hX : differentiable R X) :
-  deriv (λ a, det (X a)) = λ a, det (X a) • Tr ((X a)⁻¹ * deriv X a) := sorry
+  deriv (λ a, det (X a)) = λ a, det (X a) • trace ((X a)⁻¹ * deriv X a) := sorry
 lemma eq_43 (X : ℝ → matrix n n ℝ) (hX : differentiable ℝ X) :
-  deriv (λ a, real.log (det (X a))) = λ a, Tr' ((X a)⁻¹ * deriv X a) := sorry
+  deriv (λ a, real.log (det (X a))) = λ a, trace ((X a)⁻¹ * deriv X a) := sorry
 lemma eq_44 (X : R → matrix m n R) (hX : differentiable R X) :
   deriv (λ a, (X a)ᵀ) = λ a, (deriv X a)ᵀ := sorry
 lemma eq_45 [star_ring R] (X : R → matrix m n R) (hX : differentiable R X) :
@@ -55,7 +59,7 @@ lemma eq_45 [star_ring R] (X : R → matrix m n R) (hX : differentiable R X) :
 /-! ### General form -/
 
 lemma eq_46 (X : R → matrix n n R) (hX : differentiable R X) :
-  deriv (λ a, det (X a)) = λ a, det (X a) • Tr ((X a)⁻¹ * deriv X a) := eq_42 X hX  -- this suggests we might have 42 stated strangely
+  deriv (λ a, det (X a)) = λ a, det (X a) • trace ((X a)⁻¹ * deriv X a) := eq_42 X hX  -- this suggests we might have 42 stated strangely
 
 -- lemma eq_47 : sorry := sorry
 -- lemma eq_48 : sorry := sorry
