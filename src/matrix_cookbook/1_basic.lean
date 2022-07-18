@@ -94,7 +94,7 @@ lemma eq_30 {A : matrix (fin 2) (fin 2) R} : trace A = A 0 0 + A 1 1 := trace_fi
 
 /-! Note: there are some non-numbered eigenvalue things here -/
 
-lemma eq_31 {A : matrix (fin 2) (fin 2) R} : A⁻¹ = (det A)⁻¹ • ![![A 1 1, -A 0 1], ![-A 1 0, A 0 0]] :=
+lemma eq_31 {A : matrix (fin 2) (fin 2) R} : A⁻¹ = (det A)⁻¹ • !![A 1 1, -A 0 1; -A 1 0, A 0 0] :=
 by rw [inv_def, adjugate_fin_two, ring.inverse_eq_inv]
 
 end
