@@ -14,7 +14,7 @@ variables [decidable_eq m] [decidable_eq n] [decidable_eq p]
 
 namespace matrix_cookbook
 
-open_locale matrix big_operators filter topological_space
+open_locale matrix big_operators filter topology
 open matrix
 
 -- anyone looking at the cookbook likely only cares about fields anyway!
