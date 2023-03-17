@@ -1,8 +1,8 @@
 [package]
 name = "lean-matrix-cookbook"
 version = "0.1"
-lean_version = "leanprover-community/lean:3.49.0"
+lean_version = "leanprover-community/lean:3.49.1"
 path = "src"
 
 [dependencies]
-mathlib = {git = "https://github.com/leanprover-community/mathlib", rev = "cf1f8bcbd92d1da86c26f6ec4bddae1c31d65abd"}
+mathlib = {git = "https://github.com/leanprover-community/mathlib", rev = "a149cb73f18ddaf3573cc6ec74fe9f1c00e12497"}
