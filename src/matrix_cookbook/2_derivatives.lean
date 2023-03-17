@@ -4,6 +4,7 @@ import data.matrix.kronecker
 import data.matrix.hadamard
 import linear_algebra.matrix.nonsingular_inverse
 import linear_algebra.matrix.trace
+import analysis.normed.field.basic
 
 /-! # Derivatives -/
 
@@ -13,10 +14,10 @@ variables [decidable_eq m] [decidable_eq n] [decidable_eq p]
 
 namespace matrix_cookbook
 
-variables [nondiscrete_normed_field R]
+variables [nontrivially_normed_field R]
 
 -- this should work but gives timeouts
-local attribute [instance] matrix.normed_group matrix.normed_space
+local attribute [instance] matrix.normed_add_comm_group matrix.normed_space
 -- `matrix.normed_space` is about `semi_normed_group` which massively impacts the performance of
 -- typeclass search in later lemmas.
 local attribute [instance]
