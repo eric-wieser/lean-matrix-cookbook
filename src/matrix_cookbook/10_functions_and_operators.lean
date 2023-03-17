@@ -14,7 +14,7 @@ variables {ι : Type*} {R : Type*} {l m n p q r : Type*}
 variables [fintype l] [fintype m] [fintype n] [fintype p] [fintype q] [fintype r]
 variables [decidable_eq l] [decidable_eq m] [decidable_eq n] [decidable_eq p] [decidable_eq q] [decidable_eq r]
 
-open_locale nat big_operators matrix nnreal
+open_locale nat big_operators matrix nnreal ennreal
 open matrix
 
 namespace matrix_cookbook
@@ -125,16 +125,17 @@ lemma eq_523 (r : R) (A : matrix m n R) : vec (r • A) = r • vec A := rfl
 /-! #### Examples -/
 
 lemma eq_525 (x : n → ℂ) : ∥(pi_Lp.equiv 1 _).symm x∥ = ∑ i, complex.abs (x i) :=
-by simp_rw [pi_Lp.norm_eq, pi_Lp.equiv_symm_apply, div_one, real.rpow_one, complex.norm_eq_abs]
+by simpa using pi_Lp.norm_eq_of_nat 1 (nat.cast_one.symm) ((pi_Lp.equiv 1 _).symm x)
 
-lemma eq_526 (x : n → ℂ) : ↑∥(pi_Lp.equiv 2 _).symm x∥^2 = star x ⬝ᵥ x := sorry
+lemma eq_526 (x : n → ℂ) : ↑(∥(pi_Lp.equiv 2 _).symm x∥^2) = star x ⬝ᵥ x := sorry
 
-lemma eq_527 (x : n → ℂ) (p : ℝ) [fact (1 ≤ p)] :
-  ∥(pi_Lp.equiv p _).symm x∥ = (∑ i, complex.abs (x i) ^ p)^(1/p) :=
-by simp_rw [pi_Lp.norm_eq, pi_Lp.equiv_symm_apply, complex.norm_eq_abs]
+lemma eq_527 (x : n → ℂ) (p : ℝ≥0∞) (h : 0 < p.to_real) :
+  ∥(pi_Lp.equiv p _).symm x∥ = (∑ i, complex.abs (x i) ^ p.to_real)^(1/p.to_real) :=
+by simp_rw [pi_Lp.norm_eq_sum h, pi_Lp.equiv_symm_apply, complex.norm_eq_abs]
 
-lemma eq_528 (x : n → ℂ) : ∥x∥ = ⨅ i, complex.abs (x i) :=
-by { rw [pi.norm_def _], sorry }
+lemma eq_528 (x : n → ℂ) :
+  ∥(pi_Lp.equiv ∞ _).symm x∥ = ⨆ i, complex.abs (x i) :=
+by simp_rw [pi_Lp.norm_eq_csupr, pi_Lp.equiv_symm_apply, complex.norm_eq_abs]
 
 /-! ### Matrix Norms -/
 
