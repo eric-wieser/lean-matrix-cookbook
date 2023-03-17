@@ -140,11 +140,15 @@ by simp_rw [pi_Lp.norm_eq_csupr, pi_Lp.equiv_symm_apply, complex.norm_eq_abs]
 /-! ### Matrix Norms -/
 
 /-! #### Definitions -/
+section
+local attribute [instance] matrix.normed_add_comm_group matrix.normed_space
 
--- lemma eq_529 : sorry := sorry
--- lemma eq_530 : sorry := sorry
--- lemma eq_531 : sorry := sorry
--- lemma eq_532 : sorry := sorry
+lemma eq_529 (A : matrix n n ℝ) : 0 ≤ ‖A‖ := norm_nonneg _
+lemma eq_530 (A : matrix n n ℝ) : ‖A‖ = 0 ↔ A = 0 := norm_eq_zero
+lemma eq_531 (r : ℝ) (A : matrix n n ℝ) : ‖r • A‖ = |r| * ‖A‖ := by rw [norm_smul r A, real.norm_eq_abs]
+lemma eq_532 (A B : matrix n n ℝ) : ‖A + B‖ ≤ ‖A‖ + ‖B‖ := norm_add_le _ _
+
+end
 
 /-! #### Induced Norm or Operator Norm -/
 
