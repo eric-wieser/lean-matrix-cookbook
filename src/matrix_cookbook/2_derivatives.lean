@@ -21,7 +21,7 @@ local attribute [instance] matrix.normed_add_comm_group matrix.normed_space
 -- `matrix.normed_space` is about `semi_normed_group` which massively impacts the performance of
 -- typeclass search in later lemmas.
 local attribute [instance]
-noncomputable def matrix_field_normed_space : normed_space R (matrix m n R) :=
+def matrix_field_normed_space : normed_space R (matrix m n R) :=
 by exact matrix.normed_space
 
 open_locale matrix kronecker
