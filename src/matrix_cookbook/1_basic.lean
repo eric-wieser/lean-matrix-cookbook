@@ -4,6 +4,7 @@ import data.real.nnreal
 import topology.metric_space.basic
 import data.matrix.notation
 import ring_theory.power_series.basic
+import tactic.norm_fin
 
 /-! # Basics -/
 
