@@ -78,17 +78,41 @@ lemma eq_509 (a b : R) (A : matrix m n R) (B : matrix r q R) :
   (a • A) ⊗ₖ (b • B) = (a*b) • (A ⊗ₖ B) :=
 by rw [smul_kronecker, kronecker_smul, smul_smul]
 
-lemma eq_510 (a b : R) (A : matrix m n R) (B : matrix r q R) :
+lemma eq_510 (A : matrix m n R) (B : matrix r q R) :
   (A ⊗ₖ B)ᵀ = (Aᵀ ⊗ₖ Bᵀ) :=
 by rw [kronecker_map_transpose]
 
-lemma eq_511 (a b : R) (A : matrix l m R) (B : matrix p q R) (C : matrix m n R) (D : matrix q r R) :
+lemma eq_511 (A : matrix l m R) (B : matrix p q R) (C : matrix m n R) (D : matrix q r R) :
   (A ⊗ₖ B) ⬝ (C ⊗ₖ D) = (A ⬝ C) ⊗ₖ (B ⬝ D) :=
 by rw matrix.mul_kronecker_mul
 
-lemma eq_512 (a b : R) (A : matrix m m R) (B : matrix n n R) :
+lemma eq_512 (A : matrix m m R) (B : matrix n n R) :
   (A ⊗ₖ B)⁻¹ = (A⁻¹ ⊗ₖ B⁻¹) :=
-sorry
+begin
+  casesI is_empty_or_nonempty n,
+  { exact subsingleton.elim _ _ },
+  casesI is_empty_or_nonempty m,
+  { exact subsingleton.elim _ _ },
+  have : det (A ⊗ₖ B) = det A ^ fintype.card n * det B ^ fintype.card m := sorry,
+  by_cases hA : is_unit A.det,
+  { by_cases hB : is_unit B.det,
+    { apply inv_eq_right_inv,
+      rw [←mul_kronecker_mul, ←one_kronecker_one, mul_nonsing_inv _ hA, mul_nonsing_inv _ hB] },
+    { rw [nonsing_inv_apply_not_is_unit _ hB, kronecker_zero, nonsing_inv_apply_not_is_unit],
+      rw this,
+      intro hAB,
+      apply hB,
+      have := is_unit_of_mul_is_unit_right hAB,
+      rwa is_unit_pow_iff at this,
+      apply fintype.card_ne_zero } },
+  { rw [nonsing_inv_apply_not_is_unit _ hA, zero_kronecker, nonsing_inv_apply_not_is_unit],
+    rw this,
+    intro hAB,
+    apply hA,
+    have := is_unit_of_mul_is_unit_left hAB,
+    rwa is_unit_pow_iff at this,
+    apply fintype.card_ne_zero },
+end
 
 -- lemma eq_513 : sorry := sorry
 -- lemma eq_514 : sorry := sorry
@@ -99,8 +123,14 @@ by simp_rw [matrix.trace, matrix.diag, finset.sum_mul, finset.mul_sum,
     ←finset.univ_product_univ, finset.sum_product, kronecker_apply]
 
 lemma eq_516 (A : matrix m m R) (B : matrix n n R) :
-  det (A ⊗ₖ B) = det A ^ fintype.card m * det B ^ fintype.card n :=
-sorry
+  det (A ⊗ₖ B) = det A ^ fintype.card n * det B ^ fintype.card m :=
+calc det (A ⊗ₖ B) = det ((A ⊗ₖ 1) ⬝ (1 ⊗ₖ B)) :
+  by rw [←mul_kronecker_mul, matrix.mul_one, matrix.one_mul]
+... = det (A ⊗ₖ (1 : matrix n n R)) * det (Bᵀ ⊗ₖ (1 : matrix m m R)) :
+  by { rw [det_mul], sorry }
+... = det (block_diagonal (λ _ : n, A)) * det (block_diagonal (λ _ : m, B)) :
+  by {congr; ext ⟨i, j⟩ ⟨ii, jj⟩; simp [block_diagonal]; sorry }
+... = _ : by simp_rw [det_block_diagonal, finset.prod_const, finset.card_univ]
 
 -- lemma eq_517 : sorry := sorry
 -- lemma eq_518 : sorry := sorry
