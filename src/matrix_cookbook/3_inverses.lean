@@ -93,7 +93,7 @@ lemma eq_183 : sorry := sorry
 
 /-! ## Implication on Inverses -/
 
-lemma eq_184 : sorry := sorry
+lemma eq_184 : (A + B)⁻¹ = A⁻¹ + B⁻¹ → A⬝B⁻¹⬝A = B⬝A⁻¹⬝B := sorry
 
 /-! ### A PosDef identity -/
 
