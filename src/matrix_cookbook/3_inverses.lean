@@ -1,4 +1,13 @@
+import linear_algebra.matrix.nonsingular_inverse
+import data.complex.basic
+
 namespace matrix_cookbook
+variables {m n p : Type*}
+variables [fintype m] [fintype n] [fintype p]
+variables [decidable_eq m] [decidable_eq n] [decidable_eq p]
+variables (A B : matrix n n ℂ)
+open matrix
+open_locale matrix
 
 /-! # Inverses -/
 
@@ -6,7 +15,8 @@ namespace matrix_cookbook
 
 /-! ### Definition -/
 
-lemma eq_145 : sorry := sorry
+lemma eq_145 (h : is_unit A.det) : A * A⁻¹ = 1 ∧ A⁻¹ * A = 1 :=
+⟨mul_nonsing_inv _ h, nonsing_inv_mul _ h⟩
 
 /-! ### Cofactors and Adjoint -/
 
@@ -21,7 +31,8 @@ lemma eq_150 : sorry := sorry
 
 /-! ### Construction -/
 
-lemma eq_151 : sorry := sorry
+lemma eq_151 : A⁻¹ = (1/A.det) • adjugate A :=
+by rw [inv_def, ring.inverse_eq_inv, one_div]
 
 /-! ### Condition number -/
 
@@ -33,7 +44,7 @@ lemma eq_154 : sorry := sorry
 
 /-! ### Basic -/
 
-lemma eq_155 : sorry := sorry
+lemma eq_155 (A B : matrix m m ℂ) : (A * B)⁻¹ = B⁻¹ * A⁻¹ := mul_inv_rev _ _
 
 /-! ### The Woodbury identity -/
 
@@ -51,13 +62,13 @@ lemma eq_160 : sorry := sorry
 
 /-! ### The Searle Set of Identities -/
 
-lemma eq_161 : sorry := sorry
-lemma eq_162 : sorry := sorry
-lemma eq_163 : sorry := sorry
-lemma eq_164 : sorry := sorry
-lemma eq_165 : sorry := sorry
-lemma eq_166 : sorry := sorry
-lemma eq_167 : sorry := sorry
+lemma eq_161 : (1 + A⁻¹)⁻¹ = A⬝(A + 1)⁻¹ := sorry
+lemma eq_162 : (A + Bᵀ⬝B)⁻¹⬝B = A⁻¹⬝B⬝(1 + Bᵀ⬝A⁻¹⬝B)⁻¹:= sorry
+lemma eq_163 : (A⁻¹ + B⁻¹)⁻¹ = A⬝(A + B)⁻¹⬝B ∧ (A⁻¹ + B⁻¹)⁻¹ = B⬝(A + B)⁻¹⬝A := sorry
+lemma eq_164 : A - A⬝(A + B)⁻¹⬝A = B - B⬝(A + B)⁻¹⬝B := sorry
+lemma eq_165 : A⁻¹ + B⁻¹ = A⁻¹⬝(A + B)⁻¹⬝B⁻¹ := sorry
+lemma eq_166 : (1 + A⬝B)⁻¹ = 1 - A⬝(1 + B⬝A)⁻¹⬝B := sorry
+lemma eq_167 : (1 + A⬝B)⁻¹⬝A = A⬝(1 + B⬝A)⁻¹ := sorry
 
 /-! ### Rank-1 update of inverse of inner product -/
 
