@@ -102,23 +102,47 @@ lemma eq_516 (A : matrix m m R) (B : matrix n n R) :
   det (A ⊗ₖ B) = det A ^ fintype.card m * det B ^ fintype.card n :=
 sorry
 
--- lemma eq_516 : sorry := sorry
 -- lemma eq_517 : sorry := sorry
 -- lemma eq_518 : sorry := sorry
 -- lemma eq_519 : sorry := sorry
 
 /-! #### The Vec Operator -/
 
-def vec (A : matrix m n R) : matrix (m × n) unit R :=
-col (λ ij, A ij.1 ij.2)
+def vec (A : matrix m n R) : matrix (n × m) unit R :=
+col (λ ij, A ij.2 ij.1)
 
--- lemma eq_520: sorry := sorry
+lemma eq_520 (A : matrix l m R) (X : matrix m n R) (B : matrix n p R) :
+  vec (A ⬝ X ⬝ B) = (Bᵀ ⊗ₖ A) ⬝ vec X :=
+begin
+  ext ⟨k, l⟩,
+  simp_rw [vec, matrix.mul_apply, matrix.kronecker_map, col_apply, finset.sum_mul,
+    transpose_apply, ←finset.univ_product_univ, finset.sum_product, mul_right_comm _ _ (B _ _),
+      mul_comm _ (B _ _)],
+end
 lemma eq_521 (A B : matrix m n R) : (Aᵀ ⬝ B).trace = ((vec A)ᵀ ⬝ vec B) () () :=
-sorry
+by simp_rw [matrix.trace, matrix.diag, matrix.mul_apply, vec, transpose_apply, col_apply,
+    ←finset.univ_product_univ, finset.sum_product]
 lemma eq_522 (A B : matrix m n R) : vec (A + B) = vec A + vec B := rfl
 lemma eq_523 (r : R) (A : matrix m n R) : vec (r • A) = r • vec A := rfl
 
--- lemma eq_524 : sorry := sorry
+-- note: `Bᵀ` is `B` in the PDF
+lemma eq_524 (a : m → R) (X : matrix m n R) (B : matrix n n R) (c : m → R) :
+  row a ⬝ X ⬝ B ⬝ Xᵀ ⬝ col c = (vec X)ᵀ ⬝ (Bᵀ ⊗ₖ (col c ⬝ row a)) ⬝ vec X :=
+begin
+  -- not the proof from the book
+  ext ⟨i, j⟩,
+  simp only [vec, matrix.mul_apply, finset.sum_mul, finset.mul_sum,
+    matrix.kronecker_map, transpose_apply, matrix.row_apply, matrix.col_apply,
+    fintype.sum_unique],
+  simp_rw [←finset.univ_product_univ, finset.sum_product, @finset.sum_comm _ m n],
+  rw finset.sum_comm,
+  refine finset.sum_congr rfl (λ k _, _),
+  refine finset.sum_congr rfl (λ l _, _),
+  rw finset.sum_comm,
+  refine finset.sum_congr rfl (λ kk _, _),
+  refine finset.sum_congr rfl (λ ll _, _),
+  ring,
+end
 
 /-! ### Vector Norms -/
 
@@ -153,18 +177,44 @@ end
 /-! #### Induced Norm or Operator Norm -/
 
 -- lemma eq_533 : sorry := sorry
--- lemma eq_534 : sorry := sorry
--- lemma eq_535 : sorry := sorry
--- lemma eq_536 : sorry := sorry
+
+-- we just use one of the norms as an example; there is no generalization available
+section
+local attribute [instance] matrix.linfty_op_normed_add_comm_group matrix.linfty_op_normed_space
+local attribute [instance] matrix.linfty_op_normed_ring matrix.linfty_op_normed_algebra
+local attribute [instance] matrix.linfty_op_norm_one_class
+lemma eq_534 [nonempty n] : ‖(1 : matrix n n ℝ)‖ = 1 := norm_one
+lemma eq_535 (A : matrix m n ℝ) (x : n → ℝ) : ‖A.mul_vec x‖ ≤ ‖A‖ * ‖x‖ :=
+linfty_op_norm_mul_vec _ _
+lemma eq_536 (A : matrix m n ℝ) (B : matrix n p ℝ) : ‖A⬝B‖ ≤ ‖A‖ * ‖B‖ :=
+linfty_op_norm_mul _ _
+end
 
 /-! #### Examples -/
+
 
 -- lemma eq_537 : sorry := sorry
 -- lemma eq_538 : sorry := sorry
 -- lemma eq_539 : sorry := sorry
--- lemma eq_540 : sorry := sorry
--- lemma eq_541 : sorry := sorry
--- lemma eq_542 : sorry := sorry
+
+section
+local attribute [instance] matrix.linfty_op_normed_add_comm_group matrix.linfty_op_normed_space
+lemma eq_540 (A : matrix m n ℝ) : ‖A‖ = ↑(finset.univ.sup (λ i, ∑ j, ‖A i j‖₊)) :=
+by rw [linfty_op_norm_def]
+end
+
+section
+local attribute [instance] matrix.frobenius_normed_add_comm_group matrix.frobenius_normed_space
+lemma eq_541 (A : matrix m n ℝ) : ‖A‖ = real.sqrt (∑ i j, ‖A i j‖ ^ (2 : ℝ)) :=
+by rw [frobenius_norm_def, real.sqrt_eq_rpow]
+end
+
+section
+local attribute [instance] matrix.normed_add_comm_group matrix.normed_space
+lemma eq_542 (A : matrix m n ℝ) : ‖A‖ = ↑(finset.univ.sup (λ ij : _ × _, ‖A ij.1 ij.2‖₊)) :=
+by simp_rw [←finset.univ_product_univ, finset.sup_product_left, ←pi.nnnorm_def, coe_nnnorm]
+end
+
 -- lemma eq_543 : sorry := sorry
 
 /-! #### Inequalities -/
