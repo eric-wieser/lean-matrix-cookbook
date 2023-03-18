@@ -5,9 +5,9 @@ namespace matrix_cookbook
 variables {m n p : Type*}
 variables [fintype m] [fintype n] [fintype p]
 variables [decidable_eq m] [decidable_eq n] [decidable_eq p]
-variables (A B : matrix n n ℂ)
+variables (A B C : matrix n n ℂ)
 open matrix
-open_locale matrix
+open_locale matrix big_operators
 
 /-! # Inverses -/
 
@@ -20,13 +20,17 @@ lemma eq_145 (h : is_unit A.det) : A * A⁻¹ = 1 ∧ A⁻¹ * A = 1 :=
 
 /-! ### Cofactors and Adjoint -/
 
-lemma eq_146 : sorry := sorry
-lemma eq_147 : sorry := sorry
-lemma eq_148 : sorry := sorry
+lemma eq_146 (n : ℕ) (A : matrix (fin n.succ) (fin n.succ) ℂ) (i j) :
+  adjugate A j i = (-1)^(i + j : ℕ) * det (A.submatrix i.succ_above j.succ_above) := sorry
+lemma eq_147 : (adjugate A)ᵀ = of (λ i j, adjugate A j i) := rfl
+lemma eq_148 : adjugate A = (adjugate A)ᵀᵀ := rfl
 
 /-! ### Determinant -/
 
-lemma eq_149 : sorry := sorry
+/-- Note: adapted from column 0 to column 1. -/
+lemma eq_149 (n : ℕ) (A : matrix (fin n.succ) (fin n.succ) ℂ) :
+  det A = ∑ i : fin n.succ, (-1) ^ (i : ℕ) * A i 0 * det (A.submatrix i.succ_above fin.succ) :=
+det_succ_column_zero _
 lemma eq_150 : sorry := sorry
 
 /-! ### Construction -/
@@ -54,11 +58,19 @@ lemma eq_158 : sorry := sorry
 
 /-! ### The Kailath Variant -/
 
-lemma eq_159 : sorry := sorry
+lemma eq_159 (B : matrix n m ℂ) (C : matrix m n ℂ) :
+  (A + B⬝C)⁻¹ = A⁻¹ - A⁻¹⬝B⬝(1 + C⬝A⁻¹⬝B)⁻¹⬝C⬝A⁻¹ := sorry
 
 /-! ### Sherman-Morrison -/
 
-lemma eq_160 : sorry := sorry
+lemma eq_160 (b c : n → ℂ) :
+  (A + col b ⬝ row c)⁻¹ = A⁻¹ - (1 + c ⬝ᵥ (A⁻¹.mul_vec b))⁻¹ • (A⁻¹⬝(col b ⬝ row c)⬝A⁻¹) :=
+begin
+  rw [eq_159, ←matrix.mul_assoc _ (col b), matrix.mul_assoc _ (row c), matrix.mul_assoc _ (row c),
+    ←matrix.mul_smul, matrix.mul_assoc _ _ (row c ⬝ _)],
+  congr,
+  sorry
+end
 
 /-! ### The Searle Set of Identities -/
 
