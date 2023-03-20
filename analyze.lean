@@ -72,7 +72,7 @@ do
   pure (f, p, s)
 
 meta def commit_sha : io string :=
-io.cmd { cmd := "git", args := ["rev-parse", "HEAD"] }
+string.pop_back <$> io.cmd { cmd := "git", args := ["rev-parse", "HEAD"] }
 
 meta def get_url : io (string → option pos → string) :=
 do
