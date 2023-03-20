@@ -89,7 +89,7 @@ jobs:
       run: |
         mkdir build
         lean --make analyze.lean
-        lean --run analyze.lean > buildprogress_bar.svg
+        lean --run analyze.lean > build/progress_bar.svg
 
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v1
