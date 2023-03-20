@@ -1,5 +1,6 @@
 ### The Matrix Cookbook, using Lean's mathlib
 
+![](https://eric-wieser.github.io/lean-matrix-cookbook/progress_bar.svg)
 
 [![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-908a85?logo=gitpod)](https://gitpod.io/#https://github.com/eric-wieser/lean-matrix-cookbook)
 
