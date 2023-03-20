@@ -1,6 +1,11 @@
 on:
   push:
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   update_lean_xyz_branch_and_build:
     runs-on: ubuntu-latest
@@ -16,5 +21,81 @@ jobs:
       if: github.ref == 'refs/heads/master'
       uses: leanprover-contrib/update-versions-action@master
 
-    - name: build project
-      uses: leanprover-contrib/lean-build-action@master
+    - name: update branch
+      if: github.ref == 'refs/heads/master'
+      uses: leanprover-contrib/update-versions-action@master
+
+    - name: Install elan
+      run: |
+        set -o pipefail
+        curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- --default-toolchain none -y
+        ~/.elan/bin/lean --version
+        echo "$HOME/.elan/bin" >> $GITHUB_PATH
+    - name: install Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+
+    - name: Install leanproject
+      run: |
+        python3 -m pip install --user pipx
+        python3 -m pipx ensurepath
+        source ~/.profile
+        pipx install mathlibtools
+
+    - name: Install elan
+      run: |
+        set -o pipefail
+        curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- --default-toolchain none -y
+        ~/.elan/bin/lean --version
+        echo "$HOME/.elan/bin" >> $GITHUB_PATH
+
+    - name: install Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+
+    - name: Install leanproject
+      run: |
+        python3 -m pip install --user pipx
+        python3 -m pipx ensurepath
+        source ~/.profile
+        pipx install mathlibtools
+
+    - name: Set up olean cache
+      uses: actions/cache@v3
+      with:
+        path: _cache
+        key: oleans
+
+    - name: Configure
+      run: |
+        leanpkg configure
+        leanproject get-mathlib-cache
+        leanproject get-cache --fallback=download-first || true
+
+    - name: Build
+      run: |
+        # hack: remove the `sys.exit` for noisy files
+        head -n -1 _target/deps/mathlib/scripts/detect_errors.py > detect_errors.py
+
+        lean --json --make src | python3 detect_errors.py
+
+    - name: Save olean cache
+      run: |
+        leanproject mk-cache
+
+    - name: Make progress bar
+      run: |
+        mkdir build
+        lean --make analyze.lean
+        lean --run analyze.lean > buildprogress_bar.svg
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v1
+      with:
+        path: 'build'
+
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v1
