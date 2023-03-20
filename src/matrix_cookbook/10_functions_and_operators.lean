@@ -66,7 +66,18 @@ lemma eq_505 (A : matrix m n R) (B : matrix r q R) :
 lemma eq_506 (A : matrix m n R) (B C : matrix r q R) : A ⊗ₖ (B + C) = A ⊗ₖ B + A ⊗ₖ C :=
 kronecker_add _ _ _
 
--- lemma eq_507 : sorry := sorry
+lemma eq_507 [nontrivial m] [nonempty n]:
+  ¬∀ (A : matrix m n R) (B : matrix m n R), A ⊗ₖ B = B ⊗ₖ A :=
+begin
+  intro h,
+  obtain ⟨m1, m2, hm⟩ := exists_pair_ne m,
+  obtain ⟨n1⟩ := id ‹nonempty n›,
+  let A := std_basis_matrix m1 n1 (1 : R),
+  let B := std_basis_matrix m2 n1 (1 : R),
+  have := matrix.ext_iff.mpr (h A B) (m1, m2) (n1, n1),
+  simpa [A, B, std_basis_matrix.apply_same, std_basis_matrix.apply_of_row_ne hm, mul_zero, mul_one,
+    one_ne_zero] using this,
+end
 
 /-- Note we have to "cast" between the types -/
 lemma eq_508 (A : matrix m n R) (B : matrix r q R) (C : matrix l p R) :
@@ -88,31 +99,7 @@ by rw matrix.mul_kronecker_mul
 
 lemma eq_512 (A : matrix m m R) (B : matrix n n R) :
   (A ⊗ₖ B)⁻¹ = (A⁻¹ ⊗ₖ B⁻¹) :=
-begin
-  casesI is_empty_or_nonempty n,
-  { exact subsingleton.elim _ _ },
-  casesI is_empty_or_nonempty m,
-  { exact subsingleton.elim _ _ },
-  have : det (A ⊗ₖ B) = det A ^ fintype.card n * det B ^ fintype.card m := sorry,
-  by_cases hA : is_unit A.det,
-  { by_cases hB : is_unit B.det,
-    { apply inv_eq_right_inv,
-      rw [←mul_kronecker_mul, ←one_kronecker_one, mul_nonsing_inv _ hA, mul_nonsing_inv _ hB] },
-    { rw [nonsing_inv_apply_not_is_unit _ hB, kronecker_zero, nonsing_inv_apply_not_is_unit],
-      rw this,
-      intro hAB,
-      apply hB,
-      have := is_unit_of_mul_is_unit_right hAB,
-      rwa is_unit_pow_iff at this,
-      apply fintype.card_ne_zero } },
-  { rw [nonsing_inv_apply_not_is_unit _ hA, zero_kronecker, nonsing_inv_apply_not_is_unit],
-    rw this,
-    intro hAB,
-    apply hA,
-    have := is_unit_of_mul_is_unit_left hAB,
-    rwa is_unit_pow_iff at this,
-    apply fintype.card_ne_zero },
-end
+inv_kronecker _ _ _
 
 -- lemma eq_513 : sorry := sorry
 -- lemma eq_514 : sorry := sorry
@@ -124,13 +111,7 @@ by simp_rw [matrix.trace, matrix.diag, finset.sum_mul, finset.mul_sum,
 
 lemma eq_516 (A : matrix m m R) (B : matrix n n R) :
   det (A ⊗ₖ B) = det A ^ fintype.card n * det B ^ fintype.card m :=
-calc det (A ⊗ₖ B) = det ((A ⊗ₖ 1) ⬝ (1 ⊗ₖ B)) :
-  by rw [←mul_kronecker_mul, matrix.mul_one, matrix.one_mul]
-... = det (A ⊗ₖ (1 : matrix n n R)) * det (Bᵀ ⊗ₖ (1 : matrix m m R)) :
-  by { rw [det_mul], sorry }
-... = det (block_diagonal (λ _ : n, A)) * det (block_diagonal (λ _ : m, B)) :
-  by {congr; ext ⟨i, j⟩ ⟨ii, jj⟩; simp [block_diagonal]; sorry }
-... = _ : by simp_rw [det_block_diagonal, finset.prod_const, finset.card_univ]
+det_kronecker _ _ _
 
 -- lemma eq_517 : sorry := sorry
 -- lemma eq_518 : sorry := sorry
@@ -181,7 +162,8 @@ end
 lemma eq_525 (x : n → ℂ) : ‖(pi_Lp.equiv 1 _).symm x‖ = ∑ i, complex.abs (x i) :=
 by simpa using pi_Lp.norm_eq_of_nat 1 (nat.cast_one.symm) ((pi_Lp.equiv 1 _).symm x)
 
-lemma eq_526 (x : n → ℂ) : ↑(‖(pi_Lp.equiv 2 _).symm x‖^2) = star x ⬝ᵥ x := sorry
+lemma eq_526 (x : n → ℂ) : ↑(‖(pi_Lp.equiv 2 _).symm x‖^2) = star x ⬝ᵥ x :=
+by rw [←euclidean_space.inner_pi_Lp_equiv_symm, inner_self_eq_norm_sq_to_K, complex.of_real_pow]
 
 lemma eq_527 (x : n → ℂ) (p : ℝ≥0∞) (h : 0 < p.to_real) :
   ‖(pi_Lp.equiv p _).symm x‖ = (∑ i, complex.abs (x i) ^ p.to_real)^(1/p.to_real) :=
