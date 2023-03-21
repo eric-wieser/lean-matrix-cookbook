@@ -1,4 +1,12 @@
+import linear_algebra.matrix.ldl
+
 /-! # Solutions and Decompositions -/
+
+variables {m n p : Type*}
+variables [fintype m] [fintype n] [fintype p]
+variables [decidable_eq m] [decidable_eq n] [decidable_eq p]
+
+open_locale matrix
 
 namespace matrix_cookbook
 
@@ -129,6 +137,7 @@ lemma eq_301 : sorry := sorry
 
 /-! ## LDL decompositions -/
 
-lemma eq_302 : sorry := sorry
+lemma eq_302 {n : ℕ} (A : matrix (fin n) (fin n) ℝ) (hA : A.pos_def) :
+  A = LDL.lower hA ⬝ LDL.diag hA ⬝ (LDL.lower hA)ᴴ := (LDL.lower_conj_diag hA).symm
 
 end matrix_cookbook
