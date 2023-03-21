@@ -44,11 +44,11 @@ lemma eq_269 : sorry := sorry
 
 /-! ### Linear form and zeros -/
 
-lemma eq_270 : sorry := sorry
+lemma eq_270 (A : matrix m m ℝ) : (∀ x, A.mul_vec x = 0) → A = 0 := sorry
 
 /-! ### Square form and zeros -/
 
-lemma eq_271 : sorry := sorry
+lemma eq_271 (A : matrix m m ℝ) (hA : A.is_symm) : (∀ x, x ⬝ᵥ A.mul_vec x = 0) → A = 0 := sorry
 
 /-! ### The Lyapunov Equation -/
 
