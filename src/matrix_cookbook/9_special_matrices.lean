@@ -260,8 +260,15 @@ funext $ λ _, (mul_vec_std_basis _ _ _).symm
 
 /-! ### Permutations -/
 
-lemma eq_477 : sorry := sorry
-lemma eq_478 : sorry := sorry
+lemma eq_477 :
+  (!![0, 1, 0; 1, 0, 0; 0, 0, 1] : matrix _ _ R)
+    = of ![(pi.single 1 1 : fin 3 → R), pi.single 0 1, pi.single 2 1] :=
+by { ext i j, fin_cases i; fin_cases j; refl }
+lemma eq_478 (e : equiv.perm m) :
+  e.to_pequiv.to_matrix ⬝ e.to_pequiv.to_matrixᵀ = (1 : matrix m m R) :=
+by rw [←pequiv.to_matrix_symm, ←pequiv.to_matrix_trans,
+  ←equiv.to_pequiv_symm, ←equiv.to_pequiv_trans, equiv.self_trans_symm,
+  equiv.to_pequiv_refl, pequiv.to_matrix_refl]
 lemma eq_479 : sorry := sorry
 
 /-! ### Translation, Shift or Lag Operators -/
