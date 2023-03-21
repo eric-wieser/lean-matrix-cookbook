@@ -1,4 +1,16 @@
+import data.complex.basic
+import linear_algebra.matrix.hermitian
+import linear_algebra.matrix.nonsingular_inverse
+
 /-! # Special Matrices -/
+
+variables {R : Type*} {l m n p q r : Type*}
+variables [fintype l] [fintype m] [fintype n] [fintype p] [fintype q] [fintype r]
+variables [decidable_eq l] [decidable_eq m] [decidable_eq n] [decidable_eq p] [decidable_eq q] [decidable_eq r]
+variables [field R]
+
+open matrix
+open_locale matrix
 
 namespace matrix_cookbook
 
@@ -8,18 +20,41 @@ namespace matrix_cookbook
 
 /-! ### The Determinant -/
 
-lemma eq_397 : sorry := sorry
-lemma eq_398 : sorry := sorry
+lemma eq_397
+  (A₁₁ : matrix m m R) (A₁₂ : matrix m n R) (A₂₁ : matrix n m R) (A₂₂ : matrix n n R)
+  [invertible A₂₂] :
+    (from_blocks A₁₁ A₁₂ A₂₁ A₂₂).det = A₂₂.det * (A₁₁ - A₁₂⬝⅟A₂₂⬝A₂₁).det :=
+det_from_blocks₂₂ _ _ _ _
+lemma eq_398 (A₁₁ : matrix m m R) (A₁₂ : matrix m n R) (A₂₁ : matrix n m R) (A₂₂ : matrix n n R)
+  [invertible A₁₁] :
+    (from_blocks A₁₁ A₁₂ A₂₁ A₂₂).det = A₁₁.det * (A₂₂ - A₂₁⬝⅟A₁₁⬝A₁₂).det :=
+det_from_blocks₁₁ _ _ _ _
 
 /-! ### The Inverse -/
 
-lemma eq_399 : sorry := sorry
-lemma eq_400 : sorry := sorry
+/-- Eq 399 is the definition of `C₁`, this is the equation below it without `C₂` at all. -/
+lemma eq_399 (A₁₁ : matrix m m R) (A₁₂ : matrix m n R) (A₂₁ : matrix n m R) (A₂₂ : matrix n n R)
+  [invertible A₂₂] [invertible (A₁₁ - A₁₂⬝⅟A₂₂⬝A₂₁)] :
+  (from_blocks A₁₁ A₁₂ A₂₁ A₂₂)⁻¹ =
+    let C₁ := A₁₁ - A₁₂⬝⅟A₂₂⬝A₂₁, i : invertible C₁ := ‹_› in by exactI
+    from_blocks
+      (⅟C₁)          (-⅟C₁⬝A₁₂⬝⅟A₂₂)
+      (-⅟A₂₂⬝A₂₁⬝⅟C₁) (⅟A₂₂ + ⅟A₂₂⬝A₂₁⬝⅟C₁⬝A₁₂⬝⅟A₂₂) := sorry
+/-- Eq 400 is the definition of `C₂`,  this is the equation below it without `C₁` at all. -/
+lemma eq_400 (A₁₁ : matrix m m R) (A₁₂ : matrix m n R) (A₂₁ : matrix n m R) (A₂₂ : matrix n n R)
+  [invertible A₁₁] [invertible (A₂₂ - A₂₁⬝⅟A₁₁⬝A₁₂)] :
+  (from_blocks A₁₁ A₁₂ A₂₁ A₂₂)⁻¹ =
+    let C₂ := A₂₂ - A₂₁⬝⅟A₁₁⬝A₁₂, i : invertible C₂ := ‹_› in by exactI
+    from_blocks
+      (⅟A₁₁ + ⅟A₁₁⬝A₁₂⬝⅟C₂⬝A₂₁⬝⅟A₁₁) (-⅟A₁₁⬝A₁₂⬝⅟C₂)
+      (-⅟C₂⬝A₂₁⬝⅟A₁₁)                (⅟C₂) := sorry
 
 /-! ### Block diagonal -/
 
-lemma eq_401 : sorry := sorry
-lemma eq_402 : sorry := sorry
+lemma eq_401 (A₁₁ : matrix m m R) (A₂₂ : matrix n n R) :
+  (from_blocks A₁₁ 0 0 A₂₂)⁻¹ = from_blocks A₁₁⁻¹ 0 0 A₂₂⁻¹ := sorry
+lemma eq_402 (A₁₁ : matrix m m R) (A₂₂ : matrix n n R) :
+  det (from_blocks A₁₁ 0 0 A₂₂) = det A₁₁ * det A₂₂ := det_from_blocks_zero₁₂ _ _ _
 
 /-! ### Schur complement -/
 
@@ -38,27 +73,44 @@ lemma eq_412 : sorry := sorry
 
 /-! ## Hermitian Matrices and skew-Hermitian -/
 
-lemma eq_413 : sorry := sorry
-lemma eq_414 : sorry := sorry
+lemma eq_413 (A : matrix m m ℂ) :
+  A.is_hermitian ↔ ∀ x : m → ℂ, is_self_adjoint (star x ⬝ᵥ A.mul_vec x) := sorry
+lemma eq_414 (A : matrix m m ℂ) : 
+  A.is_hermitian ↔ sorry := sorry
 
 /-! ### Skew-Hermitian -/
 
-lemma eq_415 : sorry := sorry
-lemma eq_416 : sorry := sorry
-lemma eq_417 : sorry := sorry
+lemma eq_415 (A : matrix m m ℂ) : A.is_hermitian ↔ complex.I • A ∈ skew_adjoint (matrix m m ℂ) := sorry
+lemma eq_416 (A : matrix m m ℂ) :
+  A ∈ skew_adjoint (matrix m m ℂ) ↔ ∀x y, star x ⬝ᵥ A.mul_vec y = - star x ⬝ᵥ Aᴴ.mul_vec y := sorry
+lemma eq_417 (A : matrix m m ℂ) :
+  A.is_hermitian → sorry := sorry
 
 /-! ## Idempotent Matrices -/
 
-lemma eq_418 : sorry := sorry
-lemma eq_419 : sorry := sorry
-lemma eq_420 : sorry := sorry
-lemma eq_421 : sorry := sorry
-lemma eq_422 : sorry := sorry
-lemma eq_423 : sorry := sorry
-lemma eq_424 : sorry := sorry
-lemma eq_425 : sorry := sorry
+section
+variables (A : matrix m m R) (B : matrix m m R) 
+
+lemma eq_418 (hA : is_idempotent_elem A) (n : ℕ) (hn : n ≠ 0) :
+  A^n = A := by { cases n, { cases hn rfl }, exact hA.pow_succ_eq n }
+lemma eq_419 (hA : is_idempotent_elem A) : is_idempotent_elem (1 - A) :=
+hA.one_sub
+lemma eq_420 [star_ring R] (hA : is_idempotent_elem A) : is_idempotent_elem Aᴴ :=
+sorry
+lemma eq_421 [star_ring R] (hA : is_idempotent_elem A) :
+  is_idempotent_elem (1 - Aᴴ) := sorry
+lemma eq_422 (hA : is_idempotent_elem A) (hB : is_idempotent_elem B) (h : commute A B) :
+  is_idempotent_elem (A⬝B) :=
+hA.mul_of_commute h hB
+lemma eq_423 (hA : is_idempotent_elem A) : sorry = trace A := sorry
+lemma eq_424 (hA : is_idempotent_elem A) : A⬝(1-A) = 0 :=
+by simp [mul_sub, ←matrix.mul_eq_mul, hA.eq]
+lemma eq_425  (hA : is_idempotent_elem A) : (1-A)⬝A = 0 :=
+by simp [sub_mul, ←matrix.mul_eq_mul, hA.eq]
 lemma eq_426 : sorry := sorry
 lemma eq_427 : sorry := sorry
+
+end
 
 /-! ### Nilpotent -/
 
@@ -201,8 +253,10 @@ lemma eq_474 : sorry := sorry
 
 /-! ### Rows and Columns -/
 
-lemma eq_475 : sorry := sorry
-lemma eq_476 : sorry := sorry
+lemma eq_475 (A : matrix m n R) (i) : A i = A.vec_mul (pi.single i 1) :=
+funext $ λ _, (vec_mul_std_basis _ _ _).symm
+lemma eq_476 (A : matrix m n R) (j) : (λ i, A i j) = A.mul_vec (pi.single j 1) :=
+funext $ λ _, (mul_vec_std_basis _ _ _).symm
 
 /-! ### Permutations -/
 
