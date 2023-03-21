@@ -1588,9 +1588,7 @@ where $\mathbf{L}$ is a unit lower triangular matrix and $\mathbf{D}$ is a diago
 
 ${ }^{1}$ If the matrix that corresponds to a principal minor is a quadratic upper-left part of the larger matrix (i.e., it consists of matrix elements in rows and columns from 1 to $\mathrm{k}$ ), then the principal minor is called a leading principal minor. For an $\mathrm{n}$ times $\mathrm{n}$ square matrix, there are n leading principal minors. 31
 
-
-
-\section{$6 \quad$ Statistics and Probability}
+\section{Statistics and Probability}
 
 \subsection{Definition of Moments}
 
@@ -1834,7 +1832,7 @@ $$
 
 where $\mathbf{M}$ is the location, $\boldsymbol{\Omega}$ is the rescaling matrix, $\boldsymbol{\Sigma}$ is positive definite, $\nu$ is the degrees of freedom, and $\Gamma$ denotes the gamma function.
 
-\section{$7.8 \quad$ Wishart}
+\subsection{Wishart}
 
 The central Wishart distribution for $\mathbf{M} \in \mathbb{R}^{P \times P}, \mathbf{M}$ is positive definite, where $m$ can be regarded as a degree of freedom parameter [16, equation 3.8.1] [8, section 2.5$],[11$
 
