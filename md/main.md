@@ -47,7 +47,7 @@ $\mathbf{J}^{i j}$ The single-entry matrix, 1 at $(i, j)$ and zero elsewhere
 
 $\boldsymbol{\Sigma} \quad$ A positive definite matrix
 
-$\Lambda$ A diagonal matrix 
+$\Lambda$ A diagonal matrix
 
 \section{Basics}
 
@@ -680,7 +680,7 @@ $$
 \mathbf{A}^{-1}=\frac{1}{\operatorname{det}(\mathbf{A})} \cdot \operatorname{adj}(\mathbf{A})
 $$
 
-For the case of $2 \times 2$ matrices, see section 1.3 
+For the case of $2 \times 2$ matrices, see section 1.3
 
 \subsubsection{Condition number}
 
@@ -935,7 +935,7 @@ The pseudo inverse (or Moore-Penrose inverse) of a matrix $\mathbf{A}$ is the ma
 
 $\begin{aligned} \text { I } & \mathbf{A} \mathbf{A}^{+} \mathbf{A}=\mathbf{A} \\ \text { II } & \mathbf{A}^{+} \mathbf{A} \mathbf{A}^{+}=\mathbf{A}^{+} \\ \text {III } & \mathbf{A A}^{+} \text {symmetric } \\ \text { IV } & \mathbf{A}^{+} \mathbf{A} \text { symmetric }\end{aligned}$
 
-The matrix $\mathbf{A}^{+}$is unique and does always exist. Note that in case of complex matrices, the symmetric condition is substituted by a condition of being Hermitian. 
+The matrix $\mathbf{A}^{+}$is unique and does always exist. Note that in case of complex matrices, the symmetric condition is substituted by a condition of being Hermitian.
 
 \subsubsection{Properties}
 
@@ -1010,7 +1010,7 @@ $$
 \mathbf{A}^{+}=\mathbf{D}^{T}\left(\mathbf{D D}^{T}\right)^{-1}\left(\mathbf{C}^{T} \mathbf{C}\right)^{-1} \mathbf{C}^{T}
 $$
 
-See $[3]$ 
+See $[3]$
 
 \section{Complex Matrices}
 
@@ -1291,7 +1291,7 @@ $$
 \mathbf{x}=\mathbf{A}^{+} \mathbf{b}
 $$
 
-where $\mathbf{A}^{+}$is the pseudo-inverse of the rank-deficient matrix, constructed as described in section 3.6 .3 
+where $\mathbf{A}^{+}$is the pseudo-inverse of the rank-deficient matrix, constructed as described in section 3.6 .3
 
 \subsubsection{Cramer's rule}
 
@@ -1502,7 +1502,7 @@ $$
 [\mathbf{A}]=[\mathbf{V}][\mathbf{D}]\left[\mathbf{U}^{T}\right]
 $$
 
-where $\mathbf{D}$ is diagonal with the square root of the eigenvalues of $\mathbf{A} \mathbf{A}^{T}, \mathbf{V}$ is the eigenvectors of $\mathbf{A} \mathbf{A}^{T}$ and $\mathbf{U}^{T}$ is the eigenvectors of $\mathbf{A}^{T} \mathbf{A}$. 
+where $\mathbf{D}$ is diagonal with the square root of the eigenvalues of $\mathbf{A} \mathbf{A}^{T}, \mathbf{V}$ is the eigenvectors of $\mathbf{A} \mathbf{A}^{T}$ and $\mathbf{U}^{T}$ is the eigenvectors of $\mathbf{A}^{T} \mathbf{A}$.
 
 \subsubsection{Square decomposed into rectangular}
 
@@ -1564,7 +1564,7 @@ $$
 \mathbf{A}=\mathbf{U}^{T} \mathbf{U}=\mathbf{L L}^{T}
 $$
 
-where $\mathbf{U}$ is a unique upper triangular matrix and $\mathbf{L}$ is a lower triangular matrix. 
+where $\mathbf{U}$ is a unique upper triangular matrix and $\mathbf{L}$ is a lower triangular matrix.
 
 \subsection{LDM decomposition}
 
@@ -1586,9 +1586,11 @@ $$
 
 where $\mathbf{L}$ is a unit lower triangular matrix and $\mathbf{D}$ is a diagonal matrix. If $\mathbf{A}$ is also positive definite, then $\mathbf{D}$ has strictly positive diagonal entries.
 
-${ }^{1}$ If the matrix that corresponds to a principal minor is a quadratic upper-left part of the larger matrix (i.e., it consists of matrix elements in rows and columns from 1 to $\mathrm{k}$ ), then the principal minor is called a leading principal minor. For an $\mathrm{n}$ times $\mathrm{n}$ square matrix, there are n leading principal minors. 31 
+${ }^{1}$ If the matrix that corresponds to a principal minor is a quadratic upper-left part of the larger matrix (i.e., it consists of matrix elements in rows and columns from 1 to $\mathrm{k}$ ), then the principal minor is called a leading principal minor. For an $\mathrm{n}$ times $\mathrm{n}$ square matrix, there are n leading principal minors. 31
 
-\section{Statistics and Probability}
+
+
+\section{$6 \quad$ Statistics and Probability}
 
 \subsection{Definition of Moments}
 
@@ -1667,12 +1669,12 @@ Assume $\mathbf{X}$ and $\mathbf{x}$ to be a matrix and a vector of random varia
 $$
 \begin{aligned}
 E[\mathbf{A X B}+\mathbf{C}] & =\mathbf{A} E[\mathbf{X}] \mathbf{B}+\mathbf{C} \\
-\operatorname{Var}[\mathbf{A} \mathbf{x}] & =\mathbf{A} \operatorname{Var}[\mathbf{x}] \mathbf{A}^{T} \\
-\operatorname{Cov}[\mathbf{A} \mathbf{x}, \mathbf{B} \mathbf{y}] & =\mathbf{A} \operatorname{Cov}[\mathbf{x}, \mathbf{y}] \mathbf{B}^{T}
+\operatorname{Var}[\mathbf{A} \mathbf{x}] & =\mathbf{A V a r}[\mathbf{x}] \mathbf{A}^{T} \\
+\operatorname{Cov}[\mathbf{A x}, \mathbf{B y}] & =\mathbf{A C o v}[\mathbf{x}, \mathbf{y}] \mathbf{B}^{T}
 \end{aligned}
 $$
 
-Assume $\mathbf{x}$ to be a stochastic vector with mean $\mathbf{m}$, then (see [7)
+Assume $\mathbf{x}$ to be a stochastic vector with mean $\mathbf{m}$, then (see [7])
 
 $$
 \begin{aligned}
@@ -1693,43 +1695,43 @@ E\left[\mathbf{x}^{T} \mathbf{A} \mathbf{x}\right] & =\operatorname{Tr}(\mathbf{
 \end{aligned}
 $$
 
-Also, assume $\mathbf{x}$ to be a stochastic vector with mean $\mathbf{m}$, and covariance $\mathbf{M}$. Then $(\sec [7)$
+Also, assume $\mathbf{x}$ to be a stochastic vector with mean $\mathbf{m}$, and covariance $\mathbf{M}$. Then $($ see $[7])$
 
 $$
 \begin{aligned}
-E\left[(\mathbf{A} \mathbf{x}+\mathbf{a})(\mathbf{B} \mathbf{x}+\mathbf{b})^{T}\right] & =\mathbf{A} \mathbf{M B} \mathbf{B}^{T}+(\mathbf{A} \mathbf{m}+\mathbf{a})(\mathbf{B} \mathbf{m}+\mathbf{b})^{T} \\
+E\left[(\mathbf{A} \mathbf{x}+\mathbf{a})(\mathbf{B} \mathbf{x}+\mathbf{b})^{T}\right] & =\mathbf{A} \mathbf{M} \mathbf{B}^{T}+(\mathbf{A} \mathbf{m}+\mathbf{a})(\mathbf{B m}+\mathbf{b})^{T} \\
 E\left[\mathbf{x} \mathbf{x}^{T}\right] & =\mathbf{M}+\mathbf{m}^{T} \\
-E\left[\mathbf{\mathbf { x } ^ { T } \mathbf { x } ]}\right. & =\left(\mathbf{M}+\mathbf{m}^{T}\right) \mathbf{a} \\
-E\left[\mathbf{x}^{T} \mathbf{a} \mathbf{x}^{T}\right] & =\mathbf{a}^{T}\left(\mathbf{M}+\mathbf{m} \mathbf{m}^{T}\right) \\
-E\left[(\mathbf{A} \mathbf{x})(\mathbf{A} \mathbf{x})^{T}\right] & =\mathbf{A}\left(\mathbf{M}+\mathbf{m m}^{T}\right) \mathbf{A}^{T} \\
+E\left[\mathbf{x a}^{T} \mathbf{x}\right] & =\left(\mathbf{M}+\mathbf{m}^{T}\right) \mathbf{a} \\
+E\left[\mathbf{x}^{T} \mathbf{a} \mathbf{x}^{T}\right] & =\mathbf{a}^{T}\left(\mathbf{M}+\mathbf{m m}^{T}\right) \\
+E\left[(\mathbf{A} \mathbf{x})(\mathbf{A} \mathbf{x})^{T}\right] & =\mathbf{A}\left(\mathbf{M}+\mathbf{m}^{T}\right) \mathbf{A}^{T} \\
 E\left[(\mathbf{x}+\mathbf{a})(\mathbf{x}+\mathbf{a})^{T}\right] & =\mathbf{M}+(\mathbf{m}+\mathbf{a})(\mathbf{m}+\mathbf{a})^{T} \\
 E\left[(\mathbf{A} \mathbf{x}+\mathbf{a})^{T}(\mathbf{B} \mathbf{x}+\mathbf{b})\right] & =\operatorname{Tr}\left(\mathbf{A} \mathbf{M} \mathbf{B}^{T}\right)+(\mathbf{A} \mathbf{m}+\mathbf{a})^{T}(\mathbf{B} \mathbf{m}+\mathbf{b}) \\
 E\left[\mathbf{x}^{T} \mathbf{x}\right] & =\operatorname{Tr}(\mathbf{M})+\mathbf{m}^{T} \mathbf{m} \\
 E\left[\mathbf{x}^{T} \mathbf{A} \mathbf{x}\right] & =\operatorname{Tr}(\mathbf{A} \mathbf{M})+\mathbf{m}^{T} \mathbf{A} \mathbf{m} \\
 E\left[(\mathbf{A} \mathbf{x})^{T}(\mathbf{A} \mathbf{x})\right] & =\operatorname{Tr}\left(\mathbf{A} \mathbf{M} \mathbf{A}^{T}\right)+(\mathbf{A} \mathbf{m})^{T}(\mathbf{A} \mathbf{m}) \\
-E\left[(\mathbf{x}+\mathbf{a})^{T}(\mathbf{x}+\mathbf{a})\right] & =\operatorname{Tr}(\mathbf{M})+(\mathbf{m}+\mathbf{a})^{T}(\mathbf{m}+\mathbf{a})
+E\left[(\mathbf{x}+\mathbf{a})^{T}(\mathbf{x}+\mathbf{a})\right] & =\operatorname{Tr}(\mathbf{M})+\left(\mathbf{m}^{T}+\mathbf{a}\right)^{T}(\mathbf{m}+\mathbf{a})
 \end{aligned}
 $$
 
-See 7. 
+See $[7$.
 
 \subsubsection{Cubic Forms}
 
-Assume $\mathbf{x}$ to be a stochastic vector with independent coordinates, mean $\mathbf{m}$, covariance $\mathbf{M}$ and central moments $\mathbf{v}_{3}=E\left[(\mathbf{x}-\mathbf{m})^{3}\right]$. Then $($ see $[7])$
+Assume $\mathbf{x}$ to be a stochastic vector with independent coordinates, mean $\mathbf{m}$, covariance $\mathbf{M}$ and central moments $\mathbf{v}_{3}=E\left[(\mathbf{x}-\mathbf{m})^{3}\right]$. Then (see $[7]$ )
 
 $$
 \begin{aligned}
-& E\left[(\mathbf{A} \mathbf{x}+\mathbf{a})(\mathbf{B} \mathbf{x}+\mathbf{b})^{T}(\mathbf{C x}+\mathbf{c})\right]=\mathbf{A d i a g}\left(\mathbf{B}^{T} \mathbf{C}\right) \mathbf{v}_{3} \\
+& E\left[(\mathbf{A} \mathbf{x}+\mathbf{a})(\mathbf{B} \mathbf{x}+\mathbf{b})^{T}(\mathbf{C} \mathbf{x}+\mathbf{c})\right]=\mathbf{A} \operatorname{diag}\left(\mathbf{B}^{T} \mathbf{C}\right) \mathbf{v}_{3} \\
 & +\operatorname{Tr}\left(\mathbf{B M C} \mathbf{C}^{T}\right)(\mathbf{A m}+\mathbf{a}) \\
 & +\mathbf{A M C}^{T}(\mathbf{B m}+\mathbf{b}) \\
-& +\left(\mathbf{A M B}^{T}+(\mathbf{A m}+\mathbf{a})(\mathbf{B m}+\mathbf{b})^{T}\right)(\mathbf{C m}+\mathbf{c}) \\
-& E\left[\mathbf{x x}^{T} \mathbf{x}\right]=\mathbf{v}_{3}+2 \mathbf{M} \mathbf{m}+\left(\operatorname{Tr}(\mathbf{M})+\mathbf{m}^{T} \mathbf{m}\right) \mathbf{m} \\
+& +\left(\mathbf{A M B}{ }^{T}+(\mathbf{A m}+\mathbf{a})(\mathbf{B m}+\mathbf{b})^{T}\right)(\mathbf{C m}+\mathbf{c}) \\
+& E\left[\mathbf{x x}^{T} \mathbf{x}\right]=\mathbf{v}_{3}+2 \mathbf{M m}+\left(\operatorname{Tr}(\mathbf{M})+\mathbf{m}^{T} \mathbf{m}\right) \mathbf{m} \\
 & E\left[(\mathbf{A} \mathbf{x}+\mathbf{a})(\mathbf{A} \mathbf{x}+\mathbf{a})^{T}(\mathbf{A} \mathbf{x}+\mathbf{a})\right]=\mathbf{A} \operatorname{diag}\left(\mathbf{A}^{T} \mathbf{A}\right) \mathbf{v}_{3} \\
-& +\left[2 \mathbf{A M A} \mathbf{A}^{T}+(\mathbf{A x}+\mathbf{a})(\mathbf{A} \mathbf{x}+\mathbf{a})^{T}\right](\mathbf{A} \mathbf{m}+\mathbf{a}) \\
+& +\left[2 \mathbf{A M A}{ }^{T}+(\mathbf{A} \mathbf{x}+\mathbf{a})(\mathbf{A} \mathbf{x}+\mathbf{a})^{T}\right](\mathbf{A m}+\mathbf{a}) \\
 & +\operatorname{Tr}\left(\mathbf{A M A} \mathbf{A}^{T}\right)(\mathbf{A m}+\mathbf{a}) \\
-& E\left[(\mathbf{A x}+\mathbf{a}) \mathbf{b}^{T}(\mathbf{C x}+\mathbf{c})(\mathbf{D x}+\mathbf{d})^{T}\right]=(\mathbf{A x}+\mathbf{a}) \mathbf{b}^{T}\left(\mathbf{C M D}^{T}+(\mathbf{C m}+\mathbf{c})(\mathbf{D m}+\mathbf{d})^{T}\right) \\
+& E\left[(\mathbf{A} \mathbf{x}+\mathbf{a}) \mathbf{b}^{T}(\mathbf{C x}+\mathbf{c})(\mathbf{D} \mathbf{x}+\mathbf{d})^{T}\right]=(\mathbf{A x}+\mathbf{a}) \mathbf{b}^{T}\left(\mathbf{C M D}^{T}+(\mathbf{C m}+\mathbf{c})(\mathbf{D m}+\mathbf{d})^{T}\right) \\
 & +\left(\mathbf{A M C} \mathbf{C}^{T}+(\mathbf{A m}+\mathbf{a})(\mathbf{C m}+\mathbf{c})^{T}\right) \mathbf{b}(\mathbf{D m}+\mathbf{d})^{T} \\
-& +\mathbf{b}^{T}(\mathbf{C m}+\mathbf{c})\left(\mathbf{A M D}{ }^{T}-(\mathbf{A m}+\mathbf{a})(\mathbf{D m}+\mathbf{d})^{T}\right)
+& +\mathbf{b}^{T}(\mathbf{C m}+\mathbf{c})\left(\mathbf{A M} \mathbf{D}^{T}-(\mathbf{A m}+\mathbf{a})(\mathbf{D m}+\mathbf{d})^{T}\right)
 \end{aligned}
 $$
 
@@ -1796,7 +1798,7 @@ $$
 p(\mathbf{t} \mid \boldsymbol{\mu}, \boldsymbol{\Sigma}, \nu)=(\pi \nu)^{-P / 2} \frac{\Gamma\left(\frac{\nu+P}{2}\right)}{\Gamma(\nu / 2)} \frac{\operatorname{det}(\boldsymbol{\Sigma})^{-1 / 2}}{\left[1+\nu^{-1}(\mathbf{t}-\boldsymbol{\mu})^{\top} \boldsymbol{\Sigma}^{-1}(\mathbf{t}-\boldsymbol{\mu})\right]^{(\nu+P) / 2}}
 $$
 
-where $\boldsymbol{\mu}$ is the location, the scale matrix $\boldsymbol{\Sigma}$ is symmetric, positive definite, $\nu$ is the degrees of freedom, and $\Gamma$ denotes the gamma function. For $\nu=1$, the Student-t distribution becomes the Cauchy distribution (see sec 7.1). 
+where $\boldsymbol{\mu}$ is the location, the scale matrix $\boldsymbol{\Sigma}$ is symmetric, positive definite, $\nu$ is the degrees of freedom, and $\Gamma$ denotes the gamma function. For $\nu=1$, the Student-t distribution becomes the Cauchy distribution (see sec 7.1).
 
 \subsubsection{Mean}
 
@@ -1826,7 +1828,7 @@ $$
 \begin{aligned}
 & p(\mathbf{T} \mid \mathbf{M}, \boldsymbol{\Omega}, \boldsymbol{\Sigma}, \nu)= \pi^{-N P / 2} \prod_{p=1}^{P} \frac{\Gamma[(\nu+P-p+1) / 2]}{\Gamma[(\nu-p+1) / 2]} \times \\
 & \nu \operatorname{det}(\boldsymbol{\Omega})^{-\nu / 2} \operatorname{det}(\boldsymbol{\Sigma})^{-N / 2} \times \\
-& \operatorname{det}\left[\boldsymbol{\Omega}^{-1}+(\mathbf{T}-\mathbf{M}) \boldsymbol{\Sigma}^{-1}(\mathbf{T}-\mathbf{M})^{\boldsymbol{\top}}\right]^{-(\nu+P) / 2}(341)
+& \operatorname{det}\left[\boldsymbol{\Omega}^{-1}+(\mathbf{T}-\mathbf{M}) \boldsymbol{\Sigma}^{-1}(\mathbf{T}-\mathbf{M})^{\top}\right]^{-(\nu+P) / 2}(341)
 \end{aligned}
 $$
 
@@ -1838,7 +1840,7 @@ The central Wishart distribution for $\mathbf{M} \in \mathbb{R}^{P \times P}, \m
 
 $$
 \begin{aligned}
-& p(\mathbf{M} \mid \boldsymbol{\Sigma}, m)= \frac{1}{2^{m P / 2} \pi^{P(P-1) / 4} \prod_{p}^{P} \Gamma\left[\frac{1}{2}(m+1-p)\right]} \times \\
+& p(\mathbf{M} \mid \boldsymbol{\Sigma}, m)=\frac{1}{2^{m P / 2} \pi^{P(P-1) / 4} \prod_{p}^{P} \Gamma\left[\frac{1}{2}(m+1-p)\right]} \times \\
 & \operatorname{det}(\boldsymbol{\Sigma})^{-m / 2} \operatorname{det}(\mathbf{M})^{(m-P-1) / 2} \times \\
 & \exp \left[-\frac{1}{2} \operatorname{Tr}\left(\boldsymbol{\Sigma}^{-1} \mathbf{M}\right)\right]
 \end{aligned}
@@ -1847,26 +1849,1553 @@ $$
 \subsubsection{Mean}
 
 $$
-E(\mathbf{M})=\mathbf{m} \boldsymbol{\Sigma}
+E(\mathbf{M})=\mathbf{m} \mathbf{\Sigma}
 $$
 
 
 
 \subsection{Wishart, Inverse}
 
-The (normal) Inverse Wishart distribution for $\mathbf{M} \in \mathbb{R}^{P \times P}, \mathbf{M}$ is positive definite, where $m$ can be regarded as a degree of freedom parameter [11]
+The (normal) Inverse Wishart distribution for $\mathbf{M} \in \mathbb{R}^{P \times P}, \mathbf{M}$ is positive definite, where $m$ can be regarded as a degree of freedom parameter [1]
 
 $$
-\begin{gathered}
+\begin{aligned}
 p(\mathbf{M} \mid \boldsymbol{\Sigma}, m)=\frac{1}{2^{m P / 2} \pi^{P(P-1) / 4} \prod_{p}^{P} \Gamma\left[\frac{1}{2}(m+1-p)\right]} \times \\
 \operatorname{det}(\boldsymbol{\Sigma})^{m / 2} \operatorname{det}(\mathbf{M})^{-(m-P-1) / 2} \times \\
 \exp \left[-\frac{1}{2} \operatorname{Tr}\left(\boldsymbol{\Sigma} \mathbf{M}^{-1}\right)\right]
-\end{gathered}
+\end{aligned}
 $$
 
 \subsubsection{Mean}
 
 $$
-E(\mathbf{M})=\boldsymbol{\Sigma} \frac{1}{m-P-1}
+E(\mathbf{M})=\mathbf{\Sigma} \frac{1}{m-P-1}
 $$
 
+
+
+\section{Gaussians}
+
+\subsection{Basics}
+
+\subsubsection{Density and normalization}
+
+The density of $\mathbf{x} \sim \mathcal{N}(\mathbf{m}, \boldsymbol{\Sigma})$ is
+
+$$
+p(\mathbf{x})=\frac{1}{\sqrt{\operatorname{det}(2 \pi \mathbf{\Sigma})}} \exp \left[-\frac{1}{2}(\mathbf{x}-\mathbf{m})^{T} \boldsymbol{\Sigma}^{-1}(\mathbf{x}-\mathbf{m})\right]
+$$
+
+Note that if $\mathbf{x}$ is $d$-dimensional, then $\operatorname{det}(2 \pi \boldsymbol{\Sigma})=(2 \pi)^{d} \operatorname{det}(\boldsymbol{\Sigma})$.
+
+Integration and normalization
+
+$$
+\begin{aligned}
+\int \exp \left[-\frac{1}{2}(\mathbf{x}-\mathbf{m})^{T} \boldsymbol{\Sigma}^{-1}(\mathbf{x}-\mathbf{m})\right] d \mathbf{x} & =\sqrt{\operatorname{det}(2 \pi \boldsymbol{\Sigma})} \\
+\int \exp \left[-\frac{1}{2} \mathbf{x}^{T} \boldsymbol{\Sigma}^{-1} \mathbf{x}+\mathbf{m}^{T} \boldsymbol{\Sigma}^{-1} \mathbf{x}\right] d \mathbf{x} & =\sqrt{\operatorname{det}(2 \pi \boldsymbol{\Sigma})} \exp \left[\frac{1}{2} \mathbf{m}^{T} \boldsymbol{\Sigma}^{-1} \mathbf{m}\right] \\
+\int \exp \left[-\frac{1}{2} \mathbf{x}^{T} \mathbf{A} \mathbf{x}+\mathbf{c}^{T} \mathbf{x}\right] d \mathbf{x} & =\sqrt{\operatorname{det}\left(2 \pi \mathbf{A}^{-1}\right)} \exp \left[\frac{1}{2} \mathbf{c}^{T} \mathbf{A}^{-T} \mathbf{c}\right]
+\end{aligned}
+$$
+
+If $\mathbf{X}=\left[\mathbf{x}_{1} \mathbf{x}_{2} \ldots \mathbf{x}_{n}\right]$ and $\mathbf{C}=\left[\mathbf{c}_{1} \mathbf{c}_{2} \ldots \mathbf{c}_{n}\right]$, then
+
+$$
+\int \exp \left[-\frac{1}{2} \operatorname{Tr}\left(\mathbf{X}^{T} \mathbf{A} \mathbf{X}\right)+\operatorname{Tr}\left(\mathbf{C}^{T} \mathbf{X}\right)\right] d \mathbf{X}={\sqrt{\operatorname{det}\left(2 \pi \mathbf{A}^{-1}\right)}}^{n} \exp \left[\frac{1}{2} \operatorname{Tr}\left(\mathbf{C}^{T} \mathbf{A}^{-1} \mathbf{C}\right)\right]
+$$
+
+The derivatives of the density are
+
+$$
+\begin{aligned}
+\frac{\partial p(\mathbf{x})}{\partial \mathbf{x}} & =-p(\mathbf{x}) \boldsymbol{\Sigma}^{-1}(\mathbf{x}-\mathbf{m}) \\
+\frac{\partial^{2} p}{\partial \mathbf{x} \partial \mathbf{x}^{T}} & =p(\mathbf{x})\left(\boldsymbol{\Sigma}^{-1}(\mathbf{x}-\mathbf{m})(\mathbf{x}-\mathbf{m})^{T} \boldsymbol{\Sigma}^{-1}-\boldsymbol{\Sigma}^{-1}\right)
+\end{aligned}
+$$
+
+\subsubsection{Marginal Distribution}
+
+Assume $\mathbf{x} \sim \mathcal{N}_{\mathbf{x}}(\mu, \boldsymbol{\Sigma})$ where
+
+$$
+\mathbf{x}=\left[\begin{array}{c}
+\mathbf{x}_{a} \\
+\mathbf{x}_{b}
+\end{array}\right] \quad \boldsymbol{\mu}=\left[\begin{array}{l}
+\boldsymbol{\mu}_{a} \\
+\boldsymbol{\mu}_{b}
+\end{array}\right] \quad \boldsymbol{\Sigma}=\left[\begin{array}{cc}
+\boldsymbol{\Sigma}_{a} & \boldsymbol{\Sigma}_{c} \\
+\boldsymbol{\Sigma}_{c}^{T} & \boldsymbol{\Sigma}_{b}
+\end{array}\right]
+$$
+
+then
+
+$$
+\begin{aligned}
+& p\left(\mathbf{x}_{a}\right)=\mathcal{N}_{\mathbf{x}_{a}}\left(\boldsymbol{\mu}_{a}, \boldsymbol{\Sigma}_{a}\right) \\
+& p\left(\mathbf{x}_{b}\right)=\mathcal{N}_{\mathbf{x}_{b}}\left(\boldsymbol{\mu}_{b}, \boldsymbol{\Sigma}_{b}\right)
+\end{aligned}
+$$
+
+\subsubsection{Conditional Distribution}
+
+Assume $\mathbf{x} \sim \mathcal{N}_{\mathbf{x}}(\mu, \boldsymbol{\Sigma})$ where
+
+$$
+\mathbf{x}=\left[\begin{array}{c}
+\mathbf{x}_{a} \\
+\mathbf{x}_{b}
+\end{array}\right] \quad \boldsymbol{\mu}=\left[\begin{array}{l}
+\boldsymbol{\mu}_{a} \\
+\boldsymbol{\mu}_{b}
+\end{array}\right] \quad \boldsymbol{\Sigma}=\left[\begin{array}{cc}
+\boldsymbol{\Sigma}_{a} & \boldsymbol{\Sigma}_{c} \\
+\boldsymbol{\Sigma}_{c}^{T} & \boldsymbol{\Sigma}_{b}
+\end{array}\right]
+$$
+
+then
+
+$$
+\begin{array}{ll}
+p\left(\mathbf{x}_{a} \mid \mathbf{x}_{b}\right)=\mathcal{N}_{\mathbf{x}_{a}}\left(\hat{\mu}_{a}, \hat{\boldsymbol{\Sigma}}_{a}\right) & \left\{\begin{array}{l}
+\hat{\boldsymbol{\mu}}_{a}=\boldsymbol{\mu}_{a}+\boldsymbol{\Sigma}_{c} \boldsymbol{\Sigma}_{b}^{-1}\left(\mathbf{x}_{b}-\boldsymbol{\mu}_{b}\right) \\
+\hat{\boldsymbol{\Sigma}}_{a}=\boldsymbol{\Sigma}_{a}-\boldsymbol{\Sigma}_{c} \boldsymbol{\Sigma}_{b}^{-1} \boldsymbol{\Sigma}_{c}^{T}
+\end{array}\right. \\
+p\left(\mathbf{x}_{b} \mid \mathbf{x}_{a}\right)=\mathcal{N}_{\mathbf{x}_{b}}\left(\hat{\mu}_{b}, \hat{\boldsymbol{\Sigma}}_{b}\right) & \begin{cases}\hat{\boldsymbol{\mu}}_{b} & =\boldsymbol{\mu}_{b}+\boldsymbol{\Sigma}_{c}^{T} \boldsymbol{\Sigma}_{a}^{-1}\left(\mathbf{x}_{a}-\boldsymbol{\mu}_{a}\right) \\
+\hat{\boldsymbol{\Sigma}}_{b} & =\boldsymbol{\Sigma}_{b}-\boldsymbol{\Sigma}_{c}^{T} \boldsymbol{\Sigma}_{a}^{-1} \boldsymbol{\Sigma}_{c}\end{cases}
+\end{array}
+$$
+
+Note, that the covariance matrices are the Schur complement of the block matrix, see 9.1 .5 for details.
+
+\subsubsection{Linear combination}
+
+Assume $\mathbf{x} \sim \mathcal{N}\left(\mathbf{m}_{x}, \boldsymbol{\Sigma}_{x}\right)$ and $\mathbf{y} \sim \mathcal{N}\left(\mathbf{m}_{y}, \boldsymbol{\Sigma}_{y}\right)$ then
+
+$$
+\mathbf{A} \mathbf{x}+\mathbf{B y}+\mathbf{c} \sim \mathcal{N}\left(\mathbf{A} \mathbf{m}_{x}+\mathbf{B} \mathbf{m}_{y}+\mathbf{c}, \mathbf{A} \boldsymbol{\Sigma}_{x} \mathbf{A}^{T}+\mathbf{B} \boldsymbol{\Sigma}_{y} \mathbf{B}^{T}\right)
+$$
+
+\subsubsection{Rearranging Means}
+
+$$
+\mathcal{N}_{\mathbf{A} \mathbf{x}}[\mathbf{m}, \boldsymbol{\Sigma}]=\frac{\sqrt{\operatorname{det}\left(2 \pi\left(\mathbf{A}^{T} \boldsymbol{\Sigma}^{-1} \mathbf{A}\right)^{-1}\right)}}{\sqrt{\operatorname{det}(2 \pi \boldsymbol{\Sigma})}} \mathcal{N}_{\mathbf{x}}\left[\mathbf{A}^{-1} \mathbf{m},\left(\mathbf{A}^{T} \boldsymbol{\Sigma}^{-1} \mathbf{A}\right)^{-1}\right]
+$$
+
+If $\mathbf{A}$ is square and invertible, it simplifies to
+
+$$
+\mathcal{N}_{\mathbf{A x}}[\mathbf{m}, \boldsymbol{\Sigma}]=\frac{1}{|\operatorname{det}(\mathbf{A})|} \mathcal{N}_{\mathbf{x}}\left[\mathbf{A}^{-1} \mathbf{m},\left(\mathbf{A}^{T} \boldsymbol{\Sigma}^{-1} \mathbf{A}\right)^{-1}\right]
+$$
+
+\subsubsection{Rearranging into squared form}
+
+If $\mathbf{A}$ is symmetric, then
+
+$$
+\begin{aligned}
+-\frac{1}{2} \mathbf{x}^{T} \mathbf{A} \mathbf{x}+\mathbf{b}^{T} \mathbf{x} & =-\frac{1}{2}\left(\mathbf{x}-\mathbf{A}^{-1} \mathbf{b}\right)^{T} \mathbf{A}\left(\mathbf{x}-\mathbf{A}^{-1} \mathbf{b}\right)+\frac{1}{2} \mathbf{b}^{T} \mathbf{A}^{-1} \mathbf{b} \\
+-\frac{1}{2} \operatorname{Tr}\left(\mathbf{X}^{T} \mathbf{A} \mathbf{X}\right)+\operatorname{Tr}\left(\mathbf{B}^{T} \mathbf{X}\right) & =-\frac{1}{2} \operatorname{Tr}\left[\left(\mathbf{X}-\mathbf{A}^{-1} \mathbf{B}\right)^{T} \mathbf{A}\left(\mathbf{X}-\mathbf{A}^{-1} \mathbf{B}\right)\right]+\frac{1}{2} \operatorname{Tr}\left(\mathbf{B}^{T} \mathbf{A}^{-1} \mathbf{B}\right)
+\end{aligned}
+$$
+
+\subsubsection{Sum of two squared forms}
+
+In vector formulation (assuming $\boldsymbol{\Sigma}_{1}, \boldsymbol{\Sigma}_{2}$ are symmetric)
+
+$$
+\begin{aligned}
+& -\frac{1}{2}\left(\mathbf{x}-\mathbf{m}_{1}\right)^{T} \boldsymbol{\Sigma}_{1}^{-1}\left(\mathbf{x}-\mathbf{m}_{1}\right) \\
+& -\frac{1}{2}\left(\mathbf{x}-\mathbf{m}_{2}\right)^{T} \boldsymbol{\Sigma}_{2}^{-1}\left(\mathbf{x}-\mathbf{m}_{2}\right) \\
+& =-\frac{1}{2}\left(\mathbf{x}-\mathbf{m}_{c}\right)^{T} \boldsymbol{\Sigma}_{c}^{-1}\left(\mathbf{x}-\mathbf{m}_{c}\right)+C \\
+& \boldsymbol{\Sigma}_{c}^{-1}=\boldsymbol{\Sigma}_{1}^{-1}+\boldsymbol{\Sigma}_{2}^{-1} \\
+& \mathbf{m}_{c}=\left(\boldsymbol{\Sigma}_{1}^{-1}+\boldsymbol{\Sigma}_{2}^{-1}\right)^{-1}\left(\boldsymbol{\Sigma}_{1}^{-1} \mathbf{m}_{1}+\boldsymbol{\Sigma}_{2}^{-1} \mathbf{m}_{2}\right) \\
+& C=\frac{1}{2}\left(\mathbf{m}_{1}^{T} \boldsymbol{\Sigma}_{1}^{-1}+\mathbf{m}_{2}^{T} \boldsymbol{\Sigma}_{2}^{-1}\right)\left(\boldsymbol{\Sigma}_{1}^{-1}+\boldsymbol{\Sigma}_{2}^{-1}\right)^{-1}\left(\boldsymbol{\Sigma}_{1}^{-1} \mathbf{m}_{1}+\boldsymbol{\Sigma}_{2}^{-1} \mathbf{m}_{2}\right)(363) \\
+& -\frac{1}{2}\left(\mathbf{m}_{1}^{T} \boldsymbol{\Sigma}_{1}^{-1} \mathbf{m}_{1}+\mathbf{m}_{2}^{T} \boldsymbol{\Sigma}_{2}^{-1} \mathbf{m}_{2}\right)
+\end{aligned}
+$$
+
+Petersen \& Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 41 In a trace formulation (assuming $\boldsymbol{\Sigma}_{1}, \boldsymbol{\Sigma}_{2}$ are symmetric)
+
+$$
+\begin{aligned}
+& -\frac{1}{2} \operatorname{Tr}\left(\left(\mathbf{X}-\mathbf{M}_{1}\right)^{T} \boldsymbol{\Sigma}_{1}^{-1}\left(\mathbf{X}-\mathbf{M}_{1}\right)\right) \\
+& -\frac{1}{2} \operatorname{Tr}\left(\left(\mathbf{X}-\mathbf{M}_{2}\right)^{T} \boldsymbol{\Sigma}_{2}^{-1}\left(\mathbf{X}-\mathbf{M}_{2}\right)\right) \\
+& =-\frac{1}{2} \operatorname{Tr}\left[\left(\mathbf{X}-\mathbf{M}_{c}\right)^{T} \boldsymbol{\Sigma}_{c}^{-1}\left(\mathbf{X}-\mathbf{M}_{c}\right)\right]+C \\
+& \boldsymbol{\Sigma}_{c}^{-1}=\boldsymbol{\Sigma}_{1}^{-1}+\boldsymbol{\Sigma}_{2}^{-1} \\
+& \mathbf{M}_{c}=\left(\boldsymbol{\Sigma}_{1}^{-1}+\boldsymbol{\Sigma}_{2}^{-1}\right)^{-1}\left(\boldsymbol{\Sigma}_{1}^{-1} \mathbf{M}_{1}+\boldsymbol{\Sigma}_{2}^{-1} \mathbf{M}_{2}\right) \\
+& C=\frac{1}{2} \operatorname{Tr}\left[\left(\boldsymbol{\Sigma}_{1}^{-1} \mathbf{M}_{1}+\boldsymbol{\Sigma}_{2}^{-1} \mathbf{M}_{2}\right)^{T}\left(\boldsymbol{\Sigma}_{1}^{-1}+\boldsymbol{\Sigma}_{2}^{-1}\right)^{-1}\left(\boldsymbol{\Sigma}_{1}^{-1} \mathbf{M}_{1}+\boldsymbol{\Sigma}_{2}^{-1} \mathbf{M}_{2}\right)\right] \\
+& -\frac{1}{2} \operatorname{Tr}\left(\mathbf{M}_{1}^{T} \boldsymbol{\Sigma}_{1}^{-1} \mathbf{M}_{1}+\mathbf{M}_{2}^{T} \boldsymbol{\Sigma}_{2}^{-1} \mathbf{M}_{2}\right)
+\end{aligned}
+$$
+
+\subsubsection{Product of gaussian densities}
+
+Let $\mathcal{N}_{\mathbf{x}}(\mathbf{m}, \boldsymbol{\Sigma})$ denote a density of $\mathbf{x}$, then
+
+$$
+\begin{aligned}
+& \mathcal{N}_{\mathbf{x}}\left(\mathbf{m}_{1}, \boldsymbol{\Sigma}_{1}\right) \cdot \mathcal{N}_{\mathbf{x}}\left(\mathbf{m}_{2}, \boldsymbol{\Sigma}_{2}\right)=c_{c} \mathcal{N}_{\mathbf{x}}\left(\mathbf{m}_{c}, \boldsymbol{\Sigma}_{c}\right) \\
+& c_{c}= \mathcal{N}_{\mathbf{m}_{1}}\left(\mathbf{m}_{2},\left(\boldsymbol{\Sigma}_{1}+\boldsymbol{\Sigma}_{2}\right)\right) \\
+&= \frac{1}{\sqrt{\operatorname{det}\left(2 \pi\left(\boldsymbol{\Sigma}_{1}+\boldsymbol{\Sigma}_{2}\right)\right)}} \exp \left[-\frac{1}{2}\left(\mathbf{m}_{1}-\mathbf{m}_{2}\right)^{T}\left(\boldsymbol{\Sigma}_{1}+\boldsymbol{\Sigma}_{2}\right)^{-1}\left(\mathbf{m}_{1}-\mathbf{m}_{2}\right)\right] \\
+& \mathbf{m}_{c}=\left(\boldsymbol{\Sigma}_{1}^{-1}+\boldsymbol{\Sigma}_{2}^{-1}\right)^{-1}\left(\boldsymbol{\Sigma}_{1}^{-1} \mathbf{m}_{1}+\boldsymbol{\Sigma}_{2}^{-1} \mathbf{m}_{2}\right) \\
+& \boldsymbol{\Sigma}_{c}=\left(\boldsymbol{\Sigma}_{1}^{-1}+\boldsymbol{\Sigma}_{2}^{-1}\right)^{-1}
+\end{aligned}
+$$
+
+but note that the product is not normalized as a density of $\mathbf{x}$.
+
+\subsection{Moments}
+
+\subsubsection{Mean and covariance of linear forms}
+
+First and second moments. Assume $\mathbf{x} \sim \mathcal{N}(\mathbf{m}, \boldsymbol{\Sigma})$
+
+$$
+\begin{gathered}
+E(\mathbf{x})=\mathbf{m} \\
+\operatorname{Cov}(\mathbf{x}, \mathbf{x})=\operatorname{Var}(\mathbf{x})=\mathbf{\Sigma}=E\left(\mathbf{x} \mathbf{x}^{T}\right)-E(\mathbf{x}) E\left(\mathbf{x}^{T}\right)=E\left(\mathbf{x} \mathbf{x}^{T}\right)-\mathbf{m m}^{T}
+\end{gathered}
+$$
+
+As for any other distribution is holds for gaussians that
+
+$$
+\begin{aligned}
+E[\mathbf{A} \mathbf{x}] & =\mathbf{A} E[\mathbf{x}] \\
+\operatorname{Var}[\mathbf{A} \mathbf{x}] & =\mathbf{A V a r}[\mathbf{x}] \mathbf{A}^{T} \\
+\operatorname{Cov}[\mathbf{A} \mathbf{x}, \mathbf{B} \mathbf{y}] & =\mathbf{A C o v}[\mathbf{x}, \mathbf{y}] \mathbf{B}^{T}
+\end{aligned}
+$$
+
+
+
+\subsubsection{Mean and variance of square forms}
+
+Mean and variance of square forms: Assume $\mathbf{x} \sim \mathcal{N}(\mathbf{m}, \boldsymbol{\Sigma})$
+
+$$
+\begin{aligned}
+& E\left(\mathbf{x x}^{T}\right)=\mathbf{\Sigma}+\mathbf{m} \mathbf{m}^{T} \\
+& E\left[\mathbf{x}^{T} \mathbf{A} \mathbf{x}\right]=\operatorname{Tr}(\mathbf{A} \boldsymbol{\Sigma})+\mathbf{m}^{T} \mathbf{A} \mathbf{m} \\
+& \operatorname{Var}\left(\mathbf{x}^{T} \mathbf{A} \mathbf{x}\right)=\operatorname{Tr}\left[\mathbf{A} \boldsymbol{\Sigma}\left(\mathbf{A}+\mathbf{A}^{T}\right) \boldsymbol{\Sigma}\right]+\ldots \\
+& +\mathbf{m}^{T}\left(\mathbf{A}+\mathbf{A}^{T}\right) \boldsymbol{\Sigma}\left(\mathbf{A}+\mathbf{A}^{T}\right) \mathbf{m} \\
+& E\left[\left(\mathbf{x}-\mathbf{m}^{\prime}\right)^{T} \mathbf{A}\left(\mathbf{x}-\mathbf{m}^{\prime}\right)\right]=\left(\mathbf{m}-\mathbf{m}^{\prime}\right)^{T} \mathbf{A}\left(\mathbf{m}-\mathbf{m}^{\prime}\right)+\operatorname{Tr}(\mathbf{A} \boldsymbol{\Sigma})
+\end{aligned}
+$$
+
+If $\boldsymbol{\Sigma}=\sigma^{2} \mathbf{I}$ and $\mathbf{A}$ is symmetric, then
+
+$$
+\operatorname{Var}\left(\mathbf{x}^{T} \mathbf{A} \mathbf{x}\right)=2 \sigma^{4} \operatorname{Tr}\left(\mathbf{A}^{2}\right)+4 \sigma^{2} \mathbf{m}^{T} \mathbf{A}^{2} \mathbf{m}
+$$
+
+Assume $\mathbf{x} \sim \mathcal{N}\left(\mathbf{0}, \sigma^{2} \mathbf{I}\right)$ and $\mathbf{A}$ and $\mathbf{B}$ to be symmetric, then
+
+$$
+\operatorname{Cov}\left(\mathbf{x}^{T} \mathbf{A} \mathbf{x}, \mathbf{x}^{T} \mathbf{B} \mathbf{x}\right)=2 \sigma^{4} \operatorname{Tr}(\mathbf{A B})
+$$
+
+\subsubsection{Cubic forms}
+
+Assume $\mathbf{x}$ to be a stochastic vector with independent coordinates, mean $\mathbf{m}$ and covariance $\mathbf{M}$
+
+$$
+\begin{aligned}
+E\left[\mathbf{x b}^{T} \mathbf{x} \mathbf{x}^{T}\right]= & \mathbf{m b ^ { T }}\left(\mathbf{M}+\mathbf{m} \mathbf{m}^{T}\right)+\left(\mathbf{M}+\mathbf{m m}^{T}\right) \mathbf{b} \mathbf{m}^{T} \\
+& +\mathbf{b}^{T} \mathbf{m}\left(\mathbf{M}-\mathbf{m m}^{T}\right)
+\end{aligned}
+$$
+
+\subsubsection{Mean of Quartic Forms}
+
+$$
+\begin{aligned}
+& E\left[\mathbf{x} \mathbf{x}^{T} \mathbf{x} \mathbf{x}^{T}\right]=2\left(\boldsymbol{\Sigma}+\mathbf{m m}^{T}\right)^{2}+\mathbf{m}^{T} \mathbf{m}\left(\boldsymbol{\Sigma}-\mathbf{m m}^{T}\right) \\
+& +\operatorname{Tr}(\boldsymbol{\Sigma})\left(\boldsymbol{\Sigma}+\mathbf{m m}^{T}\right) \\
+& E\left[\mathbf{x} \mathbf{x}^{T} \mathbf{A} \mathbf{x} \mathbf{x}^{T}\right]=\left(\boldsymbol{\Sigma}+\mathbf{m} \mathbf{m}^{T}\right)\left(\mathbf{A}+\mathbf{A}^{T}\right)\left(\boldsymbol{\Sigma}+\mathbf{m} \mathbf{m}^{T}\right) \\
+& +\mathbf{m}^{T} \mathbf{A} \mathbf{m}\left(\boldsymbol{\Sigma}-\mathbf{m m}^{T}\right)+\operatorname{Tr}[\mathbf{A} \boldsymbol{\Sigma}]\left(\boldsymbol{\Sigma}+\mathbf{m m}^{T}\right) \\
+& E\left[\mathbf{x}^{T} \mathbf{x} \mathbf{x}^{T} \mathbf{x}\right]=2 \operatorname{Tr}\left(\boldsymbol{\Sigma}^{2}\right)+4 \mathbf{m}^{T} \mathbf{\Sigma} \mathbf{m}+\left(\operatorname{Tr}(\boldsymbol{\Sigma})+\mathbf{m}^{T} \mathbf{m}\right)^{2} \\
+& E\left[\mathbf{x}^{T} \mathbf{A} \mathbf{x} \mathbf{x}^{T} \mathbf{B} \mathbf{x}\right]=\operatorname{Tr}\left[\mathbf{A} \boldsymbol{\Sigma}\left(\mathbf{B}+\mathbf{B}^{T}\right) \boldsymbol{\Sigma}\right]+\mathbf{m}^{T}\left(\mathbf{A}+\mathbf{A}^{T}\right) \boldsymbol{\Sigma}\left(\mathbf{B}+\mathbf{B}^{T}\right) \mathbf{m} \\
+& +\left(\operatorname{Tr}(\mathbf{A} \boldsymbol{\Sigma})+\mathbf{m}^{T} \mathbf{A} \mathbf{m}\right)\left(\operatorname{Tr}(\mathbf{B} \boldsymbol{\Sigma})+\mathbf{m}^{T} \mathbf{B m}\right) \\
+& E\left[\mathbf{a}^{T} \mathbf{x} \mathbf{b}^{T} \mathbf{x} \mathbf{c}^{T} \mathbf{x d}^{T} \mathbf{x}\right] \\
+& =\left(\mathbf{a}^{T}\left(\boldsymbol{\Sigma}+\mathbf{m m}^{T}\right) \mathbf{b}\right)\left(\mathbf{c}^{T}\left(\boldsymbol{\Sigma}+\mathbf{m m}^{T}\right) \mathbf{d}\right) \\
+& +\left(\mathbf{a}^{T}\left(\boldsymbol{\Sigma}+\mathbf{m} \mathbf{m}^{T}\right) \mathbf{c}\right)\left(\mathbf{b}^{T}\left(\boldsymbol{\Sigma}+\mathbf{m m}^{T}\right) \mathbf{d}\right) \\
+& +\left(\mathbf{a}^{T}\left(\boldsymbol{\Sigma}+\mathbf{m} \mathbf{m}^{T}\right) \mathbf{d}\right)\left(\mathbf{b}^{T}\left(\boldsymbol{\Sigma}+\mathbf{m} \mathbf{m}^{T}\right) \mathbf{c}\right)-2 \mathbf{a}^{T} \mathbf{m} \mathbf{b}^{T} \mathbf{m c ^ { T }} \mathbf{m d}^{T} \mathbf{m} \\
+& E\left[(\mathbf{A} \mathbf{x}+\mathbf{a})(\mathbf{B} \mathbf{x}+\mathbf{b})^{T}(\mathbf{C} \mathbf{x}+\mathbf{c})(\mathbf{D} \mathbf{x}+\mathbf{d})^{T}\right] \\
+& =\left[\mathbf{A} \boldsymbol{\Sigma} \mathbf{B}^{T}+(\mathbf{A m}+\mathbf{a})(\mathbf{B m}+\mathbf{b})^{T}\right]\left[\mathbf{C} \boldsymbol{\Sigma} \mathbf{D}^{T}+(\mathbf{C m}+\mathbf{c})(\mathbf{D m}+\mathbf{d})^{T}\right] \\
+& +\left[\mathbf{A} \boldsymbol{\Sigma} \mathbf{C}^{T}+(\mathbf{A m}+\mathbf{a})(\mathbf{C m}+\mathbf{c})^{T}\right]\left[\mathbf{B} \boldsymbol{\Sigma} \mathbf{D}^{T}+(\mathbf{B m}+\mathbf{b})(\mathbf{D m}+\mathbf{d})^{T}\right] \\
+& +(\mathbf{B m}+\mathbf{b})^{T}(\mathbf{C m}+\mathbf{c})\left[\mathbf{A} \boldsymbol{\Sigma} \mathbf{D}^{T}-(\mathbf{A m}+\mathbf{a})(\mathbf{D m}+\mathbf{d})^{T}\right] \\
+& +\operatorname{Tr}\left(\mathbf{B} \boldsymbol{\Sigma} \mathbf{C}^{T}\right)\left[\mathbf{A} \boldsymbol{\Sigma} \mathbf{D}^{T}+(\mathbf{A m}+\mathbf{a})(\mathbf{D m}+\mathbf{d})^{T}\right]
+\end{aligned}
+$$
+
+
+
+$$
+\begin{aligned}
+& E\left[(\mathbf{A} \mathbf{x}+\mathbf{a})^{T}(\mathbf{B} \mathbf{x}+\mathbf{b})(\mathbf{C} \mathbf{x}+\mathbf{c})^{T}(\mathbf{D} \mathbf{x}+\mathbf{d})\right] \\
+= & \operatorname{Tr}\left[\mathbf{A} \boldsymbol{\Sigma}\left(\mathbf{C}^{T} \mathbf{D}+\mathbf{D}^{T} \mathbf{C}\right) \mathbf{\Sigma} \mathbf{B}^{T}\right] \\
+& +\left[(\mathbf{A} \mathbf{m}+\mathbf{a})^{T} \mathbf{B}+(\mathbf{B} \mathbf{m}+\mathbf{b})^{T} \mathbf{A}\right] \mathbf{\Sigma}\left[\mathbf{C}^{T}(\mathbf{D} \mathbf{m}+\mathbf{d})+\mathbf{D}^{T}(\mathbf{C m}+\mathbf{c})\right] \\
+& +\left[\operatorname{Tr}\left(\mathbf{A} \mathbf{\Sigma} \mathbf{B}^{T}\right)+(\mathbf{A} \mathbf{m}+\mathbf{a})^{T}(\mathbf{B} \mathbf{m}+\mathbf{b})\right]\left[\operatorname{Tr}\left(\mathbf{C} \mathbf{\Sigma} \mathbf{D}^{T}\right)+(\mathbf{C m}+\mathbf{c})^{T}(\mathbf{D m}+\mathbf{d})\right]
+\end{aligned}
+$$
+
+See 7.
+
+\subsubsection{Moments}
+
+$$
+\begin{aligned}
+E[\mathbf{x}] & =\sum_{k} \rho_{k} \mathbf{m}_{k} \\
+\operatorname{Cov}(\mathbf{x}) & =\sum_{k} \sum_{k^{\prime}} \rho_{k} \rho_{k^{\prime}}\left(\boldsymbol{\Sigma}_{k}+\mathbf{m}_{k} \mathbf{m}_{k}^{T}-\mathbf{m}_{k} \mathbf{m}_{k^{\prime}}^{T}\right)
+\end{aligned}
+$$
+
+\subsection{Miscellaneous}
+
+\subsubsection{Whitening}
+
+Assume $\mathbf{x} \sim \mathcal{N}(\mathbf{m}, \boldsymbol{\Sigma})$ then
+
+$$
+\mathbf{z}=\mathbf{\Sigma}^{-1 / 2}(\mathbf{x}-\mathbf{m}) \sim \mathcal{N}(\mathbf{0}, \mathbf{I})
+$$
+
+Conversely having $\mathbf{z} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})$ one can generate data $\mathbf{x} \sim \mathcal{N}(\mathbf{m}, \mathbf{\Sigma})$ by setting
+
+$$
+\mathbf{x}=\boldsymbol{\Sigma}^{1 / 2} \mathbf{z}+\mathbf{m} \sim \mathcal{N}(\mathbf{m}, \boldsymbol{\Sigma})
+$$
+
+Note that $\boldsymbol{\Sigma}^{1 / 2}$ means the matrix which fulfils $\boldsymbol{\Sigma}^{1 / 2} \boldsymbol{\Sigma}^{1 / 2}=\boldsymbol{\Sigma}$, and that it exists and is unique since $\boldsymbol{\Sigma}$ is positive definite.
+
+\subsubsection{The Chi-Square connection}
+
+Assume $\mathbf{x} \sim \mathcal{N}(\mathbf{m}, \boldsymbol{\Sigma})$ and $\mathbf{x}$ to be $n$ dimensional, then
+
+$$
+z=(\mathbf{x}-\mathbf{m})^{T} \boldsymbol{\Sigma}^{-1}(\mathbf{x}-\mathbf{m}) \sim \chi_{n}^{2}
+$$
+
+where $\chi_{n}^{2}$ denotes the Chi square distribution with $n$ degrees of freedom.
+
+\subsubsection{Entropy}
+
+Entropy of a $D$-dimensional gaussian
+
+$$
+H(\mathbf{x})=-\int \mathcal{N}(\mathbf{m}, \boldsymbol{\Sigma}) \ln \mathcal{N}(\mathbf{m}, \mathbf{\Sigma}) d \mathbf{x}=\ln \sqrt{\operatorname{det}(2 \pi \boldsymbol{\Sigma})}+\frac{D}{2}
+$$
+
+\subsection{Mixture of Gaussians}
+
+\subsubsection{Density}
+
+The variable $\mathbf{x}$ is distributed as a mixture of gaussians if it has the density
+
+$$
+p(\mathbf{x})=\sum_{k=1}^{K} \rho_{k} \frac{1}{\sqrt{\operatorname{det}\left(2 \pi \boldsymbol{\Sigma}_{k}\right)}} \exp \left[-\frac{1}{2}\left(\mathbf{x}-\mathbf{m}_{k}\right)^{T} \boldsymbol{\Sigma}_{k}^{-1}\left(\mathbf{x}-\mathbf{m}_{k}\right)\right]
+$$
+
+where $\rho_{k}$ sum to 1 and the $\boldsymbol{\Sigma}_{k}$ all are positive definite.
+
+\subsubsection{Derivatives}
+
+Defining $p(\mathbf{s})=\sum_{k} \rho_{k} \mathcal{N}_{\mathbf{s}}\left(\boldsymbol{\mu}_{k}, \boldsymbol{\Sigma}_{k}\right)$ one get
+
+$$
+\begin{aligned}
+\frac{\partial \ln p(\mathbf{s})}{\partial \rho_{j}} & =\frac{\rho_{j} \mathcal{N}_{\mathbf{s}}\left(\boldsymbol{\mu}_{j}, \boldsymbol{\Sigma}_{j}\right)}{\sum_{k} \rho_{k} \mathcal{N}_{\mathbf{s}}\left(\boldsymbol{\mu}_{k}, \boldsymbol{\Sigma}_{k}\right)} \frac{\partial}{\partial \rho_{j}} \ln \left[\rho_{j} \mathcal{N}_{\mathbf{s}}\left(\boldsymbol{\mu}_{j}, \boldsymbol{\Sigma}_{j}\right)\right] \\
+& =\frac{\rho_{j} \mathcal{N}_{\mathbf{s}}\left(\boldsymbol{\mu}_{j}, \boldsymbol{\Sigma}_{j}\right)}{\sum_{k} \rho_{k} \mathcal{N}_{\mathbf{s}}\left(\boldsymbol{\mu}_{k}, \mathbf{\Sigma}_{k}\right)} \frac{1}{\rho_{j}} \\
+\frac{\partial \ln p(\mathbf{s})}{\partial \boldsymbol{\mu}_{j}} & =\frac{\rho_{j} \mathcal{N}_{\mathbf{s}}\left(\boldsymbol{\mu}_{j}, \boldsymbol{\Sigma}_{j}\right)}{\sum_{k} \rho_{k} \mathcal{N}_{\mathbf{s}}\left(\boldsymbol{\mu}_{k}, \mathbf{\Sigma}_{k}\right)} \frac{\partial}{\partial \boldsymbol{\mu}_{j}} \ln \left[\rho_{j} \mathcal{N}_{\mathbf{s}}\left(\boldsymbol{\mu}_{j}, \boldsymbol{\Sigma}_{j}\right)\right] \\
+& =\frac{\rho_{j} \mathcal{N}_{\mathbf{s}}\left(\boldsymbol{\mu}_{j}, \boldsymbol{\Sigma}_{j}\right)}{\sum_{k} \rho_{k} \mathcal{N}_{\mathbf{s}}\left(\boldsymbol{\mu}_{k}, \mathbf{\Sigma}_{k}\right)}\left[\boldsymbol{\Sigma}_{j}^{-1}\left(\mathbf{s}-\boldsymbol{\mu}_{j}\right)\right] \\
+\frac{\partial \ln p(\mathbf{s})}{\partial \boldsymbol{\Sigma}_{j}} & =\frac{\rho_{j} \mathcal{N}_{\mathbf{s}}\left(\boldsymbol{\mu}_{j}, \boldsymbol{\Sigma}_{j}\right)}{\sum_{k} \rho_{k} \mathcal{N}_{\mathbf{s}}\left(\boldsymbol{\mu}_{k}, \mathbf{\Sigma}_{k}\right)} \frac{\partial}{\partial \boldsymbol{\Sigma}_{j}} \ln \left[\rho_{j} \mathcal{N}_{\mathbf{s}}\left(\boldsymbol{\mu}_{j}, \boldsymbol{\Sigma}_{j}\right)\right] \\
+& =\frac{\rho_{j} \mathcal{N}_{\mathbf{s}}\left(\boldsymbol{\mu}_{j}, \boldsymbol{\Sigma}_{j}\right)}{\sum_{k} \rho_{k} \mathcal{N}_{\mathbf{s}}\left(\boldsymbol{\mu}_{k}, \mathbf{\Sigma}_{k}\right)} \frac{1}{2}\left[-\boldsymbol{\Sigma}_{j}^{-1}+\boldsymbol{\Sigma}_{j}^{-1}\left(\mathbf{s}-\boldsymbol{\mu}_{j}\right)\left(\mathbf{s}-\boldsymbol{\mu}_{j}\right)^{T} \boldsymbol{\Sigma}_{j}^{-13996)}\right.
+\end{aligned}
+$$
+
+But $\rho_{k}$ and $\boldsymbol{\Sigma}_{k}$ needs to be constrained.
+
+\section{Special Matrices}
+
+\subsection{Block matrices}
+
+Let $\mathbf{A}_{i j}$ denote the $i j$ th block of $\mathbf{A}$.
+
+\subsubsection{Multiplication}
+
+Assuming the dimensions of the blocks matches we have
+
+$$
+\left[\begin{array}{l|l}
+\mathbf{A}_{11} & \mathbf{A}_{12} \\
+\hline \mathbf{A}_{21} & \mathbf{A}_{22}
+\end{array}\right]\left[\begin{array}{l|l}
+\mathbf{B}_{11} & \mathbf{B}_{12} \\
+\hline \mathbf{B}_{21} & \mathbf{B}_{22}
+\end{array}\right]=\left[\begin{array}{l|l}
+\mathbf{A}_{11} \mathbf{B}_{11}+\mathbf{A}_{12} \mathbf{B}_{21} & \mathbf{A}_{11} \mathbf{B}_{12}+\mathbf{A}_{12} \mathbf{B}_{22} \\
+\hline \mathbf{A}_{21} \mathbf{B}_{11}+\mathbf{A}_{22} \mathbf{B}_{21} & \mathbf{A}_{21} \mathbf{B}_{12}+\mathbf{A}_{22} \mathbf{B}_{22}
+\end{array}\right]
+$$
+
+\subsubsection{The Determinant}
+
+The determinant can be expressed as by the use of
+
+$$
+\begin{aligned}
+& \mathbf{C}_{1}=\mathbf{A}_{11}-\mathbf{A}_{12} \mathbf{A}_{22}^{-1} \mathbf{A}_{21} \\
+& \mathbf{C}_{2}=\mathbf{A}_{22}-\mathbf{A}_{21} \mathbf{A}_{11}^{-1} \mathbf{A}_{12}
+\end{aligned}
+$$
+
+as
+
+$$
+\operatorname{det}\left(\left[\begin{array}{l|l}
+\mathbf{A}_{11} & \mathbf{A}_{12} \\
+\hline \mathbf{A}_{21} & \mathbf{A}_{22}
+\end{array}\right]\right)=\operatorname{det}\left(\mathbf{A}_{22}\right) \cdot \operatorname{det}\left(\mathbf{C}_{1}\right)=\operatorname{det}\left(\mathbf{A}_{11}\right) \cdot \operatorname{det}\left(\mathbf{C}_{2}\right)
+$$
+
+\subsubsection{The Inverse}
+
+The inverse can be expressed as by the use of
+
+$$
+\begin{aligned}
+& \mathbf{C}_{1}=\mathbf{A}_{11}-\mathbf{A}_{12} \mathbf{A}_{22}^{-1} \mathbf{A}_{21} \\
+& \mathbf{C}_{2}=\mathbf{A}_{22}-\mathbf{A}_{21} \mathbf{A}_{11}^{-1} \mathbf{A}_{12}
+\end{aligned}
+$$
+
+as
+
+$$
+\begin{aligned}
+& {\left[\begin{array}{c|c}
+\mathbf{A}_{11} & \mathbf{A}_{12} \\
+\hline \mathbf{A}_{21} & \mathbf{A}_{22}
+\end{array}\right]^{-1}=\left[\begin{array}{c|c}
+\mathbf{C}_{1}^{-1} & -\mathbf{A}_{11}^{-1} \mathbf{A}_{12} \mathbf{C}_{2}^{-1} \\
+\hline-\mathbf{C}_{2}^{-1} \mathbf{A}_{21} \mathbf{A}_{11}^{-1} & \mathbf{C}_{2}^{-1}
+\end{array}\right] } \\
+&=\left[\begin{array}{c|c}
+\mathbf{A}_{11}^{-1}+\mathbf{A}_{11}^{-1} \mathbf{A}_{12} \mathbf{C}_{2}^{-1} \mathbf{A}_{21} \mathbf{A}_{11}^{-1} & -\mathbf{C}_{1}^{-1} \mathbf{A}_{12} \mathbf{A}_{22}^{-1} \\
+\hline-\mathbf{A}_{22}^{-1} \mathbf{A}_{21} \mathbf{C}_{1}^{-1} & \mathbf{A}_{22}^{-1}+\mathbf{A}_{22}^{-1} \mathbf{A}_{21} \mathbf{C}_{1}^{-1} \mathbf{A}_{12} \mathbf{A}_{22}^{-1}
+\end{array}\right]
+\end{aligned}
+$$
+
+\subsubsection{Block diagonal}
+
+For block diagonal matrices we have
+
+$$
+\begin{aligned}
+{\left[\begin{array}{c|c}
+\mathbf{A}_{11} & \mathbf{0} \\
+\hline \mathbf{0} & \mathbf{A}_{22}
+\end{array}\right]^{-1} } & =\left[\begin{array}{c|c}
+\left(\mathbf{A}_{11}\right)^{-1} & \mathbf{0} \\
+\hline \mathbf{0} & \left(\mathbf{A}_{22}\right)^{-1}
+\end{array}\right] \\
+\operatorname{det}\left(\left[\begin{array}{c|c}
+\mathbf{A}_{11} & \mathbf{0} \\
+\hline \mathbf{0} & \mathbf{A}_{22}
+\end{array}\right]\right) & =\operatorname{det}\left(\mathbf{A}_{11}\right) \cdot \operatorname{det}\left(\mathbf{A}_{22}\right)
+\end{aligned}
+$$
+
+
+
+\subsubsection{Schur complement}
+
+Regard the matrix
+
+$$
+\left[\begin{array}{l|l}
+\mathbf{A}_{11} & \mathbf{A}_{12} \\
+\hline \mathbf{A}_{21} & \mathbf{A}_{22}
+\end{array}\right]
+$$
+
+The Schur complement of block $\mathbf{A}_{11}$ of the matrix above is the matrix (denoted $\mathbf{C}_{2}$ in the text above)
+
+$$
+\mathbf{A}_{22}-\mathbf{A}_{21} \mathbf{A}_{11}^{-1} \mathbf{A}_{12}
+$$
+
+The Schur complement of block $\mathbf{A}_{22}$ of the matrix above is the matrix (denoted $\mathbf{C}_{1}$ in the text above)
+
+$$
+\mathbf{A}_{11}-\mathbf{A}_{12} \mathbf{A}_{22}^{-1} \mathbf{A}_{21}
+$$
+
+Using the Schur complement, one can rewrite the inverse of a block matrix
+
+$$
+\begin{aligned}
+& {\left[\begin{array}{l|l}
+\mathbf{A}_{11} & \mathbf{A}_{12} \\
+\hline \mathbf{A}_{21} & \mathbf{A}_{22}
+\end{array}\right]^{-1} } \\
+= & {\left[\begin{array}{c|c}
+\mathbf{I} & \mathbf{0} \\
+\hline-\mathbf{A}_{22}^{-1} \mathbf{A}_{21} & \mathbf{I}
+\end{array}\right]\left[\begin{array}{l|l}
+\left(\mathbf{A}_{11}-\mathbf{A}_{12} \mathbf{A}_{22}^{-1} \mathbf{A}_{21}\right)^{-1} & \mathbf{0} \\
+\hline \mathbf{0} & \mathbf{A}_{22}^{-1}
+\end{array}\right]\left[\begin{array}{l|l}
+\mathbf{I} & -\mathbf{A}_{12} \mathbf{A}_{22}^{-1} \\
+\hline \mathbf{0} & \mathbf{I}
+\end{array}\right] }
+\end{aligned}
+$$
+
+The Schur complement is useful when solving linear systems of the form
+
+$$
+\left[\begin{array}{l|l}
+\mathbf{A}_{11} & \mathbf{A}_{12} \\
+\hline \mathbf{A}_{21} & \mathbf{A}_{22}
+\end{array}\right]\left[\begin{array}{l}
+\mathbf{x}_{1} \\
+\hline \mathbf{x}_{2}
+\end{array}\right]=\left[\begin{array}{l}
+\mathbf{b}_{1} \\
+\hline \mathbf{b}_{2}
+\end{array}\right]
+$$
+
+which has the following equation for $\mathbf{x}_{1}$
+
+$$
+\left(\mathbf{A}_{11}-\mathbf{A}_{12} \mathbf{A}_{22}^{-1} \mathbf{A}_{21}\right) \mathbf{x}_{1}=\mathbf{b}_{1}-\mathbf{A}_{12} \mathbf{A}_{22}^{-1} \mathbf{b}_{2}
+$$
+
+When the appropriate inverses exists, this can be solved for $\mathbf{x}_{1}$ which can then be inserted in the equation for $\mathbf{x}_{2}$ to solve for $\mathbf{x}_{2}$.
+
+\subsection{Discrete Fourier Transform Matrix, The}
+
+The DFT matrix is an $N \times N$ symmetric matrix $\mathbf{W}_{N}$, where the $k, n$th element is given by
+
+$$
+W_{N}^{k n}=e^{\frac{-j 2 \pi k n}{N}}
+$$
+
+Thus the discrete Fourier transform (DFT) can be expressed as
+
+$$
+X(k)=\sum_{n=0}^{N-1} x(n) W_{N}^{k n}
+$$
+
+Likewise the inverse discrete Fourier transform (IDFT) can be expressed as
+
+$$
+x(n)=\frac{1}{N} \sum_{k=0}^{N-1} X(k) W_{N}^{-k n} .
+$$
+
+The DFT of the vector $\mathbf{x}=[x(0), x(1), \cdots, x(N-1)]^{T}$ can be written in matrix form as
+
+$$
+\mathbf{X}=\mathbf{W}_{N} \mathbf{x}
+$$
+
+where $\mathbf{X}=[X(0), X(1), \cdots, x(N-1)]^{T}$. The IDFT is similarly given as
+
+$$
+\mathbf{x}=\mathbf{W}_{N}^{-1} \mathbf{X}
+$$
+
+Some properties of $\mathbf{W}_{N}$ exist:
+
+$$
+\begin{aligned}
+\mathbf{W}_{N}^{-1} & =\frac{1}{N} \mathbf{W}_{N}^{*} \\
+\mathbf{W}_{N} \mathbf{W}_{N}^{*} & =N \mathbf{I} \\
+\mathbf{W}_{N}^{*} & =\mathbf{W}_{N}^{H}
+\end{aligned}
+$$
+
+If $W_{N}=e^{\frac{-j 2 \pi}{N}}$, then 23
+
+$$
+W_{N}^{m+N / 2}=-W_{N}^{m}
+$$
+
+Notice, the DFT matrix is a Vandermonde Matrix.
+
+The following important relation between the circulant matrix and the discrete Fourier transform (DFT) exists
+
+$$
+\mathbf{T}_{C}=\mathbf{W}_{N}^{-1}\left(\mathbf{I} \circ\left(\mathbf{W}_{N} \mathbf{t}\right)\right) \mathbf{W}_{N}
+$$
+
+where $\mathbf{t}=\left[t_{0}, t_{1}, \cdots, t_{n-1}\right]^{T}$ is the first row of $\mathbf{T}_{C}$
+
+\subsection{Hermitian Matrices and skew-Hermitian}
+
+A matrix $\mathbf{A} \in \mathbb{C}^{m \times n}$ is called Hermitian if
+
+$$
+\mathbf{A}^{H}=\mathbf{A}
+$$
+
+For real valued matrices, Hermitian and symmetric matrices are equivalent.
+
+$$
+\begin{aligned}
+& \mathbf{A} \text { is Hermitian } \Leftrightarrow \mathbf{x}^{H} \mathbf{A} \mathbf{x} \in \mathbb{R}, \quad \forall \mathbf{x} \in \mathbb{C}^{n \times 1} \\
+& \mathbf{A} \text { is Hermitian } \Leftrightarrow \operatorname{eig}(\mathbf{A}) \in \mathbb{R}
+\end{aligned}
+$$
+
+Note that
+
+$$
+\mathbf{A}=\mathbf{B}+i \mathbf{C}
+$$
+
+where $\mathbf{B}, \mathbf{C}$ are hermitian, then
+
+$$
+\mathbf{B}=\frac{\mathbf{A}+\mathbf{A}^{H}}{2}, \quad \mathbf{C}=\frac{\mathbf{A}-\mathbf{A}^{H}}{2 i}
+$$
+
+\subsubsection{Skew-Hermitian}
+
+A matrix $\mathbf{A}$ is called skew-hermitian if
+
+$$
+\mathbf{A}=-\mathbf{A}^{H}
+$$
+
+For real valued matrices, skew-Hermitian and skew-symmetric matrices are equivalent.
+
+$$
+\begin{aligned}
+\text { A Hermitian } & \Leftrightarrow i \mathbf{A} \text { is skew-hermitian } \\
+\text { A skew-Hermitian } & \Leftrightarrow \mathbf{x}^{H} \mathbf{A} \mathbf{y}=-\mathbf{x}^{H} \mathbf{A}^{H} \mathbf{y}, \quad \forall \mathbf{x}, \mathbf{y} \\
+\text { A skew-Hermitian } & \Rightarrow \operatorname{eig}(\mathbf{A})=i \lambda, \quad \lambda \in \mathbb{R}
+\end{aligned}
+$$
+
+
+
+\subsection{Idempotent Matrices}
+
+A matrix $\mathbf{A}$ is idempotent if
+
+$$
+\mathbf{A} \mathbf{A}=\mathbf{A}
+$$
+
+Idempotent matrices $\mathbf{A}$ and $\mathbf{B}$, have the following properties
+
+$$
+\begin{array}{rll}
+\mathbf{A}^{n} & =\mathbf{A}, \quad \text { forn }=1,2,3, \ldots \\
+\mathbf{I}-\mathbf{A} & & \text { is idempotent } \\
+\mathbf{A}^{H} & & \text { is idempotent } \\
+\mathbf{I}-\mathbf{A}^{H} & & \text { is idempotent } \\
+\text { If } \mathbf{A B}=\mathbf{B} \mathbf{A} & \Rightarrow \mathbf{A B} \text { is idempotent } \\
+\operatorname{rank}(\mathbf{A}) & =\operatorname{Tr}(\mathbf{A}) \\
+\mathbf{A}(\mathbf{I}-\mathbf{A}) & =\mathbf{0} \\
+(\mathbf{I}-\mathbf{A}) \mathbf{A} & =\mathbf{0} \\
+\mathbf{A}^{+} & =\mathbf{A} \\
+f(s \mathbf{I}+t \mathbf{A}) & =(\mathbf{I}-\mathbf{A}) f(s)+\mathbf{A} f(s+t)
+\end{array}
+$$
+
+Note that $\mathbf{A}-\mathbf{I}$ is not necessarily idempotent.
+
+\subsubsection{Nilpotent}
+
+A matrix $\mathbf{A}$ is nilpotent if
+
+$$
+\mathbf{A}^{2}=\mathbf{0}
+$$
+
+A nilpotent matrix has the following property:
+
+$$
+f(s \mathbf{I}+t \mathbf{A})=\mathbf{I} f(s)+t \mathbf{A} f^{\prime}(s)
+$$
+
+\subsubsection{Unipotent}
+
+A matrix $\mathbf{A}$ is unipotent if
+
+$$
+\mathbf{A A}=\mathbf{I}
+$$
+
+A unipotent matrix has the following property:
+
+$$
+f(s \mathbf{I}+t \mathbf{A})=[(\mathbf{I}+\mathbf{A}) f(s+t)+(\mathbf{I}-\mathbf{A}) f(s-t)] / 2
+$$
+
+\subsection{Orthogonal matrices}
+
+If a square matrix $\mathbf{Q}$ is orthogonal, if and only if,
+
+$$
+\mathbf{Q}^{T} \mathbf{Q}=\mathbf{Q}^{T}=\mathbf{I}
+$$
+
+and then $\mathbf{Q}$ has the following properties
+
+- Its eigenvalues are placed on the unit circle.
+
+- Its eigenvectors are unitary, i.e. have length one.
+
+- The inverse of an orthogonal matrix is orthogonal too. Basic properties for the orthogonal matrix $\mathbf{Q}$
+
+$$
+\begin{aligned}
+\mathbf{Q}^{-1} & =\mathbf{Q}^{T} \\
+\mathbf{Q}^{-T} & =\mathbf{Q} \\
+\mathbf{Q Q}^{T} & =\mathbf{I} \\
+\mathbf{Q}^{T} \mathbf{Q} & =\mathbf{I} \\
+\operatorname{det}(\mathbf{Q}) & = \pm 1
+\end{aligned}
+$$
+
+\subsubsection{Ortho-Sym}
+
+A matrix $\mathbf{Q}_{+}$which simultaneously is orthogonal and symmetric is called an ortho-sym matrix [20]. Hereby
+
+$$
+\begin{aligned}
+\mathbf{Q}_{+}^{T} \mathbf{Q}_{+} & =\mathbf{I} \\
+\mathbf{Q}_{+} & =\mathbf{Q}_{+}^{T}
+\end{aligned}
+$$
+
+The powers of an ortho-sym matrix are given by the following rule
+
+$$
+\begin{aligned}
+\mathbf{Q}_{+}^{k} & =\frac{1+(-1)^{k}}{2} \mathbf{I}+\frac{1+(-1)^{k+1}}{2} \mathbf{Q}_{+} \\
+& =\frac{1+\cos (k \pi)}{2} \mathbf{I}+\frac{1-\cos (k \pi)}{2} \mathbf{Q}_{+}
+\end{aligned}
+$$
+
+\subsubsection{Ortho-Skew}
+
+A matrix which simultaneously is orthogonal and antisymmetric is called an ortho-skew matrix [20. Hereby
+
+$$
+\begin{aligned}
+\mathbf{Q}_{-}^{H} \mathbf{Q}_{-} & =\mathbf{I} \\
+\mathbf{Q}_{-} & =-\mathbf{Q}_{-}^{H}
+\end{aligned}
+$$
+
+The powers of an ortho-skew matrix are given by the following rule
+
+$$
+\begin{aligned}
+\mathbf{Q}_{-}^{k} & =\frac{i^{k}+(-i)^{k}}{2} \mathbf{I}-i \frac{i^{k}-(-i)^{k}}{2} \mathbf{Q}_{-} \\
+& =\cos \left(k \frac{\pi}{2}\right) \mathbf{I}+\sin \left(k \frac{\pi}{2}\right) \mathbf{Q}_{-}
+\end{aligned}
+$$
+
+\subsubsection{Decomposition}
+
+A square matrix $\mathbf{A}$ can always be written as a sum of a symmetric $\mathbf{A}_{+}$and an antisymmetric matrix $\mathbf{A}_{-}$
+
+$$
+\mathbf{A}=\mathbf{A}_{+}+\mathbf{A}_{-}
+$$
+
+\subsection{Positive Definite and Semi-definite Matrices}
+
+\subsubsection{Definitions}
+
+A matrix $\mathbf{A}$ is positive definite if and only if
+
+$$
+\mathbf{x}^{T} \mathbf{A} \mathbf{x}>\mathbf{0}, \quad \forall \mathbf{x} \neq \mathbf{0}
+$$
+
+A matrix $\mathbf{A}$ is positive semi-definite if and only if
+
+$$
+\mathbf{x}^{T} \mathbf{A} \mathbf{x} \geq \mathbf{0}, \quad \forall \mathbf{x}
+$$
+
+Note that if $\mathbf{A}$ is positive definite, then $\mathbf{A}$ is also positive semi-definite.
+
+\subsubsection{Eigenvalues}
+
+The following holds with respect to the eigenvalues:
+
+$$
+\begin{array}{cl}
+\text { A pos. def. } & \Leftrightarrow \operatorname{eig}\left(\frac{\mathbf{A}+\mathbf{A}^{H}}{2}\right)>0 \\
+\text { A pos. semi-def. } & \Leftrightarrow \operatorname{eig}\left(\frac{\mathbf{A}+\mathbf{A}^{H}}{2}\right) \geq 0
+\end{array}
+$$
+
+\subsubsection{Trace}
+
+The following holds with respect to the trace:
+
+$$
+\begin{array}{cll}
+\text { A pos. def. } & \Rightarrow & \operatorname{Tr}(\mathbf{A})>0 \\
+\text { A pos. semi-def. } & \Rightarrow & \operatorname{Tr}(\mathbf{A}) \geq 0
+\end{array}
+$$
+
+\subsubsection{Inverse}
+
+If $\mathbf{A}$ is positive definite, then $\mathbf{A}$ is invertible and $\mathbf{A}^{-1}$ is also positive definite.
+
+\subsubsection{Diagonal}
+
+If $\mathbf{A}$ is positive definite, then $A_{i i}>0, \forall i$
+
+\subsubsection{Decomposition I}
+
+The matrix $\mathbf{A}$ is positive semi-definite of rank $r \Leftrightarrow$ there exists a matrix $\mathbf{B}$ of rank $r$ such that $\mathbf{A}=\mathbf{B B}^{T}$
+
+The matrix $\mathbf{A}$ is positive definite $\Leftrightarrow$ there exists an invertible matrix $\mathbf{B}$ such that $\mathbf{A}=\mathbf{B B}^{T}$
+
+\subsubsection{Decomposition II}
+
+Assume $\mathbf{A}$ is an $n \times n$ positive semi-definite, then there exists an $n \times r$ matrix $\mathbf{B}$ of rank $r$ such that $\mathbf{B}^{T} \mathbf{A B}=\mathbf{I}$.
+
+\subsubsection{Equation with zeros}
+
+Assume $\mathbf{A}$ is positive semi-definite, then $\mathbf{X}^{T} \mathbf{A X}=\mathbf{0} \quad \Rightarrow \quad \mathbf{A X}=\mathbf{0}$
+
+\subsubsection{Rank of product}
+
+Assume $\mathbf{A}$ is positive definite, then $\operatorname{rank}\left(\mathbf{B} \mathbf{A} \mathbf{B}^{T}\right)=\operatorname{rank}(\mathbf{B})$
+
+\subsubsection{Positive definite property}
+
+If $\mathbf{A}$ is $n \times n$ positive definite and $\mathbf{B}$ is $r \times n$ of rank $r$, then $\mathbf{B A B} \mathbf{B}^{T}$ is positive definite.
+
+\subsubsection{Outer Product}
+
+If $\mathbf{X}$ is $n \times r$, where $n \leq r$ and $\operatorname{rank}(\mathbf{X})=n$, then $\mathbf{X} \mathbf{X}^{T}$ is positive definite.
+
+\subsubsection{Small pertubations}
+
+If $\mathbf{A}$ is positive definite and $\mathbf{B}$ is symmetric, then $\mathbf{A}-t \mathbf{B}$ is positive definite for sufficiently small $t$.
+
+\subsubsection{Hadamard inequality}
+
+If $\mathbf{A}$ is a positive definite or semi-definite matrix, then
+
+$$
+\operatorname{det}(\mathbf{A}) \leq \prod_{i} A_{i i}
+$$
+
+See $[15, \operatorname{pp} .477]$
+
+\subsubsection{Hadamard product relation}
+
+Assume that $\mathbf{P}=\mathbf{A} \mathbf{A}^{T}$ and $\mathbf{Q}=\mathbf{B B}^{T}$ are semi positive definite matrices, it then holds that
+
+$$
+\mathbf{P} \circ \mathbf{Q}=\mathbf{R R}^{T}
+$$
+
+where the columns of $\mathbf{R}$ are constructed as follows: $\mathbf{r}_{i+(j-1) N_{A}}=\mathbf{a}_{i} \circ \mathbf{b}_{j}$, for $i=1,2, \ldots, N_{A}$ and $j=1,2, \ldots, N_{B}$. The result is unpublished, but reported by Pavel Sakov and Craig Bishop.
+
+\subsection{Singleentry Matrix, The}
+
+\subsubsection{Definition}
+
+The single-entry matrix $\mathbf{J}^{i j} \in \mathbb{R}^{n \times n}$ is defined as the matrix which is zero everywhere except in the entry $(i, j)$ in which it is 1 . In a $4 \times 4$ example one might have
+
+$$
+\mathbf{J}^{23}=\left[\begin{array}{llll}
+0 & 0 & 0 & 0 \\
+0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0
+\end{array}\right]
+$$
+
+The single-entry matrix is very useful when working with derivatives of expressions involving matrices.
+
+\subsubsection{Swap and Zeros}
+
+Assume $\mathbf{A}$ to be $n \times m$ and $\mathbf{J}^{i j}$ to be $m \times p$
+
+$$
+\mathbf{A} \mathbf{J}^{i j}=\left[\begin{array}{llllll}
+\mathbf{0} & \mathbf{0} & \ldots & \mathbf{A}_{i} & \ldots & \mathbf{0}
+\end{array}\right]
+$$
+
+i.e. an $n \times p$ matrix of zeros with the i.th column of $\mathbf{A}$ in place of the $j . t h$ column. Assume $\mathbf{A}$ to be $n \times m$ and $\mathbf{J}^{i j}$ to be $p \times n$
+
+$$
+\mathbf{J}^{i j} \mathbf{A}=\left[\begin{array}{c}
+\mathbf{0} \\
+\vdots \\
+\mathbf{0} \\
+\mathbf{A}_{j} \\
+\mathbf{0} \\
+\vdots \\
+\mathbf{0}
+\end{array}\right]
+$$
+
+i.e. an $p \times m$ matrix of zeros with the j.th row of $\mathbf{A}$ in the placed of the i.th row.
+
+\subsubsection{Rewriting product of elements}
+
+$$
+\begin{aligned}
+A_{k i} B_{j l}=\left(\mathbf{A} \mathbf{e}_{i} \mathbf{e}_{j}^{T} \mathbf{B}\right)_{k l} & =\left(\mathbf{A} \mathbf{J}^{i j} \mathbf{B}\right)_{k l} \\
+A_{i k} B_{l j}=\left(\mathbf{A}^{T} \mathbf{e}_{i} \mathbf{e}_{j}^{T} \mathbf{B}^{T}\right)_{k l} & =\left(\mathbf{A}^{T} \mathbf{J}^{i j} \mathbf{B}^{T}\right)_{k l} \\
+A_{i k} B_{j l}=\left(\mathbf{A}^{T} \mathbf{e}_{i} \mathbf{e}_{j}^{T} \mathbf{B}\right)_{k l} & =\left(\mathbf{A}^{T} \mathbf{J}^{i j} \mathbf{B}\right)_{k l} \\
+A_{k i} B_{l j}=\left(\mathbf{A} \mathbf{e}_{i} \mathbf{e}_{j}^{T} \mathbf{B}^{T}\right)_{k l} & =\left(\mathbf{A} \mathbf{J}^{i j} \mathbf{B}^{T}\right)_{k l}
+\end{aligned}
+$$
+
+\subsubsection{Properties of the Singleentry Matrix}
+
+If $i=j$
+
+$$
+\begin{aligned}
+& \mathbf{J}^{i j} \mathbf{J}^{i j}=\mathbf{J}^{i j} \quad\left(\mathbf{J}^{i j}\right)^{T}\left(\mathbf{J}^{i j}\right)^{T}=\mathbf{J}^{i j} \\
+& \mathbf{J}^{i j}\left(\mathbf{J}^{i j}\right)^{T}=\mathbf{J}^{i j} \quad\left(\mathbf{J}^{i j}\right)^{T} \mathbf{J}^{i j}=\mathbf{J}^{i j}
+\end{aligned}
+$$
+
+If $i \neq j$
+
+$$
+\begin{array}{rlrl}
+\mathbf{J}^{i j} \mathbf{J}^{i j}=\mathbf{0} & \left(\mathbf{J}^{i j}\right)^{T}\left(\mathbf{J}^{i j}\right)^{T} & =\mathbf{0} \\
+\mathbf{J}^{i j}\left(\mathbf{J}^{i j}\right)^{T}=\mathbf{J}^{i i} & & \left(\mathbf{J}^{i j}\right)^{T} \mathbf{J}^{i j} & =\mathbf{J}^{j j}
+\end{array}
+$$
+
+\subsubsection{The Singleentry Matrix in Scalar Expressions}
+
+Assume $\mathbf{A}$ is $n \times m$ and $\mathbf{J}$ is $m \times n$, then
+
+$$
+\operatorname{Tr}\left(\mathbf{A} \mathbf{J}^{i j}\right)=\operatorname{Tr}\left(\mathbf{J}^{i j} \mathbf{A}\right)=\left(\mathbf{A}^{T}\right)_{i j}
+$$
+
+Assume $\mathbf{A}$ is $n \times n$, $\mathbf{J}$ is $n \times m$ and $\mathbf{B}$ is $m \times n$, then
+
+$$
+\begin{aligned}
+\operatorname{Tr}\left(\mathbf{A} \mathbf{J}^{i j} \mathbf{B}\right) & =\left(\mathbf{A}^{T} \mathbf{B}^{T}\right)_{i j} \\
+\operatorname{Tr}\left(\mathbf{A} \mathbf{J}^{j i} \mathbf{B}\right) & =(\mathbf{B} \mathbf{A})_{i j} \\
+\operatorname{Tr}\left(\mathbf{A} \mathbf{J}^{i j} \mathbf{J}^{i j} \mathbf{B}\right) & =\operatorname{diag}\left(\mathbf{A}^{T} \mathbf{B}^{T}\right)_{i j}
+\end{aligned}
+$$
+
+Assume $\mathbf{A}$ is $n \times n, \mathbf{J}^{i j}$ is $n \times m \mathbf{B}$ is $m \times n$, then
+
+$$
+\begin{aligned}
+\mathbf{x}^{T} \mathbf{A} \mathbf{J}^{i j} \mathbf{B} \mathbf{x} & =\left(\mathbf{A}^{T} \mathbf{x} \mathbf{x}^{T} \mathbf{B}^{T}\right)_{i j} \\
+\mathbf{x}^{T} \mathbf{A} \mathbf{J}^{i j} \mathbf{J}^{i j} \mathbf{B} \mathbf{x} & =\operatorname{diag}\left(\mathbf{A}^{T} \mathbf{x} \mathbf{x}^{T} \mathbf{B}^{T}\right)_{i j}
+\end{aligned}
+$$
+
+\subsubsection{Structure Matrices}
+
+The structure matrix is defined by
+
+$$
+\frac{\partial \mathbf{A}}{\partial A_{i j}}=\mathbf{S}^{i j}
+$$
+
+If $\mathbf{A}$ has no special structure then
+
+$$
+\mathbf{S}^{i j}=\mathbf{J}^{i j}
+$$
+
+If $\mathbf{A}$ is symmetric then
+
+$$
+\mathbf{S}^{i j}=\mathbf{J}^{i j}+\mathbf{J}^{j i}-\mathbf{J}^{i j} \mathbf{J}^{i j}
+$$
+
+
+
+\subsection{Symmetric, Skew-symmetric/Antisymmetric}
+
+\subsubsection{Symmetric}
+
+The matrix $\mathbf{A}$ is said to be symmetric if
+
+$$
+\mathbf{A}=\mathbf{A}^{T}
+$$
+
+Symmetric matrices have many important properties, e.g. that their eigenvalues are real and eigenvectors orthogonal.
+
+\subsubsection{Skew-symmetric/Antisymmetric}
+
+The antisymmetric matrix is also known as the skew symmetric matrix. It has the following property from which it is defined
+
+$$
+\mathbf{A}=-\mathbf{A}^{T}
+$$
+
+Hereby, it can be seen that the antisymmetric matrices always have a zero diagonal. The $n \times n$ antisymmetric matrices also have the following properties.
+
+$$
+\begin{aligned}
+\operatorname{det}\left(\mathbf{A}^{T}\right) & =\operatorname{det}(-\mathbf{A})=(-1)^{n} \operatorname{det}(\mathbf{A}) \\
+-\operatorname{det}(\mathbf{A}) & =\operatorname{det}(-\mathbf{A})=0, \quad \text { if } n \text { is odd }
+\end{aligned}
+$$
+
+The eigenvalues of an antisymmetric matrix are placed on the imaginary axis and the eigenvectors are unitary.
+
+\subsubsection{Decomposition}
+
+A square matrix $\mathbf{A}$ can always be written as a sum of a symmetric $\mathbf{A}_{+}$and an antisymmetric matrix $\mathbf{A}_{-}$
+
+$$
+\mathbf{A}=\mathbf{A}_{+}+\mathbf{A}_{-}
+$$
+
+Such a decomposition could e.g. be
+
+$$
+\mathbf{A}=\frac{\mathbf{A}+\mathbf{A}^{T}}{2}+\frac{\mathbf{A}-\mathbf{A}^{T}}{2}=\mathbf{A}_{+}+\mathbf{A}_{-}
+$$
+
+\subsection{Toeplitz Matrices}
+
+A Toeplitz matrix $\mathbf{T}$ is a matrix where the elements of each diagonal is the same. In the $n \times n$ square case, it has the following structure:
+
+$$
+\mathbf{T}=\left[\begin{array}{cccc}
+t_{11} & t_{12} & \cdots & t_{1 n} \\
+t_{21} & \ddots & \ddots & \vdots \\
+\vdots & \ddots & \ddots & t_{12} \\
+t_{n 1} & \cdots & t_{21} & t_{11}
+\end{array}\right]=\left[\begin{array}{cccc}
+t_{0} & t_{1} & \cdots & t_{n-1} \\
+t_{-1} & \ddots & \ddots & \vdots \\
+\vdots & \ddots & \ddots & t_{1} \\
+t_{-(n-1)} & \cdots & t_{-1} & t_{0}
+\end{array}\right]
+$$
+
+A Toeplitz matrix is persymmetric. If a matrix is persymmetric (or orthosymmetric), it means that the matrix is symmetric about its northeast-southwest diagonal (anti-diagonal) 12. Persymmetric matrices is a larger class of matrices, since a persymmetric matrix not necessarily has a Toeplitz structure. There are some special cases of Toeplitz matrices. The symmetric Toeplitz matrix is given by:
+
+$$
+\mathbf{T}=\left[\begin{array}{cccc}
+t_{0} & t_{1} & \cdots & t_{n-1} \\
+t_{1} & \ddots & \ddots & \vdots \\
+\vdots & \ddots & \ddots & t_{1} \\
+t_{n-1} & \cdots & t_{1} & t_{0}
+\end{array}\right]
+$$
+
+The circular Toeplitz matrix:
+
+$$
+\mathbf{T}_{C}=\left[\begin{array}{cccc}
+t_{0} & t_{1} & \cdots & t_{n-1} \\
+t_{n-1} & \ddots & \ddots & \vdots \\
+\vdots & \ddots & \ddots & t_{1} \\
+t_{1} & \cdots & t_{n-1} & t_{0}
+\end{array}\right]
+$$
+
+The upper triangular Toeplitz matrix:
+
+$$
+\mathbf{T}_{U}=\left[\begin{array}{cccc}
+t_{0} & t_{1} & \cdots & t_{n-1} \\
+0 & \ddots & \ddots & \vdots \\
+\vdots & \ddots & \ddots & t_{1} \\
+0 & \cdots & 0 & t_{0}
+\end{array}\right]
+$$
+
+and the lower triangular Toeplitz matrix:
+
+$$
+\mathbf{T}_{L}=\left[\begin{array}{cccc}
+t_{0} & 0 & \cdots & 0 \\
+t_{-1} & \ddots & \ddots & \vdots \\
+\vdots & \ddots & \ddots & 0 \\
+t_{-(n-1)} & \cdots & t_{-1} & t_{0}
+\end{array}\right]
+$$
+
+\subsubsection{Properties of Toeplitz Matrices}
+
+The Toeplitz matrix has some computational advantages. The addition of two Toeplitz matrices can be done with $\mathcal{O}(n)$ flops, multiplication of two Toeplitz matrices can be done in $\mathcal{O}(n \ln n)$ flops. Toeplitz equation systems can be solved in $\mathcal{O}\left(n^{2}\right)$ flops. The inverse of a positive definite Toeplitz matrix can be found in $\mathcal{O}\left(n^{2}\right)$ flops too. The inverse of a Toeplitz matrix is persymmetric. The product of two lower triangular Toeplitz matrices is a Toeplitz matrix. More information on Toeplitz matrices and circulant matrices can be found in [13, 7.
+
+\subsection{Transition matrices}
+
+A square matrix $\mathbf{P}$ is a transition matrix, also known as stochastic matrix or probability matrix, if
+
+$$
+0 \leq(\mathbf{P})_{i j} \leq 1, \quad \sum_{j}(\mathbf{P})_{i j}=1
+$$
+
+The transition matrix usually describes the probability of moving from state $i$ to $j$ in one step and is closely related to markov processes. Transition matrices have the following properties
+
+$$
+\begin{aligned}
+\operatorname{Prob}[i \rightarrow j \text { in } 1 \text { step }] & =(\mathbf{P})_{i j} \\
+\operatorname{Prob}[i \rightarrow j \text { in } 2 \text { steps }] & =\left(\mathbf{P}^{2}\right)_{i j} \\
+\operatorname{Prob}[i \rightarrow j \text { in } k \text { steps }] & =\left(\mathbf{P}^{k}\right)_{i j} \\
+\text { If all rows are identical } & \Rightarrow \mathbf{P}^{n}=\mathbf{P} \\
+\boldsymbol{\alpha} \mathbf{P} & =\boldsymbol{\alpha}, \boldsymbol{\alpha} \text { is called invariant }
+\end{aligned}
+$$
+
+where $\boldsymbol{\alpha}$ is a so-called stationary probability vector, i.e., $0 \leq \alpha_{i} \leq 1$ and $\sum_{i} \alpha_{i}=$ 1.
+
+\subsection{Units, Permutation and Shift}
+
+\subsubsection{Unit vector}
+
+Let $\mathbf{e}_{i} \in \mathbb{R}^{n \times 1}$ be the $i$ th unit vector, i.e. the vector which is zero in all entries except the $i$ th at which it is 1 .
+
+\subsubsection{Rows and Columns}
+
+$$
+\begin{aligned}
+\text { i.th row of } \mathbf{A} & =\mathbf{e}_{i}^{T} \mathbf{A} \\
+\text { j.th column of } \mathbf{A} & =\mathbf{A}_{j}
+\end{aligned}
+$$
+
+\subsubsection{Permutations}
+
+Let $\mathbf{P}$ be some permutation matrix, e.g.
+
+$$
+\mathbf{P}=\left[\begin{array}{lll}
+0 & 1 & 0 \\
+1 & 0 & 0 \\
+0 & 0 & 1
+\end{array}\right]=\left[\begin{array}{lll}
+\mathbf{e}_{2} & \mathbf{e}_{1} & \mathbf{e}_{3}
+\end{array}\right]=\left[\begin{array}{c}
+\mathbf{e}_{2}^{T} \\
+\mathbf{e}_{1}^{T} \\
+\mathbf{e}_{3}^{T}
+\end{array}\right]
+$$
+
+For permutation matrices it holds that
+
+$$
+\mathbf{P P}^{T}=\mathbf{I}
+$$
+
+and that
+
+$$
+\mathbf{A P}=\left[\begin{array}{lll}
+\mathbf{A e}_{2} & \mathbf{A e}_{1} & \mathbf{A e}_{3}
+\end{array}\right] \quad \mathbf{P A}=\left[\begin{array}{c}
+\mathbf{e}_{2}^{T} \mathbf{A} \\
+\mathbf{e}_{1}^{T} \mathbf{A} \\
+\mathbf{e}_{3}^{T} \mathbf{A}
+\end{array}\right]
+$$
+
+That is, the first is a matrix which has columns of $\mathbf{A}$ but in permuted sequence and the second is a matrix which has the rows of $\mathbf{A}$ but in the permuted sequence.
+
+\subsubsection{Translation, Shift or Lag Operators}
+
+Let $\mathbf{L}$ denote the lag (or 'translation' or 'shift') operator defined on a $4 \times 4$ example by
+
+$$
+\mathbf{L}=\left[\begin{array}{llll}
+0 & 0 & 0 & 0 \\
+1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & 1 & 0
+\end{array}\right]
+$$
+
+i.e. a matrix of zeros with one on the sub-diagonal, $(\mathbf{L})_{i j}=\delta_{i, j+1}$. With some signal $x_{t}$ for $t=1, \ldots, N$, the n.th power of the lag operator shifts the indices, i.e.
+
+$$
+\left(\mathbf{L}^{n} \mathbf{x}\right)_{t}=\left\{\begin{array}{cl}
+0 & \text { for } \quad t=1, \ldots, n \\
+x_{t-n} & \text { for } \quad t=n+1, \ldots, N
+\end{array}\right.
+$$
+
+A related but slightly different matrix is the 'recurrent shifted' operator defined on a $4 \mathrm{x} 4$ example by
+
+$$
+\hat{\mathbf{L}}=\left[\begin{array}{llll}
+0 & 0 & 0 & 1 \\
+1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & 1 & 0
+\end{array}\right]
+$$
+
+i.e. a matrix defined by $(\hat{\mathbf{L}})_{i j}=\delta_{i, j+1}+\delta_{i, 1} \delta_{j, d i m(\mathbf{L})}$. On a signal $\mathbf{x}$ it has the effect
+
+$$
+\left(\hat{\mathbf{L}}^{n} \mathbf{x}\right)_{t}=x_{t^{\prime}}, \quad t^{\prime}=[(t-n) \bmod N]+1
+$$
+
+That is, $\hat{\mathbf{L}}$ is like the shift operator $\mathbf{L}$ except that it 'wraps' the signal as if it was periodic and shifted (substituting the zeros with the rear end of the signal). Note that $\hat{\mathbf{L}}$ is invertible and orthogonal, i.e.
+
+$$
+\hat{\mathbf{L}}^{-1}=\hat{\mathbf{L}}^{T}
+$$
+
+\subsection{Vandermonde Matrices}
+
+A Vandermonde matrix has the form 15
+
+$$
+\mathbf{V}=\left[\begin{array}{ccccc}
+1 & v_{1} & v_{1}^{2} & \cdots & v_{1}^{n-1} \\
+1 & v_{2} & v_{2}^{2} & \cdots & v_{2}^{n-1} \\
+\vdots & \vdots & \vdots & & \vdots \\
+1 & v_{n} & v_{n}^{2} & \cdots & v_{n}^{n-1}
+\end{array}\right]
+$$
+
+The transpose of $\mathbf{V}$ is also said to a Vandermonde matrix. The determinant is given by $[29$
+
+$$
+\operatorname{det} \mathbf{V}=\prod_{i>j}\left(v_{i}-v_{j}\right)
+$$
+
+
+
+\section{Functions and Operators}
+
+\subsection{Functions and Series}
+
+\subsubsection{Finite Series}
+
+$$
+\left(\mathbf{X}^{n}-\mathbf{I}\right)(\mathbf{X}-\mathbf{I})^{-1}=\mathbf{I}+\mathbf{X}+\mathbf{X}^{2}+\ldots+\mathbf{X}^{n-1}
+$$
+
+\subsubsection{Taylor Expansion of Scalar Function}
+
+Consider some scalar function $f(\mathbf{x})$ which takes the vector $\mathbf{x}$ as an argument. This we can Taylor expand around $\mathbf{x}_{0}$
+
+$$
+f(\mathbf{x}) \cong f\left(\mathbf{x}_{0}\right)+\mathbf{g}\left(\mathbf{x}_{0}\right)^{T}\left(\mathbf{x}-\mathbf{x}_{0}\right)+\frac{1}{2}\left(\mathbf{x}-\mathbf{x}_{0}\right)^{T} \mathbf{H}\left(\mathbf{x}_{0}\right)\left(\mathbf{x}-\mathbf{x}_{0}\right)
+$$
+
+where
+
+$$
+\mathbf{g}\left(\mathbf{x}_{0}\right)=\left.\frac{\partial f(\mathbf{x})}{\partial \mathbf{x}}\right|_{\mathbf{x}_{0}} \quad \mathbf{H}\left(\mathbf{x}_{0}\right)=\left.\frac{\partial^{2} f(\mathbf{x})}{\partial \mathbf{x} \partial \mathbf{x}^{T}}\right|_{\mathbf{x}_{0}}
+$$
+
+\subsubsection{Matrix Functions by Infinite Series}
+
+As for analytical functions in one dimension, one can define a matrix function for square matrices $\mathbf{X}$ by an infinite series
+
+$$
+\mathbf{f}(\mathbf{X})=\sum_{n=0}^{\infty} c_{n} \mathbf{X}^{n}
+$$
+
+assuming the limit exists and is finite. If the coefficients $c_{n}$ fulfils $\sum_{n} c_{n} x^{n}<\infty$, then one can prove that the above series exists and is finite, see [1. Thus for any analytical function $f(x)$ there exists a corresponding matrix function $\mathbf{f}(\mathbf{x})$ constructed by the Taylor expansion. Using this one can prove the following results:
+
+1) A matrix $\mathbf{A}$ is a zero of its own characteristic polynomium [1]:
+
+$$
+p(\lambda)=\operatorname{det}(\mathbf{I} \lambda-\mathbf{A})=\sum_{n} c_{n} \lambda^{n} \quad \Rightarrow \quad p(\mathbf{A})=\mathbf{0}
+$$
+
+2) If $\mathbf{A}$ is square it holds that [1]
+
+$$
+\mathbf{A}=\mathbf{U B U}^{-1} \Rightarrow \mathbf{f}(\mathbf{A})=\mathbf{U f}(\mathbf{B}) \mathbf{U}^{-1}
+$$
+
+3) A useful fact when using power series is that
+
+$$
+\mathbf{A}^{n} \rightarrow \text { Ofor } n \rightarrow \infty \quad \text { if } \quad|\mathbf{A}|<1
+$$
+
+\subsubsection{Identity and commutations}
+
+It holds for an analytical matrix function $\mathbf{f}(\mathbf{X})$ that
+
+$$
+\mathbf{f}(\mathbf{A B}) \mathbf{A}=\mathbf{A f}(\mathbf{B A})
+$$
+
+see B.1.2 for a proof.
+
+Petersen \& Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 58
+
+\subsubsection{Exponential Matrix Function}
+
+In analogy to the ordinary scalar exponential function, one can define exponential and logarithmic matrix functions:
+
+$$
+\begin{aligned}
+e^{\mathbf{A}} & \equiv \sum_{n=0}^{\infty} \frac{1}{n !} \mathbf{A}^{n}=\mathbf{I}+\mathbf{A}+\frac{1}{2} \mathbf{A}^{2}+\ldots \\
+e^{-\mathbf{A}} & \equiv \sum_{n=0}^{\infty} \frac{1}{n !}(-1)^{n} \mathbf{A}^{n}=\mathbf{I}-\mathbf{A}+\frac{1}{2} \mathbf{A}^{2}-\ldots \\
+e^{t \mathbf{A}} & \equiv \sum_{n=0}^{\infty} \frac{1}{n !}(t \mathbf{A})^{n}=\mathbf{I}+t \mathbf{A}+\frac{1}{2} t^{2} \mathbf{A}^{2}+\ldots \\
+\ln (\mathbf{I}+\mathbf{A}) & \equiv \sum_{n=1}^{\infty} \frac{(-1)^{n-1}}{n} \mathbf{A}^{n}=\mathbf{A}-\frac{1}{2} \mathbf{A}^{2}+\frac{1}{3} \mathbf{A}^{3}-\ldots
+\end{aligned}
+$$
+
+Some of the properties of the exponential function are [1]
+
+$$
+\begin{array}{rlr}
+e^{\mathbf{A}} e^{\mathbf{B}} & =e^{\mathbf{A}+\mathbf{B}} \quad \text { if } & \mathbf{A B}=\mathbf{B} \mathbf{A} \\
+\left(e^{\mathbf{A}}\right)^{-1} & =e^{-\mathbf{A}} \\
+\frac{d}{d t} e^{t \mathbf{A}} & =\mathbf{A} e^{t \mathbf{A}}=e^{t \mathbf{A}} \mathbf{A}, \quad t \in \mathbb{R} \\
+\frac{d}{d t} \operatorname{Tr}\left(e^{t \mathbf{A}}\right) & =\operatorname{Tr}\left(\mathbf{A} e^{t \mathbf{A}}\right) & \\
+\operatorname{det}\left(e^{\mathbf{A}}\right) & =e^{\operatorname{Tr}(\mathbf{A})}
+\end{array}
+$$
+
+\subsubsection{Trigonometric Functions}
+
+$$
+\begin{aligned}
+\sin (\mathbf{A}) & \equiv \sum_{n=0}^{\infty} \frac{(-1)^{n} \mathbf{A}^{2 n+1}}{(2 n+1) !}=\mathbf{A}-\frac{1}{3 !} \mathbf{A}^{3}+\frac{1}{5 !} \mathbf{A}^{5}-\ldots \\
+\cos (\mathbf{A}) & \equiv \sum_{n=0}^{\infty} \frac{(-1)^{n} \mathbf{A}^{2 n}}{(2 n) !}=\mathbf{I}-\frac{1}{2 !} \mathbf{A}^{2}+\frac{1}{4 !} \mathbf{A}^{4}-\ldots
+\end{aligned}
+$$
+
+\subsection{Kronecker and Vec Operator}
+
+\subsubsection{The Kronecker Product}
+
+The Kronecker product of an $m \times n$ matrix $\mathbf{A}$ and an $r \times q$ matrix $\mathbf{B}$, is an $m r \times n q$ matrix, $\mathbf{A} \otimes \mathbf{B}$ defined as
+
+$$
+\mathbf{A} \otimes \mathbf{B}=\left[\begin{array}{cccc}
+A_{11} \mathbf{B} & A_{12} \mathbf{B} & \ldots & A_{1 n} \mathbf{B} \\
+A_{21} \mathbf{B} & A_{22} \mathbf{B} & \ldots & A_{2 n} \mathbf{B} \\
+\vdots & & & \vdots \\
+A_{m 1} \mathbf{B} & A_{m 2} \mathbf{B} & \ldots & A_{m n} \mathbf{B}
+\end{array}\right]
+$$
+
+The Kronecker product has the following properties (see [19])
+
+$$
+\begin{aligned}
+\mathbf{A} \otimes(\mathbf{B}+\mathbf{C}) & =\mathbf{A} \otimes \mathbf{B}+\mathbf{A} \otimes \mathbf{C} \\
+\mathbf{A} \otimes \mathbf{B} & \neq \mathbf{B} \otimes \mathbf{A} \quad \text { in general } \\
+\mathbf{A} \otimes(\mathbf{B} \otimes \mathbf{C}) & =(\mathbf{A} \otimes \mathbf{B}) \otimes \mathbf{C} \\
+\left(\alpha_{A} \mathbf{A} \otimes \alpha_{B} \mathbf{B}\right) & =\alpha_{A} \alpha_{B}(\mathbf{A} \otimes \mathbf{B}) \\
+(\mathbf{A} \otimes \mathbf{B})^{T} & =\mathbf{A}^{T} \otimes \mathbf{B}^{T} \\
+(\mathbf{A} \otimes \mathbf{B})(\mathbf{C} \otimes \mathbf{D}) & =\mathbf{A} \mathbf{C} \otimes \mathbf{B D} \\
+(\mathbf{A} \otimes \mathbf{B})^{-1} & =\mathbf{A}^{-1} \otimes \mathbf{B}^{-1} \\
+(\mathbf{A} \otimes \mathbf{B})^{+} & =\mathbf{A}^{+} \otimes \mathbf{B}^{+} \\
+\operatorname{rank}(\mathbf{A} \otimes \mathbf{B}) & =\operatorname{rank}(\mathbf{A}) \operatorname{rank}(\mathbf{B}) \\
+\operatorname{Tr}(\mathbf{A} \otimes \mathbf{B}) & =\operatorname{Tr}(\mathbf{A}) \operatorname{Tr}(\mathbf{B})=\operatorname{Tr}\left(\boldsymbol{\Lambda}_{A} \otimes \boldsymbol{\Lambda}_{B}\right) \\
+\operatorname{det}(\mathbf{A} \otimes \mathbf{B}) & =\operatorname{det}(\mathbf{A})^{\operatorname{rank}(\mathbf{B})} \operatorname{det}(\mathbf{B})^{\mathrm{rank}(\mathbf{A})} \\
+\{\operatorname{eig}(\mathbf{A} \otimes \mathbf{B})\} & =\{\operatorname{eig}(\mathbf{B} \otimes \mathbf{A})\} \quad \text { if } \mathbf{A}, \mathbf{B} \text { are square } \\
+\{\operatorname{eig}(\mathbf{A} \otimes \mathbf{B})\} & =\left\{\operatorname{eig}(\mathbf{A}) \text { eig }(\mathbf{B})^{T}\right\} \\
+& \quad \text { if } \mathbf{A}, \mathbf{B} \operatorname{are} \operatorname{symmetric} \text { and square } \\
+\operatorname{eig}(\mathbf{A} \otimes \mathbf{B}) & =\operatorname{eig}(\mathbf{A}) \otimes \operatorname{eig}(\mathbf{B})
+\end{aligned}
+$$
+
+Where $\left\{\lambda_{i}\right\}$ denotes the set of values $\lambda_{i}$, that is, the values in no particular order or structure, and $\boldsymbol{\Lambda}_{A}$ denotes the diagonal matrix with the eigenvalues of A.
+
+\subsubsection{The Vec Operator}
+
+The vec-operator applied on a matrix $\mathbf{A}$ stacks the columns into a vector, i.e. for a $2 \times 2$ matrix
+
+$$
+\mathbf{A}=\left[\begin{array}{ll}
+A_{11} & A_{12} \\
+A_{21} & A_{22}
+\end{array}\right] \quad \operatorname{vec}(\mathbf{A})=\left[\begin{array}{l}
+A_{11} \\
+A_{21} \\
+A_{12} \\
+A_{22}
+\end{array}\right]
+$$
+
+Properties of the vec-operator include (see [19])
+
+$$
+\begin{aligned}
+\operatorname{vec}(\mathbf{A X B}) & =\left(\mathbf{B}^{T} \otimes \mathbf{A}\right) \operatorname{vec}(\mathbf{X}) \\
+\operatorname{Tr}\left(\mathbf{A}^{T} \mathbf{B}\right) & =\operatorname{vec}(\mathbf{A})^{T} \operatorname{vec}(\mathbf{B}) \\
+\operatorname{vec}(\mathbf{A}+\mathbf{B}) & =\operatorname{vec}(\mathbf{A})+\operatorname{vec}(\mathbf{B}) \\
+\operatorname{vec}(\alpha \mathbf{A}) & =\alpha \cdot \operatorname{vec}(\mathbf{A}) \\
+\mathbf{a}^{T} \mathbf{X B X ^ { T }} \mathbf{c} & =\operatorname{vec}(\mathbf{X})^{T}\left(\mathbf{B} \otimes \mathbf{c a}^{T}\right) \operatorname{vec}(\mathbf{X})
+\end{aligned}
+$$
+
+See B.1.1 for a proof for Eq. 524
+
+\subsection{Vector Norms}
+
+\subsubsection{Examples}
+
+$$
+\begin{aligned}
+\|\mathbf{x}\|_{1} & =\sum_{i}\left|x_{i}\right| \\
+\|\mathbf{x}\|_{2}^{2} & =\mathbf{x}^{H} \mathbf{x} \\
+\|\mathbf{x}\|_{p} & =\left[\sum_{i}\left|x_{i}\right|^{p}\right]^{1 / p} \\
+\|\mathbf{x}\|_{\infty} & =\max _{i}\left|x_{i}\right|
+\end{aligned}
+$$
+
+Further reading in e.g. [12, p. 52]
+
+\subsection{Matrix Norms}
+
+\subsubsection{Definitions}
+
+A matrix norm is a mapping which fulfils
+
+$$
+\begin{aligned}
+\|\mathbf{A}\| & \geq 0 \\
+\|\mathbf{A}\| & =0 \Leftrightarrow \mathbf{A}=\mathbf{0} \\
+\|c \mathbf{A}\| & =\mid c\|\| \mathbf{A} \|, \quad c \in \mathbb{R} \\
+\|\mathbf{A}+\mathbf{B}\| & \leq\|\mathbf{A}\|+\|\mathbf{B}\|
+\end{aligned}
+$$
+
+\subsubsection{Induced Norm or Operator Norm}
+
+An induced norm is a matrix norm induced by a vector norm by the following
+
+$$
+\|\mathbf{A}\|=\sup \{\|\mathbf{A} \mathbf{x}\| \quad \mid \quad\|\mathbf{x}\|=1\}
+$$
+
+where $\|\cdot\|$ on the left side is the induced matrix norm, while $\|\cdot\|$ on the right side denotes the vector norm. For induced norms it holds that
+
+$$
+\begin{array}{rlr}
+\|\mathbf{I}\| & =1 \\
+\|\mathbf{A} \mathbf{x}\| & \leq\|\mathbf{A}\| \cdot\|\mathbf{x}\|, & \text { for all } \mathbf{A}, \mathbf{x} \\
+\|\mathbf{A B}\| & \leq\|\mathbf{A}\| \cdot\|\mathbf{B}\|, \quad \text { for all } \mathbf{A}, \mathbf{B}
+\end{array}
+$$
+
+\subsubsection{Examples}
+
+$$
+\begin{aligned}
+\|\mathbf{A}\|_{1} & =\max _{j} \sum_{i}\left|A_{i j}\right| \\
+\|\mathbf{A}\|_{2} & =\sqrt{\max \operatorname{eig}\left(\mathbf{A}^{H} \mathbf{A}\right)} \\
+\|\mathbf{A}\|_{p} & =\left(\max _{\|\mathbf{x}\|_{p}=1}\|\mathbf{A} \mathbf{x}\|_{p}\right)^{1 / p} \\
+\|\mathbf{A}\|_{\infty} & =\max _{i} \sum_{j}\left|A_{i j}\right| \\
+\|\mathbf{A}\|_{\mathrm{F}} & =\sqrt{\sum_{i j}\left|A_{i j}\right|^{2}}=\sqrt{\operatorname{Tr}\left(\mathbf{A A}^{H}\right)} \quad \text { (Frobenius) }
+\end{aligned}
+$$
+
+
+
+$$
+\begin{aligned}
+& \|\mathbf{A}\|_{\max }=\max _{i j}\left|A_{i j}\right| \\
+& \|\mathbf{A}\|_{\mathrm{KF}}=\|\operatorname{sing}(\mathbf{A})\|_{1} \quad \text { (Ky Fan) }
+\end{aligned}
+$$
+
+where $\operatorname{sing}(\mathbf{A})$ is the vector of singular values of the matrix $\mathbf{A}$.
+
+\subsubsection{Inequalities}
+
+E. H. Rasmussen has in yet unpublished material derived and collected the following inequalities. They are collected in a table as below, assuming $\mathbf{A}$ is an $m \times n$, and $d=\operatorname{rank}(\mathbf{A})$
+
+\begin{tabular}{lcccccc}
+& $\|\mathbf{A}\|_{\max }$ & $\|\mathbf{A}\|_{1}$ & $\|\mathbf{A}\|_{\infty}$ & $\|\mathbf{A}\|_{2}$ & $\|\mathbf{A}\|_{\mathrm{F}}$ & $\|\mathbf{A}\|_{\mathrm{KF}}$ \\
+\hline$\|\mathbf{A}\|_{\max }$ & & 1 & 1 & 1 & 1 & 1 \\
+$\|\mathbf{A}\|_{1}$ & $m$ & & $m$ & $\sqrt{m}$ & $\sqrt{m}$ & $\sqrt{m}$ \\
+$\|\mathbf{A}\|_{\infty}$ & $n$ & $n$ & & $\sqrt{n}$ & $\sqrt{n}$ & $\sqrt{n}$ \\
+$\|\mathbf{A}\|_{2}$ & $\sqrt{m n}$ & $\sqrt{n}$ & $\sqrt{m}$ & & 1 & 1 \\
+$\|\mathbf{A}\|_{\mathrm{F}}$ & $\sqrt{m n}$ & $\sqrt{n}$ & $\sqrt{m}$ & $\sqrt{d}$ & & 1 \\
+$\|\mathbf{A}\|_{\mathrm{KF}}$ & $\sqrt{m n d}$ & $\sqrt{n d}$ & $\sqrt{m d}$ & $d$ & $\sqrt{d}$ & \\
+\hline
+\end{tabular}
+
+which are to be read as, e.g.
+
+$$
+\|\mathbf{A}\|_{2} \leq \sqrt{m} \cdot\|\mathbf{A}\|_{\infty}
+$$
+
+\subsubsection{Condition Number}
+
+The 2-norm of $\mathbf{A}$ equals $\sqrt{\left(\max \left(\operatorname{eig}\left(\mathbf{A}^{T} \mathbf{A}\right)\right)\right)}$ [12, p.57]. For a symmetric, positive definite matrix, this reduces to $\max (\operatorname{eig}(\mathbf{A}))$ The condition number based on the 2 -norm thus reduces to
+
+$$
+\|\mathbf{A}\|_{2}\left\|\mathbf{A}^{-1}\right\|_{2}=\max (\operatorname{eig}(\mathbf{A})) \max \left(\operatorname{eig}\left(\mathbf{A}^{-1}\right)\right)=\frac{\max (\operatorname{eig}(\mathbf{A}))}{\min (\operatorname{eig}(\mathbf{A}))}
+$$
+
+\subsection{Rank}
+
+\subsubsection{Sylvester's Inequality}
+
+If $\mathbf{A}$ is $m \times n$ and $\mathbf{B}$ is $n \times r$, then
+
+$$
+\operatorname{rank}(\mathbf{A})+\operatorname{rank}(\mathbf{B})-n \leq \operatorname{rank}(\mathbf{A B}) \leq \min \{\operatorname{rank}(\mathbf{A}), \operatorname{rank}(\mathbf{B})\}
+$$
+
+\subsection{Integral Involving Dirac Delta Functions}
+
+Assuming $\mathbf{A}$ to be square, then
+
+$$
+\int p(\mathbf{s}) \delta(\mathbf{x}-\mathbf{A} \mathbf{s}) d \mathbf{s}=\frac{1}{\operatorname{det}(\mathbf{A})} p\left(\mathbf{A}^{-1} \mathbf{x}\right)
+$$
+
+Assuming A to be "underdetermined", i.e. "tall", then
+
+$$
+\int p(\mathbf{s}) \delta(\mathbf{x}-\mathbf{A} \mathbf{s}) d \mathbf{s}=\left\{\begin{array}{ll}
+\frac{1}{\sqrt{\operatorname{det}\left(\mathbf{A}^{T} \mathbf{A}\right)}} p\left(\mathbf{A}^{+} \mathbf{x}\right) & \text { if } \mathbf{x}=\mathbf{A} \mathbf{A}^{+} \mathbf{x} \\
+0 & \text { elsewhere }
+\end{array}\right\}
+$$
+
+See $[9]$
+
+Petersen \& Pedersen, The Matrix Cookbook, Version: November 15, 2012, Page 62
+
+\subsection{Miscellaneous}
+
+For any $\mathbf{A}$ it holds that
+
+$$
+\operatorname{rank}(\mathbf{A})=\operatorname{rank}\left(\mathbf{A}^{T}\right)=\operatorname{rank}\left(\mathbf{A} \mathbf{A}^{T}\right)=\operatorname{rank}\left(\mathbf{A}^{T} \mathbf{A}\right)
+$$
+
+It holds that
+
+$\mathbf{A}$ is positive definite $\Leftrightarrow \quad \exists \mathbf{B}$ invertible, such that $\mathbf{A}=\mathbf{B B}^{T}$
