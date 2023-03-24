@@ -29,15 +29,45 @@ open matrix
 
 /-! TODO: is this what is actually meant by `∂(XY) = (∂X)Y + X(∂Y)`? -/
 
+lemma deriv_matrix (f : R → matrix m n R) (r : R) (hX : differentiable_at R f r) :
+  deriv f r = of (λ i j, deriv (λ r, f r i j) r) :=
+begin
+  ext i j,
+  rw deriv_pi,
+  simp_rw [deriv_pi, of_apply],
+  rw deriv_pi,
+  { intro i,
+    simp_rw differentiable_at_pi at hX,
+    apply hX },
+  { intro i,
+    rw differentiable_at_pi at hX,
+    apply hX },
+end
+
 lemma eq_33 (A : matrix m n R) : deriv (λ x : R, A) = 0 := deriv_const' _
 lemma eq_34 (c : R) (X : R → matrix m n R) (hX : differentiable R X) :
   deriv (c • X) = c • deriv X := funext $ λ _, deriv_const_smul c (hX _)
 lemma eq_35 (X Y : R → matrix m n R) (hX : differentiable R X) (hY : differentiable R Y) :
   deriv (X + Y) = deriv X + deriv Y := funext $ λ _, deriv_add (hX _) (hY _)
 lemma eq_36 (X : R → matrix m m R) (hX : differentiable R X) :
-  deriv (λ a, trace (X a)) = λ a, trace (deriv X a) := sorry
+  deriv (λ a, trace (X a)) = λ a, trace (deriv X a) :=
+begin
+  ext a,
+  rw deriv_matrix _ _ (hX a),
+  simp_rw [matrix.trace, matrix.diag, of_apply],
+  rw deriv_sum,
+  intros i hi,
+  simp_rw differentiable_pi at hX,
+  exact hX _ _ _,
+end
 lemma eq_37 (X : R → matrix m n R) (Y : R → matrix n p R) (hX : differentiable R X) (hY : differentiable R Y) :
-  deriv (λ a, (X a) ⬝ (Y a)) = λ a, deriv X a ⬝ Y a + X a ⬝ deriv Y a := sorry
+  deriv (λ a, (X a) ⬝ (Y a)) = λ a, deriv X a ⬝ Y a + X a ⬝ deriv Y a :=
+begin
+  ext a,
+  rw [deriv_matrix _ _ (hX a),  deriv_matrix _ _ (hY a)],
+  simp_rw [pi.add_apply, mul_apply, of_apply],
+  sorry,  -- would be easier to show `has_deriv_at`...
+end
 lemma eq_38 (X Y : R → matrix n p R) (hX : differentiable R X) (hY : differentiable R Y) :
   deriv (λ a, (X a) ⊙ (Y a)) = λ a, deriv X a ⊙ Y a + X a ⊙ deriv Y a := sorry
 lemma eq_39 (X Y : R → matrix n p R) (hX : differentiable R X) (hY : differentiable R Y) :
