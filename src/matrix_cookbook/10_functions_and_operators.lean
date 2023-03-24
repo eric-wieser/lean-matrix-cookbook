@@ -99,7 +99,7 @@ by rw matrix.mul_kronecker_mul
 
 lemma eq_512 (A : matrix m m R) (B : matrix n n R) :
   (A ⊗ₖ B)⁻¹ = (A⁻¹ ⊗ₖ B⁻¹) :=
-inv_kronecker _ _ _
+inv_kronecker _ _
 
 -- lemma eq_513 : sorry := sorry
 -- lemma eq_514 : sorry := sorry
@@ -111,7 +111,7 @@ by simp_rw [matrix.trace, matrix.diag, finset.sum_mul, finset.mul_sum,
 
 lemma eq_516 (A : matrix m m R) (B : matrix n n R) :
   det (A ⊗ₖ B) = det A ^ fintype.card n * det B ^ fintype.card m :=
-det_kronecker _ _ _
+det_kronecker _ _
 
 -- lemma eq_517 : sorry := sorry
 -- lemma eq_518 : sorry := sorry
