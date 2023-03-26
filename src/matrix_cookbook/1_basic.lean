@@ -47,6 +47,7 @@ end
 
 /-! ### Determinant -/
 
+-- `matrix.is_hermitian.det_eq_prod_eigenvalues` is close, but needs `A` to be hermitian which is too strong
 lemma eq_18 {A : matrix m m R} (eigvals : m → R) : det A = ∏ i, eigvals i := sorry
 lemma eq_19 (c : R) {A : matrix m m R} : det (c • A) = c ^ fintype.card m * det A := det_smul _ _
 lemma eq_20 {A : matrix m m R} : det (Aᵀ) = det A := det_transpose _
