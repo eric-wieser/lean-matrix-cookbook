@@ -41,48 +41,52 @@ det_from_blocks₁₁ _ _ _ _
 lemma eq_399 (A₁₁ : matrix m m R) (A₁₂ : matrix m n R) (A₂₁ : matrix n m R) (A₂₂ : matrix n n R)
   [invertible A₂₂] [invertible (A₁₁ - A₁₂⬝⅟A₂₂⬝A₂₁)] :
   (from_blocks A₁₁ A₁₂ A₂₁ A₂₂)⁻¹ =
-    let C₁ := A₁₁ - A₁₂⬝⅟A₂₂⬝A₂₁, i : invertible C₁ := ‹_› in by exactI
+    let 
+    C₁ := A₁₁ - A₁₂⬝⅟A₂₂⬝A₂₁, i1 : invertible C₁ := ‹_› in by exactI
+    -- let
+    -- C₂ := A₂₂ - A₂₁⬝⅟A₁₁⬝A₁₂, i2 : invertible C₂ := ‹_› in by exactI
     from_blocks
       (⅟C₁)          (-⅟C₁⬝A₁₂⬝⅟A₂₂)
       (-⅟A₂₂⬝A₂₁⬝⅟C₁) (⅟A₂₂ + ⅟A₂₂⬝A₂₁⬝⅟C₁⬝A₁₂⬝⅟A₂₂) := 
 begin
-  -- simp only [inv_of_eq_nonsing_inv, matrix.neg_mul],
-  have invB : invertible (from_blocks A₁₁ A₁₂ A₂₁ A₂₂), {
-    let C₁ := A₁₁ - A₁₂⬝⅟A₂₂⬝A₂₁,
-    refine ⟨
-      from_blocks 
-      (⅟C₁)           (-⅟C₁⬝A₁₂⬝⅟A₂₂)
-      (-⅟A₂₂⬝A₂₁⬝⅟C₁) (⅟A₂₂ + ⅟A₂₂⬝A₂₁⬝⅟C₁⬝A₁₂⬝⅟A₂₂),
-    _,_⟩,
-    -- extract_goal,
+  apply inv_eq_right_inv,
+  rw from_blocks_multiply,
+  
+  have iA:  ⅟ (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁) = (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁)⁻¹, 
+    by rw [inv_of_eq_nonsing_inv],
+  
+  have a11: A₁₁ ⬝ ⅟ (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁) + A₁₂ ⬝ (-⅟ A₂₂ ⬝ A₂₁ ⬝ ⅟ (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁)) = 1, by
+  {
+    calc A₁₁ ⬝ ⅟ (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁) + A₁₂ ⬝ (-⅟ A₂₂ ⬝ A₂₁ ⬝ ⅟ (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁))
+      = ((A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁) ⬝ (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁)⁻¹): by {
+        simp only [inv_of_eq_nonsing_inv, matrix.neg_mul, matrix.mul_neg],
+        rw ← sub_eq_add_neg, 
+        rw ← matrix.mul_assoc,
+        rw ← matrix.mul_assoc,
+        rw ← matrix.sub_mul A₁₁ (A₁₂ ⬝ A₂₂⁻¹ ⬝ A₂₁) (A₁₁ - A₁₂ ⬝ A₂₂⁻¹ ⬝ A₂₁)⁻¹,
+      }
+    ... = 1 : by rw mul_inv_of_invertible,
   },
-  -- library_search,
-
   
-  -- apply_fun (from_blocks A₁₁ A₁₂ A₂₁ A₂₂).mul,
-  -- rw [matrix.mul_nonsing_inv (from_blocks A₁₁ A₁₂ A₂₁ A₂₂)],
-  -- rw from_blocks_multiply,
-  
-  -- have z11: (A₁₁ ⬝ ⅟ (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁) + A₁₂ ⬝ (-⅟ A₂₂ ⬝ A₂₁ ⬝ ⅟ (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁))) = 1, {
-  --   sorry,
-  -- },
-  -- have z12: (A₁₁ ⬝ (-⅟ (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁) ⬝ A₁₂ ⬝ ⅟ A₂₂) + A₁₂ ⬝(⅟ A₂₂ +⅟ A₂₂ ⬝ A₂₁ ⬝ ⅟ (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁) ⬝ A₁₂ ⬝ ⅟ A₂₂)) = 0, {sorry,},
-  -- have z21: (A₂₁ ⬝ ⅟ (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁) + A₂₂ ⬝ (-⅟ A₂₂ ⬝ A₂₁ ⬝ ⅟ (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁))) = 0, {sorry},
-  -- have z22: (A₂₁ ⬝ (-⅟ (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁) ⬝ A₁₂ ⬝ ⅟ A₂₂) + A₂₂ ⬝(⅟ A₂₂ + ⅟ A₂₂ ⬝ A₂₁ ⬝ ⅟ (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁) ⬝ A₁₂ ⬝ ⅟ A₂₂)) = 1, {sorry,},
-  -- rw [z11, z12, z21, z22, from_blocks_one],
-  -- sorry,
-
-  -- unfold function.injective,
-  -- rintro a1 a2, intro h,
-  -- -- apply_fun  (has_sub.sub ((from_blocks A₁₁ A₁₂ A₂₁ A₂₂).mul a1) ) at h, 
-  -- -- rw sub_self at h, rw ← matrix.mul_sub at h,
-  -- replace h := congr_arg ((from_blocks A₁₁ A₁₂ A₂₁ A₂₂)⁻¹).mul h,
-  -- rw [←matrix.mul_assoc] at h, 
-  -- rw matrix.nonsing_inv_mul at h,
-  -- rw [←matrix.mul_assoc] at h, 
-  -- rw matrix.nonsing_inv_mul at h, simp only [matrix.one_mul] at h, exact h,
-
-  -- unfold is_unit,
+  have a12 : (A₁₁ ⬝ (-⅟ (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁) ⬝ A₁₂ ⬝ ⅟ A₂₂) + 
+  A₁₂ ⬝ (⅟ A₂₂ + ⅟ A₂₂ ⬝ A₂₁ ⬝ ⅟ (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁) ⬝ A₁₂ ⬝ ⅟ A₂₂)) = 0, by {
+    apply_fun (⬝A₂₂), 
+    simp only [inv_of_eq_nonsing_inv, matrix.neg_mul, matrix.mul_neg, matrix.zero_mul],
+    rw ← matrix.mul_assoc, 
+    rw matrix.add_mul, 
+    rw matrix.mul_assoc _ _ A₂₂,
+    rw matrix.add_mul, 
+    simp,
+  },
+  have a21: (A₂₁ ⬝ ⅟ (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁) +
+     A₂₂ ⬝ (-⅟ A₂₂ ⬝ A₂₁ ⬝ ⅟ (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁))) = 0, by {
+      sorry,
+  },
+  have a22: (A₂₁ ⬝ (-⅟ (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁) ⬝ A₁₂ ⬝ ⅟ A₂₂) +
+     A₂₂ ⬝(⅟ A₂₂ +⅟ A₂₂ ⬝ A₂₁ ⬝ ⅟ (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁) ⬝ A₁₂ ⬝ ⅟ A₂₂)) = 1, by {
+      sorry,
+  },
+  rw [a11, a12, a21, a22], rw from_blocks_one,
 end
 /-- Eq 400 is the definition of `C₂`,  this is the equation below it without `C₁` at all. -/
 lemma eq_400 (A₁₁ : matrix m m R) (A₁₂ : matrix m n R) (A₂₁ : matrix n m R) (A₂₂ : matrix n n R)
