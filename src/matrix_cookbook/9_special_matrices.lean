@@ -49,44 +49,52 @@ lemma eq_399 (A₁₁ : matrix m m R) (A₁₂ : matrix m n R) (A₂₁ : matrix
       (⅟C₁)          (-⅟C₁⬝A₁₂⬝⅟A₂₂)
       (-⅟A₂₂⬝A₂₁⬝⅟C₁) (⅟A₂₂ + ⅟A₂₂⬝A₂₁⬝⅟C₁⬝A₁₂⬝⅟A₂₂) := 
 begin
-  apply inv_eq_right_inv,
+  have iA: (A₁₁ - A₁₂ ⬝ ⅟A₂₂ ⬝ A₂₁)⁻¹ = ⅟(A₁₁ - A₁₂ ⬝ ⅟A₂₂ ⬝ A₂₁), by simp only [inv_of_eq_nonsing_inv],
+  have iA2: (A₁₁ - A₁₂ ⬝ A₂₂⁻¹ ⬝ A₂₁) = (A₁₁ - A₁₂ ⬝ ⅟A₂₂ ⬝ A₂₁), by rw [← inv_of_eq_nonsing_inv],
+  have iA3: (A₁₂ ⬝ A₂₂⁻¹ ⬝ A₂₁ - A₁₁) = -(A₁₁ - A₁₂ ⬝ ⅟A₂₂ ⬝ A₂₁), by {
+    simp only [inv_of_eq_nonsing_inv, neg_sub],
+  },
+  apply inv_eq_left_inv,
   rw from_blocks_multiply,
-  
-  have iA:  ⅟ (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁) = (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁)⁻¹, 
-    by rw [inv_of_eq_nonsing_inv],
-  
-  have a11: A₁₁ ⬝ ⅟ (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁) + A₁₂ ⬝ (-⅟ A₂₂ ⬝ A₂₁ ⬝ ⅟ (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁)) = 1, by
-  {
-    calc A₁₁ ⬝ ⅟ (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁) + A₁₂ ⬝ (-⅟ A₂₂ ⬝ A₂₁ ⬝ ⅟ (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁))
-      = ((A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁) ⬝ (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁)⁻¹): by {
-        simp only [inv_of_eq_nonsing_inv, matrix.neg_mul, matrix.mul_neg],
-        rw ← sub_eq_add_neg, 
-        rw ← matrix.mul_assoc,
-        rw ← matrix.mul_assoc,
-        rw ← matrix.sub_mul A₁₁ (A₁₂ ⬝ A₂₂⁻¹ ⬝ A₂₁) (A₁₁ - A₁₂ ⬝ A₂₂⁻¹ ⬝ A₂₁)⁻¹,
-      }
-    ... = 1 : by rw mul_inv_of_invertible,
+  repeat {rw inv_of_eq_nonsing_inv},
+  simp only [matrix.neg_mul, inv_mul_cancel_right_of_invertible, add_right_neg],
+
+  have a11 : ((A₁₁ - A₁₂ ⬝ A₂₂⁻¹ ⬝ A₂₁)⁻¹ ⬝ A₁₁ +
+    -((A₁₁ - A₁₂ ⬝ A₂₂⁻¹ ⬝ A₂₁)⁻¹ ⬝ A₁₂ ⬝ A₂₂⁻¹ ⬝ A₂₁)) = 1, by {
+    rw ← sub_eq_add_neg,
+    rw matrix.mul_assoc (A₁₁ - A₁₂ ⬝ A₂₂⁻¹ ⬝ A₂₁)⁻¹ _,
+    rw matrix.mul_assoc (A₁₁ - A₁₂ ⬝ A₂₂⁻¹ ⬝ A₂₁)⁻¹ _,
+    rw ← matrix.mul_sub (A₁₁ - A₁₂ ⬝ A₂₂⁻¹ ⬝ A₂₁)⁻¹ _ _,
+    rw [iA2, iA, matrix.inv_of_mul_self],
   },
   
-  have a12 : (A₁₁ ⬝ (-⅟ (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁) ⬝ A₁₂ ⬝ ⅟ A₂₂) + 
-  A₁₂ ⬝ (⅟ A₂₂ + ⅟ A₂₂ ⬝ A₂₁ ⬝ ⅟ (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁) ⬝ A₁₂ ⬝ ⅟ A₂₂)) = 0, by {
-    apply_fun (⬝A₂₂), 
-    simp only [inv_of_eq_nonsing_inv, matrix.neg_mul, matrix.mul_neg, matrix.zero_mul],
-    rw ← matrix.mul_assoc, 
-    rw matrix.add_mul, 
-    rw matrix.mul_assoc _ _ A₂₂,
-    rw matrix.add_mul, 
-    simp,
+  have a21 : (-(A₂₂⁻¹ ⬝ A₂₁ ⬝ (A₁₁ - A₁₂ ⬝ A₂₂⁻¹ ⬝ A₂₁)⁻¹ ⬝ A₁₁) +
+     (A₂₂⁻¹ + A₂₂⁻¹ ⬝ A₂₁ ⬝ (A₁₁ - A₁₂ ⬝ A₂₂⁻¹ ⬝ A₂₁)⁻¹ ⬝ A₁₂ ⬝ A₂₂⁻¹) ⬝ A₂₁) = 0, by {
+    rw matrix.add_mul,
+    rw add_comm,
+    rw ←  sub_eq_add_neg, 
+    rw matrix.mul_assoc (A₂₂⁻¹⬝A₂₁⬝(A₁₁ - A₁₂ ⬝ A₂₂⁻¹ ⬝ A₂₁)⁻¹) _ _ ,
+    rw matrix.mul_assoc (A₂₂⁻¹⬝A₂₁⬝(A₁₁ - A₁₂ ⬝ A₂₂⁻¹ ⬝ A₂₁)⁻¹) _ _ ,
+
+    have hx : A₂₂⁻¹⬝A₂₁⬝(A₁₁ - A₁₂⬝A₂₂⁻¹⬝A₂₁)⁻¹⬝(A₁₂⬝A₂₂⁻¹⬝A₂₁) - A₂₂⁻¹⬝A₂₁⬝(A₁₁ - A₁₂⬝A₂₂⁻¹⬝A₂₁)⁻¹⬝A₁₁ 
+    = -A₂₂⁻¹⬝A₂₁, by {
+      rw ← matrix.mul_sub (A₂₂⁻¹⬝A₂₁⬝(A₁₁ - A₁₂ ⬝ A₂₂⁻¹ ⬝ A₂₁)⁻¹),
+      rw iA3, rw iA2, rw iA, 
+      rw matrix.mul_neg, rw matrix.mul_inv_of_mul_self_cancel, rw matrix.neg_mul,
+    },
+
+    -- something seems extremely stupid here. rw hx does not wokr!
+    -- rw rw ← matrix.mul_sub (A₂₂⁻¹⬝A₂₁⬝(A₁₁ - A₁₂ ⬝ A₂₂⁻¹ ⬝ A₂₁)⁻¹), that works inside the have hx does not work outside. I ran out of steam to massage this stupid thing.
+    
   },
-  have a21: (A₂₁ ⬝ ⅟ (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁) +
-     A₂₂ ⬝ (-⅟ A₂₂ ⬝ A₂₁ ⬝ ⅟ (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁))) = 0, by {
-      sorry,
+  have a22 : (-(A₂₂⁻¹ ⬝ A₂₁ ⬝ (A₁₁ - A₁₂ ⬝ A₂₂⁻¹ ⬝ A₂₁)⁻¹ ⬝ A₁₂) +
+     (A₂₂⁻¹ + A₂₂⁻¹ ⬝ A₂₁ ⬝ (A₁₁ - A₁₂ ⬝ A₂₂⁻¹ ⬝ A₂₁)⁻¹ ⬝ A₁₂ ⬝ A₂₂⁻¹) ⬝ A₂₂) = 1, by {
+    rw matrix.add_mul,
+    rw [inv_mul_of_invertible, inv_mul_cancel_right_of_invertible, neg_add_cancel_comm_assoc],
   },
-  have a22: (A₂₁ ⬝ (-⅟ (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁) ⬝ A₁₂ ⬝ ⅟ A₂₂) +
-     A₂₂ ⬝(⅟ A₂₂ +⅟ A₂₂ ⬝ A₂₁ ⬝ ⅟ (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁) ⬝ A₁₂ ⬝ ⅟ A₂₂)) = 1, by {
-      sorry,
-  },
-  rw [a11, a12, a21, a22], rw from_blocks_one,
+
+  rw [a11, a21, a22], 
+  rw from_blocks_one,
 end
 /-- Eq 400 is the definition of `C₂`,  this is the equation below it without `C₁` at all. -/
 lemma eq_400 (A₁₁ : matrix m m R) (A₁₂ : matrix m n R) (A₂₁ : matrix n m R) (A₂₂ : matrix n n R)
