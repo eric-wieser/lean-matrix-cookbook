@@ -82,10 +82,12 @@ begin
       rw iA3, rw iA2, rw iA, 
       rw matrix.mul_neg, rw matrix.mul_inv_of_mul_self_cancel, rw matrix.neg_mul,
     },
+    rw ← add_sub, rw hx, 
+    simp only [matrix.neg_mul, add_right_neg],
 
     -- something seems extremely stupid here. rw hx does not wokr!
     -- rw rw ← matrix.mul_sub (A₂₂⁻¹⬝A₂₁⬝(A₁₁ - A₁₂ ⬝ A₂₂⁻¹ ⬝ A₂₁)⁻¹), that works inside the have hx does not work outside. I ran out of steam to massage this stupid thing.
-    
+    -- Ahhhh: the addition statement followed by subtraction had the imaginary brackets around the first pair preventing the matching of hx.
   },
   have a22 : (-(A₂₂⁻¹ ⬝ A₂₁ ⬝ (A₁₁ - A₁₂ ⬝ A₂₂⁻¹ ⬝ A₂₁)⁻¹ ⬝ A₁₂) +
      (A₂₂⁻¹ + A₂₂⁻¹ ⬝ A₂₁ ⬝ (A₁₁ - A₁₂ ⬝ A₂₂⁻¹ ⬝ A₂₁)⁻¹ ⬝ A₁₂ ⬝ A₂₂⁻¹) ⬝ A₂₂) = 1, by {
