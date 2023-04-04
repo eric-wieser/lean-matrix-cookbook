@@ -1,6 +1,7 @@
 import data.complex.basic
 import linear_algebra.matrix.hermitian
 import linear_algebra.matrix.nonsingular_inverse
+import linear_algebra.matrix.adjugate
 
 /-! # Special Matrices -/
 
@@ -10,7 +11,8 @@ variables [decidable_eq l] [decidable_eq m] [decidable_eq n] [decidable_eq p] [d
 variables [field R]
 
 open matrix
-open_locale matrix
+open_locale matrix big_operators
+open equiv equiv.perm finset
 
 namespace matrix_cookbook
 
@@ -87,7 +89,7 @@ begin
 
     -- something seems extremely stupid here. rw hx does not wokr!
     -- rw rw ← matrix.mul_sub (A₂₂⁻¹⬝A₂₁⬝(A₁₁ - A₁₂ ⬝ A₂₂⁻¹ ⬝ A₂₁)⁻¹), that works inside the have hx does not work outside. I ran out of steam to massage this stupid thing.
-    -- Ahhhh: the addition statement followed by subtraction had the imaginary brackets around the first pair preventing the matching of hx.
+    -- Ahhhh: the addition statement followed by subtraction had the imaginary brackets around the first pair preventing the matching of hx. We use rw ← add_sub to place the brackets around the subtraction
   },
   have a22 : (-(A₂₂⁻¹ ⬝ A₂₁ ⬝ (A₁₁ - A₁₂ ⬝ A₂₂⁻¹ ⬝ A₂₁)⁻¹ ⬝ A₁₂) +
      (A₂₂⁻¹ + A₂₂⁻¹ ⬝ A₂₁ ⬝ (A₁₁ - A₁₂ ⬝ A₂₂⁻¹ ⬝ A₂₁)⁻¹ ⬝ A₁₂ ⬝ A₂₂⁻¹) ⬝ A₂₂) = 1, by {
@@ -98,6 +100,7 @@ begin
   rw [a11, a21, a22], 
   rw from_blocks_one,
 end
+
 /-- Eq 400 is the definition of `C₂`,  this is the equation below it without `C₁` at all. -/
 lemma eq_400 (A₁₁ : matrix m m R) (A₁₂ : matrix m n R) (A₂₁ : matrix n m R) (A₂₂ : matrix n n R)
   [invertible A₁₁] [invertible (A₂₂ - A₂₁⬝⅟A₁₁⬝A₁₂)] :
@@ -105,7 +108,88 @@ lemma eq_400 (A₁₁ : matrix m m R) (A₁₂ : matrix m n R) (A₂₁ : matrix
     let C₂ := A₂₂ - A₂₁⬝⅟A₁₁⬝A₁₂, i : invertible C₂ := ‹_› in by exactI
     from_blocks
       (⅟A₁₁ + ⅟A₁₁⬝A₁₂⬝⅟C₂⬝A₂₁⬝⅟A₁₁) (-⅟A₁₁⬝A₁₂⬝⅟C₂)
-      (-⅟C₂⬝A₂₁⬝⅟A₁₁)                (⅟C₂) := sorry
+      (-⅟C₂⬝A₂₁⬝⅟A₁₁)                (⅟C₂) := 
+begin
+  dsimp only,
+  set C₂ := A₂₂ - A₂₁⬝⅟A₁₁⬝A₁₂,
+
+  show _ = from_blocks
+      (⅟A₁₁ + ⅟A₁₁⬝A₁₂⬝⅟C₂⬝A₂₁⬝⅟A₁₁) (-⅟A₁₁⬝A₁₂⬝⅟C₂)
+      (-⅟C₂⬝A₂₁⬝⅟A₁₁)                (⅟C₂),
+  apply inv_eq_left_inv,
+  
+  rw [from_blocks_multiply, ←from_blocks_one],
+  congr,
+  { -- A11 Block
+  rw matrix.add_mul, rw matrix.inv_of_mul_self, 
+  simp only [inv_of_eq_nonsing_inv, inv_mul_cancel_right_of_invertible, matrix.neg_mul, add_neg_cancel_right],
+  },
+  { -- A12 Block
+    rw [matrix.add_mul, add_assoc], 
+    repeat {rw matrix.neg_mul}, 
+    rw [←sub_eq_add_neg, matrix.mul_assoc _ _ (⅟C₂), matrix.mul_assoc (⅟A₁₁⬝(A₁₂⬝⅟C₂)), 
+      matrix.mul_assoc, ←matrix.mul_sub (⅟A₁₁⬝(A₁₂⬝⅟C₂)), matrix.mul_assoc, 
+      ← neg_sub, matrix.mul_neg, matrix.mul_inv_of_mul_self_cancel],
+    rw [matrix.mul_neg, add_right_neg],
+  },
+  { -- A21 Block
+    rw [matrix.mul_assoc, matrix.inv_of_mul_self, matrix.mul_one, matrix.neg_mul, neg_add_self],
+  },
+  { -- A22 Block
+    rw [matrix.mul_assoc, matrix.mul_assoc, matrix.neg_mul, ← matrix.mul_neg,
+    ← matrix.mul_add, neg_add_eq_sub, ← matrix.mul_assoc, matrix.inv_of_mul_self],
+  }
+end
+
+
+lemma eq_400_deadends (A₁₁ : matrix m m R) (A₁₂ : matrix m n R) (A₂₁ : matrix n m R) (A₂₂ : matrix n n R)
+  [invertible A₁₁] [invertible (A₂₂ - A₂₁⬝⅟A₁₁⬝A₁₂)] :
+  (from_blocks A₁₁ A₁₂ A₂₁ A₂₂)⁻¹ =
+    let C₂ := A₂₂ - A₂₁⬝⅟A₁₁⬝A₁₂, i : invertible C₂ := ‹_› in by exactI
+    from_blocks
+      (⅟A₁₁ + ⅟A₁₁⬝A₁₂⬝⅟C₂⬝A₂₁⬝⅟A₁₁) (-⅟A₁₁⬝A₁₂⬝⅟C₂)
+      (-⅟C₂⬝A₂₁⬝⅟A₁₁)                (⅟C₂) := 
+begin
+  set A := from_blocks A₁₁ A₁₂ A₂₁ A₂₂,
+  set A' := from_blocks A₂₂ A₂₁ A₁₂ A₁₁,
+  set E : (matrix (n ⊕ m) (m ⊕ n) R):= (from_blocks 0 1 1 0),
+  set Et : (matrix (m ⊕ n) (n ⊕ m) R):= (from_blocks 0 1 1 0),
+  set C₂ := A₂₂ - A₂₁⬝⅟A₁₁⬝A₁₂,
+
+  -- have IZ: (E)⁻¹ = E.transpose,  -- Lean refuses to consider the inverse operation for the E matrix
+  -- {
+      -- We know that an exchange matrix has its transpose as its index.
+  -- },
+  have invA' : invertible A', {
+    sorry,
+  },
+  have IZL : Et ⬝ E = 1, {
+    rw from_blocks_multiply, 
+    simp only [matrix.zero_mul, zero_add, matrix.one_mul, add_zero, from_blocks_one],
+  },
+  have IZR : E ⬝ Et = 1, {
+    rw from_blocks_multiply, 
+    simp only [matrix.zero_mul, zero_add, matrix.one_mul, add_zero, from_blocks_one],
+  },
+  have XZ : A = (Et)⬝ A' ⬝ E, {
+    sorry,
+  },
+  have AZ : ((Et)⬝ A' ⬝ E)⁻¹ = (Et)⬝ A'⁻¹ ⬝ E,
+  {
+   apply inv_eq_left_inv,
+   calc     Et ⬝ A'⁻¹ ⬝ E ⬝ (Et ⬝ A' ⬝ E)
+        =   Et ⬝ A'⁻¹ ⬝ (E ⬝ Et) ⬝ A' ⬝ E     : by {repeat {rw ← matrix.mul_assoc},}
+   ...  =   Et ⬝ (A'⁻¹ ⬝ A') ⬝ E              : by {rw IZR, rw matrix.mul_one, repeat {rw ← matrix.mul_assoc},}
+   ...  =   Et ⬝ E                            : by { sorry, }
+   ...  =   1                                 : by {rw IZL,},
+  },
+  dsimp,
+  rw XZ, rw AZ,
+  let JR := eq_399 A₂₂ A₂₁ A₁₂ A₁₁ _inst_14 _inst_15, {
+
+  },
+
+end
 
 /-! ### Block diagonal -/
 
@@ -172,46 +256,46 @@ end
 
 /-! ### Nilpotent -/
 
-lemma eq_428 : sorry := sorry
+-- lemma eq_428 : sorry := sorry
 
-/-! ### Unipotent -/
+-- /-! ### Unipotent -/
 
-lemma eq_429 : sorry := sorry
+-- lemma eq_429 : sorry := sorry
 
-/-! ## Orthogonal matrices -/
+-- /-! ## Orthogonal matrices -/
 
-/-! ### Ortho-Sym -/
+-- /-! ### Ortho-Sym -/
 
-lemma eq_430 : sorry := sorry
-lemma eq_431 : sorry := sorry
-lemma eq_432 : sorry := sorry
-lemma eq_433 : sorry := sorry
+-- lemma eq_430 : sorry := sorry
+-- lemma eq_431 : sorry := sorry
+-- lemma eq_432 : sorry := sorry
+-- lemma eq_433 : sorry := sorry
 
-/-! ### Ortho-Skew -/
+-- /-! ### Ortho-Skew -/
 
-lemma eq_434 : sorry := sorry
-lemma eq_435 : sorry := sorry
-lemma eq_436 : sorry := sorry
-lemma eq_437 : sorry := sorry
+-- lemma eq_434 : sorry := sorry
+-- lemma eq_435 : sorry := sorry
+-- lemma eq_436 : sorry := sorry
+-- lemma eq_437 : sorry := sorry
 
-/-! ### Decomposition -/
+-- /-! ### Decomposition -/
 
-lemma eq_438 : sorry := sorry
+-- lemma eq_438 : sorry := sorry
 
-/-! ## Positive Definite and Semi-definite Matrices -/
+-- /-! ## Positive Definite and Semi-definite Matrices -/
 
-/-! ### Definitions -/
+-- /-! ### Definitions -/
 
-lemma eq_439 : sorry := sorry
-lemma eq_440 : sorry := sorry
+-- lemma eq_439 : sorry := sorry
+-- lemma eq_440 : sorry := sorry
 
-/-! ### Eigenvalues -/
+-- /-! ### Eigenvalues -/
 
-lemma eq_441 : sorry := sorry
+-- lemma eq_441 : sorry := sorry
 
-/-! ### Trace -/
+-- /-! ### Trace -/
 
-lemma eq_442 : sorry := sorry
+-- lemma eq_442 : sorry := sorry
 
 /-! ### Inverse -/
 
@@ -239,71 +323,71 @@ lemma eq_442 : sorry := sorry
 
 /-! ### Definition -/
 
-lemma eq_443 : sorry := sorry
+-- lemma eq_443 : sorry := sorry
 
-/-! ### Swap and Zeros -/
+-- /-! ### Swap and Zeros -/
 
-lemma eq_444 : sorry := sorry
-lemma eq_445 : sorry := sorry
+-- lemma eq_444 : sorry := sorry
+-- lemma eq_445 : sorry := sorry
 
-/-! ### Rewriting product of elements -/
+-- /-! ### Rewriting product of elements -/
 
-lemma eq_446 : sorry := sorry
-lemma eq_447 : sorry := sorry
-lemma eq_448 : sorry := sorry
-lemma eq_449 : sorry := sorry
+-- lemma eq_446 : sorry := sorry
+-- lemma eq_447 : sorry := sorry
+-- lemma eq_448 : sorry := sorry
+-- lemma eq_449 : sorry := sorry
 
-/-! ### Properties of the Singleentry Matrix -/
+-- /-! ### Properties of the Singleentry Matrix -/
 
-/-! ### The Singleentry Matrix in Scalar Expressions -/
+-- /-! ### The Singleentry Matrix in Scalar Expressions -/
 
-lemma eq_450 : sorry := sorry
-lemma eq_451 : sorry := sorry
-lemma eq_452 : sorry := sorry
-lemma eq_453 : sorry := sorry
-lemma eq_454 : sorry := sorry
-lemma eq_455 : sorry := sorry
+-- lemma eq_450 : sorry := sorry
+-- lemma eq_451 : sorry := sorry
+-- lemma eq_452 : sorry := sorry
+-- lemma eq_453 : sorry := sorry
+-- lemma eq_454 : sorry := sorry
+-- lemma eq_455 : sorry := sorry
 
-/-! ### Structure Matrices -/
+-- /-! ### Structure Matrices -/
 
-lemma eq_456 : sorry := sorry
-lemma eq_457 : sorry := sorry
-lemma eq_458 : sorry := sorry
+-- lemma eq_456 : sorry := sorry
+-- lemma eq_457 : sorry := sorry
+-- lemma eq_458 : sorry := sorry
 
-/-! ## Symmetric, Skew-symmetric/Antisymmetric -/
+-- /-! ## Symmetric, Skew-symmetric/Antisymmetric -/
 
-/-! ### Symmetric -/
+-- /-! ### Symmetric -/
 
-lemma eq_459 : sorry := sorry
+-- lemma eq_459 : sorry := sorry
 
-/-! ### Skew-symmetric/Antisymmetric -/
+-- /-! ### Skew-symmetric/Antisymmetric -/
 
-lemma eq_460 : sorry := sorry
-lemma eq_461 : sorry := sorry
-lemma eq_462 : sorry := sorry
+-- lemma eq_460 : sorry := sorry
+-- lemma eq_461 : sorry := sorry
+-- lemma eq_462 : sorry := sorry
 
-/-! ### Decomposition -/
+-- /-! ### Decomposition -/
 
-lemma eq_463 : sorry := sorry
-lemma eq_464 : sorry := sorry
+-- lemma eq_463 : sorry := sorry
+-- lemma eq_464 : sorry := sorry
 
-/-! ## Toeplitz Matrices -/
+-- /-! ## Toeplitz Matrices -/
 
-lemma eq_465 : sorry := sorry
-lemma eq_466 : sorry := sorry
-lemma eq_467 : sorry := sorry
-lemma eq_468 : sorry := sorry
-lemma eq_469 : sorry := sorry
+-- lemma eq_465 : sorry := sorry
+-- lemma eq_466 : sorry := sorry
+-- lemma eq_467 : sorry := sorry
+-- lemma eq_468 : sorry := sorry
+-- lemma eq_469 : sorry := sorry
 
-/-! ### Properties of Toeplitz Matrices -/
+-- /-! ### Properties of Toeplitz Matrices -/
 
-/-! ## Transition matrices -/
+-- /-! ## Transition matrices -/
 
-lemma eq_470 : sorry := sorry
-lemma eq_471 : sorry := sorry
-lemma eq_472 : sorry := sorry
-lemma eq_473 : sorry := sorry
-lemma eq_474 : sorry := sorry
+-- lemma eq_470 : sorry := sorry
+-- lemma eq_471 : sorry := sorry
+-- lemma eq_472 : sorry := sorry
+-- lemma eq_473 : sorry := sorry
+-- lemma eq_474 : sorry := sorry
 
 /-! ## Units, Permutation and Shift -/
 
@@ -331,15 +415,15 @@ lemma eq_479 : sorry := sorry
 
 /-! ### Translation, Shift or Lag Operators -/
 
-lemma eq_480 : sorry := sorry
-lemma eq_481 : sorry := sorry
-lemma eq_482 : sorry := sorry
-lemma eq_483 : sorry := sorry
-lemma eq_484 : sorry := sorry
+-- lemma eq_480 : sorry := sorry
+-- lemma eq_481 : sorry := sorry
+-- lemma eq_482 : sorry := sorry
+-- lemma eq_483 : sorry := sorry
+-- lemma eq_484 : sorry := sorry
 
-/-! ## Vandermonde Matrices -/
+-- /-! ## Vandermonde Matrices -/
 
-lemma eq_485 : sorry := sorry
-lemma eq_486 : sorry := sorry
+-- lemma eq_485 : sorry := sorry
+-- lemma eq_486 : sorry := sorry
 
 end matrix_cookbook
