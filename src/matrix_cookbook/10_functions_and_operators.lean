@@ -6,6 +6,8 @@ import data.matrix.notation
 import ring_theory.power_series.basic
 import analysis.normed_space.matrix_exponential
 import data.matrix.kronecker
+import data.matrix.rank
+import linear_algebra.matrix.pos_def
 import analysis.inner_product_space.pi_L2
 
 /-! # Functions and Operators -/
@@ -241,7 +243,9 @@ end
 
 /-! #### Sylvester’s Inequality -/
 
--- lemma eq_546 : sorry := sorry
+lemma eq_546 (A : matrix m n ℝ) (B : matrix n r ℝ) :
+  rank A + rank B - fintype.card n ≤ rank(A ⬝ B) ∧ rank(A ⬝ B) ≤ min (rank A) (rank B) :=
+⟨sorry, le_min (rank_mul_le _ _) sorry⟩
 
 /-! ### Integral Involving Dirac Delta Functions -/
 
@@ -250,7 +254,10 @@ end
 
 /-! ### Miscellaneous -/
 
--- lemma eq_549 : sorry := sorry
--- lemma eq_550 : sorry := sorry
+lemma eq_549 {𝕂} [is_R_or_C 𝕂] (A : matrix m n 𝕂) :
+  A.rank = Aᵀ.rank ∧ A.rank = (A ⬝ Aᵀ).rank ∧ A.rank = (Aᵀ ⬝ A).rank :=
+⟨eq.symm sorry, eq.symm sorry, eq.symm sorry⟩
+lemma eq_550 (A : matrix m m ℝ) : A.pos_def ↔ ∃ B : (matrix m m ℝ)ˣ, A = B ⬝ Bᵀ :=
+sorry
 
 end matrix_cookbook
