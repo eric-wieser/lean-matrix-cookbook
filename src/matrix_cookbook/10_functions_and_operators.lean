@@ -128,7 +128,7 @@ lemma eq_520 (A : matrix l m R) (X : matrix m n R) (B : matrix n p R) :
   vec (A ⬝ X ⬝ B) = (Bᵀ ⊗ₖ A) ⬝ vec X :=
 begin
   ext ⟨k, l⟩,
-  simp_rw [vec, matrix.mul_apply, matrix.kronecker_map, col_apply, finset.sum_mul,
+  simp_rw [vec, matrix.mul_apply, matrix.kronecker_map_apply, col_apply, finset.sum_mul,
     transpose_apply, ←finset.univ_product_univ, finset.sum_product, mul_right_comm _ _ (B _ _),
       mul_comm _ (B _ _)],
 end
@@ -145,7 +145,7 @@ begin
   -- not the proof from the book
   ext ⟨i, j⟩,
   simp only [vec, matrix.mul_apply, finset.sum_mul, finset.mul_sum,
-    matrix.kronecker_map, transpose_apply, matrix.row_apply, matrix.col_apply,
+    matrix.kronecker_map_apply, transpose_apply, matrix.row_apply, matrix.col_apply,
     fintype.sum_unique],
   simp_rw [←finset.univ_product_univ, finset.sum_product, @finset.sum_comm _ m n],
   rw finset.sum_comm,
@@ -245,7 +245,7 @@ end
 
 lemma eq_546 (A : matrix m n ℝ) (B : matrix n r ℝ) :
   rank A + rank B - fintype.card n ≤ rank(A ⬝ B) ∧ rank(A ⬝ B) ≤ min (rank A) (rank B) :=
-⟨sorry, le_min (rank_mul_le _ _) sorry⟩
+⟨sorry, rank_mul_le _ _⟩
 
 /-! ### Integral Involving Dirac Delta Functions -/
 
