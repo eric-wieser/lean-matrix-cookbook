@@ -1,6 +1,7 @@
 import data.complex.basic
 import linear_algebra.matrix.hermitian
 import linear_algebra.matrix.nonsingular_inverse
+import linear_algebra.vandermonde
 
 /-! # Special Matrices -/
 
@@ -10,6 +11,7 @@ variables [decidable_eq l] [decidable_eq m] [decidable_eq n] [decidable_eq p] [d
 variables [field R]
 
 open matrix
+open_locale big_operators
 open_locale matrix
 
 namespace matrix_cookbook
@@ -281,7 +283,7 @@ lemma eq_484 : sorry := sorry
 
 /-! ## Vandermonde Matrices -/
 
-lemma eq_485 : sorry := sorry
-lemma eq_486 : sorry := sorry
+lemma eq_485 {n : ℕ} (v : fin n → R) (i j : fin n) : vandermonde v i j = v i ^ (j : ℕ) := vandermonde_apply _ _ _
+lemma eq_486 {n : ℕ} (v : fin n → R) :det (vandermonde v) = ∏ i : fin n, ∏ j in finset.Ioi i, (v j - v i) := det_vandermonde _
 
 end matrix_cookbook
