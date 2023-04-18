@@ -143,56 +143,6 @@ begin
   }
 end
 
-
-lemma eq_400_deadends (A₁₁ : matrix m m R) (A₁₂ : matrix m n R) (A₂₁ : matrix n m R) (A₂₂ : matrix n n R)
-  [invertible A₁₁] [invertible (A₂₂ - A₂₁⬝⅟A₁₁⬝A₁₂)] :
-  (from_blocks A₁₁ A₁₂ A₂₁ A₂₂)⁻¹ =
-    let C₂ := A₂₂ - A₂₁⬝⅟A₁₁⬝A₁₂, i : invertible C₂ := ‹_› in by exactI
-    from_blocks
-      (⅟A₁₁ + ⅟A₁₁⬝A₁₂⬝⅟C₂⬝A₂₁⬝⅟A₁₁) (-⅟A₁₁⬝A₁₂⬝⅟C₂)
-      (-⅟C₂⬝A₂₁⬝⅟A₁₁)                (⅟C₂) := 
-begin
-  set A := from_blocks A₁₁ A₁₂ A₂₁ A₂₂,
-  set A' := from_blocks A₂₂ A₂₁ A₁₂ A₁₁,
-  set E : (matrix (n ⊕ m) (m ⊕ n) R):= (from_blocks 0 1 1 0),
-  set Et : (matrix (m ⊕ n) (n ⊕ m) R):= (from_blocks 0 1 1 0),
-  set C₂ := A₂₂ - A₂₁⬝⅟A₁₁⬝A₁₂,
-
-  -- have IZ: (E)⁻¹ = E.transpose,  -- Lean refuses to consider the inverse operation for the E matrix
-  -- {
-      -- We know that an exchange matrix has its transpose as its index.
-  -- },
-  have invA' : invertible A', {
-    sorry,
-  },
-  have IZL : Et ⬝ E = 1, {
-    rw from_blocks_multiply, 
-    simp only [matrix.zero_mul, zero_add, matrix.one_mul, add_zero, from_blocks_one],
-  },
-  have IZR : E ⬝ Et = 1, {
-    rw from_blocks_multiply, 
-    simp only [matrix.zero_mul, zero_add, matrix.one_mul, add_zero, from_blocks_one],
-  },
-  have XZ : A = (Et)⬝ A' ⬝ E, {
-    sorry,
-  },
-  have AZ : ((Et)⬝ A' ⬝ E)⁻¹ = (Et)⬝ A'⁻¹ ⬝ E,
-  {
-   apply inv_eq_left_inv,
-   calc     Et ⬝ A'⁻¹ ⬝ E ⬝ (Et ⬝ A' ⬝ E)
-        =   Et ⬝ A'⁻¹ ⬝ (E ⬝ Et) ⬝ A' ⬝ E     : by {repeat {rw ← matrix.mul_assoc},}
-   ...  =   Et ⬝ (A'⁻¹ ⬝ A') ⬝ E              : by {rw IZR, rw matrix.mul_one, repeat {rw ← matrix.mul_assoc},}
-   ...  =   Et ⬝ E                            : by { sorry, }
-   ...  =   1                                 : by {rw IZL,},
-  },
-  dsimp,
-  rw XZ, rw AZ,
-  let JR := eq_399 A₂₂ A₂₁ A₁₂ A₁₁ _inst_14 _inst_15, {
-
-  },
-
-end
-
 /-! ### Block diagonal -/
 
 lemma eq_401 (A₁₁ : matrix m m R) (A₂₂ : matrix n n R) :
