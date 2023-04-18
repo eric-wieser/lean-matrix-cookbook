@@ -6,6 +6,8 @@ import data.matrix.notation
 import ring_theory.power_series.basic
 import analysis.normed_space.matrix_exponential
 import data.matrix.kronecker
+import data.matrix.rank
+import linear_algebra.matrix.pos_def
 import analysis.inner_product_space.pi_L2
 
 /-! # Functions and Operators -/
@@ -126,7 +128,7 @@ lemma eq_520 (A : matrix l m R) (X : matrix m n R) (B : matrix n p R) :
   vec (A ⬝ X ⬝ B) = (Bᵀ ⊗ₖ A) ⬝ vec X :=
 begin
   ext ⟨k, l⟩,
-  simp_rw [vec, matrix.mul_apply, matrix.kronecker_map, col_apply, finset.sum_mul,
+  simp_rw [vec, matrix.mul_apply, matrix.kronecker_map_apply, col_apply, finset.sum_mul,
     transpose_apply, ←finset.univ_product_univ, finset.sum_product, mul_right_comm _ _ (B _ _),
       mul_comm _ (B _ _)],
 end
@@ -143,7 +145,7 @@ begin
   -- not the proof from the book
   ext ⟨i, j⟩,
   simp only [vec, matrix.mul_apply, finset.sum_mul, finset.mul_sum,
-    matrix.kronecker_map, transpose_apply, matrix.row_apply, matrix.col_apply,
+    matrix.kronecker_map_apply, transpose_apply, matrix.row_apply, matrix.col_apply,
     fintype.sum_unique],
   simp_rw [←finset.univ_product_univ, finset.sum_product, @finset.sum_comm _ m n],
   rw finset.sum_comm,
@@ -241,7 +243,9 @@ end
 
 /-! #### Sylvester’s Inequality -/
 
--- lemma eq_546 : sorry := sorry
+lemma eq_546 (A : matrix m n ℝ) (B : matrix n r ℝ) :
+  rank A + rank B - fintype.card n ≤ rank(A ⬝ B) ∧ rank(A ⬝ B) ≤ min (rank A) (rank B) :=
+⟨sorry, rank_mul_le _ _⟩
 
 /-! ### Integral Involving Dirac Delta Functions -/
 
@@ -250,7 +254,10 @@ end
 
 /-! ### Miscellaneous -/
 
--- lemma eq_549 : sorry := sorry
--- lemma eq_550 : sorry := sorry
+lemma eq_549 {𝕂} [is_R_or_C 𝕂] (A : matrix m n 𝕂) :
+  A.rank = Aᵀ.rank ∧ A.rank = (A ⬝ Aᵀ).rank ∧ A.rank = (Aᵀ ⬝ A).rank :=
+⟨eq.symm sorry, eq.symm sorry, eq.symm sorry⟩
+lemma eq_550 (A : matrix m m ℝ) : A.pos_def ↔ ∃ B : (matrix m m ℝ)ˣ, A = B ⬝ Bᵀ :=
+sorry
 
 end matrix_cookbook

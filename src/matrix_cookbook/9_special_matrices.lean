@@ -1,7 +1,9 @@
 import data.complex.basic
 import linear_algebra.matrix.hermitian
+import linear_algebra.matrix.symmetric
 import linear_algebra.matrix.nonsingular_inverse
 import linear_algebra.matrix.adjugate
+import linear_algebra.vandermonde
 
 /-! # Special Matrices -/
 
@@ -358,13 +360,15 @@ end
 
 -- /-! ### Symmetric -/
 
--- lemma eq_459 : sorry := sorry
+lemma eq_459 (A : matrix m m R) : A.is_symm ↔ A = Aᵀ := eq_comm
 
 -- /-! ### Skew-symmetric/Antisymmetric -/
 
--- lemma eq_460 : sorry := sorry
--- lemma eq_461 : sorry := sorry
--- lemma eq_462 : sorry := sorry
+lemma eq_460 (A : matrix m m R) : sorry ↔ A = -Aᵀ := sorry
+lemma eq_461 (A : matrix m m R) (hA : A = -Aᵀ) : det Aᵀ = (-1)^fintype.card m * det A :=
+by rw [hA, transpose_neg, transpose_transpose, det_neg, ←hA]
+lemma eq_462 (A : matrix m m R) (hA : A = -Aᵀ) (hn : odd (fintype.card m)) : 
+  -det A = 0 ∧ det (-A) = 0 := ⟨sorry, sorry⟩
 
 -- /-! ### Decomposition -/
 
@@ -423,7 +427,7 @@ lemma eq_479 : sorry := sorry
 
 -- /-! ## Vandermonde Matrices -/
 
--- lemma eq_485 : sorry := sorry
--- lemma eq_486 : sorry := sorry
+lemma eq_485 {n : ℕ} (v : fin n → R) (i j : fin n) : vandermonde v i j = v i ^ (j : ℕ) := vandermonde_apply _ _ _
+lemma eq_486 {n : ℕ} (v : fin n → R) :det (vandermonde v) = ∏ i : fin n, ∏ j in finset.Ioi i, (v j - v i) := det_vandermonde _
 
 end matrix_cookbook

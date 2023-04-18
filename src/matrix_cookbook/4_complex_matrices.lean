@@ -1,8 +1,10 @@
+import ring_theory.complex
+
 /-! # Complex Matrices -/
 
 namespace matrix_cookbook
 
-lemma eq_225 : sorry := sorry
+lemma eq_225 (z : ℂ) : algebra.left_mul_matrix complex.basis_one_I z = !![z.re, -z.im; z.im, z.re] := algebra.left_mul_matrix_complex z
 
 /-! ## Complex Derivatives -/
 
