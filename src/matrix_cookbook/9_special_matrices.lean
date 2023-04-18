@@ -4,6 +4,9 @@ import linear_algebra.matrix.symmetric
 import linear_algebra.matrix.nonsingular_inverse
 import linear_algebra.matrix.adjugate
 import linear_algebra.vandermonde
+import data.complex.exponential
+import analysis.special_functions.trigonometric.basic
+import data.matrix.basic
 
 /-! # Special Matrices -/
 
@@ -35,11 +38,6 @@ lemma eq_398 (A₁₁ : matrix m m R) (A₁₂ : matrix m n R) (A₂₁ : matrix
 det_from_blocks₁₁ _ _ _ _
 
 /-! ### The Inverse -/
-
--- lemma block_inv 
--- (A₁₁ : matrix m m R) (A₁₂ : matrix m n R) (A₂₁ : matrix n m R) (A₂₂ : matrix n n R)
---   [invertible A₂₂] [invertible (A₁₁ - A₁₂⬝⅟A₂₂⬝A₂₁)] : 
---   inver
 
 /-- Eq 399 is the definition of `C₁`, this is the equation below it without `C₂` at all. -/
 lemma eq_399 (A₁₁ : matrix m m R) (A₁₂ : matrix m n R) (A₂₁ : matrix n m R) (A₂₂ : matrix n n R)
@@ -88,10 +86,6 @@ begin
     },
     rw ← add_sub, rw hx, 
     simp only [matrix.neg_mul, add_right_neg],
-
-    -- something seems extremely stupid here. rw hx does not wokr!
-    -- rw rw ← matrix.mul_sub (A₂₂⁻¹⬝A₂₁⬝(A₁₁ - A₁₂ ⬝ A₂₂⁻¹ ⬝ A₂₁)⁻¹), that works inside the have hx does not work outside. I ran out of steam to massage this stupid thing.
-    -- Ahhhh: the addition statement followed by subtraction had the imaginary brackets around the first pair preventing the matching of hx. We use rw ← add_sub to place the brackets around the subtraction
   },
   have a22 : (-(A₂₂⁻¹ ⬝ A₂₁ ⬝ (A₁₁ - A₁₂ ⬝ A₂₂⁻¹ ⬝ A₂₁)⁻¹ ⬝ A₁₂) +
      (A₂₂⁻¹ + A₂₂⁻¹ ⬝ A₂₁ ⬝ (A₁₁ - A₁₂ ⬝ A₂₂⁻¹ ⬝ A₂₁)⁻¹ ⬝ A₁₂ ⬝ A₂₂⁻¹) ⬝ A₂₂) = 1, by {
@@ -145,8 +139,15 @@ end
 
 /-! ### Block diagonal -/
 
-lemma eq_401 (A₁₁ : matrix m m R) (A₂₂ : matrix n n R) :
-  (from_blocks A₁₁ 0 0 A₂₂)⁻¹ = from_blocks A₁₁⁻¹ 0 0 A₂₂⁻¹ := sorry
+lemma eq_401 (A₁₁ : matrix m m R) (A₂₂ : matrix n n R)
+  [h1: invertible A₁₁] [h2: invertible (A₂₂)] :
+  (from_blocks A₁₁ 0 0 A₂₂)⁻¹ = from_blocks A₁₁⁻¹ 0 0 A₂₂⁻¹ := 
+begin
+  apply inv_eq_right_inv,
+  rw from_blocks_multiply,
+  simp only [mul_inv_of_invertible, matrix.zero_mul, 
+  add_zero, matrix.mul_zero, zero_add, from_blocks_one],
+end
 lemma eq_402 (A₁₁ : matrix m m R) (A₂₂ : matrix n n R) :
   det (from_blocks A₁₁ 0 0 A₂₂) = det A₁₁ * det A₂₂ := det_from_blocks_zero₁₂ _ _ _
 
@@ -154,7 +155,46 @@ lemma eq_402 (A₁₁ : matrix m m R) (A₂₂ : matrix n n R) :
 
 /-! ## Discrete Fourier Transform Matrix, The -/
 
-lemma eq_403 : sorry := sorry
+/- lemma eq_403 : sorry := sorry
+-- Perhaps we can write eq 403 as a definition -/
+
+open_locale real
+section dft_matrices
+
+/- Are we really forced to have the DFT matrix 
+noncomputable because the complex exponnetial function is 
+non-computable?
+-/
+-- eq_403
+noncomputable def Wkn {N: ℕ} (k n: fin N) : ℂ :=  
+complex.exp(complex.I * 2 * π * k * n / N)
+
+-- Forward DFT Matrix
+noncomputable def W_N {N : ℕ} : matrix (fin N) (fin N) ℂ :=
+λ (k n: fin N), Wkn k n
+
+noncomputable def iWkn {N: ℕ} (k n: fin N) : ℂ :=  
+complex.exp(-complex.I * 2 * π * k * n / N)
+-- Inverse DFT Matrix
+noncomputable def iW_N {N : ℕ} : matrix (fin N) (fin N) ℂ :=
+λ (k n: fin N), iWkn k n
+
+-- eq_404
+noncomputable def dft {N : ℕ} (x: (fin N) → ℂ) : (fin N → ℂ) := 
+λ (k: fin N), ∑ (n : fin N), (x n) * Wkn k n 
+
+-- eq_405
+noncomputable def idft {N : ℕ} (X: (fin N) → ℂ) : (fin N → ℂ) := 
+λ (k: fin N), ∑ (n : fin N), (X n) * Wkn (-k) n 
+
+lemma eq_406 {N : ℕ} (x: fin N → ℂ) : 
+dft x = matrix.mul_vec W_N x := 
+begin
+  rw dft, rw W_N,
+  funext k n, 
+end
+
+
 lemma eq_404 : sorry := sorry
 lemma eq_405 : sorry := sorry
 lemma eq_406 : sorry := sorry
