@@ -7,6 +7,7 @@ import linear_algebra.vandermonde
 import data.complex.exponential
 import analysis.special_functions.trigonometric.basic
 import data.matrix.basic
+import data.matrix.reflection
 
 /-! # Special Matrices -/
 
@@ -161,11 +162,23 @@ lemma eq_402 (A₁₁ : matrix m m R) (A₂₂ : matrix n n R) :
 open_locale real
 section dft_matrices
 
+lemma vec_eq_vec_iff (v w: n → R) : 
+  v = w ↔ ∀ k : n, v k = w k := 
+begin
+  split,
+  intros h k, rw h,
+
+  intros h, ext k,
+  specialize h k, exact h,
+end
+
 /- Are we really forced to have the DFT matrix 
 noncomputable because the complex exponnetial function is 
 non-computable?
 -/
 -- eq_403
+
+-- Twiddle Factors
 noncomputable def Wkn {N: ℕ} (k n: fin N) : ℂ :=  
 complex.exp(complex.I * 2 * π * k * n / N)
 
@@ -173,37 +186,45 @@ complex.exp(complex.I * 2 * π * k * n / N)
 noncomputable def W_N {N : ℕ} : matrix (fin N) (fin N) ℂ :=
 λ (k n: fin N), Wkn k n
 
+-- Inverse Twiddle Factors
 noncomputable def iWkn {N: ℕ} (k n: fin N) : ℂ :=  
 complex.exp(-complex.I * 2 * π * k * n / N)
+
 -- Inverse DFT Matrix
 noncomputable def iW_N {N : ℕ} : matrix (fin N) (fin N) ℂ :=
 λ (k n: fin N), iWkn k n
 
 -- eq_404
 noncomputable def dft {N : ℕ} (x: (fin N) → ℂ) : (fin N → ℂ) := 
-λ (k: fin N), ∑ (n : fin N), (x n) * Wkn k n 
+λ (k: fin N), ∑ (n : fin N), (Wkn k n) * (x n)
 
 -- eq_405
 noncomputable def idft {N : ℕ} (X: (fin N) → ℂ) : (fin N → ℂ) := 
-λ (k: fin N), ∑ (n : fin N), (X n) * Wkn (-k) n 
+λ (k: fin N), (∑ (n : fin N),  ((1/N)•iWkn) k n * (X n))
 
 lemma eq_406 {N : ℕ} (x: fin N → ℂ) : 
 dft x = matrix.mul_vec W_N x := 
 begin
-  rw dft, rw W_N,
-  funext k n, 
+  rw vec_eq_vec_iff, intro k,
+  rw [dft, matrix.mul_vec, dot_product],
+  refl,
 end
 
+lemma eq_407 {N : ℕ} (X: fin N → ℂ) : 
+idft X = (matrix.mul_vec ((1/N)•iW_N) X) := 
+begin
+  rw vec_eq_vec_iff, intro k,
+  rw [idft, matrix.mul_vec, dot_product],
+  refl,
+end
 
-lemma eq_404 : sorry := sorry
-lemma eq_405 : sorry := sorry
-lemma eq_406 : sorry := sorry
-lemma eq_407 : sorry := sorry
 lemma eq_408 : sorry := sorry
 lemma eq_409 : sorry := sorry
 lemma eq_410 : sorry := sorry
 lemma eq_411 : sorry := sorry
 lemma eq_412 : sorry := sorry
+
+end dft_matrices
 
 /-! ## Hermitian Matrices and skew-Hermitian -/
 
