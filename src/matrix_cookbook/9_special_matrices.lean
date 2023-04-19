@@ -277,27 +277,23 @@ end
 lemma Wkn_dot_iWKn_offdiag {N:ℕ} {hN: 1 < N} (k n: fin N) (h: ¬(k = n)) :
   ∑ (i : fin N), Wkn k i * iWkn i n = 0 := 
 begin
-  simp only [twiddle_mul],
-  by_cases (n < k),
-  have : (k:ℤ) - (n:ℤ) > (0:ℤ) ,{
-    simpa only [coe_coe, gt_iff_lt, sub_pos, nat.cast_lt],
-  },
-  set Wa := exp (I * 2 * ↑π * (↑k - ↑n) / ↑N),
-  sorry, sorry,
+  simp_rw [twiddle_mul],
+  sorry,
 end
 
 lemma eq_408 {N: ℕ} {h: 1 ≤ N} : 
 (W_N : matrix (fin N) (fin N) ℂ)⁻¹ = 
-  (W_Nᴴ)ᵀ :=
+  (1/N)•(W_Nᴴ)ᵀ :=
 -- Seems star means hermitian and not just conjugate
 begin
-  -- rw inv_eq_right_inv,
-  -- funext k n, 
-  -- rw matrix.mul, simp only [dot_product],
-  -- simp only [star_apply, is_R_or_C.star_def],
+  rw inv_eq_left_inv,
+  funext k n, 
+  rw matrix.mul, simp only [dot_product],
+  simp only [nsmul_eq_mul, mul_eq_mul],
   
-  -- by_cases (k = n),
-  -- rw [h], simp only [one_apply_eq],
+  by_cases (k = n),
+  rw W_N, 
+  rw [h], simp only [one_apply_eq],
   sorry,
   
 end
