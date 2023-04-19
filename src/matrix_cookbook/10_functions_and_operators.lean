@@ -254,9 +254,9 @@ lemma eq_546 (A : matrix m n ℝ) (B : matrix n r ℝ) :
 
 /-! ### Miscellaneous -/
 
-lemma eq_549 {𝕂} [is_R_or_C 𝕂] (A : matrix m n 𝕂) :
+lemma eq_549 (A : matrix m n ℝ) :
   A.rank = Aᵀ.rank ∧ A.rank = (A ⬝ Aᵀ).rank ∧ A.rank = (Aᵀ ⬝ A).rank :=
-⟨eq.symm sorry, eq.symm sorry, eq.symm sorry⟩
+⟨A.rank_transpose.symm, A.rank_self_mul_transpose.symm, A.rank_transpose_mul_self.symm⟩
 lemma eq_550 (A : matrix m m ℝ) : A.pos_def ↔ ∃ B : (matrix m m ℝ)ˣ, A = B ⬝ Bᵀ :=
 sorry
 
