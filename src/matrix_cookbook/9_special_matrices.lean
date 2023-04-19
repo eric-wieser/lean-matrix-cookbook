@@ -394,12 +394,21 @@ end
 noncomputable def W11 {N : ℕ} : ℂ := complex.exp(-complex.I * 2 * π / N)
 
 lemma eq_411 {N: ℕ} {m: ℤ} : 
-  complex.exp(-complex.I * 2 * π / N) ^ (m + N/2)  = 
-    -complex.exp(-complex.I * 2 * π / N) ^ (m)  := 
+  complex.exp(-2 * π * I  / N) ^ (m + N/2: ℂ)  = 
+    -complex.exp(-2 * π * I / N) ^ (m:ℂ)  := 
 begin
-  set α := exp(-complex.I * 2 * π / N),
+
+  have hne: exp ((-2) * ↑π * I / ↑N) ^ (↑N / 2) = -1, by {
+    sorry,
+  },
+
+  set α := exp(- 2 * π * I / N),
+  rw complex.cpow_add,
+  simp only [cpow_int_cast],
+  rw ← neg_one_mul, rw mul_comm,
+  rw mul_left_inj',
+  apply hne,
   
-  rw ← exp_int_mul,
   -- calc exp (↑(m + ↑N / 2) * fac) 
   --         = exp (↑m * fac + (↑N / 2) * fac) : by { 
   --           have : ↑(m + ↑N / 2) * fac = ↑m * fac + ↑N / 2 * fac, by {
