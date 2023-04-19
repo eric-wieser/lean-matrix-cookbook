@@ -273,12 +273,69 @@ begin
   simp only [twiddle_cancel,sum_const, card_fin, nat.smul_one_eq_coe],
 end
 
+-- lemma sum_finN_sum_rangeN {N:ℕ} (f: ℕ → ℂ):
+--   ∑ (i : fin N), f i = ∑ i in (range N), f i := 
+-- begin 
+--   rw fin.sum_univ_eq_sum_range,
+-- end
+
+-- lemma geom_sum_finN {N:ℕ} {hN: 1 < N} (α: ℂ) (hα: α ≠ 1) : 
+-- ∑ (i : fin N), α ^ (i:ℕ) = (α^N - 1) / (α - 1) := 
+-- begin
+--   -- rw geom_sum_eq,
+--   sorry,
+-- end
+
+-- lemma  two_pi_ne_zero : (2 * ↑π * I) ≠ (0:ℂ) := 
+-- by {
+--   simp only [ne.def, mul_eq_zero, bit0_eq_zero, 
+--     one_ne_zero, of_real_eq_zero, false_or], 
+--   push_neg, refine ⟨real.pi_ne_zero, complex.I_ne_zero⟩, 
+-- }
+
+lemma one_lt_N_zero_ne {N: ℕ} (hN: 1 < N) : (↑N:ℂ) ≠ (0:ℂ) := begin
+  simp only [ne.def, nat.cast_eq_zero], 
+  linarith,
+end
+
+lemma complex_exp_ne_one_iff_kn {N:ℕ} {hN: 1 < N} 
+    {k n: fin N} {h: ¬(k = n)} :
+  exp (I * 2 * ↑π * (↑k - ↑n) / ↑N) ≠ 1 :=
+begin
+  by_contra' hE,
+  rw complex.exp_eq_one_iff at hE,
+  cases hE with m hE,
+
+  have hm1 : I * 2 * ↑π * (↑k - ↑n) / ↑N = (2 * ↑π * I) * ((↑k - ↑n) / ↑N), by ring,
+  have hm2 : ↑m * (2 * ↑π * I) = (2 * ↑π * I) * m, by ring,
+  
+  rw [hm1, hm2, mul_right_inj' two_pi_I_ne_zero] at hE, 
+  rw div_eq_iff at hE,
+  sorry, sorry,
+
+end
 
 lemma Wkn_dot_iWKn_offdiag {N:ℕ} {hN: 1 < N} (k n: fin N) (h: ¬(k = n)) :
   ∑ (i : fin N), Wkn k i * iWkn i n = 0 := 
 begin
   simp_rw [twiddle_mul],
-  sorry,
+  rw fin.sum_univ_eq_sum_range,
+  rw geom_sum_eq, 
+  simp only [_root_.div_eq_zero_iff],
+  left,
+  rw sub_eq_zero, set α := I * 2 * ↑π * (↑k - ↑n) / ↑N,
+  simp_rw [← complex.exp_nat_mul, mul_comm ↑N _],
+  
+  rw div_mul_cancel, 
+  have : I * 2 * ↑π * (↑k - ↑n) = (↑k - ↑n) * ( 2 * ↑π * I), by ring,
+  rw this, 
+  have : (↑k - ↑n) * ( 2 * ↑π * I) = ((↑k - ↑n):ℤ) * ( 2 * ↑π * I), 
+  by { simp only [coe_coe, int.cast_sub, int.cast_coe_nat],},
+  rw this,
+  
+  apply exp_int_mul_two_pi_mul_I, 
+  exact one_lt_N_zero_ne hN,
+  apply complex_exp_ne_one_iff_kn , assumption',
 end
 
 lemma eq_408 {N: ℕ} {h: 1 ≤ N} : 
