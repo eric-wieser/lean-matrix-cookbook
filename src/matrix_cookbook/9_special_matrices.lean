@@ -161,7 +161,8 @@ lemma eq_402 (A₁₁ : matrix m m R) (A₂₂ : matrix n n R) :
 
 open_locale real
 section dft_matrices
-
+open complex
+open polynomial
 lemma vec_eq_vec_iff (v w: n → R) : 
   v = w ↔ ∀ k : n, v k = w k := 
 begin
@@ -172,18 +173,27 @@ begin
   specialize h k, exact h,
 end
 
+lemma mat_eq_mat_iff (v w: matrix m n R) : 
+  v = w ↔ ∀ (j: m)(k: n), v j k = w j k:= 
+begin
+  split,
+  rintros h i j, rw h at *,
+  intro h,
+  ext i j, specialize h i j, exact h,
+end
+
+-- variable {N: ℕ}
 /- Are we really forced to have the DFT matrix 
 noncomputable because the complex exponnetial function is 
 non-computable?
 -/
--- eq_403
 
--- Twiddle Factors
+-- eq_403 : Twiddle Factors
 noncomputable def Wkn {N: ℕ} (k n: fin N) : ℂ :=  
 complex.exp(complex.I * 2 * π * k * n / N)
 
 -- Forward DFT Matrix
-noncomputable def W_N {N : ℕ} : matrix (fin N) (fin N) ℂ :=
+noncomputable def W_N {N: ℕ}: matrix (fin N) (fin N) ℂ :=
 λ (k n: fin N), Wkn k n
 
 -- Inverse Twiddle Factors
@@ -191,18 +201,18 @@ noncomputable def iWkn {N: ℕ} (k n: fin N) : ℂ :=
 complex.exp(-complex.I * 2 * π * k * n / N)
 
 -- Inverse DFT Matrix
-noncomputable def iW_N {N : ℕ} : matrix (fin N) (fin N) ℂ :=
+noncomputable def iW_N {N: ℕ} : matrix (fin N) (fin N) ℂ :=
 λ (k n: fin N), iWkn k n
 
 -- eq_404
-noncomputable def dft {N : ℕ} (x: (fin N) → ℂ) : (fin N → ℂ) := 
+noncomputable def dft {N: ℕ} (x: (fin N) → ℂ) : (fin N → ℂ) := 
 λ (k: fin N), ∑ (n : fin N), (Wkn k n) * (x n)
 
 -- eq_405
-noncomputable def idft {N : ℕ} (X: (fin N) → ℂ) : (fin N → ℂ) := 
+noncomputable def idft {N: ℕ} (X: (fin N) → ℂ) : (fin N → ℂ) := 
 λ (k: fin N), (∑ (n : fin N),  ((1/N)•iWkn) k n * (X n))
 
-lemma eq_406 {N : ℕ} (x: fin N → ℂ) : 
+lemma eq_406 {N: ℕ} (x: fin N → ℂ) : 
 dft x = matrix.mul_vec W_N x := 
 begin
   rw vec_eq_vec_iff, intro k,
@@ -210,7 +220,7 @@ begin
   refl,
 end
 
-lemma eq_407 {N : ℕ} (X: fin N → ℂ) : 
+lemma eq_407 {N: ℕ} (X: fin N → ℂ) : 
 idft X = (matrix.mul_vec ((1/N)•iW_N) X) := 
 begin
   rw vec_eq_vec_iff, intro k,
@@ -218,8 +228,76 @@ begin
   refl,
 end
 
+lemma twiddle_comm {N: ℕ}(k n: fin N) :
+  Wkn k n = Wkn n k := begin
+  rw Wkn,rw Wkn, ring_nf,
+end
+
+@[simp] lemma twiddle_cancel {N:ℕ} (k n: fin N) :
+  Wkn n k * iWkn k n = 1 :=
+begin
+  rw Wkn, rw iWkn,
+  rw ← complex.exp_add, ring_nf, rw complex.exp_zero,
+end
+
+@[simp] lemma twiddle_mul {N:ℕ} (j k l: fin N) :
+  Wkn j k * iWkn k l = 
+    (exp(I * 2 * π * (j - l) / N)) ^ (k:ℕ) :=
+begin
+  rw Wkn, rw iWkn, 
+  rw ← exp_add, 
+  have : I * 2 * π * j * k / N + -I * 2 * π * k * l / N = 
+    I * 2 * π * (j - l)*k / N, by ring, rw this, 
+  set rt := I * 2 * π * (j - l), 
+  have : rt * ↑k / ↑N = (rt / N) * k, by ring, rw this,
+  rw mul_comm, 
+  exact exp_int_mul _ _,
+end
+
+lemma W_N_symmetric {N: ℕ} :
+  (W_N: matrix (fin N) (fin N) ℂ) = (W_Nᵀ) := 
+begin
+  rw [transpose, W_N],
+  funext k n,
+  simp only [of_apply, twiddle_comm],
+end
+
+lemma Wkn_dot_iWkn_diag {N:ℕ} (n: fin N) : 
+  ∑ (i : fin N), ((Wkn n i) * (iWkn i n)) = N := 
+begin
+  simp only [twiddle_cancel,sum_const, card_fin, nat.smul_one_eq_coe],
+end
+
+lemma Wkn_dot_iWKn_offdiag {N:ℕ} (k n: fin N) (h: ¬(k = n)) :
+  ∑ (i : fin N), Wkn k i * iWkn i n = 0 := 
+begin
+  simp only [twiddle_mul],
+  set Wa := exp (I * 2 * ↑π * (↑k - ↑n) / ↑N),
+  rw geom_sum_eq,
+  -- set Wa := 
+  -- refine eq_zero_of_ne_zero_of_mul_left_eq_zero (sub_ne_zero_of_ne (hζ.ne_one hk).symm) _,
+end
+
 lemma eq_408 : sorry := sorry
-lemma eq_409 : sorry := sorry
+
+lemma eq_409 {N: ℕ} : 
+(W_N) ⬝ (iW_N) = 
+  N•(1: matrix (fin N) (fin N) ℂ) := 
+begin
+  funext k n,
+  rw W_N, rw iW_N, 
+  
+  by_cases (k = n),
+  rw matrix.mul, simp only [dot_product],
+  rw [h, Wkn_dot_iWkn_diag],  
+  simp only [nat.smul_one_eq_coe, pi.smul_apply, one_apply_eq],
+
+  -- !(k = n)
+  rw matrix.mul, simp only [dot_product],
+  rw Wkn_dot_iWKn_offdiag _ _ h,  
+  rw [pi.smul_apply,pi.smul_apply, one_apply_ne h, smul_zero],
+end
+
 lemma eq_410 : sorry := sorry
 lemma eq_411 : sorry := sorry
 lemma eq_412 : sorry := sorry
