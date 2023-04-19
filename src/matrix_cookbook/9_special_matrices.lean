@@ -298,7 +298,7 @@ lemma one_lt_N_zero_ne {N: ℕ} (hN: 1 < N) : (↑N:ℂ) ≠ (0:ℂ) := begin
   linarith,
 end
 
-lemma complex_exp_ne_one_iff_kn {N:ℕ} {hN: 1 < N} 
+lemma complex_exp_ne_one_if_kn {N:ℕ} {hN: 1 < N} 
     {k n: fin N} {h: ¬(k = n)} :
   exp (I * 2 * ↑π * (↑k - ↑n) / ↑N) ≠ 1 :=
 begin
@@ -311,8 +311,9 @@ begin
   
   rw [hm1, hm2, mul_right_inj' two_pi_I_ne_zero] at hE, 
   rw div_eq_iff at hE,
-  sorry, sorry,
-
+  
+  sorry,
+  exact one_lt_N_zero_ne hN,
 end
 
 lemma Wkn_dot_iWKn_offdiag {N:ℕ} {hN: 1 < N} (k n: fin N) (h: ¬(k = n)) :
@@ -335,7 +336,7 @@ begin
   
   apply exp_int_mul_two_pi_mul_I, 
   exact one_lt_N_zero_ne hN,
-  apply complex_exp_ne_one_iff_kn , assumption',
+  apply complex_exp_ne_one_if_kn , assumption',
 end
 
 lemma eq_408 {N: ℕ} {h: 1 ≤ N} : 
@@ -396,14 +397,18 @@ lemma eq_411 {N: ℕ} {m: ℤ} :
   complex.exp(-complex.I * 2 * π / N) ^ (m + N/2)  = 
     -complex.exp(-complex.I * 2 * π / N) ^ (m)  := 
 begin
-  set fac := -complex.I * 2 * π / N,
+  set α := exp(-complex.I * 2 * π / N),
+  
   rw ← exp_int_mul,
-  calc exp (↑(m + ↑N / 2) * fac) 
-          = exp (↑m * fac + (↑N / 2) * fac) : by { sorry, }
-  ...     = -exp fac ^ m : by { 
-    sorry,
-  },
-
+  -- calc exp (↑(m + ↑N / 2) * fac) 
+  --         = exp (↑m * fac + (↑N / 2) * fac) : by { 
+  --           have : ↑(m + ↑N / 2) * fac = ↑m * fac + ↑N / 2 * fac, by {
+  --           },
+  --          }
+  -- ...     = -exp fac ^ m : by { 
+  --   sorry,
+  -- },
+  
 end
 lemma eq_412 : sorry := sorry
 
