@@ -8,6 +8,7 @@ import data.complex.exponential
 import analysis.special_functions.trigonometric.basic
 import data.matrix.basic
 import data.matrix.reflection
+import algebra.geom_sum
 
 /-! # Special Matrices -/
 
@@ -159,10 +160,14 @@ lemma eq_402 (A₁₁ : matrix m m R) (A₂₂ : matrix n n R) :
 /- lemma eq_403 : sorry := sorry
 -- Perhaps we can write eq 403 as a definition -/
 
-open_locale real
+
 section dft_matrices
+open_locale real matrix big_operators
+open matrix
+open equiv equiv.perm finset
 open complex
 open polynomial
+
 lemma vec_eq_vec_iff (v w: n → R) : 
   v = w ↔ ∀ k : n, v k = w k := 
 begin
@@ -268,38 +273,85 @@ begin
   simp only [twiddle_cancel,sum_const, card_fin, nat.smul_one_eq_coe],
 end
 
-lemma Wkn_dot_iWKn_offdiag {N:ℕ} (k n: fin N) (h: ¬(k = n)) :
+
+lemma Wkn_dot_iWKn_offdiag {N:ℕ} {hN: 1 < N} (k n: fin N) (h: ¬(k = n)) :
   ∑ (i : fin N), Wkn k i * iWkn i n = 0 := 
 begin
   simp only [twiddle_mul],
+  by_cases (n < k),
+  have : (k:ℤ) - (n:ℤ) > (0:ℤ) ,{
+    simpa only [coe_coe, gt_iff_lt, sub_pos, nat.cast_lt],
+  },
   set Wa := exp (I * 2 * ↑π * (↑k - ↑n) / ↑N),
-  rw geom_sum_eq,
-  -- set Wa := 
-  -- refine eq_zero_of_ne_zero_of_mul_left_eq_zero (sub_ne_zero_of_ne (hζ.ne_one hk).symm) _,
+  sorry, sorry,
 end
 
-lemma eq_408 : sorry := sorry
+lemma eq_408 {N: ℕ} {h: 1 ≤ N} : 
+(W_N : matrix (fin N) (fin N) ℂ)⁻¹ = 
+  (W_Nᴴ)ᵀ :=
+-- Seems star means hermitian and not just conjugate
+begin
+  -- rw inv_eq_right_inv,
+  -- funext k n, 
+  -- rw matrix.mul, simp only [dot_product],
+  -- simp only [star_apply, is_R_or_C.star_def],
+  
+  -- by_cases (k = n),
+  -- rw [h], simp only [one_apply_eq],
+  sorry,
+  
+end
 
-lemma eq_409 {N: ℕ} : 
+lemma eq_409 {N: ℕ} {h: 1 ≤ N} : 
 (W_N) ⬝ (iW_N) = 
   N•(1: matrix (fin N) (fin N) ℂ) := 
 begin
-  funext k n,
-  rw W_N, rw iW_N, 
   
-  by_cases (k = n),
-  rw matrix.mul, simp only [dot_product],
-  rw [h, Wkn_dot_iWkn_diag],  
-  simp only [nat.smul_one_eq_coe, pi.smul_apply, one_apply_eq],
+  rw W_N, rw iW_N,
+  by_cases hNl1: (1 < N),
+    funext k n,
+    by_cases (k = n),
+    rw matrix.mul, simp only [dot_product],
+    rw [h, Wkn_dot_iWkn_diag],  
+    simp only [nat.smul_one_eq_coe, pi.smul_apply, one_apply_eq],
 
-  -- !(k = n)
+    -- !(k = n)
+    rw matrix.mul, simp only [dot_product],
+    rw Wkn_dot_iWKn_offdiag  _ _ h ,  
+    rw [pi.smul_apply,pi.smul_apply, one_apply_ne h, smul_zero],
+    exact hNl1,
+
+  have hN1: 1 = N, exact eq_of_le_of_not_lt h hNl1, 
   rw matrix.mul, simp only [dot_product],
-  rw Wkn_dot_iWKn_offdiag _ _ h,  
-  rw [pi.smul_apply,pi.smul_apply, one_apply_ne h, smul_zero],
+  rw ← hN1 at *,
+  funext k n, fin_cases k, fin_cases n, 
+  simp only [ -- Whatever this is, it is too much!!!
+    fintype.univ_of_subsingleton, twiddle_mul, sub_self, mul_zero, 
+    zero_div, exp_zero, one_pow, sum_const, card_singleton,
+    nat.smul_one_eq_coe, nat.cast_one, one_apply_eq],
 end
 
-lemma eq_410 : sorry := sorry
-lemma eq_411 : sorry := sorry
+lemma eq_410 {N: ℕ} : 
+(star W_N : matrix (fin N) (fin N) ℂ) = W_Nᴴ :=
+begin
+  unfold star,
+end
+
+noncomputable def W11 {N : ℕ} : ℂ := complex.exp(-complex.I * 2 * π / N)
+
+lemma eq_411 {N: ℕ} {m: ℤ} : 
+  complex.exp(-complex.I * 2 * π / N) ^ (m + N/2)  = 
+    -complex.exp(-complex.I * 2 * π / N) ^ (m)  := 
+begin
+  set fac := -complex.I * 2 * π / N,
+  rw ← exp_int_mul,
+  calc exp (↑(m + ↑N / 2) * fac) 
+          = exp (↑m * fac + (↑N / 2) * fac) : by { sorry, }
+  ...     = -exp fac ^ m : by { 
+    sorry,
+  },
+
+end
 lemma eq_412 : sorry := sorry
 
 end dft_matrices
