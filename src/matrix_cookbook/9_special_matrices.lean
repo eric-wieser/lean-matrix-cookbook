@@ -273,26 +273,6 @@ begin
   simp only [twiddle_cancel,sum_const, card_fin, nat.smul_one_eq_coe],
 end
 
--- lemma sum_finN_sum_rangeN {N:ℕ} (f: ℕ → ℂ):
---   ∑ (i : fin N), f i = ∑ i in (range N), f i := 
--- begin 
---   rw fin.sum_univ_eq_sum_range,
--- end
-
--- lemma geom_sum_finN {N:ℕ} {hN: 1 < N} (α: ℂ) (hα: α ≠ 1) : 
--- ∑ (i : fin N), α ^ (i:ℕ) = (α^N - 1) / (α - 1) := 
--- begin
---   -- rw geom_sum_eq,
---   sorry,
--- end
-
--- lemma  two_pi_ne_zero : (2 * ↑π * I) ≠ (0:ℂ) := 
--- by {
---   simp only [ne.def, mul_eq_zero, bit0_eq_zero, 
---     one_ne_zero, of_real_eq_zero, false_or], 
---   push_neg, refine ⟨real.pi_ne_zero, complex.I_ne_zero⟩, 
--- }
-
 lemma one_lt_N_zero_ne {N: ℕ} (hN: 1 < N) : (↑N:ℂ) ≠ (0:ℂ) := begin
   simp only [ne.def, nat.cast_eq_zero], 
   linarith,
