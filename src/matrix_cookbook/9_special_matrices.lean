@@ -20,8 +20,9 @@ variables [decidable_eq l] [decidable_eq m] [decidable_eq n] [decidable_eq p] [d
 variables [field R]
 
 open matrix
-open_locale matrix big_operators complex_conjugate
+open_locale matrix big_operators complex_conjugate real
 open equiv equiv.perm finset
+open complex
 
 namespace matrix_cookbook
 
@@ -158,16 +159,6 @@ lemma eq_402 (A₁₁ : matrix m m R) (A₂₂ : matrix n n R) :
 /-! ### Schur complement -/
 
 /-! ## Discrete Fourier Transform Matrix, The -/
-
-/- lemma eq_403 : sorry := sorry
--- Perhaps we can write eq 403 as a definition -/
-
-
-section dft_matrices
-open_locale real matrix big_operators
-open matrix
-open equiv equiv.perm finset
-open complex
 
 -- Forward DFT Matrix
 noncomputable def Wₙ {N: ℕ}: matrix (fin N) (fin N) ℂ :=
@@ -626,7 +617,6 @@ begin
   rw ← matrix.mul_assoc,
   rw ← matrix.mul_assoc,
   rw inv_Wₙ, rw Wₙ_mul_iWₙ_eq_one,
-  -- rw matrix.one_mul,
 
   funext j k,
   rw matrix.mul_mul_apply,
@@ -640,13 +630,8 @@ begin
   
   conv_rhs {
     apply_congr, skip,
-     
     rw vec_mul_diagonal,
-    -- rw pi.smul_apply,
-    -- rw pi.smul_apply,
     rw matrix.one_apply,
-    -- rw smul_mul_assoc,
-    -- rw smul_mul_assoc,
     rw ite_mul,
     rw ite_mul,
     rw zero_mul,
@@ -666,7 +651,6 @@ begin
     rw @twiddle_sum N hN j k x,
   },
 
-  -- rw Wₙ,simp only, dsimp,
   rw ← equiv.sum_comp (@shiftk_equiv N hN (-k)),
   rw shiftk_equiv, dsimp,  
   rw shiftk, simp only [neg_neg, add_sub_cancel],
@@ -674,29 +658,14 @@ begin
     apply_congr, skip, rw add_comm,
   }, 
 
-  -- exact hN,
   assumption',
-  -- extract_goal,
     rintros x a h,
   replace hinj := congr_arg (iWₙ).mul h,
   rw ← matrix.mul_assoc at hinj,
   rw ← matrix.mul_assoc at hinj,
   rw iWₙ_mul_Wₙ_eq_one at hinj,
-  -- rw matrix.smul_mul at hinj,
-  -- rw matrix.smul_mul at hinj,
   rw matrix.one_mul at hinj,
   rw matrix.one_mul at hinj, exact hinj,
-
-  -- funext k n,
-  -- have hz := (matrix.ext_iff.2 hinj) k n,
-  -- repeat {rw pi.smul_apply at hz},
-  -- have hNz : (N:ℂ) ≠ 0, {
-  --   rw nat.cast_ne_zero, exact ne_zero_iff.1 hN,
-  -- },
-  -- rw ← sub_eq_zero at hz,
-  -- rw ← smul_sub at hz,
-  -- rw smul_eq_zero_iff_eq' hNz at hz,
-  -- rwa sub_eq_zero at hz,
   exact hN,
 end
 
@@ -723,8 +692,7 @@ end
 lemma notice_between_411_412 {N: ℕ} 
   {hN: ne_zero N}:
   let Wrow : (fin N) → ℂ  := λ(k: fin N), exp(-2*π*I*k/N) in
-  (Wₙ: matrix (fin N) (fin N) ℂ) = 
-    vandermonde (Wrow) := 
+  (Wₙ: matrix (fin N) (fin N) ℂ) = vandermonde (Wrow) := 
 begin
   dsimp,
   unfold vandermonde,
@@ -743,8 +711,6 @@ begin
   simp only [coe_coe, algebra_map.coe_zero, 
     zero_mul, add_zero], ring,
 end
-
-end dft_matrices
 
 /-! ## Hermitian Matrices and skew-Hermitian -/
 
