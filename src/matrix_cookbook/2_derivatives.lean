@@ -10,9 +10,9 @@ import matrix_cookbook.for_mathlib.analysis.matrix
 
 /-! # Derivatives -/
 
-variables {ι : Type*} {R : Type*} {m n p : Type*}
-variables [fintype m] [fintype n] [fintype p]
-variables [decidable_eq m] [decidable_eq n] [decidable_eq p]
+variables {ι : Type*} {R : Type*} {m n p q : Type*}
+variables [fintype m] [fintype n] [fintype p] [fintype q]
+variables [decidable_eq m] [decidable_eq n] [decidable_eq p] [decidable_eq q]
 
 namespace matrix_cookbook
 
@@ -43,9 +43,11 @@ lemma eq_37 (X : R → matrix m n R) (Y : R → matrix n p R) (hX : differentiab
   deriv (λ a, (X a) ⬝ (Y a)) = λ a, deriv X a ⬝ Y a + X a ⬝ deriv Y a :=
 funext $ λ a, ((hX a).has_deriv_at.matrix_mul (hY a).has_deriv_at).deriv
 lemma eq_38 (X Y : R → matrix n p R) (hX : differentiable R X) (hY : differentiable R Y) :
-  deriv (λ a, (X a) ⊙ (Y a)) = λ a, deriv X a ⊙ Y a + X a ⊙ deriv Y a := sorry
-lemma eq_39 (X Y : R → matrix n p R) (hX : differentiable R X) (hY : differentiable R Y) :
-  deriv (λ a, (X a) ⊗ₖ (Y a)) = λ a, deriv X a ⊗ₖ Y a + X a ⊗ₖ deriv Y a := sorry
+  deriv (λ a, (X a) ⊙ (Y a)) = λ a, deriv X a ⊙ Y a + X a ⊙ deriv Y a :=
+funext $ λ a, ((hX a).has_deriv_at.matrix_hadamard (hY a).has_deriv_at).deriv
+lemma eq_39 (X : R → matrix m n R) (Y : R → matrix p q R) (hX : differentiable R X) (hY : differentiable R Y) :
+  deriv (λ a, (X a) ⊗ₖ (Y a)) = λ a, deriv X a ⊗ₖ Y a + X a ⊗ₖ deriv Y a :=
+funext $ λ a, ((hX a).has_deriv_at.matrix_kronecker (hY a).has_deriv_at).deriv
 lemma eq_40 (X : R → matrix n n R) (hX : differentiable R X) :
   deriv (λ a, (X a)⁻¹) = λ a, -(X a)⁻¹ * deriv X a * (X a)⁻¹ := sorry
 lemma eq_41 (X : R → matrix n n R) (hX : differentiable R X) :
@@ -55,7 +57,7 @@ lemma eq_42 (X : R → matrix n n R) (hX : differentiable R X) :
 lemma eq_43 (X : ℝ → matrix n n ℝ) (hX : differentiable ℝ X) :
   deriv (λ a, real.log (det (X a))) = λ a, trace ((X a)⁻¹ * deriv X a) := sorry
 lemma eq_44 (X : R → matrix m n R) (hX : differentiable R X) :
-  deriv (λ a, (X a)ᵀ) = λ a, (deriv X a)ᵀ := sorry
+  deriv (λ a, (X a)ᵀ) = λ a, (deriv X a)ᵀ := funext $ λ _, (hX _).has_deriv_at.transpose.deriv
 lemma eq_45 [star_ring R] (X : R → matrix m n R) (hX : differentiable R X) :
   deriv (λ a, (X a)ᴴ) = λ a, (deriv X a)ᴴ := sorry
 
