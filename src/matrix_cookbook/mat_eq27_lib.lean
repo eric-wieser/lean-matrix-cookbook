@@ -57,7 +57,7 @@ begin
   ring,
 end
 
-lemma det4 {A : matrix (fin 4) (fin 4) R}:
+lemma det_fin_four (A : matrix (fin 4) (fin 4) R) :
 A.det = 
   A 0 0*A 1 1*A 2 2*A 3 3 - A 0 0*A 1 1*A 2 3*A 3 2 - A 0 0*A 1 2*A 2 1*A 3 3 + 
   A 0 0*A 1 2*A 2 3*A 3 1 + A 0 0*A 1 3*A 2 1*A 3 2 - A 0 0*A 1 3*A 2 2*A 3 1 -
