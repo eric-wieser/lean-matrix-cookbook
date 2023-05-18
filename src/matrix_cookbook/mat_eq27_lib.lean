@@ -104,7 +104,7 @@ begin
   ring,
 end
 
-lemma det4_one_add_a {A : matrix (fin 4) (fin 4) R}:
+lemma det_one_add_fin_four (A : matrix (fin 4) (fin 4) R) :
 (1 + A).det = 
 A 0 0 + A 1 1 + A 2 2 + A 3 3 + 
 A 0 0*A 1 1 - A 0 1*A 1 0 + A 0 0*A 2 2 - A 0 2*A 2 0 + A 0 0*A 3 3 - A 0 3*A 3 0 + A 1 1*A 2 2 - A 1 2*A 2 1 + 
