@@ -14,13 +14,16 @@ import algebra.char_p.basic
 import matrix_cookbook.for_mathlib.data.matrix
 
 /-!
-#  Traces and Determinants of 1st, 2nd and 3rd Powers of 4x4 Matrices
+# Traces and Determinants of 1st, 2nd and 3rd Powers of 4x4 Matrices
 
 This file contains lemmas in rather verbose form of matrix fin 4 fin 4 R.
 
 These are used to prove equation 27 in the matrix cookbook. 
 
 The results are all for commutative rings.
+
+It's not clear that these results belong in mathlib as lemmas; they might be better suited to
+tactic support in `norm_num`.
 -/
 
 open_locale matrix big_operators
