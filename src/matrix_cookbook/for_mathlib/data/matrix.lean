@@ -9,7 +9,11 @@ import tactic.norm_fin
 variables {R : Type*} [comm_ring R]
 
 open_locale matrix big_operators
-open matrix
+namespace matrix
+
+lemma one_fin_four :
+  (1 : matrix (fin 4) (fin 4) R) = !![1, 0, 0, 0; 0, 1, 0, 0; 0, 0, 1, 0; 0, 0, 0, 1] :=
+by { ext i j, fin_cases i; fin_cases j; refl }
 
 lemma trace_fin_four {A : matrix (fin 4) (fin 4) R} :
   A.trace = A 0 0 + A 1 1 + A 2 2 + A 3 3 :=
@@ -52,3 +56,5 @@ begin
   simp_rw [a0, a1, a2, a3],
   ring
 end
+
+end matrix
