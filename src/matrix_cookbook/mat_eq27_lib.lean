@@ -31,7 +31,7 @@ begin
   ring,
 end
 
-lemma trace_a_cubed {A : matrix (fin 4) (fin 4) R}:
+lemma trace_pow_three_fin_four {A : matrix (fin 4) (fin 4) R}:
   trace (A^3) = 
     A 0 0*(A 0 0^2 + A 0 1*A 1 0 + A 0 2*A 2 0 + A 0 3*A 3 0) + 
     A 1 1*(A 1 1^2 + A 0 1*A 1 0 + A 1 2*A 2 1 + A 1 3*A 3 1) + 
