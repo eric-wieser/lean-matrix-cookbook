@@ -15,7 +15,9 @@ variables {R : Type*}[field R][char_zero R]
 lemma trace_fin_four {A : matrix (fin 4) (fin 4) R} :
   A.trace = A 0 0 + A 1 1 + A 2 2 + A 3 3 := 
 begin
-  rw matrix.trace,  rw fin.sum_univ_four, repeat {rw diag,},
+  rw matrix.trace,  
+  rw fin.sum_univ_four, 
+  repeat {rw diag,},
 end
 
 lemma trace_pow_two_fin_four {A : matrix (fin 4) (fin 4) R}:
@@ -151,7 +153,9 @@ A 0 0^2 + A 1 1^2 + A 2 2^2 + A 3 3^2 +
 2*A 0 0*A 1 1 + 2*A 0 0*A 2 2 + 2*A 0 0*A 3 3 + 
 2*A 1 1*A 2 2 + 2*A 1 1*A 3 3 + 2*A 2 2*A 3 3 
 := begin
-  rw trace_fin_four, rw pow_two, ring,
+  rw trace_fin_four, 
+  rw pow_two, 
+  ring,
 end
 
 lemma eq_27_rhs_part1{A : matrix (fin 4) (fin 4) R}:
