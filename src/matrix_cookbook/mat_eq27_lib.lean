@@ -100,52 +100,14 @@ begin
   ring,
 end
 
-lemma eq_27_rhs_part1 (A : matrix (fin 4) (fin 4) R) :
-  (trace A)^3 - 3*trace A * trace (A^2) + 2 * trace (A^3) = 6*(
-    A 0 0*A 1 1*A 2 2 - A 0 0*A 1 2*A 2 1 - A 0 1*A 1 0*A 2 2 + A 0 1*A 1 2*A 2 0 + 
-    A 0 2*A 1 0*A 2 1 - A 0 2*A 1 1*A 2 0 + A 0 0*A 1 1*A 3 3 - A 0 0*A 1 3*A 3 1 - 
-    A 0 1*A 1 0*A 3 3 + A 0 1*A 1 3*A 3 0 + A 0 3*A 1 0*A 3 1 - A 0 3*A 1 1*A 3 0 + 
-    A 0 0*A 2 2*A 3 3 - A 0 0*A 2 3*A 3 2 - A 0 2*A 2 0*A 3 3 + A 0 2*A 2 3*A 3 0 + 
-    A 0 3*A 2 0*A 3 2 - A 0 3*A 2 2*A 3 0 + A 1 1*A 2 2*A 3 3 - A 1 1*A 2 3*A 3 2 - 
-    A 1 2*A 2 1*A 3 3 + A 1 2*A 2 3*A 3 1 + A 1 3*A 2 1*A 3 2 - A 1 3*A 2 2*A 3 1) := 
-begin
-  rw [trace_fin_four, trace_pow_two_fin_four, trace_pow_three_fin_four], 
-  ring,
-end
-
-lemma eq_27_rhs_part2 (A : matrix (fin 4) (fin 4) R) :
-  (trace A)^2 - trace (A^2) = 
-    2*(A 0 0*A 1 1 - A 0 1*A 1 0 + A 0 0*A 2 2 - A 0 2*A 2 0 + A 0 0*A 3 3 - A 0 3*A 3 0 + 
-  A 1 1*A 2 2 - A 1 2*A 2 1 + A 1 1*A 3 3 - A 1 3*A 3 1 + A 2 2*A 3 3 - A 2 3*A 3 2) := 
-begin 
-  rw [trace_pow_two_fin_four, sq_trace_fin_four], 
-  ring,
-end
-
 lemma eq_27_before_last {R} [field R] [char_zero R] (A : matrix (fin 4) (fin 4) R)  :
   det (1 + A) - det A - 1 = trace A + 
     (1/2)*( (trace A)^2 - trace (A^2)) + 
     (1/6)*( (trace A)^3 - 3*trace A * trace (A^2) + 2 * trace (A^3) ) := 
 begin
-  transitivity A 0 0 + A 1 1 + A 2 2 + A 3 3 + 
-    A 0 0*A 1 1 - A 0 1*A 1 0 + A 0 0*A 2 2 - A 0 2*A 2 0 + 
-    A 0 0*A 3 3 - A 0 3*A 3 0 + A 1 1*A 2 2 - A 1 2*A 2 1 + 
-    A 1 1*A 3 3 - A 1 3*A 3 1 + A 2 2*A 3 3 - A 2 3*A 3 2 + 
-    A 0 0*A 1 1*A 2 2 - A 0 0*A 1 2*A 2 1 - A 0 1*A 1 0*A 2 2 + 
-    A 0 1*A 1 2*A 2 0 + A 0 2*A 1 0*A 2 1 - A 0 2*A 1 1*A 2 0 + 
-    A 0 0*A 1 1*A 3 3 - A 0 0*A 1 3*A 3 1 - A 0 1*A 1 0*A 3 3 + 
-    A 0 1*A 1 3*A 3 0 + A 0 3*A 1 0*A 3 1 - A 0 3*A 1 1*A 3 0 + 
-    A 0 0*A 2 2*A 3 3 - A 0 0*A 2 3*A 3 2 - A 0 2*A 2 0*A 3 3 + 
-    A 0 2*A 2 3*A 3 0 + A 0 3*A 2 0*A 3 2 - A 0 3*A 2 2*A 3 0 + 
-    A 1 1*A 2 2*A 3 3 - A 1 1*A 2 3*A 3 2 - A 1 2*A 2 1*A 3 3 + 
-    A 1 2*A 2 3*A 3 1 + A 1 3*A 2 1*A 3 2 - A 1 3*A 2 2*A 3 1, 
-  { rw [det_one_add_fin_four, det_fin_four], 
-    ring, },
-  { have h2 : (2:R) ≠ 0, { norm_num },
-    have h6 : (6:R) ≠ 0, { norm_num },
-    rw [eq_27_rhs_part1, ← mul_assoc, one_div_mul_cancel h6, one_mul], 
-    rw [eq_27_rhs_part2, ← mul_assoc, one_div_mul_cancel h2, one_mul],
-    rw trace_fin_four,
-    ring, },
+  field_simp,
+  rw [det_one_add_fin_four, det_fin_four, trace_pow_three_fin_four, trace_pow_two_fin_four,
+    sq_trace_fin_four, trace_fin_four],
+  ring,
 end
 
