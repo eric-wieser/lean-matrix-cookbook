@@ -4,6 +4,8 @@ import data.matrix.notation
 import data.fintype.big_operators
 import tactic.norm_fin
 
+/-! # Missing lemmas about Trace and Determinant of 4 x 4 matrices -/
+
 variables {R : Type*}[field R]
 
 open_locale matrix big_operators
