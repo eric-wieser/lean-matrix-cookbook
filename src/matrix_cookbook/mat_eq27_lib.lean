@@ -180,17 +180,23 @@ begin
   ring,
 end
 
-lemma eq_27_before_last2 {A : matrix (fin 4) (fin 4) R} :
+lemma eq_27_before_last {A : matrix (fin 4) (fin 4) R} :
   det (1 + A) - det A - 1 = trace A + 
     (1/2)*( (trace A)^2 - trace (A^2)) + 
     (1/6)*( (trace A)^3 - 3*trace A * trace (A^2) + 2 * trace (A^3) ) := 
 begin
   transitivity A 0 0 + A 1 1 + A 2 2 + A 3 3 + 
-  A 0 0*A 1 1 - A 0 1*A 1 0 + A 0 0*A 2 2 - A 0 2*A 2 0 + A 0 0*A 3 3 - A 0 3*A 3 0 + A 1 1*A 2 2 - A 1 2*A 2 1 + 
+  A 0 0*A 1 1 - A 0 1*A 1 0 + A 0 0*A 2 2 - A 0 2*A 2 0 + 
+  A 0 0*A 3 3 - A 0 3*A 3 0 + A 1 1*A 2 2 - A 1 2*A 2 1 + 
   A 1 1*A 3 3 - A 1 3*A 3 1 + A 2 2*A 3 3 - A 2 3*A 3 2 + 
-  A 0 0*A 1 1*A 2 2 - A 0 0*A 1 2*A 2 1 - A 0 1*A 1 0*A 2 2 + A 0 1*A 1 2*A 2 0 + A 0 2*A 1 0*A 2 1 - A 0 2*A 1 1*A 2 0 + A 0 0*A 1 1*A 3 3 - A 0 0*A 1 3*A 3 1 - 
-  A 0 1*A 1 0*A 3 3 + A 0 1*A 1 3*A 3 0 + A 0 3*A 1 0*A 3 1 - A 0 3*A 1 1*A 3 0 + A 0 0*A 2 2*A 3 3 - A 0 0*A 2 3*A 3 2 - A 0 2*A 2 0*A 3 3 + A 0 2*A 2 3*A 3 0 + 
-  A 0 3*A 2 0*A 3 2 - A 0 3*A 2 2*A 3 0 + A 1 1*A 2 2*A 3 3 - A 1 1*A 2 3*A 3 2 - A 1 2*A 2 1*A 3 3 + A 1 2*A 2 3*A 3 1 + A 1 3*A 2 1*A 3 2 - A 1 3*A 2 2*A 3 1, 
+  A 0 0*A 1 1*A 2 2 - A 0 0*A 1 2*A 2 1 - A 0 1*A 1 0*A 2 2 + 
+  A 0 1*A 1 2*A 2 0 + A 0 2*A 1 0*A 2 1 - A 0 2*A 1 1*A 2 0 + 
+  A 0 0*A 1 1*A 3 3 - A 0 0*A 1 3*A 3 1 - A 0 1*A 1 0*A 3 3 + 
+  A 0 1*A 1 3*A 3 0 + A 0 3*A 1 0*A 3 1 - A 0 3*A 1 1*A 3 0 + 
+  A 0 0*A 2 2*A 3 3 - A 0 0*A 2 3*A 3 2 - A 0 2*A 2 0*A 3 3 + 
+  A 0 2*A 2 3*A 3 0 + A 0 3*A 2 0*A 3 2 - A 0 3*A 2 2*A 3 0 + 
+  A 1 1*A 2 2*A 3 3 - A 1 1*A 2 3*A 3 2 - A 1 2*A 2 1*A 3 3 + 
+  A 1 2*A 2 3*A 3 1 + A 1 3*A 2 1*A 3 2 - A 1 3*A 2 2*A 3 1, 
   {
     rw det_one_add_fin_four, 
     rw det_fin_four, 

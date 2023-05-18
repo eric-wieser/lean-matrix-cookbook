@@ -80,7 +80,9 @@ lemma eq_27 {A : matrix (fin 4) (fin 4) R} [char_zero R] :
     (1/2)*( (trace A)^2 - trace (A^2)) + 
     (1/6)*( (trace A)^3 - 3*trace A * trace (A^2) + 2 * trace (A^3) ) := 
 begin
-  repeat {rw add_assoc (1 + det A)}, rw ← sub_eq_iff_eq_add', rw add_comm (1:R) _,
+  repeat {rw add_assoc (1 + det A)}, 
+  rw ← sub_eq_iff_eq_add', 
+  rw add_comm (1:R) _,
   rw sub_add_eq_sub_sub,
   apply eq_27_before_last,
 end
