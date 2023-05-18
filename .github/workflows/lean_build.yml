@@ -77,8 +77,7 @@ jobs:
 
     - name: Lint
       run: |
-        set -o pipefail
-        _target/deps/mathlib/scripts/lint-style.py $(find src -name '*.lean') | grep -vE 'ERR_COP|ERR_LIN'
+        ! (_target/deps/mathlib/scripts/lint-style.py $(find src -name '*.lean') || true) | (grep -vE 'ERR_COP|ERR_LIN' || true) | grep '^'
 
     - name: Build
       run: |
