@@ -6,11 +6,13 @@ import linear_algebra.matrix.nonsingular_inverse
 import linear_algebra.matrix.trace
 import analysis.normed.field.basic
 
+import matrix_cookbook.for_mathlib.analysis.matrix
+
 /-! # Derivatives -/
 
-variables {ι : Type*} {R : Type*} {m n p : Type*}
-variables [fintype m] [fintype n] [fintype p]
-variables [decidable_eq m] [decidable_eq n] [decidable_eq p]
+variables {ι : Type*} {R : Type*} {m n p q : Type*}
+variables [fintype m] [fintype n] [fintype p] [fintype q]
+variables [decidable_eq m] [decidable_eq n] [decidable_eq p] [decidable_eq q]
 
 namespace matrix_cookbook
 
@@ -29,21 +31,6 @@ open matrix
 
 /-! TODO: is this what is actually meant by `∂(XY) = (∂X)Y + X(∂Y)`? -/
 
-lemma deriv_matrix (f : R → matrix m n R) (r : R) (hX : differentiable_at R f r) :
-  deriv f r = of (λ i j, deriv (λ r, f r i j) r) :=
-begin
-  ext i j,
-  rw deriv_pi,
-  simp_rw [deriv_pi, of_apply],
-  rw deriv_pi,
-  { intro i,
-    simp_rw differentiable_at_pi at hX,
-    apply hX },
-  { intro i,
-    rw differentiable_at_pi at hX,
-    apply hX },
-end
-
 lemma eq_33 (A : matrix m n R) : deriv (λ x : R, A) = 0 := deriv_const' _
 lemma eq_34 (c : R) (X : R → matrix m n R) (hX : differentiable R X) :
   deriv (c • X) = c • deriv X := funext $ λ _, deriv_const_smul c (hX _)
@@ -51,27 +38,16 @@ lemma eq_35 (X Y : R → matrix m n R) (hX : differentiable R X) (hY : different
   deriv (X + Y) = deriv X + deriv Y := funext $ λ _, deriv_add (hX _) (hY _)
 lemma eq_36 (X : R → matrix m m R) (hX : differentiable R X) :
   deriv (λ a, trace (X a)) = λ a, trace (deriv X a) :=
-begin
-  ext a,
-  rw deriv_matrix _ _ (hX a),
-  simp_rw [matrix.trace, matrix.diag, of_apply],
-  rw deriv_sum,
-  intros i hi,
-  simp_rw differentiable_pi at hX,
-  exact hX _ _ _,
-end
+funext $ λ _, (hX _).has_deriv_at.trace.deriv
 lemma eq_37 (X : R → matrix m n R) (Y : R → matrix n p R) (hX : differentiable R X) (hY : differentiable R Y) :
   deriv (λ a, (X a) ⬝ (Y a)) = λ a, deriv X a ⬝ Y a + X a ⬝ deriv Y a :=
-begin
-  ext a,
-  rw [deriv_matrix _ _ (hX a),  deriv_matrix _ _ (hY a)],
-  simp_rw [pi.add_apply, mul_apply, of_apply],
-  sorry,  -- would be easier to show `has_deriv_at`...
-end
+funext $ λ a, ((hX a).has_deriv_at.matrix_mul (hY a).has_deriv_at).deriv
 lemma eq_38 (X Y : R → matrix n p R) (hX : differentiable R X) (hY : differentiable R Y) :
-  deriv (λ a, (X a) ⊙ (Y a)) = λ a, deriv X a ⊙ Y a + X a ⊙ deriv Y a := sorry
-lemma eq_39 (X Y : R → matrix n p R) (hX : differentiable R X) (hY : differentiable R Y) :
-  deriv (λ a, (X a) ⊗ₖ (Y a)) = λ a, deriv X a ⊗ₖ Y a + X a ⊗ₖ deriv Y a := sorry
+  deriv (λ a, (X a) ⊙ (Y a)) = λ a, deriv X a ⊙ Y a + X a ⊙ deriv Y a :=
+funext $ λ a, ((hX a).has_deriv_at.matrix_hadamard (hY a).has_deriv_at).deriv
+lemma eq_39 (X : R → matrix m n R) (Y : R → matrix p q R) (hX : differentiable R X) (hY : differentiable R Y) :
+  deriv (λ a, (X a) ⊗ₖ (Y a)) = λ a, deriv X a ⊗ₖ Y a + X a ⊗ₖ deriv Y a :=
+funext $ λ a, ((hX a).has_deriv_at.matrix_kronecker (hY a).has_deriv_at).deriv
 lemma eq_40 (X : R → matrix n n R) (hX : differentiable R X) :
   deriv (λ a, (X a)⁻¹) = λ a, -(X a)⁻¹ * deriv X a * (X a)⁻¹ := sorry
 lemma eq_41 (X : R → matrix n n R) (hX : differentiable R X) :
@@ -81,7 +57,7 @@ lemma eq_42 (X : R → matrix n n R) (hX : differentiable R X) :
 lemma eq_43 (X : ℝ → matrix n n ℝ) (hX : differentiable ℝ X) :
   deriv (λ a, real.log (det (X a))) = λ a, trace ((X a)⁻¹ * deriv X a) := sorry
 lemma eq_44 (X : R → matrix m n R) (hX : differentiable R X) :
-  deriv (λ a, (X a)ᵀ) = λ a, (deriv X a)ᵀ := sorry
+  deriv (λ a, (X a)ᵀ) = λ a, (deriv X a)ᵀ := funext $ λ _, (hX _).has_deriv_at.transpose.deriv
 lemma eq_45 [star_ring R] (X : R → matrix m n R) (hX : differentiable R X) :
   deriv (λ a, (X a)ᴴ) = λ a, (deriv X a)ᴴ := sorry
 
