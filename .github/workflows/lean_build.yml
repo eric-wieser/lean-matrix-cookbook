@@ -1,5 +1,6 @@
 on:
   push:
+  pull_request:
 
 permissions:
   contents: write
@@ -96,6 +97,7 @@ jobs:
       with:
         path: 'build'
 
-    - name: Deploy to GitHub Pages
+    - name: Deploy to GitHub Pages 
+      if: github.ref == 'refs/heads/master'
       id: deployment
       uses: actions/deploy-pages@v1
