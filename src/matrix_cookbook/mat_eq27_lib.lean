@@ -147,7 +147,7 @@ begin
   rw det4_one_add_a, rw det4, ring,
 end
 
-lemma trace_a_all_squared {A : matrix (fin 4) (fin 4) R}:
+lemma sq_trace_fin_four (A : matrix (fin 4) (fin 4) R) :
 (trace A)^2 = 
 A 0 0^2 + A 1 1^2 + A 2 2^2 + A 3 3^2 + 
 2*A 0 0*A 1 1 + 2*A 0 0*A 2 2 + 2*A 0 0*A 3 3 + 
