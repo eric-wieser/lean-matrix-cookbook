@@ -187,11 +187,10 @@ trace A + (1/2)*( (trace A)^2 - trace (A^2)) +
 begin
   have h2: (2:R) ≠ 0, {norm_num,},
   have h6: (6:R) ≠ 0, {norm_num,},
-  rw eq_27_rhs_part1, rw ← mul_assoc, rw one_div_mul_cancel h6, 
-  rw one_mul,
-  rw eq_27_rhs_part2, rw ← mul_assoc, rw one_div_mul_cancel h2, 
-  rw one_mul,
-  rw trace_a_fin4, ring,
+  rw [eq_27_rhs_part1, ← mul_assoc, rw one_div_mul_cancel h6, 
+    one_mul, eq_27_rhs_part2, ← mul_assoc, one_div_mul_cancel h2, one_mul,
+    trace_a_fin4],
+  ring,
 end
 
 
