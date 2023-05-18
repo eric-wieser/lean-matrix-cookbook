@@ -6,6 +6,9 @@ import data.matrix.notation
 import ring_theory.power_series.basic
 import tactic.norm_fin
 
+
+import matrix_cookbook.mat_eq27_lib
+
 /-! # Basics -/
 
 variables {ι : Type*} {R : Type*} {m n p : Type*}
@@ -72,9 +75,15 @@ begin
   ring,
   -- ring,
 end
-lemma eq_27 {A : matrix (fin 4) (fin 4) R} :
-  det (1 + A) = 1 + det A + trace A + 1/2*trace A^2 - 1/2*trace (A^2) + 1/6*trace A^3 - 1/2*trace A * trace (A^2) + 1/3 * trace (A^3) := sorry
-
+lemma eq_27 {A : matrix (fin 4) (fin 4) R} [char_zero R] :
+  det (1 + A) = 1 + det A + trace A +  
+    (1/2)*( (trace A)^2 - trace (A^2)) + 
+    (1/6)*( (trace A)^3 - 3*trace A * trace (A^2) + 2 * trace (A^3) ) := 
+begin
+  repeat {rw add_assoc (1 + det A)}, rw ← sub_eq_iff_eq_add', rw add_comm (1:R) _,
+  rw sub_add_eq_sub_sub,
+  apply eq_27_before_last,
+end
 /-! Note: it is likely that eq (28) is just wrong in the source material! -/
 
 -- TODO: is this statement correct?
