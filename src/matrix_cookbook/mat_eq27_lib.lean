@@ -20,9 +20,10 @@ This file contains lemmas in rather verbose form of matrix fin 4 fin 4 R.
 
 These are used to prove equation 27 in the matrix cookbook. 
 
-The results are all field results. The last one `eq_27_before_last` which
-involves multiplication and division by the numbers 2, 3 and 6 imposes more
-requirement, which I satsified by requiring a field with characteristic zero.
+The results are all for commutative rings. The last one `eq_27_before_last` 
+which involves multiplication and division by the numbers 2, 3 and 6 imposes 
+more requirement, which I satsified by requiring a field with characteristic 
+zero.
 
 -/
 
