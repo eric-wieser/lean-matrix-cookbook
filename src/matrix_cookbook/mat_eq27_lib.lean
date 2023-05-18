@@ -20,11 +20,7 @@ This file contains lemmas in rather verbose form of matrix fin 4 fin 4 R.
 
 These are used to prove equation 27 in the matrix cookbook. 
 
-The results are all for commutative rings. The last one `eq_27_before_last` 
-which involves multiplication and division by the numbers 2, 3 and 6 imposes 
-more requirement, which I satsified by requiring a field with characteristic 
-zero.
-
+The results are all for commutative rings.
 -/
 
 open_locale matrix big_operators
@@ -98,17 +94,6 @@ lemma sq_trace_fin_four (A : matrix (fin 4) (fin 4) R) :
     2*A 1 1*A 2 2 + 2*A 1 1*A 3 3 + 2*A 2 2*A 3 3 :=
 begin
   rw [trace_fin_four, pow_two], 
-  ring,
-end
-
-lemma eq_27_before_last {R} [field R] [char_zero R] (A : matrix (fin 4) (fin 4) R)  :
-  det (1 + A) - det A - 1 = trace A + 
-    (1/2)*( (trace A)^2 - trace (A^2)) + 
-    (1/6)*( (trace A)^3 - 3*trace A * trace (A^2) + 2 * trace (A^3) ) := 
-begin
-  field_simp,
-  rw [det_one_add_fin_four, det_fin_four, trace_pow_three_fin_four, trace_pow_two_fin_four,
-    sq_trace_fin_four, trace_fin_four],
   ring,
 end
 
