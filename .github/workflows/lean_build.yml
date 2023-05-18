@@ -75,6 +75,11 @@ jobs:
         leanproject get-mathlib-cache
         leanproject get-cache --fallback=download-first || true
 
+    - name: Lint
+      run: |
+        set -o pipefail
+        _target/deps/mathlib/scripts/lint-style.py $(find src -name '*.lean') | grep -vE 'ERR_COP|ERR_LIN'
+
     - name: Build
       run: |
         # hack: remove the `sys.exit` for noisy files

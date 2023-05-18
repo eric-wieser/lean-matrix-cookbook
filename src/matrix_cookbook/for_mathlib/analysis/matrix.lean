@@ -2,6 +2,8 @@ import analysis.matrix
 import data.matrix.kronecker
 import data.matrix.hadamard
 
+/-! # Missing lemmas about matrix analysis -/
+
 variables {ι : Type*} {R : Type*} {m n p q : Type*}
 variables [fintype m] [fintype n] [fintype p] [fintype q]
 variables [decidable_eq m] [decidable_eq n] [decidable_eq p] [decidable_eq q]
