@@ -2,6 +2,8 @@ import linear_algebra.matrix.nonsingular_inverse
 import data.complex.basic
 import matrix_cookbook.mat_inv_lib
 
+/-! # Inverses -/
+
 namespace matrix_cookbook
 variables {m n p : Type*}
 variables [fintype m] [fintype n] [fintype p]
@@ -10,7 +12,6 @@ variables (A B C : matrix n n ℂ)
 open matrix
 open_locale matrix big_operators
 
-/-! # Inverses -/
 
 /-! ## Basic -/
 
