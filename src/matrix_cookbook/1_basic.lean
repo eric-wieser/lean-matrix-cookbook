@@ -6,6 +6,8 @@ import data.matrix.notation
 import ring_theory.power_series.basic
 import tactic.norm_fin
 
+import matrix_cookbook.lib.trace_det_fin_four
+
 /-! # Basics -/
 
 variables {ι : Type*} {R : Type*} {m n p : Type*}
@@ -72,9 +74,20 @@ begin
   ring,
   -- ring,
 end
-lemma eq_27 {A : matrix (fin 4) (fin 4) R} :
-  det (1 + A) = 1 + det A + trace A + 1/2*trace A^2 - 1/2*trace (A^2) + 1/6*trace A^3 - 1/2*trace A * trace (A^2) + 1/3 * trace (A^3) := sorry
-
+lemma eq_27 {A : matrix (fin 4) (fin 4) R} [char_zero R] :
+  det (1 + A) = 1 + det A + trace A +  
+    (1/2)*( (trace A)^2 - trace (A^2)) + 
+    (1/6)*( (trace A)^3 - 3*trace A * trace (A^2) + 2 * trace (A^3) ) := 
+begin
+  -- TODO: it might be cleaner to prove this via the
+  -- [Girard-Waring formula](https://math.stackexchange.com/a/2779104/1896), which wouldn't produce
+  -- such a frighteniningly long goal state!
+  field_simp,
+  rw [det_one_add_fin_four, det_fin_four, 
+    trace_pow_three_fin_four, trace_pow_two_fin_four,
+    sq_trace_fin_four, trace_fin_four],
+  ring,
+end
 /-! Note: it is likely that eq (28) is just wrong in the source material! -/
 
 -- TODO: is this statement correct?
