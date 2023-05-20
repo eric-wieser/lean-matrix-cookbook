@@ -25,7 +25,10 @@ lemma eq_145 (h : is_unit A.det) : A * A⁻¹ = 1 ∧ A⁻¹ * A = 1 :=
 /-! ### Cofactors and Adjoint -/
 
 lemma eq_146 (n : ℕ) (A : matrix (fin n.succ) (fin n.succ) ℂ) (i j) :
-  adjugate A j i = (-1)^(i + j : ℕ) * det (A.submatrix i.succ_above j.succ_above) := sorry
+  adjugate A j i = (-1)^(i + j : ℕ) * det (A.submatrix i.succ_above j.succ_above) := 
+begin
+  rw adjugate, rw matrix.cramer, dsimp,
+end
 lemma eq_147 : (adjugate A)ᵀ = of (λ i j, adjugate A j i) := rfl
 lemma eq_148 : adjugate A = (adjugate A)ᵀᵀ := rfl
 
@@ -96,8 +99,7 @@ begin
   { apply is_unit_iff_ne_zero.2, 
     apply pos_def.det_ne_zero,
     apply pos_def.add_semidef hR,
-    apply pos_def.hermitian_conj_is_semidef hP,
-    assumption', },
+    exact pos_def.hermitian_conj_is_semidef hP, },
   have : is_unit (R⁻¹⁻¹ + Bᴴᴴ ⬝ P⁻¹⁻¹ ⬝ Bᴴ).det, 
   { simp only [inv_inv_of_invertible, conj_transpose_conj_transpose],
     apply hComb_unit, },
@@ -106,12 +108,12 @@ begin
   nth_rewrite 1 ← conj_transpose_conj_transpose B,
   rw eq_156_hermitianized P⁻¹ R⁻¹ Bᴴ,
   simp only [inv_inv_of_invertible, conj_transpose_conj_transpose],
-  rw [matrix.sub_mul,  matrix.sub_mul], 
-  rw sub_eq_iff_eq_add,
+  rw [matrix.sub_mul,  matrix.sub_mul, sub_eq_iff_eq_add], 
   apply_fun (matrix.mul P⁻¹), 
   rw matrix.mul_add,
   repeat {rw ←  matrix.mul_assoc P⁻¹ _ _}, 
-  apply_fun (λ x, x⬝R),  dsimp,
+  apply_fun (λ x, x⬝R),  
+  dsimp,
   rw matrix.add_mul,
   simp only [inv_mul_of_invertible, matrix.one_mul, 
     inv_mul_cancel_right_of_invertible],
