@@ -2,6 +2,7 @@ import linear_algebra.matrix.nonsingular_inverse
 import linear_algebra.matrix.pos_def
 import linear_algebra.matrix.spectrum
 import data.complex.basic
+import matrix_cookbook.for_mathlib.linear_algebra.matrix.pos_def
 
 variables {m n p : Type*}
 variables [fintype m] [fintype n] [fintype p]
@@ -9,108 +10,6 @@ variables [decidable_eq m] [decidable_eq n] [decidable_eq p]
 
 open matrix
 open_locale matrix big_operators
-
-
-lemma is_unit_of_pos_def {A : matrix m m ℂ} (hA: matrix.pos_def A): 
-  is_unit A.det := 
-begin
-  rw is_unit_iff_ne_zero,
-  apply ne.symm,
-  cases hA with hAH hpos,
-  rw is_hermitian.det_eq_prod_eigenvalues hAH,
-  norm_cast,
-  rw ← ne.def,
-  apply ne_of_lt,
-  apply finset.prod_pos,
-  intros i _,
-  rw hAH.eigenvalues_eq,
-  apply hpos _ (λ h, _),
-  have h_det : (hAH.eigenvector_matrix)ᵀ.det = 0,
-    from matrix.det_eq_zero_of_row_eq_zero i (λ j, congr_fun h j),
-  simpa only [h_det, not_is_unit_zero] using
-    is_unit_det_of_invertible hAH.eigenvector_matrixᵀ,
-end
-
-noncomputable lemma invertible_of_pos_def {A : matrix m m ℂ} {hA: matrix.pos_def A}:
-  invertible A := 
-begin  
-  apply invertible_of_is_unit_det,
-  apply is_unit_of_pos_def,
-  exact hA,
-end
-
-lemma A_add_B_P_Bt_pos_if_A_pos_B_pos 
-  (P : matrix m m ℂ) (R : matrix n n ℂ) (B : matrix n m ℂ)
-  -- [invertible P] [invertible R]
-  (hP: matrix.pos_def P) (hR: matrix.pos_def R) :
-  matrix.pos_def (B⬝P⬝Bᴴ + R) := 
-begin
-  cases hP with hPH hP_pos,
-  cases hR with hRH hR_pos,
-
-  split,
-  -- (B ⬝ P ⬝ Bᴴ + R).is_hermitian
-  unfold is_hermitian at *, rw conj_transpose_add,
-  rw conj_transpose_mul,
-  rw conj_transpose_mul, rw conj_transpose_conj_transpose,
-  rw [hPH, hRH], rw ← matrix.mul_assoc,
-
-  rintros x hx, simp only [is_R_or_C.re_to_complex],
-  -- 0 < ⇑is_R_or_C.re (star x ⬝ᵥ (B ⬝ P ⬝ Bᴴ + R).mul_vec x)
-  rw add_mul_vec,
-  rw ← mul_vec_mul_vec,
-  rw dot_product_add,
-  rw complex.add_re,
-  replace hR_pos := hR_pos x hx, 
-  rw is_R_or_C.re_to_complex at hR_pos,
-
-  replace hP_pos := hP_pos (Bᴴ.mul_vec x), 
-  rw is_R_or_C.re_to_complex at hP_pos,
-
-  rw dot_product_mul_vec,
-  nth_rewrite 0  ← transpose_transpose B,
-  rw ← vec_mul_mul_vec Bᵀ P (star x),
-  have : star(Bᴴ.mul_vec x) = Bᵀ.mul_vec (star x), {
-    rw star_mul_vec, rw conj_transpose_conj_transpose,
-    funext k, rw mul_vec, rw vec_mul, dsimp, rw dot_product,
-    rw dot_product, conv_rhs {
-      apply_congr, skip, rw transpose_apply, rw mul_comm,
-    },
-  }, rw ← this, rw ← dot_product_mul_vec,
-  
-  by_cases hBHx: (Bᴴ.mul_vec x = 0 ), {
-    rw hBHx, rw mul_vec_zero, rw dot_product_zero,
-    simp only [complex.zero_re, zero_add],
-    exact hR_pos,
-  }, {
-    exact add_pos (hP_pos hBHx) hR_pos,
-  },
-end
-
-lemma right_mul_inj_of_invertible (P : matrix m m ℂ) [invertible P] :
-  function.injective (λ (x : matrix n m ℂ), x ⬝ P) := 
-begin
-  rintros x a hax, 
-  replace hax := congr_arg (λ (x : matrix n m ℂ), x ⬝ P⁻¹) hax,
-  dsimp at hax, 
-  rw mul_nonsing_inv_cancel_right at hax,
-  rw mul_nonsing_inv_cancel_right at hax, exact hax,
-  apply is_unit_det_of_invertible,
-  apply is_unit_det_of_invertible,
-end
-
-lemma left_mul_inj_of_invertible (P : matrix m m ℂ) [invertible P] :
-  function.injective (λ (x : matrix m n ℂ), P ⬝ x) := 
-begin
-  rintros x a hax, 
-  replace hax := congr_arg (λ (x : matrix m n ℂ), P⁻¹ ⬝ x) hax,
-  dsimp at hax, 
-  rw nonsing_inv_mul_cancel_left at hax,
-  rw nonsing_inv_mul_cancel_left at hax,
-  exact hax,
-  apply is_unit_det_of_invertible,
-  apply is_unit_det_of_invertible,
-end
 
 lemma unit_matrix_sandwich
 (u: n → ℂ)(v: n → ℂ)(s: ℂ)(sm: matrix unit unit ℂ) (h: s = (sm punit.star punit.star)):

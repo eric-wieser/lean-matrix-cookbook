@@ -12,18 +12,22 @@ import data.complex.basic
 
 /-! # Positive Definite Matrices : Extra Lemmas -/
 
-variables {m: Type*}[fintype m][decidable_eq m]
-variables {n: Type*}[fintype n][decidable_eq n]
+variables {m n: Type*}
+variables [fintype m][decidable_eq m][fintype n][decidable_eq n]
 variables {R: Type*}[field R][is_R_or_C R][decidable_eq R]
 
 open matrix
+open complex
 open_locale matrix big_operators
+open_locale complex_order
 
-lemma det_ne_zero{A: matrix m m R} (hA: pos_def A)  : 
- 0 ≠ A.det :=
+lemma pos_def.det_ne_zero{A: matrix m m R} (hA: pos_def A)  : 
+  A.det ≠ 0 :=
+  -- 0 < A.det := 
 begin
   rw hA.is_hermitian.det_eq_prod_eigenvalues,
-  norm_cast,
+  symmetry',
+  norm_cast, 
   apply ne_of_lt,
   apply finset.prod_pos,
   intros i _,
@@ -59,7 +63,7 @@ begin
   exact vec_mul_star_eq_transpose_mul_vec,
 end
 
-lemma pos_def.hermitian_conj {A: matrix m m R} {B: matrix n m R}
+lemma pos_def.hermitian_conj_is_semidef {A: matrix m m R} {B: matrix n m R}
   (hA: matrix.pos_def A) : matrix.pos_semidef (B⬝A⬝Bᴴ) :=
 begin
   cases hA with hAH hA_pos,
@@ -71,9 +75,11 @@ begin
   intros x,
   rw [← mul_vec_mul_vec, dot_product_mul_vec],
   nth_rewrite 0  ← transpose_transpose B,
-  rw [← vec_mul_mul_vec Bᵀ A (star x),  ← star_conj_transpose_mul_vec,  ← dot_product_mul_vec ],
+  rw [← vec_mul_mul_vec Bᵀ A (star x),  ← star_conj_transpose_mul_vec, 
+   ← dot_product_mul_vec ],
   
-  by_cases h: (Bᴴ.mul_vec x ≠ 0), { exact le_of_lt ((hA_pos (Bᴴ.mul_vec x)) h), },
+  by_cases h: (Bᴴ.mul_vec x ≠ 0), 
+  { exact le_of_lt ((hA_pos (Bᴴ.mul_vec x)) h), },
   { push_neg at h, 
     rw h, 
     simp only [mul_vec_zero, star_zero, zero_dot_product, is_R_or_C.zero_re'], },

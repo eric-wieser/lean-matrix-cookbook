@@ -1,6 +1,8 @@
 import linear_algebra.matrix.nonsingular_inverse
 import data.complex.basic
 import matrix_cookbook.mat_inv_lib
+import matrix_cookbook.for_mathlib.linear_algebra.matrix.nonsing_inverse
+import matrix_cookbook.for_mathlib.linear_algebra.matrix.pos_def
 
 /-! # Inverses -/
 
@@ -86,12 +88,15 @@ begin
   -- This is equation 80:
   -- http://www.stat.columbia.edu/~liam/teaching/neurostat-spr12/papers/hmm/KF-welling-notes.pdf
 
-  have hP_unit: is_unit P.det, by exact is_unit_of_pos_def hP,
-  have hR_unit: is_unit R.det, by exact is_unit_of_pos_def hR,
+  have hP_unit := is_unit_iff_ne_zero.2 (pos_def.det_ne_zero hP),
+  have hR_unit := is_unit_iff_ne_zero.2 (pos_def.det_ne_zero hR),
   have hP_inv_unit := is_unit_nonsing_inv_det P hP_unit,
   have hR_inv_unit := is_unit_nonsing_inv_det R hR_unit,
   have hComb_unit: is_unit (R + B ⬝ P ⬝ Bᴴ).det, {
-    rw add_comm, apply is_unit_of_pos_def, apply A_add_B_P_Bt_pos_if_A_pos_B_pos,  
+    apply is_unit_iff_ne_zero.2,
+    apply pos_def.det_ne_zero,
+    apply pos_def.add_semidef hR,
+    apply pos_def.hermitian_conj_is_semidef hP,
     assumption',
   },
   have : is_unit (R⁻¹⁻¹ + Bᴴᴴ ⬝ P⁻¹⁻¹ ⬝ Bᴴ).det, {
@@ -103,19 +108,21 @@ begin
   nth_rewrite 1 ← conj_transpose_conj_transpose B,
   rw eq_156_hermitianized P⁻¹ R⁻¹ Bᴴ,
   simp only [inv_inv_of_invertible, conj_transpose_conj_transpose],
-  rw matrix.sub_mul, rw matrix.sub_mul, 
+  rw [matrix.sub_mul,  matrix.sub_mul], 
   rw sub_eq_iff_eq_add,
-  apply_fun (matrix.mul P⁻¹), rw matrix.mul_add,
-  repeat {rw ←  matrix.mul_assoc P⁻¹ _ _}, rw nonsing_inv_mul, rw matrix.one_mul,
+  apply_fun (matrix.mul P⁻¹), 
+  rw matrix.mul_add,
+  repeat {rw ←  matrix.mul_assoc P⁻¹ _ _}, 
   apply_fun (λ x, x⬝R),  dsimp,
   rw matrix.add_mul,
-  rw nonsing_inv_mul_cancel_right,
-  rw nonsing_inv_mul_cancel_right,
+  simp only [inv_mul_of_invertible, matrix.one_mul, 
+    inv_mul_cancel_right_of_invertible],
   repeat {rw matrix.mul_assoc (Bᴴ⬝(R + B ⬝ P ⬝ Bᴴ)⁻¹)},
-  rw ← matrix.mul_add (Bᴴ⬝(R + B ⬝ P ⬝ Bᴴ)⁻¹), rw nonsing_inv_mul_cancel_right,
+  rw ← matrix.mul_add (Bᴴ⬝(R + B ⬝ P ⬝ Bᴴ)⁻¹), 
+  rw nonsing_inv_mul_cancel_right,
 
-  rw add_comm, apply is_unit_of_pos_def, apply A_add_B_P_Bt_pos_if_A_pos_B_pos,
   assumption',
+
   apply right_mul_inj_of_invertible,
   apply left_mul_inj_of_invertible,
 end
