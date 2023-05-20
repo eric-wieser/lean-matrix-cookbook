@@ -92,17 +92,15 @@ begin
   have hR_unit := is_unit_iff_ne_zero.2 (pos_def.det_ne_zero hR),
   have hP_inv_unit := is_unit_nonsing_inv_det P hP_unit,
   have hR_inv_unit := is_unit_nonsing_inv_det R hR_unit,
-  have hComb_unit: is_unit (R + B ⬝ P ⬝ Bᴴ).det, {
-    apply is_unit_iff_ne_zero.2,
+  have hComb_unit: is_unit (R + B ⬝ P ⬝ Bᴴ).det, 
+  { apply is_unit_iff_ne_zero.2, 
     apply pos_def.det_ne_zero,
     apply pos_def.add_semidef hR,
     apply pos_def.hermitian_conj_is_semidef hP,
-    assumption',
-  },
-  have : is_unit (R⁻¹⁻¹ + Bᴴᴴ ⬝ P⁻¹⁻¹ ⬝ Bᴴ).det, {
-    simp only [inv_inv_of_invertible, conj_transpose_conj_transpose],
-    apply hComb_unit,
-  },
+    assumption', },
+  have : is_unit (R⁻¹⁻¹ + Bᴴᴴ ⬝ P⁻¹⁻¹ ⬝ Bᴴ).det, 
+  { simp only [inv_inv_of_invertible, conj_transpose_conj_transpose],
+    apply hComb_unit, },
 
   rw add_comm _ R,
   nth_rewrite 1 ← conj_transpose_conj_transpose B,
@@ -137,7 +135,8 @@ begin
   rw eq_157 A 1 B C,
   simp only [inv_one], assumption',
   simp only [det_one, is_unit_one],
-  rw inv_one, assumption',
+  rw inv_one, 
+  assumption',
 end
 
 /-! ### Sherman-Morrison -/
@@ -149,9 +148,13 @@ begin
   let hA := is_unit_det_of_invertible A,
 
   rw eq_159, simp only [sub_right_inj],
-  apply_fun (λ x, x⬝A),  dsimp, rw nonsing_inv_mul_cancel_right,
-  rw ← matrix.smul_mul, rw nonsing_inv_mul_cancel_right,
-  apply_fun (λ x, A⬝x),  dsimp, rw ← matrix.mul_smul,
+  apply_fun (λ x, x⬝A),  
+  dsimp, 
+  rw nonsing_inv_mul_cancel_right,
+  rw ← matrix.smul_mul, 
+  rw nonsing_inv_mul_cancel_right,
+  apply_fun (λ x, A⬝x),  
+  dsimp, rw ← matrix.mul_smul,
   repeat {rw matrix.mul_assoc A⁻¹},
   rw mul_nonsing_inv_cancel_left,
   rw mul_nonsing_inv_cancel_left,
@@ -164,7 +167,8 @@ begin
   apply left_mul_inj_of_invertible,
   apply right_mul_inj_of_invertible,
   simp only [det_unique, punit.default_eq_star, dmatrix.add_apply, one_apply_eq],
-  rw ←row_mul_mat_mul_col, apply is_unit_iff_ne_zero.2 habc, 
+  rw ←row_mul_mat_mul_col, 
+  apply is_unit_iff_ne_zero.2 habc, 
 end
 
 /-! ### The Searle Set of Identities -/
