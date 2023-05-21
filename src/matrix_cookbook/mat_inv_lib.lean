@@ -11,6 +11,26 @@ variables [decidable_eq m] [decidable_eq n] [decidable_eq p]
 open matrix
 open_locale matrix big_operators
 
+
+lemma unit_matrix_mul_row {v: n → ℂ}{sm: matrix unit unit ℂ}:
+  sm ⬝ row v  =  sm () () • row v := 
+begin
+  funext k m,
+  simp only [pi.smul_apply, mul_apply, fintype.univ_unit, 
+    finset.sum_singleton, col_apply, algebra.id.smul_eq_mul],
+  congr,
+end
+
+lemma col_mul_unit_matrix {v: n → ℂ}{sm: matrix unit unit ℂ}:
+  col v ⬝ sm =  sm () () • col v := 
+begin
+  funext k m,
+  simp only [pi.smul_apply, mul_apply, fintype.univ_unit, 
+    finset.sum_singleton, col_apply, algebra.id.smul_eq_mul],
+  rw mul_comm,
+  congr,
+end
+
 lemma unit_matrix_sandwich
 (u: n → ℂ)(v: n → ℂ)(s: ℂ)(sm: matrix unit unit ℂ) (h: s = (sm punit.star punit.star)):
   (col u ⬝ sm ⬝ row v)  = s • (col u ⬝ row v) :=
@@ -24,32 +44,6 @@ begin
   rw fintype.univ_punit, rw finset.sum_singleton, rw row_apply, rw col_apply, 
   ring,
 end
-
-lemma unit_matrix_mul_row {v: n → ℂ}{sm: matrix unit unit ℂ}:
-  sm () () • row v = sm ⬝ row v := 
-begin
-  funext m k,
-  rw [pi.smul_apply, pi.smul_apply],
-  rw [mul_apply, fintype.univ_unit, finset.sum_singleton],
-  rw row_apply,
-  rw row_apply,
-  simp only [algebra.id.smul_eq_mul], 
-  congr,
-end
-
-lemma col_mul_unit_matrix {v: n → ℂ}{sm: matrix unit unit ℂ}:
-  sm () () • col v = col v ⬝ sm := 
-begin
-  funext k m,
-  rw [pi.smul_apply, pi.smul_apply],
-  rw [mul_apply, fintype.univ_unit, finset.sum_singleton],
-  rw col_apply,
-  rw col_apply,
-  simp only [algebra.id.smul_eq_mul],
-  have: m = (), {simp only [eq_iff_true_of_subsingleton],},
-  rw [mul_comm, this],
-end
-
 
 lemma row_mul_mat_mul_col (A : matrix m m ℂ) (b c : m → ℂ) :
   c ⬝ᵥ A.mul_vec b = (row c ⬝ A ⬝ col b) punit.star punit.star:= 
