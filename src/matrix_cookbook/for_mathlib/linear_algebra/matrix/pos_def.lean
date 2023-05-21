@@ -39,6 +39,66 @@ begin
     is_unit_det_of_invertible hA.is_hermitian.eigenvector_matrixᵀ,
 end
 
+lemma weighted_inner_product_comm {A : matrix n n R} {v w : n → R} (hA: is_hermitian A):
+  is_R_or_C.re (star v ⬝ᵥ A.mul_vec w) = is_R_or_C.re (star w ⬝ᵥ A.mul_vec v) :=
+begin
+  nth_rewrite 0 ← is_R_or_C.conj_re,
+  have za: (star v ⬝ᵥ A.mul_vec w) = star(star w ⬝ᵥ A.mul_vec v), {
+    rw is_hermitian at hA, 
+    rw dot_product,
+    rw dot_product,
+    conv_lhs{
+      apply_congr, skip,
+      rw mul_vec, rw dot_product, rw pi.star_apply,
+      rw finset.mul_sum,
+    },
+    conv_rhs {
+      rw star_sum, apply_congr, skip,
+      rw star_mul', 
+      rw pi.star_apply, rw star_star, rw mul_vec, rw dot_product,
+      rw star_sum,
+      rw finset.mul_sum,
+    },
+    conv_rhs {
+      apply_congr,
+      skip, conv {
+        apply_congr, skip,
+        rw star_mul',
+        rw mul_comm _ (star (v x_1)), rw mul_comm,
+        rw ← hA, rw conj_transpose_apply, rw star_star,
+        rw mul_assoc, 
+      },
+    },
+    rw finset.sum_comm,
+  },
+  rw za,
+  rw star_ring_end_apply, rw star_star,
+end
+
+lemma pos_def.det_ne_zero'{A: matrix m m R} (hA: pos_def A)  : 
+  A.det ≠ 0 :=
+  -- 0 < A.det := 
+begin
+  apply nondegenerate.det_ne_zero, 
+  rw nondegenerate,
+  intro v, intro hw,
+  
+  by_contra,
+  have az := hA.2 v h, 
+  -- have ay := ne_of_lt az,
+
+  specialize hw (star v),
+  have hw1 := congr_arg star hw, 
+  rw star_zero at hw1,
+  rw ← star_dot_product_star _ v at hw1, 
+  rw star_mul_vec at hw1, 
+  rw matrix.is_hermitian.eq hA.is_hermitian at hw1,
+  rw star_star at hw1,
+  
+  
+  
+end
+
 lemma vec_mul_star_eq_transpose_mul_vec {A: matrix m n R} {x: m → R} :
   vec_mul (star x) A = Aᵀ.mul_vec (star x) :=
 begin
@@ -66,11 +126,9 @@ end
 lemma pos_def.hermitian_conj_is_semidef {A: matrix m m R} {B: matrix n m R}
   (hA: matrix.pos_def A) : matrix.pos_semidef (B⬝A⬝Bᴴ) :=
 begin
-  cases hA with hAH hA_pos,
+  -- cases hA with hAH hA_pos,
   split,
-  rw is_hermitian at *, 
-  rw [conj_transpose_mul, conj_transpose_mul, conj_transpose_conj_transpose, 
-      hAH, ← matrix.mul_assoc],
+  exact is_hermitian_mul_mul_conj_transpose _ hA.1,
 
   intros x,
   rw [← mul_vec_mul_vec, dot_product_mul_vec],
@@ -79,7 +137,7 @@ begin
    ← dot_product_mul_vec ],
   
   by_cases h: (Bᴴ.mul_vec x ≠ 0), 
-  { exact le_of_lt ((hA_pos (Bᴴ.mul_vec x)) h), },
+  { exact le_of_lt ((hA.2 (Bᴴ.mul_vec x)) h), },
   { push_neg at h, 
     rw h, 
     simp only [mul_vec_zero, star_zero, zero_dot_product, is_R_or_C.zero_re'], },

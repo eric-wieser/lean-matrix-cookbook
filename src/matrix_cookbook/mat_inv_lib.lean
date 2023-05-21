@@ -35,14 +35,17 @@ lemma unit_matrix_sandwich
 (u: n → ℂ)(v: n → ℂ)(s: ℂ)(sm: matrix unit unit ℂ) (h: s = (sm punit.star punit.star)):
   (col u ⬝ sm ⬝ row v)  = s • (col u ⬝ row v) :=
 begin
-  funext m k,
-  rw mul_apply, rw fintype.univ_punit, rw finset.sum_singleton, rw row_apply, 
-  rw mul_apply, rw fintype.univ_punit, rw finset.sum_singleton, rw col_apply,
-  rw ← h,
-  rw pi.smul_apply,
-  rw pi.smul_apply, simp only [algebra.id.smul_eq_mul], rw mul_apply, 
-  rw fintype.univ_punit, rw finset.sum_singleton, rw row_apply, rw col_apply, 
-  ring,
+  -- funext m k,
+  -- rw mul_apply, rw fintype.univ_punit, rw finset.sum_singleton, rw row_apply, 
+  -- rw mul_apply, rw fintype.univ_punit, rw finset.sum_singleton, rw col_apply,
+  -- rw ← h,
+  -- rw pi.smul_apply,
+  -- rw pi.smul_apply, simp only [algebra.id.smul_eq_mul], rw mul_apply, 
+  -- rw fintype.univ_punit, rw finset.sum_singleton, rw row_apply, rw col_apply, 
+  -- ring,
+  rw col_mul_unit_matrix,
+  rw ←  matrix.smul_mul, 
+  rw h,
 end
 
 lemma row_mul_mat_mul_col (A : matrix m m ℂ) (b c : m → ℂ) :
