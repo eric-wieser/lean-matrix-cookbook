@@ -33,9 +33,8 @@ begin
   rw [mul_apply, fintype.univ_unit, finset.sum_singleton],
   rw row_apply,
   rw row_apply,
-  simp only [algebra.id.smul_eq_mul],
-  have: m = (), {simp only [eq_iff_true_of_subsingleton],},
-  rw this,
+  simp only [algebra.id.smul_eq_mul], 
+  congr,
 end
 
 lemma col_mul_unit_matrix {v: n → ℂ}{sm: matrix unit unit ℂ}:
