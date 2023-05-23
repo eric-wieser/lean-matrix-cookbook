@@ -15,9 +15,8 @@ import data.matrix.notation
 open matrix
 open_locale matrix big_operators
 
-lemma submatrix_succ_above  {n : ℕ} {A : matrix (fin n.succ) (fin n.succ) ℂ} {i j} : 
-  (A.update_row i (pi.single j 1)).submatrix i.succ_above j.succ_above = 
-    A.submatrix i.succ_above j.succ_above := 
+lemma submatrix_succ_above {α k l} {n : ℕ} {A : matrix (fin n.succ) k α} (v : k → α) {f : l → k} {i} : 
+  (A.update_row i v).submatrix i.succ_above f = A.submatrix i.succ_above f := 
 begin
   funext r s,
   rw submatrix_apply,
