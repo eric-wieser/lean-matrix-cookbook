@@ -1,3 +1,9 @@
+/-
+Copyright (c) 2023 Eric Wieser. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Eric Wieser
+-/
+
 import analysis.matrix
 import data.matrix.kronecker
 import data.matrix.hadamard

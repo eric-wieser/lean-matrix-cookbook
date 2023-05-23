@@ -1,5 +1,9 @@
 import linear_algebra.matrix.nonsingular_inverse
 import data.complex.basic
+import matrix_cookbook.lib.mat_inv_lib
+import matrix_cookbook.for_mathlib.linear_algebra.matrix.nonsing_inverse
+import matrix_cookbook.for_mathlib.linear_algebra.matrix.pos_def
+import matrix_cookbook.for_mathlib.linear_algebra.matrix.adjugate
 
 /-! # Inverses -/
 
@@ -22,17 +26,61 @@ lemma eq_145 (h : is_unit A.det) : A * A⁻¹ = 1 ∧ A⁻¹ * A = 1 :=
 /-! ### Cofactors and Adjoint -/
 
 lemma eq_146 (n : ℕ) (A : matrix (fin n.succ) (fin n.succ) ℂ) (i j) :
-  adjugate A j i = (-1)^(i + j : ℕ) * det (A.submatrix i.succ_above j.succ_above) := sorry
+  adjugate A j i = (-1)^(i + j : ℕ) * det (A.submatrix i.succ_above j.succ_above) := 
+begin
+  /- The comment on line 182 of the adjugate file says that the definition of adjugate
+  uses some kind of cramer map to make some things easier. I guess the price we have to pay
+  is to show equivalence of that definiton to the cofactor definition. Eric mentions that
+  mathlib people do not prefer new definitions so we will not use the definition of 
+  cofactor above.
+
+  The comment can be found here: https://tinyurl.com/4c55v86t
+
+  The proof in that case would be 
+    rw ← cofactor , apply adjugate_eq_cofactor_transpose, -/
+
+  rw adjugate, 
+  dsimp,
+  rw cramer_transpose_apply,
+  rw det_succ_row _ i,
+  conv_lhs { apply_congr, skip, rw update_row_apply, },
+  simp only [eq_self_iff_true, if_true],
+  conv_lhs {apply_congr, skip, rw pi.single_apply j (1:ℂ) x, 
+  rw mul_ite, rw ite_mul, rw mul_zero, rw zero_mul, },
+  simp only [mul_one, finset.sum_ite_eq', finset.mem_univ, if_true, 
+    neg_one_pow_mul_eq_zero_iff],
+  rw submatrix_succ_above,
+end
 lemma eq_147 : (adjugate A)ᵀ = of (λ i j, adjugate A j i) := rfl
 lemma eq_148 : adjugate A = (adjugate A)ᵀᵀ := rfl
 
 /-! ### Determinant -/
 
 /-- Note: adapted from column 0 to column 1. -/
+lemma even_wierd (n: ℕ): (-1:ℂ)^(n + n) = 1 := begin
+  rw even.neg_one_pow, use n, 
+  /- Use tactic was not working inside conv mode -/
+  /- Also nth_rewrite was not working inside conv mode -/
+end
 lemma eq_149 (n : ℕ) (A : matrix (fin n.succ) (fin n.succ) ℂ) :
   det A = ∑ i : fin n.succ, (-1) ^ (i : ℕ) * A i 0 * det (A.submatrix i.succ_above fin.succ) :=
 det_succ_column_zero _
-lemma eq_150 : sorry := sorry
+lemma eq_150 (n : ℕ) (A : matrix (fin n.succ) (fin n.succ) ℂ) : 
+  -- (-1) ^ (i : ℕ) * adjugate A 0 i represents cofactor
+  det A = ∑ i : fin n.succ, (-1) ^ (i : ℕ) * A i 0 * ((-1) ^ (i : ℕ) * adjugate A 0 i) := 
+begin
+  conv_rhs 
+  { apply_congr, 
+    skip, 
+    rw eq_146, 
+    rw fin.coe_zero, 
+    rw add_zero, 
+    rw fin.succ_above_zero, 
+    rw ← mul_assoc ((-1:ℂ)^(x:ℕ)) _ _,
+    rw ← pow_add,
+    rw even_wierd (↑x:ℕ), rw one_mul, }, 
+  apply eq_149,
+end
 
 /-! ### Construction -/
 
@@ -53,26 +101,121 @@ lemma eq_155 (A B : matrix m m ℂ) : (A * B)⁻¹ = B⁻¹ * A⁻¹ := mul_inv_
 
 /-! ### The Woodbury identity -/
 
-lemma eq_156 : sorry := sorry
-lemma eq_157 : sorry := sorry
-lemma eq_158 : sorry := sorry
+lemma eq_156 (A : matrix m m ℂ) (B : matrix n n ℂ) (C : matrix m n ℂ)
+  {hA: is_unit A.det} {hB: is_unit B.det} {hQ: is_unit (B⁻¹ + Cᵀ ⬝ A⁻¹ ⬝ C).det}: 
+  (A + C⬝B⬝Cᵀ)⁻¹ = A⁻¹ - A⁻¹⬝C⬝(B⁻¹+Cᵀ⬝A⁻¹⬝C)⁻¹⬝Cᵀ ⬝ A⁻¹ :=  
+begin
+  apply sherman_morrison,
+  assumption',
+end
+
+lemma eq_156_hermitianized (A : matrix m m ℂ) (B : matrix n n ℂ) (C : matrix m n ℂ)
+  {hA: is_unit A.det} {hB: is_unit B.det} {hQ: is_unit (B⁻¹ + Cᴴ ⬝ A⁻¹ ⬝ C).det}: 
+  (A + C⬝B⬝Cᴴ)⁻¹ = A⁻¹ - A⁻¹⬝C⬝(B⁻¹+Cᴴ⬝A⁻¹⬝C)⁻¹⬝Cᴴ ⬝ A⁻¹ :=  
+begin
+  apply sherman_morrison,
+  assumption',
+end
+
+lemma eq_157 (A : matrix m m ℂ) (B : matrix n n ℂ) (U : matrix m n ℂ) (V : matrix n m ℂ) 
+  {hA: is_unit A.det} {hB: is_unit B.det} {hQ: is_unit (B⁻¹ + V ⬝ A⁻¹ ⬝ U).det}:
+  (A + U⬝B⬝V)⁻¹ = A⁻¹ - A⁻¹⬝U⬝(B⁻¹+V⬝A⁻¹⬝U)⁻¹⬝V ⬝ A⁻¹ := 
+begin
+  apply sherman_morrison,
+  assumption',
+end
+
+lemma eq_158_hermitianized (P : matrix m m ℂ) (R : matrix n n ℂ) (B : matrix n m ℂ)
+  [invertible P] [invertible R]
+  {hP: matrix.pos_def P} {hR: matrix.pos_def R} : 
+  (P⁻¹ + Bᴴ⬝R⁻¹⬝B)⁻¹⬝Bᴴ⬝R⁻¹ = P⬝Bᴴ⬝(B⬝P⬝Bᴴ + R)⁻¹ := 
+begin
+  -- This is equation 80:
+  -- http://www.stat.columbia.edu/~liam/teaching/neurostat-spr12/papers/hmm/KF-welling-notes.pdf
+
+  have hP_unit := is_unit_iff_ne_zero.2 (pos_def.det_ne_zero hP),
+  have hR_unit := is_unit_iff_ne_zero.2 (pos_def.det_ne_zero hR),
+  have hP_inv_unit := is_unit_nonsing_inv_det P hP_unit,
+  have hR_inv_unit := is_unit_nonsing_inv_det R hR_unit,
+  have hComb_unit: is_unit (R + B ⬝ P ⬝ Bᴴ).det, 
+  { apply is_unit_iff_ne_zero.2, 
+    apply pos_def.det_ne_zero,
+    apply pos_def.add_semidef hR,
+    exact pos_def.hermitian_conj_is_semidef hP, },
+  have : is_unit (R⁻¹⁻¹ + Bᴴᴴ ⬝ P⁻¹⁻¹ ⬝ Bᴴ).det, 
+  { simp only [inv_inv_of_invertible, conj_transpose_conj_transpose],
+    apply hComb_unit, },
+
+  rw add_comm _ R,
+  nth_rewrite 1 ← conj_transpose_conj_transpose B,
+  rw eq_156_hermitianized P⁻¹ R⁻¹ Bᴴ,
+  simp only [inv_inv_of_invertible, conj_transpose_conj_transpose],
+  rw [matrix.sub_mul,  matrix.sub_mul, sub_eq_iff_eq_add], 
+  apply_fun (matrix.mul P⁻¹), 
+  rw matrix.mul_add,
+  repeat {rw ←  matrix.mul_assoc P⁻¹ _ _}, 
+  apply_fun (λ x, x⬝R),  
+  dsimp,
+  rw matrix.add_mul,
+  simp only [inv_mul_of_invertible, matrix.one_mul, 
+    inv_mul_cancel_right_of_invertible],
+  repeat {rw matrix.mul_assoc (Bᴴ⬝(R + B ⬝ P ⬝ Bᴴ)⁻¹)},
+  rw ← matrix.mul_add (Bᴴ⬝(R + B ⬝ P ⬝ Bᴴ)⁻¹), 
+  rw nonsing_inv_mul_cancel_right,
+
+  assumption',
+
+  apply right_mul_inj_of_invertible,
+  apply left_mul_inj_of_invertible,
+end
 
 /-! ### The Kailath Variant -/
 
-lemma eq_159 (B : matrix n m ℂ) (C : matrix m n ℂ) :
-  (A + B⬝C)⁻¹ = A⁻¹ - A⁻¹⬝B⬝(1 + C⬝A⁻¹⬝B)⁻¹⬝C⬝A⁻¹ := sorry
+lemma eq_159 (A : matrix m m ℂ) (B : matrix m n ℂ) (C : matrix n m ℂ)
+  {hA: is_unit A.det} {h: is_unit (1 + C ⬝ A⁻¹ ⬝ B).det} :
+  (A + B⬝C)⁻¹ = A⁻¹ - A⁻¹⬝B⬝(1 + C⬝A⁻¹⬝B)⁻¹⬝C⬝A⁻¹ :=
+begin
+  nth_rewrite 0 ← matrix.mul_one B,
+  rw eq_157 A 1 B C,
+  simp only [inv_one], assumption',
+  simp only [det_one, is_unit_one],
+  rw inv_one, 
+  assumption',
+end
 
 /-! ### Sherman-Morrison -/
 
-lemma eq_160 (b c : n → ℂ) :
+lemma eq_160 (A : matrix m m ℂ) (b c : m → ℂ) 
+  [invertible A](habc: (1 + c ⬝ᵥ A⁻¹.mul_vec b) ≠ 0):
   (A + col b ⬝ row c)⁻¹ = A⁻¹ - (1 + c ⬝ᵥ (A⁻¹.mul_vec b))⁻¹ • (A⁻¹⬝(col b ⬝ row c)⬝A⁻¹) :=
 begin
-  rw [eq_159, ←matrix.mul_assoc _ (col b), matrix.mul_assoc _ (row c), matrix.mul_assoc _ (row c),
-    ←matrix.mul_smul, matrix.mul_assoc _ _ (row c ⬝ _)],
-  congr,
-  sorry
+  let hA := is_unit_det_of_invertible A,
+
+  rw eq_159, simp only [sub_right_inj],
+  apply_fun (λ x, x⬝A),  
+  dsimp, 
+  rw nonsing_inv_mul_cancel_right,
+  rw ← matrix.smul_mul, 
+  rw nonsing_inv_mul_cancel_right,
+  apply_fun (λ x, A⬝x),  
+  dsimp, rw ← matrix.mul_smul,
+  repeat {rw matrix.mul_assoc A⁻¹},
+  rw mul_nonsing_inv_cancel_left,
+  rw mul_nonsing_inv_cancel_left,
+  
+  rw unit_matrix_sandwich,
+  apply one_add_row_mul_mat_col_inv, 
+  
+  assumption',
+
+  apply left_mul_inj_of_invertible,
+  apply right_mul_inj_of_invertible,
+  simp only [det_unique, punit.default_eq_star, dmatrix.add_apply, one_apply_eq],
+  rw ←row_mul_mat_mul_col, 
+  apply is_unit_iff_ne_zero.2 habc, 
 end
 
+#exit
 /-! ### The Searle Set of Identities -/
 
 lemma eq_161 : (1 + A⁻¹)⁻¹ = A⬝(A + 1)⁻¹ := sorry
