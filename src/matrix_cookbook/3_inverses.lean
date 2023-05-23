@@ -27,7 +27,10 @@ lemma eq_145 (h : is_unit A.det) : A * A⁻¹ = 1 ∧ A⁻¹ * A = 1 :=
 lemma eq_146 (n : ℕ) (A : matrix (fin n.succ) (fin n.succ) ℂ) (i j) :
   adjugate A j i = (-1)^(i + j : ℕ) * det (A.submatrix i.succ_above j.succ_above) := 
 begin
-  rw adjugate, rw matrix.cramer, dsimp,
+  /- The comment on line 177 of the adjugate file says that the definition of adjugate
+  uses some kind of cramer map to make some things easier. I guess the price we have to pay
+  is to show equivalence of that definiton to the cofactor definition. -/
+  sorry,
 end
 lemma eq_147 : (adjugate A)ᵀ = of (λ i j, adjugate A j i) := rfl
 lemma eq_148 : adjugate A = (adjugate A)ᵀᵀ := rfl
@@ -173,6 +176,7 @@ begin
   apply is_unit_iff_ne_zero.2 habc, 
 end
 
+#exit
 /-! ### The Searle Set of Identities -/
 
 lemma eq_161 : (1 + A⁻¹)⁻¹ = A⬝(A + 1)⁻¹ := sorry
