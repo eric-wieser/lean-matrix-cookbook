@@ -39,64 +39,45 @@ begin
     is_unit_det_of_invertible hA.is_hermitian.eigenvector_matrixᵀ,
 end
 
-lemma weighted_inner_product_comm {A : matrix n n R} {v w : n → R} (hA: is_hermitian A):
-  is_R_or_C.re (star v ⬝ᵥ A.mul_vec w) = is_R_or_C.re (star w ⬝ᵥ A.mul_vec v) :=
-begin
-  nth_rewrite 0 ← is_R_or_C.conj_re,
-  have za: (star v ⬝ᵥ A.mul_vec w) = star(star w ⬝ᵥ A.mul_vec v), {
-    rw is_hermitian at hA, 
-    rw dot_product,
-    rw dot_product,
-    conv_lhs{
-      apply_congr, skip,
-      rw mul_vec, rw dot_product, rw pi.star_apply,
-      rw finset.mul_sum,
-    },
-    conv_rhs {
-      rw star_sum, apply_congr, skip,
-      rw star_mul', 
-      rw pi.star_apply, rw star_star, rw mul_vec, rw dot_product,
-      rw star_sum,
-      rw finset.mul_sum,
-    },
-    conv_rhs {
-      apply_congr,
-      skip, conv {
-        apply_congr, skip,
-        rw star_mul',
-        rw mul_comm _ (star (v x_1)), rw mul_comm,
-        rw ← hA, rw conj_transpose_apply, rw star_star,
-        rw mul_assoc, 
-      },
-    },
-    rw finset.sum_comm,
-  },
-  rw za,
-  rw star_ring_end_apply, rw star_star,
-end
-
 lemma pos_def.det_ne_zero'{A: matrix m m R} (hA: pos_def A)  : 
   A.det ≠ 0 :=
-  -- 0 < A.det := 
 begin
   apply nondegenerate.det_ne_zero, 
   rw nondegenerate,
-  intro v, intro hw,
-  
-  by_contra,
-  have az := hA.2 v h, 
-  -- have ay := ne_of_lt az,
-
+  intro v, 
+  intro hw, 
   specialize hw (star v),
-  have hw1 := congr_arg star hw, 
-  rw star_zero at hw1,
-  rw ← star_dot_product_star _ v at hw1, 
-  rw star_mul_vec at hw1, 
-  rw matrix.is_hermitian.eq hA.is_hermitian at hw1,
-  rw star_star at hw1,
-  
-  
-  
+  by_contra,
+  rw ← ne.def at h,
+  rw ← star_ne_zero at h,
+
+  have hp := hA.2 (star v) h,
+  rw star_star at hp,
+  rw hw at hp,
+  rw is_R_or_C.zero_re' at hp,
+  apply (ne_of_lt hp), 
+  trivial,
+end
+
+lemma star_inner_product  
+  {A : matrix n n R} {v w : n → R} (hA : A.is_hermitian) :
+  star (star w ⬝ᵥ A.mul_vec v) = star v ⬝ᵥ A.mul_vec w :=
+begin
+  rw ← star_star (A.mul_vec v),
+  rw star_mul_vec, 
+  rw hA.eq,
+  rw star_dot_product_star, 
+  rw star_star,
+  rw ← dot_product_mul_vec,
+end
+
+lemma weighted_inner_product_comm {A : matrix n n R} {v w : n → R} (hA: is_hermitian A):
+  is_R_or_C.re (star v ⬝ᵥ A.mul_vec w) = is_R_or_C.re (star w ⬝ᵥ A.mul_vec v) :=
+begin
+  rw ← star_inner_product hA,
+  nth_rewrite 0 ← is_R_or_C.conj_re,
+  rw star_ring_end_apply, 
+  rw star_star,
 end
 
 lemma vec_mul_star_eq_transpose_mul_vec {A: matrix m n R} {x: m → R} :
@@ -157,3 +138,37 @@ begin
   exact add_pos_of_pos_of_nonneg (hA.2 x hx) (hB.2 x),
 end
 
+
+/-
+Couldn't delete this. Took too much effort !!! ':(
+  -- nth_rewrite 0 ← is_R_or_C.conj_re,
+  -- have za: (star v ⬝ᵥ A.mul_vec w) = star(star w ⬝ᵥ A.mul_vec v), {
+  --   rw is_hermitian at hA, 
+  --   rw dot_product,
+  --   rw dot_product,
+  --   conv_lhs{
+  --     apply_congr, skip,
+  --     rw mul_vec, rw dot_product, rw pi.star_apply,
+  --     rw finset.mul_sum,
+  --   },
+  --   conv_rhs {
+  --     rw star_sum, apply_congr, skip,
+  --     rw star_mul', 
+  --     rw pi.star_apply, rw star_star, rw mul_vec, rw dot_product,
+  --     rw star_sum,
+  --     rw finset.mul_sum,
+  --   },
+  --   conv_rhs {
+  --     apply_congr,
+  --     skip, conv {
+  --       apply_congr, skip,
+  --       rw star_mul',
+  --       rw mul_comm _ (star (v x_1)), rw mul_comm,
+  --       rw ← hA, rw conj_transpose_apply, rw star_star,
+  --       rw mul_assoc, 
+  --     },
+  --   },
+  --   rw finset.sum_comm,
+  -- },
+  -- rw za,
+-/
