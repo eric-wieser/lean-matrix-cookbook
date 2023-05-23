@@ -1,8 +1,9 @@
 import linear_algebra.matrix.nonsingular_inverse
 import data.complex.basic
-import matrix_cookbook.mat_inv_lib
+import matrix_cookbook.lib.mat_inv_lib
 import matrix_cookbook.for_mathlib.linear_algebra.matrix.nonsing_inverse
 import matrix_cookbook.for_mathlib.linear_algebra.matrix.pos_def
+import matrix_cookbook.for_mathlib.linear_algebra.matrix.adjugate
 
 /-! # Inverses -/
 
@@ -27,10 +28,28 @@ lemma eq_145 (h : is_unit A.det) : A * A⁻¹ = 1 ∧ A⁻¹ * A = 1 :=
 lemma eq_146 (n : ℕ) (A : matrix (fin n.succ) (fin n.succ) ℂ) (i j) :
   adjugate A j i = (-1)^(i + j : ℕ) * det (A.submatrix i.succ_above j.succ_above) := 
 begin
-  /- The comment on line 177 of the adjugate file says that the definition of adjugate
+  /- The comment on line 182 of the adjugate file says that the definition of adjugate
   uses some kind of cramer map to make some things easier. I guess the price we have to pay
-  is to show equivalence of that definiton to the cofactor definition. -/
-  sorry,
+  is to show equivalence of that definiton to the cofactor definition. Eric mentions that
+  mathlib people do not prefer new definitions so we will not use the definition of 
+  cofactor above.
+
+  The comment can be found here: https://tinyurl.com/4c55v86t
+
+  The proof in that case would be 
+    rw ← cofactor , apply adjugate_eq_cofactor_transpose, -/
+
+  rw adjugate, 
+  dsimp,
+  rw cramer_transpose_apply,
+  rw det_succ_row _ i,
+  conv_lhs { apply_congr, skip, rw update_row_apply, },
+  simp only [eq_self_iff_true, if_true],
+  conv_lhs {apply_congr, skip, rw pi.single_apply j (1:ℂ) x, 
+  rw mul_ite, rw ite_mul, rw mul_zero, rw zero_mul, },
+  simp only [mul_one, finset.sum_ite_eq', finset.mem_univ, if_true, 
+    neg_one_pow_mul_eq_zero_iff],
+  rw submatrix_succ_above,
 end
 lemma eq_147 : (adjugate A)ᵀ = of (λ i j, adjugate A j i) := rfl
 lemma eq_148 : adjugate A = (adjugate A)ᵀᵀ := rfl
