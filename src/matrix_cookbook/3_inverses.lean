@@ -57,10 +57,30 @@ lemma eq_148 : adjugate A = (adjugate A)ᵀᵀ := rfl
 /-! ### Determinant -/
 
 /-- Note: adapted from column 0 to column 1. -/
+lemma even_wierd (n: ℕ): (-1:ℂ)^(n + n) = 1 := begin
+  rw even.neg_one_pow, use n, 
+  /- Use tactic was not working inside conv mode -/
+  /- Also nth_rewrite was not working inside conv mode -/
+end
 lemma eq_149 (n : ℕ) (A : matrix (fin n.succ) (fin n.succ) ℂ) :
   det A = ∑ i : fin n.succ, (-1) ^ (i : ℕ) * A i 0 * det (A.submatrix i.succ_above fin.succ) :=
 det_succ_column_zero _
-lemma eq_150 : sorry := sorry
+lemma eq_150 (n : ℕ) (A : matrix (fin n.succ) (fin n.succ) ℂ) : 
+  -- (-1) ^ (i : ℕ) * adjugate A 0 i represents cofactor
+  det A = ∑ i : fin n.succ, (-1) ^ (i : ℕ) * A i 0 * ((-1) ^ (i : ℕ) * adjugate A 0 i) := 
+begin
+  conv_rhs 
+  { apply_congr, 
+    skip, 
+    rw eq_146, 
+    rw fin.coe_zero, 
+    rw add_zero, 
+    rw fin.succ_above_zero, 
+    rw ← mul_assoc ((-1:ℂ)^(x:ℕ)) _ _,
+    rw ← pow_add,
+    rw even_wierd (↑x:ℕ), rw one_mul, }, 
+  apply eq_149,
+end
 
 /-! ### Construction -/
 
