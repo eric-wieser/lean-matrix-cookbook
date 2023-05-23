@@ -1,8 +1,16 @@
+/-
+Copyright (c) 2023 Mohanad Ahmed. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mohanad Ahmed
+-/
+
 import linear_algebra.matrix.nonsingular_inverse
 import linear_algebra.matrix.pos_def
 import linear_algebra.matrix.spectrum
 import data.complex.basic
 import matrix_cookbook.for_mathlib.linear_algebra.matrix.pos_def
+
+/-! # Sherman Morrison (sometimes called Woodbury Identity) and other support Lemmas -/
 
 variables {m n p : Type*}
 variables [fintype m] [fintype n] [fintype p]
@@ -41,23 +49,33 @@ begin
 end
 
 lemma row_mul_mat_mul_col (A : matrix m m ℂ) (b c : m → ℂ) :
-  c ⬝ᵥ A.mul_vec b = (row c ⬝ A ⬝ col b) punit.star punit.star:= 
+  c ⬝ᵥ A.mul_vec b = (row c ⬝ A ⬝ col b) () ():= 
 begin
   rw mul_apply,
   rw dot_product,
-  conv_rhs {
-    apply_congr, skip, rw col_apply, 
-    rw mul_apply, conv {
-      congr, apply_congr, skip, rw row_apply,
-    }, rw finset.sum_mul,
-  },
+  conv_rhs 
+  { apply_congr, 
+    skip, 
+    rw col_apply, 
+    rw mul_apply, 
+    conv 
+    { congr, 
+      apply_congr, 
+      skip, 
+      rw row_apply, }, 
+    rw finset.sum_mul, },
   
-  conv_lhs {
-    apply_congr, skip, rw mul_vec, dsimp, rw dot_product,
-    rw finset.mul_sum, conv {
-      apply_congr, skip, rw ← mul_assoc,
-    } ,
-  } ,
+  conv_lhs 
+  { apply_congr, 
+    skip, 
+    rw mul_vec, 
+    dsimp, 
+    rw dot_product,
+    rw finset.mul_sum, 
+    conv 
+    { apply_congr, 
+      skip, 
+      rw ← mul_assoc, } , } ,
   apply finset.sum_comm,
 end
 
@@ -94,10 +112,10 @@ begin
   rw matrix.mul_assoc _ Q⁻¹ _,  
   rw matrix.mul_assoc U (Q⁻¹⬝V) _,
   have : U ⬝ B ⬝ V ⬝ (A⁻¹ ⬝ (U ⬝ (Q⁻¹ ⬝ V ⬝ A⁻¹))) 
-    = (U ⬝ B ⬝ V ⬝ A⁻¹ ⬝ U) ⬝ (Q⁻¹ ⬝ V ⬝ A⁻¹), {
-      rw ← matrix.mul_assoc _ A⁻¹ _,
-      rw ← matrix.mul_assoc _ U _,
-  }, rw this, clear this,
+    = (U ⬝ B ⬝ V ⬝ A⁻¹ ⬝ U) ⬝ (Q⁻¹ ⬝ V ⬝ A⁻¹), 
+  { rw ← matrix.mul_assoc _ A⁻¹ _,
+    rw ← matrix.mul_assoc _ U _, }, 
+  rw this,
   rw ← matrix.add_mul,
   nth_rewrite 1 ← matrix.mul_one U,
   rw ←  mul_nonsing_inv B, rw ← matrix.mul_assoc _ B _,
