@@ -37,14 +37,15 @@ begin
 
   rw adjugate, 
   dsimp,
-  rw cramer_transpose_apply,
-  rw det_succ_row _ i,
-  conv_lhs { apply_congr, skip, rw update_row_apply, },
+  rw [cramer_transpose_apply, det_succ_row _ i],
+  conv_lhs 
+  { apply_congr, skip, rw update_row_apply, },
   simp only [eq_self_iff_true, if_true],
-  conv_lhs {apply_congr, skip, rw pi.single_apply j (1:ℂ) x, 
-  rw mul_ite, rw ite_mul, rw mul_zero, rw zero_mul, },
-  simp only [mul_one, finset.sum_ite_eq', finset.mem_univ, if_true, 
-    neg_one_pow_mul_eq_zero_iff],
+  conv_lhs 
+  {apply_congr, skip, rw pi.single_apply j (1:ℂ) x, 
+    rw [mul_ite, ite_mul, mul_zero, zero_mul], },
+  simp only [mul_one, finset.sum_ite_eq', 
+    finset.mem_univ, if_true, neg_one_pow_mul_eq_zero_iff],
   rw submatrix_update_row_succ_above,
 end
 lemma eq_147 : (adjugate A)ᵀ = of (λ i j, adjugate A j i) := rfl
