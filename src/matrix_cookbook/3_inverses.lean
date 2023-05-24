@@ -30,7 +30,8 @@ begin
   is to show equivalence of that definiton to the cofactor definition. Eric mentions that
   mathlib people do not prefer new definitions so we will not use the definition of 
   cofactor above.
-  The comment can be found here: https://tinyurl.com/4c55v86t
+  The comment can be found here: 
+    https://github.com/leanprover-community/mathlib/blob/cb9077f70849a93b19e01903d497029014d76e35/src/linear_algebra/matrix/adjugate.lean#L182
   The proof in that case would be 
     rw ← cofactor , apply adjugate_eq_cofactor_transpose, -/
 
@@ -44,7 +45,7 @@ begin
   rw mul_ite, rw ite_mul, rw mul_zero, rw zero_mul, },
   simp only [mul_one, finset.sum_ite_eq', finset.mem_univ, if_true, 
     neg_one_pow_mul_eq_zero_iff],
-  rw submatrix_succ_above,
+  rw submatrix_update_row_succ_above,
 end
 lemma eq_147 : (adjugate A)ᵀ = of (λ i j, adjugate A j i) := rfl
 lemma eq_148 : adjugate A = (adjugate A)ᵀᵀ := rfl
