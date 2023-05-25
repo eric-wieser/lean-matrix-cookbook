@@ -1,6 +1,8 @@
 import linear_algebra.matrix.nonsingular_inverse
 import data.complex.basic
 import matrix_cookbook.for_mathlib.linear_algebra.matrix.adjugate
+import matrix_cookbook.for_mathlib.linear_algebra.matrix.nonsing_inverse
+import tactic.swap_var
 
 /-! # Inverses -/
 
@@ -120,13 +122,93 @@ end
 
 /-! ### The Searle Set of Identities -/
 
-lemma eq_161 : (1 + A⁻¹)⁻¹ = A⬝(A + 1)⁻¹ := sorry
-lemma eq_162 : (A + Bᵀ⬝B)⁻¹⬝B = A⁻¹⬝B⬝(1 + Bᵀ⬝A⁻¹⬝B)⁻¹:= sorry
-lemma eq_163 : (A⁻¹ + B⁻¹)⁻¹ = A⬝(A + B)⁻¹⬝B ∧ (A⁻¹ + B⁻¹)⁻¹ = B⬝(A + B)⁻¹⬝A := sorry
-lemma eq_164 : A - A⬝(A + B)⁻¹⬝A = B - B⬝(A + B)⁻¹⬝B := sorry
-lemma eq_165 : A⁻¹ + B⁻¹ = A⁻¹⬝(A + B)⁻¹⬝B⁻¹ := sorry
-lemma eq_166 : (1 + A⬝B)⁻¹ = 1 - A⬝(1 + B⬝A)⁻¹⬝B := sorry
-lemma eq_167 : (1 + A⬝B)⁻¹⬝A = A⬝(1 + B⬝A)⁻¹ := sorry
+lemma eq_161 {hA: is_unit A.det} {hAaddOne: is_unit (A+1).det} :  (1 + A⁻¹)⁻¹ = A⬝(A + 1)⁻¹ :=
+begin
+  rw inv_eq_right_inv, 
+  rw [matrix.add_mul, matrix.one_mul, nonsing_inv_mul_cancel_left],
+  nth_rewrite 1 ← matrix.one_mul (A + 1)⁻¹,   
+  rw [← matrix.add_mul, mul_nonsing_inv],
+  assumption',
+end
+lemma eq_162 {B: matrix n m ℂ} {hAB: is_unit (1 + Bᵀ ⬝ A⁻¹ ⬝ B).det} : 
+  (A + B⬝Bᵀ)⁻¹⬝B = A⁻¹⬝B⬝(1 + Bᵀ⬝A⁻¹⬝B)⁻¹:= 
+begin
+  rw [eq_159, matrix.sub_mul, sub_eq_iff_eq_add],
+  repeat {rw matrix.mul_assoc (A⁻¹⬝B), },
+  rw ← matrix.mul_add (A⁻¹⬝B),
+  nth_rewrite 0 ← matrix.mul_one (1 + Bᵀ ⬝ A⁻¹ ⬝ B)⁻¹,
+  repeat {rw matrix.mul_assoc (1 + Bᵀ ⬝ A⁻¹ ⬝ B)⁻¹, },
+  rwa [← matrix.mul_add (1 + Bᵀ ⬝ A⁻¹ ⬝ B)⁻¹, nonsing_inv_mul, matrix.mul_one],
+end
+lemma eq_163 {hA: is_unit A.det} {hB: is_unit B.det} {hAB: is_unit (A + B).det}: 
+  (A⁻¹ + B⁻¹)⁻¹ = A⬝(A + B)⁻¹⬝B ∧ (A⁻¹ + B⁻¹)⁻¹ = B⬝(A + B)⁻¹⬝A :=
+begin
+  split,
+  work_on_goal 2 {swap_var [A B], rw add_comm, rw add_comm B,  },
+  all_goals 
+  { rw inv_eq_right_inv, 
+    rw [matrix.add_mul, matrix.mul_assoc, nonsing_inv_mul_cancel_left],
+    apply_fun (λ x, B⬝x), dsimp, 
+    rw [matrix.mul_add, mul_nonsing_inv_cancel_left, ← matrix.add_mul, add_comm,
+    mul_nonsing_inv_cancel_left,matrix.mul_one],},
+  assumption',
+  exact left_mul_inj_of_is_unit_det hB,
+  rw add_comm, exact hAB,
+  exact left_mul_inj_of_is_unit_det hA,
+end
+
+lemma eq_165a {hA: is_unit A.det} {hB: is_unit B.det} : A⁻¹ + B⁻¹ = A⁻¹⬝(A + B)⬝B⁻¹ := 
+begin 
+  rw [matrix.mul_add, matrix.add_mul, mul_nonsing_inv_cancel_right B _ hB, 
+    nonsing_inv_mul A hA, matrix.one_mul, add_comm]
+end
+lemma eq_165b {hA: is_unit A.det} {hB: is_unit B.det} : A⁻¹ + B⁻¹ = B⁻¹⬝(A + B)⬝A⁻¹ := 
+begin 
+  rw add_comm,
+  rw add_comm A,
+  apply eq_165a B A,
+  assumption',
+end
+
+lemma eq_164 {hA: is_unit A.det} {hB: is_unit B.det} {hAB: is_unit (A + B).det} : A - A⬝(A + B)⁻¹⬝A = B - B⬝(A + B)⁻¹⬝B := 
+begin
+  haveI invA := invertible_of_is_unit_det A hA,
+  haveI invB := invertible_of_is_unit_det B hB,
+  rw sub_eq_sub_iff_sub_eq_sub,
+  have zl := (eq_163 A⁻¹ B⁻¹).elim_left,
+  have zr := (eq_163 A⁻¹ B⁻¹).elim_right,
+  rw inv_inv_of_invertible at zl zr,
+  rw inv_inv_of_invertible at zl zr,
+  nth_rewrite 0 zl,
+  nth_rewrite 0 zr,
+  rw matrix.mul_assoc,
+  rw matrix.mul_assoc,
+  rw matrix.mul_assoc,
+  rw mul_nonsing_inv_cancel_left,
+  rw matrix.mul_assoc,
+  rw matrix.mul_assoc,
+  rw matrix.mul_assoc,
+  rw mul_nonsing_inv_cancel_left,
+  rw eq_165a, 
+  rw matrix.mul_inv_rev,
+  rw matrix.mul_inv_rev,
+end
+
+
+lemma eq_166 {A: matrix n m ℂ} {B: matrix m n ℂ}: 
+  (1 + A⬝B)⁻¹ = 1 - A⬝(1 + B⬝A)⁻¹⬝B :=
+begin
+  rw eq_159 1 A B, 
+  simp only [inv_one, matrix.one_mul, matrix.mul_one],
+end
+lemma eq_167 {hAB: is_unit (1 + B⬝A).det}: (1 + A⬝B)⁻¹⬝A = A⬝(1 + B⬝A)⁻¹ := 
+begin
+  rw [eq_159 1 A B, inv_one, matrix.one_mul, matrix.mul_one, matrix.mul_one,
+  matrix.sub_mul, matrix.one_mul, sub_eq_iff_eq_add],
+  nth_rewrite 0 ← matrix.mul_one (A ⬝ (1 + B ⬝ A)⁻¹),
+  rwa [matrix.mul_assoc (A ⬝ (1 + B ⬝ A)⁻¹) _ _, ← matrix.mul_add (A ⬝ (1 + B ⬝ A)⁻¹) _ _,
+    nonsing_inv_mul_cancel_right],
+end
 
 /-! ### Rank-1 update of inverse of inner product -/
 
