@@ -4,6 +4,21 @@ import data.matrix.notation
 import data.fintype.big_operators
 import tactic.norm_fin
 
+/-! # Lemmas about removing rows and columns -/
+namespace matrix
+
+@[simp] lemma submatrix_update_row_succ_above {α k l} {n : ℕ} (A : matrix (fin n.succ) k α)
+  (v : k → α) (f : l → k) (i) :
+  (A.update_row i v).submatrix i.succ_above f = A.submatrix i.succ_above f :=
+ext $ λ r s, (congr_fun (update_row_ne (fin.succ_above_ne i r) : _ = A _) (f s) : _)
+
+@[simp] lemma submatrix_update_column_succ_above {α k l} {n : ℕ} (A : matrix k (fin n.succ) α)
+  (v : k → α) (f : l → k) (i) :
+  (A.update_column i v).submatrix f i.succ_above = A.submatrix f  i.succ_above:=
+ext $ λ r s, update_column_ne (fin.succ_above_ne i s)
+
+end matrix
+
 /-! # Missing lemmas about Trace and Determinant of 4 x 4 matrices -/
 
 variables {R : Type*} [comm_ring R]

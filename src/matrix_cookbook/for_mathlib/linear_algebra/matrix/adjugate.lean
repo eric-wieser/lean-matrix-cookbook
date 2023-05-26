@@ -10,22 +10,14 @@ import linear_algebra.matrix.determinant
 import linear_algebra.matrix.nonsingular_inverse
 import data.matrix.notation
 
+import matrix_cookbook.for_mathlib.data.matrix
+
 /-! # Adjugate Matrix : Extra Lemmas -/
 
 open matrix
 open_locale matrix big_operators
 
 variables {R: Type*}[comm_ring R]
-
-lemma submatrix_update_row_succ_above {α k l} {n : ℕ} {A : matrix (fin n.succ) k α} 
-  (v : k → α) {f : l → k} {i} : 
-  (A.update_row i v).submatrix i.succ_above f = A.submatrix i.succ_above f := 
-ext $ λ r s, (congr_fun (update_row_ne (fin.succ_above_ne i r) : _ = A _) (f s) : _)
-
-lemma submatrix_update_column_succ_above {α k l} {n : ℕ} {A : matrix k (fin n.succ) α} (v : k → α)
-  {f : l → k} {i} : 
-  (A.update_column i v).submatrix f i.succ_above = A.submatrix f  i.succ_above:= 
-ext $ λ r s, update_column_ne (fin.succ_above_ne i s)
 
 def cofactor {n : ℕ} (A : matrix (fin n.succ) (fin n.succ) R) (i j: fin n.succ)  :=
   (-1)^(i + j : ℕ) * det (A.submatrix i.succ_above j.succ_above)
