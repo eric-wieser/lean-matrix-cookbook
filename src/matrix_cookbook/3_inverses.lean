@@ -164,6 +164,54 @@ begin
 end
 
 /-! ### Rank-1 update of inverse of inner product -/
+-- variable y : ℕ
+-- variable z : ℕ
+-- variable X : matrix (fin y) (fin z) ℂ
+-- variable v : matrix (fin y) (fin 1) ℂ
+-- variable i : fin y
+-- #check @sum.elim (fin z) (fin 1) ℂ (X i) (v i)
+-- #check of (λ r, sum.elim (X r) (v r))
+-- def e := @fin_sum_fin_equiv y 1
+-- #check e
+
+-- variable z : ℕ
+-- variable X : matrix (fin z ⊕  fin 1) (fin z) ℂ
+-- variable v : matrix (fin z ⊕  fin 1) (fin 1) ℂ
+-- def append_mat_vec := of (λ i, sum.elim (X i) (v i))
+-- #check append_mat_vec z X v
+-- def e := @fin_sum_fin_equiv z 1
+-- #check (e z)
+-- #check reindex (e z) (e z) (append_mat_vec z X v)
+
+variable z : ℕ
+variable X : matrix (fin (z + 1)) (fin z) ℂ
+variable v : matrix (fin (z + 1)) (fin 1) ℂ
+def append_mat_vec := of (λ i, sum.elim (X i) (v i))
+#check append_mat_vec z X v
+def e := @fin_sum_fin_equiv z 1
+#check (e z)
+#check reindex (equiv.refl (fin (z+1))) (e z) (append_mat_vec z X v)
+#check ((vᵀ⬝v) 0 0)
+
+lemma eq_between_167_and_168 : 
+let X' := reindex (equiv.refl (fin (z+1))) (e z) (append_mat_vec z X v), 
+  Q := (Xᵀ⬝X)⁻¹,
+  α := ((vᵀ⬝v) - (vᵀ⬝X⬝Q⬝Xᵀ⬝v)) 0 0,
+  S11 := α•Q + (Q⬝Xᵀ⬝v⬝vᵀ⬝X⬝Qᵀ),    S12 := -Q⬝Xᵀ⬝v,
+  S21 := -vᵀ⬝X⬝Qᵀ,                  S22 := 1,
+  S :=  (1/α)•from_blocks S11 S12 S21 S22
+in 
+  (X'ᵀ⬝ X')⁻¹ = reindex (e z) (e z) S := begin
+  intros X' Q α S11 S12 S21 S22 S,
+  change X' with reindex (equiv.refl (fin (z+1))) (e z) (append_mat_vec z X v),
+  
+end
+
+-- variables {z: ℕ}(X: matrix (fin (z + 1)) (fin z) ℂ)(v: (fin (z + 1)) → ℂ)
+-- def append_mat_vec := of (λ i, sum.elim (X i) (v i))
+-- #check append_mat_vec X v
+-- def e := @fin_sum_fin_equiv z 1
+-- #check reindex (equiv.refl (fin (z + 1))) (@e z) --(append_mat_vec X v)
 
 /-! ### Rank-1 update of Moore-Penrose Inverse -/
 
