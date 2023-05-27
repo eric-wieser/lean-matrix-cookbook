@@ -1,5 +1,6 @@
 import linear_algebra.matrix.nonsingular_inverse
 import data.complex.basic
+import matrix_cookbook.for_mathlib.linear_algebra.matrix.adjugate
 
 /-! # Inverses -/
 
@@ -21,10 +22,19 @@ lemma eq_145 (h : is_unit A.det) : A * A⁻¹ = 1 ∧ A⁻¹ * A = 1 :=
 
 /-! ### Cofactors and Adjoint -/
 
-lemma eq_146 (n : ℕ) (A : matrix (fin n.succ) (fin n.succ) ℂ) (i j) :
-  adjugate A j i = (-1)^(i + j : ℕ) * det (A.submatrix i.succ_above j.succ_above) := sorry
-lemma eq_147 : (adjugate A)ᵀ = of (λ i j, adjugate A j i) := rfl
-lemma eq_148 : adjugate A = (adjugate A)ᵀᵀ := rfl
+-- mathlib has no need for this due to `eq_148`, but we include it for completeness
+@[reducible] def cofactor {n : ℕ} (A : matrix (fin n.succ) (fin n.succ) ℂ) :
+  matrix (fin n.succ) (fin n.succ) ℂ := 
+of (λ i j : fin n.succ, (-1)^(i + j : ℕ) * det (A.submatrix i.succ_above j.succ_above))
+
+lemma eq_146 {n : ℕ} (A : matrix (fin n.succ) (fin n.succ) ℂ) (i j : fin n.succ) :
+  cofactor A i j = (-1)^(i + j : ℕ) * det (A.submatrix i.succ_above j.succ_above) := rfl
+
+lemma eq_147 {n : ℕ} (A : matrix (fin n.succ) (fin n.succ) ℂ) : 
+  cofactor A = of (λ i j, cofactor A i j) := rfl -- eq_147 is a trivial matrix definiton!
+
+lemma eq_148 {n : ℕ} (A : matrix (fin n.succ) (fin n.succ) ℂ) : adjugate A = (cofactor A)ᵀ :=
+matrix.ext $ adjugate_eq_det_submatrix _
 
 /-! ### Determinant -/
 
@@ -32,7 +42,9 @@ lemma eq_148 : adjugate A = (adjugate A)ᵀᵀ := rfl
 lemma eq_149 (n : ℕ) (A : matrix (fin n.succ) (fin n.succ) ℂ) :
   det A = ∑ i : fin n.succ, (-1) ^ (i : ℕ) * A i 0 * det (A.submatrix i.succ_above fin.succ) :=
 det_succ_column_zero _
-lemma eq_150 : sorry := sorry
+lemma eq_150 (n : ℕ) (A : matrix (fin n.succ) (fin n.succ) ℂ) :
+  det A = ∑ j : fin n.succ, A 0 j * adjugate A j 0 := 
+det_eq_sum_mul_adjugate_row _ _
 
 /-! ### Construction -/
 
