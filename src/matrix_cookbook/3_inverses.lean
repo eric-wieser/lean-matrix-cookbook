@@ -21,19 +21,20 @@ lemma eq_145 (h : is_unit A.det) : A * A⁻¹ = 1 ∧ A⁻¹ * A = 1 :=
 ⟨mul_nonsing_inv _ h, nonsing_inv_mul _ h⟩
 
 /-! ### Cofactors and Adjoint -/
-def cofactor {n : ℕ} (A : matrix (fin n.succ) (fin n.succ) ℂ) := 
-  matrix.of (λ i j: (fin n.succ), (-1)^(i + j : ℕ) * det (A.submatrix i.succ_above j.succ_above))
 
-lemma eq_146 {n : ℕ} (A : matrix (fin n.succ) (fin n.succ) ℂ) (i j) :
-  cofactor A i j = (-1)^(i + j : ℕ) * det (A.submatrix i.succ_above j.succ_above) := 
-by rw [cofactor, of_apply]
+-- mathlib has no need for this due to `eq_148`, but we include it for completeness
+@[reducible] def cofactor {n : ℕ} (A : matrix (fin n.succ) (fin n.succ) ℂ) :
+  matrix (fin n.succ) (fin n.succ) ℂ := 
+of (λ i j : fin n.succ, (-1)^(i + j : ℕ) * det (A.submatrix i.succ_above j.succ_above))
+
+lemma eq_146 {n : ℕ} (A : matrix (fin n.succ) (fin n.succ) ℂ) (i j : fin n.succ) :
+  cofactor A i j = (-1)^(i + j : ℕ) * det (A.submatrix i.succ_above j.succ_above) := rfl
 
 lemma eq_147 {n : ℕ} (A : matrix (fin n.succ) (fin n.succ) ℂ) : 
-  (cofactor A) = of (λ i j, cofactor A i j) := rfl -- eq_147 is a trivial matrix definiton!
+  cofactor A = of (λ i j, cofactor A i j) := rfl -- eq_147 is a trivial matrix definiton!
 
-lemma eq_148 {n : ℕ} (A : matrix (fin n.succ) (fin n.succ) ℂ) : adjugate A = (cofactor A)ᵀ := begin
-  funext r s, rw [transpose_apply, cofactor, adjugate_eq_det_submatrix], refl,
-end
+lemma eq_148 {n : ℕ} (A : matrix (fin n.succ) (fin n.succ) ℂ) : adjugate A = (cofactor A)ᵀ :=
+matrix.ext $ adjugate_eq_det_submatrix _
 
 /-! ### Determinant -/
 
