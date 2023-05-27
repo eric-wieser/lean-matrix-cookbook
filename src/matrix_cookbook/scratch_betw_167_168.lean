@@ -22,14 +22,14 @@ def e := @fin_sum_fin_equiv z 1
 -- lemma eq_between_167_and_168 : 
 -- let 
 --   X' := reindex (equiv.refl (fin (z+1))) (e z) (append_mat_vec z X v), 
---   Q := (Xᵀ⬝X)⁻¹,
---   α := ((vᵀ⬝v) - (vᵀ⬝X⬝Q⬝Xᵀ⬝v)) 0 0,
---   S11 := α•Q + (Q⬝Xᵀ⬝v⬝vᵀ⬝X⬝Qᵀ),    S12 := -Q⬝Xᵀ⬝v,
---   S21 := -vᵀ⬝X⬝Qᵀ,                  S22 := 1,
+--   A := (Xᵀ⬝X)⁻¹,
+--   α := ((vᵀ⬝v) - (vᵀ⬝X⬝A⬝Xᵀ⬝v)) 0 0,
+--   S11 := α•A + (A⬝Xᵀ⬝v⬝vᵀ⬝X⬝Aᵀ),    S12 := -A⬝Xᵀ⬝v,
+--   S21 := -vᵀ⬝X⬝Aᵀ,                  S22 := 1,
 --   S :=  (1/α)•from_blocks S11 S12 S21 S22
 -- in 
 --   (X'ᵀ⬝ X')⁻¹ = reindex (e z) (e z) S := begin
---   intros X' Q α S11 S12 S21 S22 S,
+--   intros X' A α S11 S12 S21 S22 S,
 --   apply inv_eq_left_inv,
 --   rw ← matrix.mul_assoc,
 --   change X' with reindex (equiv.refl (fin (z+1))) (e z) (append_mat_vec z X v),
@@ -52,14 +52,14 @@ example (z : ℕ)
   (v : matrix (fin (z + 1)) (fin 1) ℂ) :
 let
   X' := reindex (equiv.refl (fin (z+1))) (e z) (append_mat_vec z X v), 
-  Q := (Xᵀ⬝X)⁻¹,
-  α := ((vᵀ⬝v) - (vᵀ⬝X⬝Q⬝Xᵀ⬝v)) 0 0,
-  S11 := α•Q + (Q⬝Xᵀ⬝v⬝vᵀ⬝X⬝Qᵀ),    S12 := -Q⬝Xᵀ⬝v,
-  S21 := -vᵀ⬝X⬝Qᵀ,                  S22 := 1,
+  A := (Xᵀ⬝X)⁻¹,
+  α := ((vᵀ⬝v) - (vᵀ⬝X⬝A⬝Xᵀ⬝v)) 0 0,
+  S11 := α•A + (A⬝Xᵀ⬝v⬝vᵀ⬝X⬝Aᵀ),    S12 := -A⬝Xᵀ⬝v,
+  S21 := -vᵀ⬝X⬝Aᵀ,                  S22 := 1,
   S :=  (1/α)•from_blocks S11 S12 S21 S22
   in S ⬝ (append_mat_vec z X v)ᵀ ⬝ append_mat_vec z X v = 1 :=
 begin
-  intros X' Q α S11 S12 S21 S22 S,
+  intros X' A α S11 S12 S21 S22 S,
   
 end
 
