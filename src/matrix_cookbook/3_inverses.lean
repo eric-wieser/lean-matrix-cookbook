@@ -24,34 +24,19 @@ lemma eq_145 (h : is_unit A.det) : A * A⁻¹ = 1 ∧ A⁻¹ * A = 1 :=
 
 /-! ### Cofactors and Adjoint -/
 
-lemma eq_146 (n : ℕ) (A : matrix (fin n.succ) (fin n.succ) ℂ) (i j) :
-  adjugate A j i = (-1)^(i + j : ℕ) * det (A.submatrix i.succ_above j.succ_above) := 
-begin
-  /- The comment on line 182 of the adjugate file says that the definition of adjugate
-  uses some kind of cramer map to make some things easier. I guess the price we have to pay
-  is to show equivalence of that definiton to the cofactor definition. Eric mentions that
-  mathlib people do not prefer new definitions so we will not use the definition of 
-  cofactor above.
-  The comment can be found here: 
-    https://github.com/leanprover-community/mathlib/blob/cb9077f70849a93b19e01903d497029014d76e35/src/linear_algebra/matrix/adjugate.lean#L182
-  The proof in that case would be 
-    rw ← cofactor , apply adjugate_eq_cofactor_transpose, -/
+-- mathlib has no need for this due to `eq_148`, but we include it for completeness
+@[reducible] def cofactor {n : ℕ} (A : matrix (fin n.succ) (fin n.succ) ℂ) :
+  matrix (fin n.succ) (fin n.succ) ℂ := 
+of (λ i j : fin n.succ, (-1)^(i + j : ℕ) * det (A.submatrix i.succ_above j.succ_above))
 
-  rw adjugate, 
-  dsimp,
-  rw [cramer_transpose_apply, det_succ_row _ i],
-  conv_lhs 
-  { apply_congr, skip, rw update_row_apply, },
-  simp only [eq_self_iff_true, if_true],
-  conv_lhs 
-  {apply_congr, skip, rw pi.single_apply j (1:ℂ) x, 
-    rw [mul_ite, ite_mul, mul_zero, zero_mul], },
-  simp only [mul_one, finset.sum_ite_eq', 
-    finset.mem_univ, if_true, neg_one_pow_mul_eq_zero_iff],
-  rw submatrix_update_row_succ_above,
-end
-lemma eq_147 : (adjugate A)ᵀ = of (λ i j, adjugate A j i) := rfl
-lemma eq_148 : adjugate A = (adjugate A)ᵀᵀ := rfl
+lemma eq_146 {n : ℕ} (A : matrix (fin n.succ) (fin n.succ) ℂ) (i j : fin n.succ) :
+  cofactor A i j = (-1)^(i + j : ℕ) * det (A.submatrix i.succ_above j.succ_above) := rfl
+
+lemma eq_147 {n : ℕ} (A : matrix (fin n.succ) (fin n.succ) ℂ) : 
+  cofactor A = of (λ i j, cofactor A i j) := rfl -- eq_147 is a trivial matrix definiton!
+
+lemma eq_148 {n : ℕ} (A : matrix (fin n.succ) (fin n.succ) ℂ) : adjugate A = (cofactor A)ᵀ :=
+matrix.ext $ adjugate_eq_det_submatrix _
 
 /-! ### Determinant -/
 
@@ -59,22 +44,9 @@ lemma eq_148 : adjugate A = (adjugate A)ᵀᵀ := rfl
 lemma eq_149 (n : ℕ) (A : matrix (fin n.succ) (fin n.succ) ℂ) :
   det A = ∑ i : fin n.succ, (-1) ^ (i : ℕ) * A i 0 * det (A.submatrix i.succ_above fin.succ) :=
 det_succ_column_zero _
-lemma eq_150 (n : ℕ) (A : matrix (fin n.succ) (fin n.succ) ℂ) : 
-  -- (-1) ^ (i : ℕ) * adjugate A 0 i represents cofactor
-  det A = ∑ i : fin n.succ, (-1) ^ (i : ℕ) * A i 0 * ((-1) ^ (i : ℕ) * adjugate A 0 i) := 
-begin
-  /- Use tactic was not working inside conv mode -/
-  /- Also nth_rewrite was not working inside conv mode -/
-  have even_wierd: ∀ (n: ℕ), (-1:ℂ)^(n + n) = 1, 
-  { intro n, rw even.neg_one_pow, use n, },
-  
-  conv_rhs 
-  { apply_congr, 
-    skip, 
-    rw [eq_146, fin.coe_zero, add_zero, fin.succ_above_zero, ← mul_assoc ((-1:ℂ)^(x:ℕ)) _ _,
-      ← pow_add, even_wierd (↑x:ℕ), one_mul], }, 
-  apply eq_149,
-end
+lemma eq_150 (n : ℕ) (A : matrix (fin n.succ) (fin n.succ) ℂ) :
+  det A = ∑ j : fin n.succ, A 0 j * adjugate A j 0 := 
+det_eq_sum_mul_adjugate_row _ _
 
 /-! ### Construction -/
 
