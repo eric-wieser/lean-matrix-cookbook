@@ -3,6 +3,7 @@ import data.complex.basic
 import matrix_cookbook.for_mathlib.linear_algebra.matrix.adjugate
 import matrix_cookbook.for_mathlib.linear_algebra.matrix.nonsing_inverse
 import tactic.swap_var
+import linear_algebra.matrix.reindex
 
 /-! # Inverses -/
 
@@ -203,15 +204,12 @@ let X' := reindex (equiv.refl (fin (z+1))) (e z) (append_mat_vec z X v),
 in 
   (X'ᵀ⬝ X')⁻¹ = reindex (e z) (e z) S := begin
   intros X' Q α S11 S12 S21 S22 S,
+  apply inv_eq_left_inv,
+  rw ← matrix.mul_assoc,
   change X' with reindex (equiv.refl (fin (z+1))) (e z) (append_mat_vec z X v),
-  
+  -- rw ← matrix.reindex_linear_equiv_mul,
+  sorry,
 end
-
--- variables {z: ℕ}(X: matrix (fin (z + 1)) (fin z) ℂ)(v: (fin (z + 1)) → ℂ)
--- def append_mat_vec := of (λ i, sum.elim (X i) (v i))
--- #check append_mat_vec X v
--- def e := @fin_sum_fin_equiv z 1
--- #check reindex (equiv.refl (fin (z + 1))) (@e z) --(append_mat_vec X v)
 
 /-! ### Rank-1 update of Moore-Penrose Inverse -/
 
