@@ -41,9 +41,6 @@ variable X : matrix (fin (z + 1)) (fin z) ℂ
 variable v : matrix (fin (z + 1)) (fin 1) ℂ
 def append_mat_vec := of (λ i, sum.elim (X i) (v i))
 def e := @fin_sum_fin_equiv z 1
--- #check e z
--- #check @reindex_linear_equiv (fin z ⊕ fin 1) (fin z ⊕ fin 1) (fin (z + 1)) (fin (z + 1)) _ ℂ
--- #check reindex_linear_equiv_apply ℕ ℂ (e z) (e z)
 
 lemma rank_one_update_transpose_mul_self (z : ℕ)
   (X : matrix (fin (z + 1)) (fin z) ℂ)
@@ -52,9 +49,23 @@ lemma rank_one_update_transpose_mul_self (z : ℕ)
   (append_mat_vec z X v)ᵀ ⬝ append_mat_vec z X v =
     from_blocks (Xᵀ ⬝ X) (Xᵀ ⬝ v) (vᵀ ⬝ X) (vᵀ ⬝ v) :=
 begin
-  admit,
+  funext r s,
+  rw append_mat_vec,
+  cases s, cases r, work_on_goal 3 {cases r},
+  all_goals 
+  { simp only [mul_apply, transpose_apply, of_apply, sum.elim_inl, sum.elim_inr,
+    from_blocks_apply₁₁, from_blocks_apply₁₂, from_blocks_apply₂₁, from_blocks_apply₂₂, 
+    mul_apply, transpose_apply],},
 end
 
+lemma fin_one_mul_eq_smul {A: matrix (fin 1) m R} {q: matrix (fin 1) (fin 1) R}:
+  (q 0 0) • A = q ⬝ A := 
+begin
+  funext r s,
+  have : r = 0, {simp only [eq_iff_true_of_subsingleton],},
+  rw [mul_apply, pi.smul_apply, pi.smul_apply, algebra.id.smul_eq_mul,fintype.univ_of_subsingleton,
+    fin.mk_zero, finset.sum_singleton, this],
+end
 
 lemma sS11 {z : ℕ} {X : matrix (fin (z + 1)) (fin z) ℂ} {v : matrix (fin (z + 1)) (fin 1) ℂ}
   {hα: (vᵀ ⬝ v - vᵀ ⬝ X ⬝ (Xᵀ ⬝ X)⁻¹ ⬝ Xᵀ ⬝ v) 0 0 ≠ 0}
@@ -86,7 +97,7 @@ lemma sS12 (z : ℕ)
   in (1 / α) • (Xᵀ ⬝ X ⬝ S12 + Xᵀ ⬝ v ⬝ S22) = 0 :=
 begin
   intros A α S12 S22,
-  rw [smul_eq_zero], 
+  rw smul_eq_zero, 
   right,
   change S12 with -A ⬝ Xᵀ ⬝ v,
   rw [matrix.neg_mul, matrix.neg_mul, matrix.mul_neg, matrix.mul_assoc A,
@@ -105,24 +116,20 @@ lemma sS21 (z : ℕ)
   in (1 / α) • (vᵀ ⬝ X ⬝ S11 + vᵀ ⬝ v ⬝ S21) = 0 :=
 begin
   intros A α S11 S21,
-  rw smul_eq_zero, right,
-  change S11 with α • A + A ⬝ Xᵀ ⬝ v ⬝ vᵀ ⬝ X ⬝ Aᵀ,
+  rw smul_eq_zero, 
+  right,
   change S21 with -vᵀ ⬝ X ⬝ Aᵀ,
-  change A with (Xᵀ ⬝ X)⁻¹,
-  
-  rw matrix.mul_add, rw matrix.mul_smul,
-  simp only [matrix.neg_mul, matrix.mul_neg],
+  simp_rw [matrix.mul_add, matrix.mul_smul, matrix.neg_mul, matrix.mul_neg],
   change α  with  (vᵀ ⬝ v - vᵀ ⬝ X ⬝ A ⬝ Xᵀ ⬝ v) 0 0,
-  rw pi.sub_apply, 
-  rw pi.sub_apply, 
-  rw sub_smul,
-  change A with (Xᵀ ⬝ X)⁻¹,
-  
+  simp_rw [pi.sub_apply, sub_smul, fin_one_mul_eq_smul, ← sub_eq_add_neg,
+    transpose_nonsing_inv, transpose_mul, transpose_transpose, ← matrix.mul_assoc,
+    add_sub_assoc, sub_add_sub_cancel, sub_self],
 end
 
 lemma sS22 (z : ℕ)
   (X : matrix (fin (z + 1)) (fin z) ℂ)
   (v : matrix (fin (z + 1)) (fin 1) ℂ)
+  {hα: (vᵀ ⬝ v - vᵀ ⬝ X ⬝ (Xᵀ ⬝ X)⁻¹ ⬝ Xᵀ ⬝ v) 0 0 ≠ 0}
   [invertible (Xᵀ ⬝ X)]:
   let A : matrix (fin z) (fin z) ℂ := (Xᵀ ⬝ X)⁻¹,
       α : ℂ := (vᵀ ⬝ v - vᵀ ⬝ X ⬝ A ⬝ Xᵀ ⬝ v) 0 0,
@@ -130,8 +137,15 @@ lemma sS22 (z : ℕ)
       S22 : matrix (fin 1) (fin 1) ℂ := 1
   in (1 / α) • (vᵀ ⬝ X ⬝ S12 + vᵀ ⬝ v ⬝ S22) = 1 :=
 begin
+  have f1 : ∀ (r: fin 1), r = 0, {intro r, simp only [eq_iff_true_of_subsingleton],},
   intros A α S12 S22,
-  admit,
+  rw [one_div, inv_smul_eq_iff₀ hα, matrix.mul_one],
+  change S12 with -A ⬝ Xᵀ ⬝ v,
+  change α  with  (vᵀ ⬝ v - vᵀ ⬝ X ⬝ A ⬝ Xᵀ ⬝ v) 0 0,
+  simp_rw [matrix.neg_mul, matrix.mul_neg],
+  funext a b,
+  simp_rw [f1 a, f1 b, pi.smul_apply, one_apply_eq, algebra.id.smul_eq_mul, mul_one, 
+    neg_add_eq_sub, ← matrix.mul_assoc],
 end
 
 lemma eq_between_167_and_168 [invertible (Xᵀ⬝X)] 
@@ -167,34 +181,7 @@ in
   apply sS11, assumption',
   apply sS12,
   apply sS21,
-  apply sS22,
+  apply sS22, assumption',
 end
-
-
-
--- example (z : ℕ)
---   (X : matrix (fin (z + 1)) (fin z) ℂ)
---   (v : matrix (fin (z + 1)) (fin 1) ℂ) :
---   let X' : matrix (fin (z + 1)) (fin (z + 1)) ℂ :=
---         ⇑(reindex (equiv.refl (fin (z + 1))) (e z)) (append_mat_vec z X v),
---       A : matrix (fin z) (fin z) ℂ := (Xᵀ ⬝ X)⁻¹,
---       α : ℂ := (vᵀ ⬝ v - vᵀ ⬝ X ⬝ A ⬝ Xᵀ ⬝ v) 0 0,
---       S11 : matrix (fin z) (fin z) ℂ :=
---         α • A + A ⬝ Xᵀ ⬝ v ⬝ vᵀ ⬝ X ⬝ Aᵀ,
---       S12 : matrix (fin z) (fin 1) ℂ := -A ⬝ Xᵀ ⬝ v,
---       S21 : matrix (fin 1) (fin z) ℂ := -vᵀ ⬝ X ⬝ Aᵀ,
---       S22 : ℕ := 1,
---       S : matrix (fin z ⊕ fin 1) (fin z ⊕ fin 1) ℂ :=
---         (1 / α) • from_blocks S11 S12 S21 ↑S22
---   in (append_mat_vec z X v)ᵀ ⬝ append_mat_vec z X v =
---        from_blocks (Xᵀ ⬝ X) (Xᵀ ⬝ v) (vᵀ ⬝ X) (vᵀ ⬝ v) :=
--- begin
---   intros X' A α S11 S12 S21 S22 S,
---   admit,
--- end
-
-
-
-
 
 end matrix_cookbook
