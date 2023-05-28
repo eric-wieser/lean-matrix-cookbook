@@ -1,13 +1,17 @@
+import analysis.calculus.deriv.add
+import analysis.calculus.deriv.mul
+import analysis.calculus.deriv.prod
+import analysis.calculus.deriv.star
 import analysis.matrix
 import data.matrix.kronecker
 import data.matrix.hadamard
 
 /-! # Missing lemmas about matrix analysis -/
 
-variables {ι : Type*} {R : Type*} {m n p q : Type*}
+variables {ι : Type*} {R : Type*} {A : Type*} {m n p q : Type*}
 variables [fintype m] [fintype n] [fintype p] [fintype q]
 variables [decidable_eq m] [decidable_eq n] [decidable_eq p] [decidable_eq q]
-variables [nontrivially_normed_field R]
+variables [nontrivially_normed_field R] [normed_ring A] [normed_algebra R A]
 
 open matrix
 open_locale matrix kronecker
@@ -27,12 +31,12 @@ local attribute [instance]
 def matrix_field_normed_space : normed_space R (matrix m n R) :=
 by exact matrix.normed_space
 
-lemma has_deriv_at_matrix {f : R → matrix m n R} {r : R} {f' : matrix m n R} :
+lemma has_deriv_at_matrix {f : R → matrix m n A} {r : R} {f' : matrix m n A} :
   has_deriv_at f f' r ↔ (∀ i j, has_deriv_at (λ r, f r i j) (f' i j) r) :=
 by simp_rw has_deriv_at_pi
 
-lemma has_deriv_at.matrix_mul {X : R → matrix m n R} {Y : R → matrix n p R}
-  {X' : matrix m n R} {Y' : matrix n p R} {r : R}
+lemma has_deriv_at.matrix_mul {X : R → matrix m n A} {Y : R → matrix n p A}
+  {X' : matrix m n A} {Y' : matrix n p A} {r : R}
   (hX : has_deriv_at X X' r) (hY : has_deriv_at Y Y' r) :
   has_deriv_at (λ a, (X a) ⬝ (Y a)) (X' ⬝ Y r + X r ⬝ Y') r :=
 begin
@@ -42,8 +46,8 @@ begin
   exact has_deriv_at.sum (λ k hk, (hX _ _).mul (hY _ _)),
 end
 
-lemma has_deriv_at.matrix_kronecker {X : R → matrix m n R} {Y : R → matrix p q R}
-  {X' : matrix m n R} {Y' : matrix p q R} {r : R}
+lemma has_deriv_at.matrix_kronecker {X : R → matrix m n A} {Y : R → matrix p q A}
+  {X' : matrix m n A} {Y' : matrix p q A} {r : R}
   (hX : has_deriv_at X X' r) (hY : has_deriv_at Y Y' r) :
   has_deriv_at (λ a, (X a) ⊗ₖ (Y a)) (X' ⊗ₖ Y r + X r ⊗ₖ Y') r :=
 begin
@@ -52,8 +56,8 @@ begin
   exact (hX _ _).mul (hY _ _),
 end
 
-lemma has_deriv_at.matrix_hadamard {X Y : R → matrix m n R}
-  {X' Y' : matrix m n R} {r : R}
+lemma has_deriv_at.matrix_hadamard {X Y : R → matrix m n A}
+  {X' Y' : matrix m n A} {r : R}
   (hX : has_deriv_at X X' r) (hY : has_deriv_at Y Y' r) :
   has_deriv_at (λ a, (X a) ⊙ (Y a)) (X' ⊙ Y r + X r ⊙ Y') r :=
 begin
@@ -62,18 +66,25 @@ begin
   exact (hX _ _).mul (hY _ _),
 end
 
-lemma has_deriv_at.trace {X : R → matrix m m R} {X' : matrix m m R} {r : R}
+lemma has_deriv_at.trace {X : R → matrix m m A} {X' : matrix m m A} {r : R}
   (hX : has_deriv_at X X' r) :
   has_deriv_at (λ a, (X a).trace) X'.trace r :=
 has_deriv_at.sum $ λ i hi, (has_deriv_at_matrix.mp hX : _) i i
 
-lemma has_deriv_at.transpose {X : R → matrix m n R} {X' : matrix m n R} {r : R}
+lemma has_deriv_at.transpose {X : R → matrix m n A} {X' : matrix m n A} {r : R}
   (hX : has_deriv_at X X' r) :
   has_deriv_at (λ a, (X a)ᵀ) X'ᵀ r :=
 has_deriv_at_matrix.mpr $ λ i j, (has_deriv_at_matrix.mp hX : _) j i
 
+lemma has_deriv_at.conj_transpose
+  [star_ring R] [has_trivial_star R] [star_add_monoid A] [star_module R A] [has_continuous_star A]
+  {X : R → matrix m n A} {X' : matrix m n A} {r : R}
+  (hX : has_deriv_at X X' r) :
+  has_deriv_at (λ a, (X a)ᴴ) X'ᴴ r :=
+has_deriv_at_matrix.mpr $ λ i j, ((has_deriv_at_matrix.mp hX : _) j i).star
+
 -- This is only about the elementwise norm...
-lemma deriv_matrix (f : R → matrix m n R) (r : R) (hX : differentiable_at R f r) :
+lemma deriv_matrix (f : R → matrix m n A) (r : R) (hX : differentiable_at R f r) :
   deriv f r = of (λ i j, deriv (λ r, f r i j) r) :=
 begin
   ext i j,

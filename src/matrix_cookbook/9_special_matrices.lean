@@ -1,7 +1,8 @@
 import data.complex.basic
 import linear_algebra.matrix.hermitian
-import linear_algebra.matrix.symmetric
 import linear_algebra.matrix.nonsingular_inverse
+import linear_algebra.matrix.schur_complement
+import linear_algebra.matrix.symmetric
 import linear_algebra.vandermonde
 import linear_algebra.matrix.schur_complement
 
