@@ -1,6 +1,5 @@
 import linear_algebra.matrix.nonsingular_inverse
 import linear_algebra.matrix.reindex
-import data.complex.basic
 
 namespace matrix_cookbook
 
@@ -35,14 +34,14 @@ lemma reindex_equiv_eq_iff_matrix_eq (e₁ e₂ : n ≃ m) (A B: matrix n n R) :
 ⟨ reindex_equiv_eq_if_matrix_eq _ _ _ _, matrix_eq_if_reindex_equiv _ _ _ _⟩
 
 variable z : ℕ
-variable X : matrix (fin (z + 1)) (fin z) ℂ
-variable v : matrix (fin (z + 1)) (fin 1) ℂ
+variable X : matrix (fin (z + 1)) (fin z) R
+variable v : matrix (fin (z + 1)) (fin 1) R
 def append_mat_vec := of (λ i, sum.elim (X i) (v i))
 def e := @fin_sum_fin_equiv z 1
 
 lemma rank_one_update_transpose_mul_self (z : ℕ)
-  (X : matrix (fin (z + 1)) (fin z) ℂ)
-  (v : matrix (fin (z + 1)) (fin 1) ℂ)
+  (X : matrix (fin (z + 1)) (fin z) R)
+  (v : matrix (fin (z + 1)) (fin 1) R)
   [invertible (Xᵀ ⬝ X)] :
   (append_mat_vec z X v)ᵀ ⬝ append_mat_vec z X v =
     from_blocks (Xᵀ ⬝ X) (Xᵀ ⬝ v) (vᵀ ⬝ X) (vᵀ ⬝ v) :=
@@ -65,13 +64,13 @@ begin
     fin.mk_zero, finset.sum_singleton, this],
 end
 
-lemma sS11 {z : ℕ} {X : matrix (fin (z + 1)) (fin z) ℂ} {v : matrix (fin (z + 1)) (fin 1) ℂ}
+lemma sS11 {z : ℕ} {X : matrix (fin (z + 1)) (fin z) R} {v : matrix (fin (z + 1)) (fin 1) R}
   {hα: (vᵀ ⬝ v - vᵀ ⬝ X ⬝ (Xᵀ ⬝ X)⁻¹ ⬝ Xᵀ ⬝ v) 0 0 ≠ 0}
   [invertible (Xᵀ ⬝ X)] :
-  let A : matrix (fin z) (fin z) ℂ := (Xᵀ ⬝ X)⁻¹,
-      α : ℂ := (vᵀ ⬝ v - vᵀ ⬝ X ⬝ A ⬝ Xᵀ ⬝ v) 0 0,
-      S11 : matrix (fin z) (fin z) ℂ := α • A + A ⬝ Xᵀ ⬝ v ⬝ vᵀ ⬝ X ⬝ Aᵀ,
-      S21 : matrix (fin 1) (fin z) ℂ := -vᵀ ⬝ X ⬝ Aᵀ
+  let A : matrix (fin z) (fin z) R := (Xᵀ ⬝ X)⁻¹,
+      α : R := (vᵀ ⬝ v - vᵀ ⬝ X ⬝ A ⬝ Xᵀ ⬝ v) 0 0,
+      S11 : matrix (fin z) (fin z) R := α • A + A ⬝ Xᵀ ⬝ v ⬝ vᵀ ⬝ X ⬝ Aᵀ,
+      S21 : matrix (fin 1) (fin z) R := -vᵀ ⬝ X ⬝ Aᵀ
   in (1 / α) • (Xᵀ ⬝ X ⬝ S11 + Xᵀ ⬝ v ⬝ S21) = 1 :=
 begin
   have hA := is_unit_det_of_invertible (Xᵀ⬝X),
@@ -85,13 +84,13 @@ begin
 end
 
 lemma sS12 (z : ℕ)
-  (X : matrix (fin (z + 1)) (fin z) ℂ)
-  (v : matrix (fin (z + 1)) (fin 1) ℂ)
+  (X : matrix (fin (z + 1)) (fin z) R)
+  (v : matrix (fin (z + 1)) (fin 1) R)
   [invertible (Xᵀ ⬝ X)] :
-  let A : matrix (fin z) (fin z) ℂ := (Xᵀ ⬝ X)⁻¹,
-      α : ℂ := (vᵀ ⬝ v - vᵀ ⬝ X ⬝ A ⬝ Xᵀ ⬝ v) 0 0,
-      S12 : matrix (fin z) (fin 1) ℂ := -A ⬝ Xᵀ ⬝ v,
-      S22 : matrix (fin 1) (fin 1) ℂ := 1
+  let A : matrix (fin z) (fin z) R := (Xᵀ ⬝ X)⁻¹,
+      α : R := (vᵀ ⬝ v - vᵀ ⬝ X ⬝ A ⬝ Xᵀ ⬝ v) 0 0,
+      S12 : matrix (fin z) (fin 1) R := -A ⬝ Xᵀ ⬝ v,
+      S22 : matrix (fin 1) (fin 1) R := 1
   in (1 / α) • (Xᵀ ⬝ X ⬝ S12 + Xᵀ ⬝ v ⬝ S22) = 0 :=
 begin
   intros A α S12 S22,
@@ -104,13 +103,13 @@ begin
 end
 
 lemma sS21 (z : ℕ)
-  (X : matrix (fin (z + 1)) (fin z) ℂ)
-  (v : matrix (fin (z + 1)) (fin 1) ℂ)
+  (X : matrix (fin (z + 1)) (fin z) R)
+  (v : matrix (fin (z + 1)) (fin 1) R)
   [invertible (Xᵀ ⬝ X)] :
-  let A : matrix (fin z) (fin z) ℂ := (Xᵀ ⬝ X)⁻¹,
-      α : ℂ := (vᵀ ⬝ v - vᵀ ⬝ X ⬝ A ⬝ Xᵀ ⬝ v) 0 0,
-      S11 : matrix (fin z) (fin z) ℂ := α • A + A ⬝ Xᵀ ⬝ v ⬝ vᵀ ⬝ X ⬝ Aᵀ,
-      S21 : matrix (fin 1) (fin z) ℂ := -vᵀ ⬝ X ⬝ Aᵀ
+  let A : matrix (fin z) (fin z) R := (Xᵀ ⬝ X)⁻¹,
+      α : R := (vᵀ ⬝ v - vᵀ ⬝ X ⬝ A ⬝ Xᵀ ⬝ v) 0 0,
+      S11 : matrix (fin z) (fin z) R := α • A + A ⬝ Xᵀ ⬝ v ⬝ vᵀ ⬝ X ⬝ Aᵀ,
+      S21 : matrix (fin 1) (fin z) R := -vᵀ ⬝ X ⬝ Aᵀ
   in (1 / α) • (vᵀ ⬝ X ⬝ S11 + vᵀ ⬝ v ⬝ S21) = 0 :=
 begin
   intros A α S11 S21,
@@ -125,14 +124,14 @@ begin
 end
 
 lemma sS22 (z : ℕ)
-  (X : matrix (fin (z + 1)) (fin z) ℂ)
-  (v : matrix (fin (z + 1)) (fin 1) ℂ)
+  (X : matrix (fin (z + 1)) (fin z) R)
+  (v : matrix (fin (z + 1)) (fin 1) R)
   {hα: (vᵀ ⬝ v - vᵀ ⬝ X ⬝ (Xᵀ ⬝ X)⁻¹ ⬝ Xᵀ ⬝ v) 0 0 ≠ 0}
   [invertible (Xᵀ ⬝ X)]:
-  let A : matrix (fin z) (fin z) ℂ := (Xᵀ ⬝ X)⁻¹,
-      α : ℂ := (vᵀ ⬝ v - vᵀ ⬝ X ⬝ A ⬝ Xᵀ ⬝ v) 0 0,
-      S12 : matrix (fin z) (fin 1) ℂ := -A ⬝ Xᵀ ⬝ v,
-      S22 : matrix (fin 1) (fin 1) ℂ := 1
+  let A : matrix (fin z) (fin z) R := (Xᵀ ⬝ X)⁻¹,
+      α : R := (vᵀ ⬝ v - vᵀ ⬝ X ⬝ A ⬝ Xᵀ ⬝ v) 0 0,
+      S12 : matrix (fin z) (fin 1) R := -A ⬝ Xᵀ ⬝ v,
+      S22 : matrix (fin 1) (fin 1) R := 1
   in (1 / α) • (vᵀ ⬝ X ⬝ S12 + vᵀ ⬝ v ⬝ S22) = 1 :=
 begin
   have f1 : ∀ (r: fin 1), r = 0, {intro r, simp only [eq_iff_true_of_subsingleton],},
@@ -153,20 +152,21 @@ let
   A := (Xᵀ⬝X)⁻¹,
   α := ((vᵀ⬝v) - (vᵀ⬝X⬝A⬝Xᵀ⬝v)) 0 0,
   S11 := α•A + (A⬝Xᵀ⬝v⬝vᵀ⬝X⬝Aᵀ),    S12 := -A⬝Xᵀ⬝v,
-  S21 := -vᵀ⬝X⬝Aᵀ,                  S22 := (1: matrix (fin 1) (fin 1) ℂ),
+  S21 := -vᵀ⬝X⬝Aᵀ,                  S22 := (1: matrix (fin 1) (fin 1) R),
   S :=  (1/α)•from_blocks S11 S12 S21 S22
 in 
   (X'ᵀ⬝ X')⁻¹ = reindex (e z) (e z) S := begin
   intros X' A α S11 S12 S21 S22 S,
   change X' with reindex (equiv.refl (fin (z+1))) (e z) (append_mat_vec z X v),
   
-  let Zre := reindex_linear_equiv_apply ℕ ℂ (e z) (e z),
-  let Zr1 := reindex_linear_equiv_apply ℕ ℂ (e z) (equiv.refl (fin (z+1))),
-  let Zr2 := reindex_linear_equiv_apply ℕ ℂ (equiv.refl (fin (z+1))) (e z),
-
-  rw [matrix.transpose_reindex, ← Zre, ← Zr1, ← Zr2,
-    reindex_linear_equiv_mul ℕ ℂ (e z) (equiv.refl (fin (z+1))) (e z) 
-      (append_mat_vec z X v)ᵀ ((append_mat_vec z X v)), Zre, Zre], 
+  let Zre := reindex_linear_equiv_apply ℕ R (e z) (e z),
+  let Zr1 := reindex_linear_equiv_apply ℕ R (e z) (equiv.refl (fin (z+1))),
+  let Zr2 := reindex_linear_equiv_apply ℕ R (equiv.refl (fin (z+1))) (e z),
+  let Zr3 := reindex_linear_equiv_mul ℕ R (e z) (equiv.refl (fin (z+1))) (e z),
+  
+  rw [matrix.transpose_reindex, ← Zre, ← Zr1, ← Zr2, 
+    Zr3 (append_mat_vec z X v)ᵀ ((append_mat_vec z X v)), 
+    Zre, Zre], 
 
   simp_rw [matrix.inv_reindex (e z) (e z), reindex_equiv_eq_iff_matrix_eq,
     rank_one_update_transpose_mul_self],
