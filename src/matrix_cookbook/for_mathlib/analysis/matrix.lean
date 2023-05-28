@@ -1,3 +1,4 @@
+import analysis.calculus.deriv
 import analysis.matrix
 import data.matrix.kronecker
 import data.matrix.hadamard
