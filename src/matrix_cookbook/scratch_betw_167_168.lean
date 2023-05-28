@@ -1,8 +1,6 @@
 import linear_algebra.matrix.nonsingular_inverse
-import data.complex.basic
-import matrix_cookbook.for_mathlib.linear_algebra.matrix.adjugate
-import matrix_cookbook.for_mathlib.linear_algebra.matrix.nonsing_inverse
 import linear_algebra.matrix.reindex
+import data.complex.basic
 
 namespace matrix_cookbook
 
@@ -161,22 +159,19 @@ in
   (X'ᵀ⬝ X')⁻¹ = reindex (e z) (e z) S := begin
   intros X' A α S11 S12 S21 S22 S,
   change X' with reindex (equiv.refl (fin (z+1))) (e z) (append_mat_vec z X v),
-  rw matrix.transpose_reindex,
-  rw ← reindex_linear_equiv_apply ℕ ℂ (e z) (e z),
-  rw ← reindex_linear_equiv_apply ℕ ℂ (e z) (equiv.refl (fin (z+1))),
-  rw ← reindex_linear_equiv_apply ℕ ℂ (equiv.refl (fin (z+1))) (e z),
-  rw reindex_linear_equiv_mul ℕ ℂ (e z) (equiv.refl (fin (z+1))) (e z) 
-    (append_mat_vec z X v)ᵀ ((append_mat_vec z X v)),
-  rw reindex_linear_equiv_apply ℕ ℂ (e z) (e z),
-  rw reindex_linear_equiv_apply ℕ ℂ (e z) (e z),
-  rw matrix.inv_reindex (e z) (e z),
-  rw reindex_equiv_eq_iff_matrix_eq,
-  rw rank_one_update_transpose_mul_self,
+  
+  let Zre := reindex_linear_equiv_apply ℕ ℂ (e z) (e z),
+  let Zr1 := reindex_linear_equiv_apply ℕ ℂ (e z) (equiv.refl (fin (z+1))),
+  let Zr2 := reindex_linear_equiv_apply ℕ ℂ (equiv.refl (fin (z+1))) (e z),
+
+  rw [matrix.transpose_reindex, ← Zre, ← Zr1, ← Zr2,
+    reindex_linear_equiv_mul ℕ ℂ (e z) (equiv.refl (fin (z+1))) (e z) 
+      (append_mat_vec z X v)ᵀ ((append_mat_vec z X v)), Zre, Zre], 
+
+  simp_rw [matrix.inv_reindex (e z) (e z), reindex_equiv_eq_iff_matrix_eq,
+    rank_one_update_transpose_mul_self],
   apply inv_eq_right_inv,
-  rw matrix.mul_smul,
-  rw from_blocks_multiply,
-  rw from_blocks_smul,
-  rw ← from_blocks_one,
+  rw [matrix.mul_smul, from_blocks_multiply, from_blocks_smul, ← from_blocks_one],
   congr,
   apply sS11, assumption',
   apply sS12,
