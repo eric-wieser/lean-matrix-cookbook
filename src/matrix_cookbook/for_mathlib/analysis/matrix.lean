@@ -1,4 +1,6 @@
-import analysis.calculus.deriv
+import analysis.calculus.deriv.add
+import analysis.calculus.deriv.mul
+import analysis.calculus.deriv.prod
 import analysis.matrix
 import data.matrix.kronecker
 import data.matrix.hadamard
