@@ -4,13 +4,14 @@ import matrix_cookbook.for_mathlib.linear_algebra.matrix.adjugate
 import matrix_cookbook.for_mathlib.linear_algebra.matrix.nonsing_inverse
 import tactic.swap_var
 import linear_algebra.matrix.reindex
-
+import matrix_cookbook.lib.mat_vec_append
 /-! # Inverses -/
 
 namespace matrix_cookbook
 variables {m n p : Type*}
 variables [fintype m] [fintype n] [fintype p]
 variables [decidable_eq m] [decidable_eq n] [decidable_eq p]
+variables {R: Type*}[field R]
 variables (A B C : matrix n n ℂ)
 open matrix
 open_locale matrix big_operators
@@ -165,50 +166,57 @@ begin
 end
 
 /-! ### Rank-1 update of inverse of inner product -/
--- variable y : ℕ
--- variable z : ℕ
--- variable X : matrix (fin y) (fin z) ℂ
--- variable v : matrix (fin y) (fin 1) ℂ
--- variable i : fin y
--- #check @sum.elim (fin z) (fin 1) ℂ (X i) (v i)
--- #check of (λ r, sum.elim (X r) (v r))
--- def e := @fin_sum_fin_equiv y 1
--- #check e
+variable X : matrix (m ⊕ unit) m R
+variable v : matrix (m ⊕ unit) unit R
 
--- variable z : ℕ
--- variable X : matrix (fin z ⊕  fin 1) (fin z) ℂ
--- variable v : matrix (fin z ⊕  fin 1) (fin 1) ℂ
--- def append_mat_vec := of (λ i, sum.elim (X i) (v i))
--- #check append_mat_vec z X v
--- def e := @fin_sum_fin_equiv z 1
--- #check (e z)
--- #check reindex (e z) (e z) (append_mat_vec z X v)
-
-variable z : ℕ
-variable X : matrix (fin (z + 1)) (fin z) ℂ
-variable v : matrix (fin (z + 1)) (fin 1) ℂ
-def append_mat_vec := of (λ i, sum.elim (X i) (v i))
-#check append_mat_vec z X v
-def e := @fin_sum_fin_equiv z 1
-#check (e z)
-#check reindex (equiv.refl (fin (z+1))) (e z) (append_mat_vec z X v)
-#check ((vᵀ⬝v) 0 0)
-
-lemma eq_between_167_and_168 : 
-let X' := reindex (equiv.refl (fin (z+1))) (e z) (append_mat_vec z X v), 
-  Q := (Xᵀ⬝X)⁻¹,
-  α := ((vᵀ⬝v) - (vᵀ⬝X⬝Q⬝Xᵀ⬝v)) 0 0,
-  S11 := α•Q + (Q⬝Xᵀ⬝v⬝vᵀ⬝X⬝Qᵀ),    S12 := -Q⬝Xᵀ⬝v,
-  S21 := -vᵀ⬝X⬝Qᵀ,                  S22 := 1,
+lemma eq_between_167_and_168 [invertible (Xᵀ⬝X)] 
+  {hα: (vᵀ ⬝ v - vᵀ ⬝ X ⬝ (Xᵀ ⬝ X)⁻¹ ⬝ Xᵀ ⬝ v) 0 0 ≠ 0}: 
+let 
+  X' := (append_mat_vec X v), 
+  A := (Xᵀ⬝X)⁻¹,
+  α := ((vᵀ⬝v) - (vᵀ⬝X⬝A⬝Xᵀ⬝v)) 0 0,
+  S11 := α•A + (A⬝Xᵀ⬝v⬝vᵀ⬝X⬝Aᵀ),    S12 := -A⬝Xᵀ⬝v,
+  S21 := -vᵀ⬝X⬝Aᵀ,                  S22 := (1: matrix unit unit R),
   S :=  (1/α)•from_blocks S11 S12 S21 S22
 in 
-  (X'ᵀ⬝ X')⁻¹ = reindex (e z) (e z) S := begin
-  intros X' Q α S11 S12 S21 S22 S,
-  apply inv_eq_left_inv,
-  rw ← matrix.mul_assoc,
-  change X' with reindex (equiv.refl (fin (z+1))) (e z) (append_mat_vec z X v),
-  -- rw ← matrix.reindex_linear_equiv_mul,
-  sorry,
+  (X'ᵀ⬝ X')⁻¹ = S := begin
+  intros X' A α S11 S12 S21 S22 S,
+  change X' with (append_mat_vec X v),
+  
+  rw rank_one_update_transpose_mul_self,
+  apply inv_eq_right_inv,
+  rw [matrix.mul_smul, from_blocks_multiply, from_blocks_smul, ← from_blocks_one],
+  congr,
+
+  { have hA := is_unit_det_of_invertible (Xᵀ⬝X),
+    simp_rw [matrix.mul_add, matrix.mul_smul, mul_inv_of_invertible, smul_add, ← smul_assoc, smul_eq_mul, 
+      one_div_mul_cancel hα, one_smul], 
+    change S21 with -vᵀ ⬝ X ⬝ Aᵀ, 
+    simp_rw [matrix.neg_mul, matrix.mul_neg, smul_neg, tactic.ring.add_neg_eq_sub, 
+      sub_eq_iff_eq_add, add_right_inj, matrix.mul_assoc A, 
+      mul_nonsing_inv_cancel_left _ _ hA, ← matrix.mul_assoc], },
+  { rw smul_eq_zero, 
+    right,
+    change S12 with -A ⬝ Xᵀ ⬝ v,
+    rw [matrix.neg_mul, matrix.neg_mul, matrix.mul_neg, matrix.mul_assoc A,
+      mul_nonsing_inv_cancel_left, matrix.mul_one, add_left_neg],
+      apply is_unit_det_of_invertible,},
+  { rw smul_eq_zero,
+    right,
+    change S21 with -vᵀ ⬝ X ⬝ Aᵀ,
+    simp_rw [matrix.mul_add, matrix.mul_smul, matrix.neg_mul, matrix.mul_neg],
+    change α  with  (vᵀ ⬝ v - vᵀ ⬝ X ⬝ A ⬝ Xᵀ ⬝ v) () (),
+    simp_rw [pi.sub_apply, sub_smul, fin_one_mul_eq_smul, ← sub_eq_add_neg,
+      transpose_nonsing_inv, transpose_mul, transpose_transpose, ← matrix.mul_assoc,
+    add_sub_assoc, sub_add_sub_cancel, sub_self], },
+  { have f1 : ∀ (r: unit), r = 0, {intro r, simp only [eq_iff_true_of_subsingleton],},
+    rw [one_div, inv_smul_eq_iff₀ hα, matrix.mul_one],
+    change S12 with -A ⬝ Xᵀ ⬝ v,
+    change α  with  (vᵀ ⬝ v - vᵀ ⬝ X ⬝ A ⬝ Xᵀ ⬝ v) 0 0,
+    simp_rw [matrix.neg_mul, matrix.mul_neg],
+    funext a b,
+    simp_rw [f1 a, f1 b, pi.smul_apply, one_apply_eq, algebra.id.smul_eq_mul, mul_one, 
+      neg_add_eq_sub, ← matrix.mul_assoc],},
 end
 
 /-! ### Rank-1 update of Moore-Penrose Inverse -/
