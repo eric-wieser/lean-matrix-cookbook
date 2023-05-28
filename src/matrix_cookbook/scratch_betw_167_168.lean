@@ -6,10 +6,11 @@ namespace matrix_cookbook
 open matrix
 open_locale matrix big_operators
 
-variables {m n R: Type*}[fintype m][fintype n][decidable_eq m][decidable_eq n]
-variables [field R]
+variables {m n: Type*}[fintype m][fintype n][decidable_eq m][decidable_eq n]
+variables {o p: Type*}[fintype o][fintype p][decidable_eq o][decidable_eq p]
+variables {R: Type*}[field R]
 
-lemma reindex_equiv_eq_if_matrix_eq (e₁ e₂ : n ≃ m) (A B: matrix n n R) : 
+lemma reindex_equiv_eq_if_matrix_eq (e₁ : m ≃ o) (e₂: n ≃ p) (A B: matrix m n R) : 
   (reindex e₁ e₂ A = reindex e₁ e₂ B) → A = B :=
 begin
   intro h,
@@ -20,7 +21,7 @@ begin
   exact h,
 end
 
-lemma matrix_eq_if_reindex_equiv (e₁ e₂ : n ≃ m) (A B: matrix n n R) : 
+lemma matrix_eq_if_reindex_equiv (e₁ : m ≃ o) (e₂: n ≃ p) (A B: matrix m n R) : 
   A = B → (reindex e₁ e₂ A = reindex e₁ e₂ B) :=
 begin
   rw [← matrix.ext_iff, reindex_apply, reindex_apply],
