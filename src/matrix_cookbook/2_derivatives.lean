@@ -58,8 +58,8 @@ lemma eq_43 (X : ℝ → matrix n n ℝ) (hX : differentiable ℝ X) :
   deriv (λ a, real.log (det (X a))) = λ a, trace ((X a)⁻¹ * deriv X a) := sorry
 lemma eq_44 (X : R → matrix m n R) (hX : differentiable R X) :
   deriv (λ a, (X a)ᵀ) = λ a, (deriv X a)ᵀ := funext $ λ _, (hX _).has_deriv_at.transpose.deriv
-lemma eq_45 [star_ring R] (X : R → matrix m n R) (hX : differentiable R X) :
-  deriv (λ a, (X a)ᴴ) = λ a, (deriv X a)ᴴ := sorry
+lemma eq_45 (X : ℝ → matrix m n ℂ) (hX : differentiable ℝ X) :
+  deriv (λ a, (X a)ᴴ) = λ a, (deriv X a)ᴴ := funext $ λ _, (hX _).has_deriv_at.conj_transpose.deriv
 
 /-! ## Derivatives of a Determinant -/
 
