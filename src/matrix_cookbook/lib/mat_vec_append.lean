@@ -6,7 +6,6 @@ Authors: Mohanad Ahmed
 
 import linear_algebra.matrix.nonsingular_inverse
 import linear_algebra.matrix.reindex
-import matrix_cookbook.for_mathlib.linear_algebra.matrix.reindex
 
 /-! # Support Definitions and Lemmas for Rank one Updates by concatenation-/
 namespace matrix_cookbook
