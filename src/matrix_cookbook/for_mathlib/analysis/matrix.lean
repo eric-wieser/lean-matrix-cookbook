@@ -5,6 +5,7 @@ import analysis.calculus.deriv.star
 import analysis.matrix
 import data.matrix.kronecker
 import data.matrix.hadamard
+import topology.uniform_space.matrix 
 
 /-! # Missing lemmas about matrix analysis -/
 
@@ -104,9 +105,6 @@ end sup_norm
 section linfty_op_norm
 local attribute [instance] matrix.linfty_op_normed_ring matrix.linfty_op_normed_algebra
 variables [nontrivially_normed_field R] [normed_comm_ring A] [normed_algebra R A] [complete_space A]
-
-instance : uniform_space (matrix m n A) := Pi.uniform_space _
-instance : complete_space (matrix m n A) := Pi.complete _
 
 lemma has_deriv_at.matrix_inv {X : R → matrix m m A} {X' : matrix m m A} {r : R}
   (hX : has_deriv_at X X' r) (hX' : is_unit (X r)) :
