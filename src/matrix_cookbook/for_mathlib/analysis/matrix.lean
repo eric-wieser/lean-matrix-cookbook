@@ -11,7 +11,6 @@ import data.matrix.hadamard
 variables {ι : Type*} {R : Type*} {A : Type*} {m n p q : Type*}
 variables [fintype m] [fintype n] [fintype p] [fintype q]
 variables [decidable_eq m] [decidable_eq n] [decidable_eq p] [decidable_eq q]
-variables [nontrivially_normed_field R] [normed_ring A] [normed_algebra R A]
 
 open matrix
 open_locale matrix kronecker
@@ -23,6 +22,7 @@ Note that for each choice of norm, all the lemmas must be repeated...
 https://leanprover.zulipchat.com/#narrow/stream/116395-maths/topic/Topology.20on.20continuous_maps.20without.20a.20norm/near/359326930
 -/
 section sup_norm
+variables [nontrivially_normed_field R] [normed_ring A] [normed_algebra R A]
 
 local attribute [instance] matrix.normed_add_comm_group matrix.normed_space
 -- `matrix.normed_space` is about `semi_normed_group` which massively impacts the performance of
@@ -100,3 +100,26 @@ begin
 end
 
 end sup_norm
+
+section linfty_op_norm
+local attribute [instance] matrix.linfty_op_normed_ring matrix.linfty_op_normed_algebra
+variables [nontrivially_normed_field R] [normed_comm_ring A] [normed_algebra R A] [complete_space A]
+
+instance : uniform_space (matrix m n A) := Pi.uniform_space _
+instance : complete_space (matrix m n A) := Pi.complete _
+
+lemma has_deriv_at.matrix_inv {X : R → matrix m m A} {X' : matrix m m A} {r : R}
+  (hX : has_deriv_at X X' r) (hX' : is_unit (X r)) :
+  has_deriv_at (λ a, (X a)⁻¹) (-(X r)⁻¹ * X' * (X r)⁻¹) r :=
+begin
+  simp_rw nonsing_inv_eq_ring_inverse,
+  obtain ⟨u, hu⟩ := hX',
+  have : has_fderiv_at _ (_ : _ →L[R] _) _ := has_fderiv_at_ring_inverse u,
+  simp_rw [←ring.inverse_unit u, hu, ←ring.inverse_unit u, hu] at this,
+  rw has_deriv_at_iff_has_fderiv_at at ⊢ hX,
+  convert has_fderiv_at.comp _ this hX ,
+  ext1 r,
+  simp [matrix.mul_smul],
+end
+
+end linfty_op_norm
