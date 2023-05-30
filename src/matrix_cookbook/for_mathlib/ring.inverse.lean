@@ -1,5 +1,13 @@
+/-
+Copyright (c) 2023 Mohanad Ahmed. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Mohanad Ahmed
+-/
+
 import data.matrix.basic
 import linear_algebra.matrix.nonsingular_inverse
+
+/-! # Lemmas about Inverses in Noncommutative Division Rings -/
 
 variables {R: Type*}[division_ring R][group R]
 variables (A B C : R)
