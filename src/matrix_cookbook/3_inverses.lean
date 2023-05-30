@@ -154,7 +154,8 @@ begin
   rw eq_159 1 A B, 
   simp only [inv_one, matrix.one_mul, matrix.mul_one],
 end
-lemma eq_167 {hAB: is_unit (1 + B⬝A).det}: (1 + A⬝B)⁻¹⬝A = A⬝(1 + B⬝A)⁻¹ := 
+lemma eq_167 (A: matrix m n ℂ)(B: matrix n m ℂ) {hAB: is_unit (1 + B⬝A).det}: 
+  (1 + A⬝B)⁻¹⬝A = A⬝(1 + B⬝A)⁻¹ := 
 begin
   rw [eq_159 1 A B, inv_one, matrix.one_mul, matrix.mul_one, matrix.mul_one,
     matrix.sub_mul, matrix.one_mul, sub_eq_iff_eq_add],
