@@ -7,14 +7,14 @@ Authors: Eric Wieser
 import algebra.invertible
 import group_theory.group_action.conj_act
 
-variables {G M R : Type*}
-
 /-! # More lemmas about `invertible` -/
+
+variables {G M R : Type*}
 
 section monoid
 variables [group G] [monoid M] [mul_distrib_mul_action G M]
 
-/-- x conjugation action preserves invertibility. -/
+/-- A conjugation action preserves invertibility. -/
 def invertible_group_smul (g : G) (x : M)
   [invertible x] : 
   invertible (g • x) :=
