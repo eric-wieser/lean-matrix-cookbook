@@ -1,11 +1,11 @@
-import linear_algebra.matrix.nonsingular_inverse
-import linear_algebra.matrix.trace
-import data.real.nnreal
-import topology.metric_space.basic
 import data.matrix.notation
+import data.real.nnreal
+import linear_algebra.matrix.nonsingular_inverse
+import linear_algebra.matrix.schur_complement
+import linear_algebra.matrix.trace
 import ring_theory.power_series.basic
 import tactic.norm_fin
-import linear_algebra.matrix.schur_complement
+import topology.metric_space.basic
 
 import matrix_cookbook.lib.trace_det_fin_four
 import matrix_cookbook.lib.eigs
