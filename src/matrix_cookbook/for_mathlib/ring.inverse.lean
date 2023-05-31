@@ -11,16 +11,9 @@ import linear_algebra.matrix.nonsingular_inverse
 
 variables {R: Type*}[ring R]
 variables (A B C : R)
-
-lemma eq_161b {hA : is_unit A} {hAadd1 : is_unit (A + 1)} {hAiv: is_unit(1 + ring.inverse A)}:
-  ring.inverse (1 + ring.inverse A) = A* (ring.inverse (A + 1)) :=
+/- TODO: WORK IN PROGRESS Cleanup assumptions to minimize them!!!-/
+lemma ring_right_mul_inj (hA: is_unit A): function.injective (λ (x : R), A * x)  :=
 begin
-  apply_fun (λ x, ( 1 + ring.inverse A) * x),
-  simp only,
-  rw ring.mul_inverse_cancel ( 1 + ring.inverse A),
-  rw ← mul_assoc,
-  rw add_mul, rw ring.inverse_mul_cancel, rw one_mul, rw ring.mul_inverse_cancel,
-  assumption',
   intros x y,
   simp only, 
   rw [← ring.inverse_mul_eq_iff_eq_mul, ring.inverse_mul_cancel_left],
@@ -28,28 +21,60 @@ begin
   assumption',
 end
 
-/- lemma eq_161 {hA: A ≠ 0}{hAadd1: A + 1 ≠ 0}: 
-  (1 + A⁻¹)⁻¹ = A*(A + 1)⁻¹ := begin
-  apply inv_eq_of_mul_eq_one_right,
-  rw [←  mul_assoc, add_mul, inv_mul_cancel hA, one_mul, mul_inv_cancel hAadd1],
-end -/
-/- lemma eq_163A {hA: A ≠ 0}{hB: B ≠ 0}{hAB: (A + B) ≠ 0} : 
-  (A⁻¹ + B⁻¹)⁻¹ = A*(A + B)⁻¹*B := 
-begin
-  apply inv_eq_of_mul_eq_one_right,
-  rw [← mul_assoc, ← mul_assoc, add_mul, inv_mul_cancel hA,← inv_mul_cancel hB, 
-    ← mul_add, add_comm, mul_assoc B⁻¹, mul_inv_cancel hAB, mul_one],  
+lemma ring_inv_eq_of_mul_eq_one_right {hA: is_unit A}: 
+  A * B = 1 → ring.inverse A = B := begin
+  intro h,
+  apply_fun (λ x, A * x),
+  simp only,
+  rw [ring.mul_inverse_cancel,  eq_comm],
+  assumption',
+  apply ring_right_mul_inj, 
+  assumption',
 end
-lemma eq_163B {hA: A ≠ 0}{hB: B ≠ 0}{hAB: (A + B) ≠ 0} : 
-  (A⁻¹ + B⁻¹)⁻¹ = B*(A + B)⁻¹*A := 
+
+lemma ring_inverse_inverse {hA: is_unit A}: ring.inverse (ring.inverse A) = A := begin
+  apply ring_inv_eq_of_mul_eq_one_right,
+  simp only [is_unit_ring_inverse, hA],
+  rw [ring.inverse_mul_cancel], 
+  exact hA,
+end
+
+lemma eq_161b {hA : is_unit A} {hAadd1 : is_unit (A + 1)} {hAiv: is_unit(1 + ring.inverse A)}:
+  ring.inverse (1 + ring.inverse A) = A* (ring.inverse (A + 1)) :=
+begin
+  apply_fun (λ x, ( 1 + ring.inverse A) * x),
+  simp only,
+  rw [ring.mul_inverse_cancel ( 1 + ring.inverse A),
+    ← mul_assoc, add_mul, ring.inverse_mul_cancel, one_mul, ring.mul_inverse_cancel],
+  assumption',
+  apply ring_right_mul_inj,
+  assumption',
+end
+
+lemma eq_163A {hA: is_unit A}{hB: is_unit B}{hAB: is_unit (A + B)}
+  {hrArB': is_unit (ring.inverse A + ring.inverse B)}: 
+  ring.inverse(ring.inverse A + ring.inverse B) = A*ring.inverse(A + B)*B := 
+begin
+  rw ring_inv_eq_of_mul_eq_one_right, rotate,
+  rw [← mul_assoc, ← mul_assoc, add_mul, ring.inverse_mul_cancel, ← ring.inverse_mul_cancel B, 
+    ← mul_add, add_comm, mul_assoc (ring.inverse B), ring.mul_inverse_cancel, mul_one],  
+  assumption',
+end
+
+lemma eq_163B {hA: is_unit A}{hB: is_unit B}{hAB: is_unit (A + B)}
+  {hrArB': is_unit (ring.inverse A + ring.inverse B)}:
+  ring.inverse (ring.inverse A + ring.inverse B) = B*ring.inverse (A + B)*A := 
 begin
   rw [add_comm, add_comm A], 
   apply eq_163A B A, 
-  assumption', 
-  rwa add_comm,
+  assumption',
+  rwa add_comm, 
+  rwa add_comm, 
 end
-lemma eq_163 {hA: A ≠ 0}{hB: B ≠ 0}{hAB: (A + B) ≠ 0} : 
-  (A⁻¹ + B⁻¹)⁻¹ = A*(A + B)⁻¹*B ∧ (A⁻¹ + B⁻¹)⁻¹ = B*(A + B)⁻¹*A := 
+lemma eq_163 {hA: is_unit A}{hB: is_unit B}{hAB: is_unit (A + B)}
+  {hrArB': is_unit (ring.inverse A + ring.inverse B)}:
+  ring.inverse(ring.inverse A + ring.inverse B) = A*ring.inverse(A + B)*B  ∧
+  ring.inverse (ring.inverse A + ring.inverse B) = B*ring.inverse (A + B)*A := 
 begin
   split, 
   apply (eq_163A), 
@@ -58,50 +83,54 @@ begin
   assumption',
 end
 
-lemma eq_159 {hA: A ≠ 0} {hCBA: 1 + C * A⁻¹ * B ≠ 0}: 
-  (A + B*C)⁻¹ = A⁻¹ - A⁻¹*B*(1 + C*A⁻¹*B)⁻¹*C*A⁻¹ := 
+
+lemma eq_159 {hA: is_unit A} {hABC: is_unit (A + B * C)}
+  {hCBA: is_unit (1 + C * (ring.inverse A) * B)}: 
+    ring.inverse(A + B*C) = ring.inverse A - (ring.inverse A)*B*
+      ring.inverse(1 + C*(ring.inverse A)*B)*C*(ring.inverse A) := 
 begin
-  apply inv_eq_of_mul_eq_one_right,
-  rw [mul_sub, add_mul, add_mul,  mul_inv_cancel], 
+  apply ring_inv_eq_of_mul_eq_one_right, assumption,
+  rw [mul_sub, add_mul, add_mul,  ring.mul_inverse_cancel], 
   simp_rw [← mul_assoc A],
-  rw [mul_inv_cancel, one_mul, add_sub_assoc, sub_add_eq_sub_sub], 
+  rw [ring.mul_inverse_cancel, one_mul, add_sub_assoc, sub_add_eq_sub_sub], 
   nth_rewrite 3 ← add_zero (1:R),
   rw [add_right_inj],
-  simp_rw mul_assoc _ C A⁻¹,
+  simp_rw mul_assoc _ C (ring.inverse A),
   rw [← mul_assoc (B*C), ← sub_mul, ← sub_mul, ← mul_assoc (B*C), 
     ← sub_add_eq_sub_sub, ← add_mul],
   nth_rewrite 1 ← mul_one B,
-  rw [mul_assoc, ← mul_add, ← mul_assoc C,  mul_assoc B, mul_inv_cancel, 
+  rw [mul_assoc, ← mul_add, ← mul_assoc C,  mul_assoc B, ring.mul_inverse_cancel, 
     mul_one, sub_self, zero_mul],
   assumption',
 end
 
-lemma eq_164_one_side {hA: A ≠ 0} {hB: B ≠ 0} {hAB: (A + B) ≠ 0}:
-   A - A*(A + B)⁻¹*A = (A⁻¹ + B⁻¹)⁻¹ :=
+lemma eq_164_one_side {hA: is_unit A}{hB: is_unit B}{hAB: is_unit (A + B)}
+  {hiAB: is_unit (1 + ring.inverse A * B)} {hiAiB: is_unit (ring.inverse A + ring.inverse B)}:
+   A - A*ring.inverse (A + B)*A = ring.inverse(ring.inverse A + ring.inverse B) :=
 begin
   nth_rewrite 0 ← mul_one B,
-  rw eq_159,
-  rw [one_mul, mul_one, mul_sub, ← mul_assoc,← mul_assoc,← mul_assoc, mul_inv_cancel,
-    sub_mul, one_mul, one_mul, sub_sub_cancel, mul_assoc, inv_mul_cancel,  mul_one],
-  nth_rewrite 0 ← inv_inv B,
-  rw [← mul_inv_rev, add_mul, mul_assoc, mul_inv_cancel, one_mul, mul_one, add_comm], 
-  assumption',
-  rw one_mul,
-  by_contra' h, 
-  rw [← inv_mul_cancel hA, ← mul_add, mul_eq_zero] at h,
-  cases h, 
-  rw inv_eq_zero at h, 
-  exact hA h, 
-  exact hAB h,
+  rw [eq_159, one_mul, mul_one, mul_sub, ← mul_assoc,← mul_assoc,← mul_assoc, 
+    ring.mul_inverse_cancel, sub_mul, one_mul, one_mul, sub_sub_cancel, mul_assoc,
+    ring.inverse_mul_cancel, mul_one, eq_comm, ring_inv_eq_of_mul_eq_one_right],
+  assumption,
+  rw [add_mul, ring.inverse_mul_cancel_left, ← mul_assoc],
+  nth_rewrite 1 ← one_mul (ring.inverse (1 + ring.inverse A * B)),
+  rw [← add_mul, add_comm, ring.mul_inverse_cancel],
+  assumption', 
+  rwa mul_one, 
+  rwa one_mul,
 end
-lemma eq_164  {hA: A ≠ 0} {hB: B ≠ 0} {hAB: (A + B) ≠ 0} : 
-  A - A*(A + B)⁻¹*A = B - B*(A + B)⁻¹*B := 
+lemma eq_164 {hA: is_unit A}{hB: is_unit B}{hAB: is_unit (A + B)}
+  {hiAB: is_unit (1 + ring.inverse A * B)} {hAiB: is_unit (1 + ring.inverse B * A)} 
+  {hiAiB: is_unit (ring.inverse A + ring.inverse B)}: 
+  A - A*ring.inverse(A + B)*A = B - B*ring.inverse(A + B)*B := 
 begin
   rw [eq_164_one_side, add_comm A, eq_164_one_side B A, add_comm],
-  assumption', 
+  assumption',
+  rwa add_comm,
   rwa add_comm,
 end
-lemma eq_165 {hA: A ≠ 0} {hB: B ≠ 0} : A⁻¹ + B⁻¹ = A⁻¹*(A + B)*B⁻¹ :=
+/-lemma eq_165 {hA: A ≠ 0} {hB: B ≠ 0} : A⁻¹ + B⁻¹ = A⁻¹*(A + B)*B⁻¹ :=
 begin
   rw [mul_add, add_mul, inv_mul_cancel, one_mul,mul_assoc,mul_inv_cancel,
     mul_one, add_comm],
