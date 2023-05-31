@@ -9,15 +9,31 @@ import linear_algebra.matrix.nonsingular_inverse
 
 /-! # Lemmas about Inverses in Noncommutative Division Rings -/
 
-variables {R: Type*}[division_ring R][group R]
+variables {R: Type*}[ring R]
 variables (A B C : R)
 
-lemma eq_161 {hA: A ≠ 0}{hAadd1: A + 1 ≠ 0}: 
+lemma eq_161b {hA : is_unit A} {hAadd1 : is_unit (A + 1)} {hAiv: is_unit(1 + ring.inverse A)}:
+  ring.inverse (1 + ring.inverse A) = A* (ring.inverse (A + 1)) :=
+begin
+  apply_fun (λ x, ( 1 + ring.inverse A) * x),
+  simp only,
+  rw ring.mul_inverse_cancel ( 1 + ring.inverse A),
+  rw ← mul_assoc,
+  rw add_mul, rw ring.inverse_mul_cancel, rw one_mul, rw ring.mul_inverse_cancel,
+  assumption',
+  intros x y,
+  simp only, 
+  rw [← ring.inverse_mul_eq_iff_eq_mul, ring.inverse_mul_cancel_left],
+  simp only [imp_self],
+  assumption',
+end
+
+/- lemma eq_161 {hA: A ≠ 0}{hAadd1: A + 1 ≠ 0}: 
   (1 + A⁻¹)⁻¹ = A*(A + 1)⁻¹ := begin
   apply inv_eq_of_mul_eq_one_right,
   rw [←  mul_assoc, add_mul, inv_mul_cancel hA, one_mul, mul_inv_cancel hAadd1],
-end
-lemma eq_163A {hA: A ≠ 0}{hB: B ≠ 0}{hAB: (A + B) ≠ 0} : 
+end -/
+/- lemma eq_163A {hA: A ≠ 0}{hB: B ≠ 0}{hAB: (A + B) ≠ 0} : 
   (A⁻¹ + B⁻¹)⁻¹ = A*(A + B)⁻¹*B := 
 begin
   apply inv_eq_of_mul_eq_one_right,
@@ -90,4 +106,4 @@ begin
   rw [mul_add, add_mul, inv_mul_cancel, one_mul,mul_assoc,mul_inv_cancel,
     mul_one, add_comm],
   assumption',
-end
+end -/
