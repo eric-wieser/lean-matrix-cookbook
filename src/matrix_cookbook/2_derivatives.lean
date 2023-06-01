@@ -1,4 +1,4 @@
-import analysis.calculus.deriv
+import analysis.calculus.deriv.basic
 import analysis.matrix
 import data.matrix.kronecker
 import data.matrix.hadamard
@@ -48,8 +48,19 @@ funext $ λ a, ((hX a).has_deriv_at.matrix_hadamard (hY a).has_deriv_at).deriv
 lemma eq_39 (X : R → matrix m n R) (Y : R → matrix p q R) (hX : differentiable R X) (hY : differentiable R Y) :
   deriv (λ a, (X a) ⊗ₖ (Y a)) = λ a, deriv X a ⊗ₖ Y a + X a ⊗ₖ deriv Y a :=
 funext $ λ a, ((hX a).has_deriv_at.matrix_kronecker (hY a).has_deriv_at).deriv
-lemma eq_40 (X : R → matrix n n R) (hX : differentiable R X) :
-  deriv (λ a, (X a)⁻¹) = λ a, -(X a)⁻¹ * deriv X a * (X a)⁻¹ := sorry
+
+section
+local attribute [-instance] matrix.normed_add_comm_group matrix.normed_space
+local attribute [instance] matrix.linfty_op_normed_ring matrix.linfty_op_normed_algebra
+variables [complete_space R]
+
+-- TODO: this one needs a different norm structure!
+lemma eq_40 (X : R → matrix n n R) (hX : differentiable R X) (hX' : ∀ a, is_unit (X a)) :
+  deriv (λ a, (X a)⁻¹) = λ a, -(X a)⁻¹ * deriv X a * (X a)⁻¹ :=
+funext $ λ a, ((hX a).has_deriv_at.matrix_inv (hX' a)).deriv
+
+end
+
 lemma eq_41 (X : R → matrix n n R) (hX : differentiable R X) :
   deriv (λ a, det (X a)) = λ a, trace (adjugate (X a) * deriv X a) := sorry
 lemma eq_42 (X : R → matrix n n R) (hX : differentiable R X) :
@@ -58,8 +69,8 @@ lemma eq_43 (X : ℝ → matrix n n ℝ) (hX : differentiable ℝ X) :
   deriv (λ a, real.log (det (X a))) = λ a, trace ((X a)⁻¹ * deriv X a) := sorry
 lemma eq_44 (X : R → matrix m n R) (hX : differentiable R X) :
   deriv (λ a, (X a)ᵀ) = λ a, (deriv X a)ᵀ := funext $ λ _, (hX _).has_deriv_at.transpose.deriv
-lemma eq_45 [star_ring R] (X : R → matrix m n R) (hX : differentiable R X) :
-  deriv (λ a, (X a)ᴴ) = λ a, (deriv X a)ᴴ := sorry
+lemma eq_45 (X : ℝ → matrix m n ℂ) (hX : differentiable ℝ X) :
+  deriv (λ a, (X a)ᴴ) = λ a, (deriv X a)ᴴ := funext $ λ _, (hX _).has_deriv_at.conj_transpose.deriv
 
 /-! ## Derivatives of a Determinant -/
 
