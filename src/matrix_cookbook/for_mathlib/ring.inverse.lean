@@ -5,14 +5,11 @@ Authors: Mohanad Ahmed
 -/
 
 import data.matrix.basic
-import linear_algebra.matrix.nonsingular_inverse
 import algebra.invertible
-import algebra.group.units
-import algebra.group_with_zero.units.lemmas
 
 /-! # Lemmas about Inverses in Noncommutative Division Rings -/
 
-variables {R: Type*}[ring R][nontrivial R]
+variables {R: Type*}[ring R]
 variables (A B C U V : R)
 /- TODO: WORK IN PROGRESS Cleanup assumptions to minimize them!!!-/
 lemma ring_right_mul_inj (hA: is_unit A): function.injective (λ (x : R), A * x)  :=
@@ -37,6 +34,7 @@ end
 
 lemma is_unit_if_ring_inverse_mul_eq_one: 
   ring.inverse A*B = 1 → is_unit A := begin
+  nontriviality R,
   contrapose,
   intro h,
   rw [ring.inverse_non_unit A h, zero_mul, ← ne.def, ne_comm],
