@@ -11,15 +11,6 @@ import algebra.invertible
 
 variables {R: Type*}[ring R]
 variables (A B C U V : R)
-/- TODO: WORK IN PROGRESS Cleanup assumptions to minimize them!!!-/
-lemma ring_right_mul_inj (hA: is_unit A): function.injective (λ (x : R), A * x)  :=
-begin
-  intros x y,
-  simp only, 
-  rw [← ring.inverse_mul_eq_iff_eq_mul, ring.inverse_mul_cancel_left],
-  simp only [imp_self],
-  assumption',
-end
 
 lemma ring_inv_eq_of_mul_eq_one_right {hA: is_unit A}: 
   A * B = 1 → ring.inverse A = B := begin
@@ -28,11 +19,10 @@ lemma ring_inv_eq_of_mul_eq_one_right {hA: is_unit A}:
   simp only,
   rw [ring.mul_inverse_cancel,  eq_comm],
   assumption',
-  apply ring_right_mul_inj, 
-  assumption',
+  apply (is_unit.is_regular hA).left, 
 end
 
-lemma is_unit_if_ring_inverse_mul_eq_one: 
+lemma is_unit_of_ring_inverse_mul_eq_one: 
   ring.inverse A*B = 1 → is_unit A := begin
   nontriviality R,
   contrapose,
@@ -48,8 +38,7 @@ lemma ring_inv_eq_of_mul_eq_one_right' {hA: is_unit A}:
   simp only,
   rw [ring.mul_inverse_cancel,  eq_comm],
   assumption',
-  apply ring_right_mul_inj, 
-  assumption',
+  apply (is_unit.is_regular hA).left,
 end
 
 lemma ring_inverse_inverse {hA: is_unit A}: 
@@ -117,8 +106,7 @@ begin
   rw [ring.mul_inverse_cancel ( 1 + ring.inverse A),
     ← mul_assoc, add_mul, ring.inverse_mul_cancel, one_mul, ring.mul_inverse_cancel],
   assumption', 
-  apply ring_right_mul_inj,
-  assumption',
+  apply (is_unit.is_regular hAiv).left,
 end
 
 lemma eq_163A {hA: is_unit A}{hB: is_unit B}{hAB: is_unit (A + B)}: 
