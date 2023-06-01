@@ -35,6 +35,17 @@ lemma ring_inv_eq_of_mul_eq_one_right {hA: is_unit A}:
   assumption',
 end
 
+lemma ring_inv_eq_of_mul_eq_one_right' {hA: is_unit A}: 
+  A * B = 1 → ring.inverse A = B := begin
+  intro hAB,
+  apply_fun (λ x, A * x),
+  simp only,
+  rw [ring.mul_inverse_cancel,  eq_comm],
+  assumption',
+  apply ring_right_mul_inj, 
+  assumption',
+end
+
 lemma ring_inverse_inverse {hA: is_unit A}: ring.inverse (ring.inverse A) = A := begin
   apply ring_inv_eq_of_mul_eq_one_right,
   simp only [is_unit_ring_inverse, hA],
@@ -68,6 +79,26 @@ lemma is_unit_one_add_ring_inverse {hA : is_unit A} {hAadd1 : is_unit (A + 1)}:
   exact hA, rwa add_comm,
 end
 
+lemma is_unit_add_mul_unit_mul {hA: is_unit A} {hB: is_unit B} :
+  is_unit (ring.inverse B + V * ring.inverse A * U) ↔ is_unit (A + U * B * V) := begin
+  have hA': is_unit A, {by exact hA,},
+  have hB': is_unit B, {by exact hB,},
+  split,
+  sorry,
+  intro hAUBV,
+  have hAUBV': is_unit (A+U*B*V), {by exact hAUBV,},
+  cases hA' with a hA',
+  cases hB' with b hB',
+  cases hAUBV' with q hAUBV',
+  have hiA := hA',
+  have hiB := hB',
+  have hiQ := hAUBV',
+  apply_fun ring.inverse at hiA,
+  apply_fun ring.inverse at hiB,
+  apply_fun ring.inverse at hiQ,
+  
+end
+
 lemma sherman_morrison 
   {hA: is_unit A} {hB: is_unit B} {hQ: is_unit (ring.inverse B + V * ring.inverse A * U)}:
   ring.inverse(A + U*B*V) = ring.inverse A - (ring.inverse A) * U * 
@@ -85,6 +116,8 @@ begin
   rw [←ring.mul_inverse_cancel B,← mul_assoc _ B _, mul_assoc (U*B), mul_assoc (U*B), ← mul_add,
     mul_assoc (U*B), mul_assoc iQ, ← mul_assoc V, ring.mul_inverse_cancel_left, add_sub_cancel],
   assumption',
+  rw is_unit,
+  
 end
 
 lemma eq_161b {hA : is_unit A} {hAadd1 : is_unit (A + 1)}:
