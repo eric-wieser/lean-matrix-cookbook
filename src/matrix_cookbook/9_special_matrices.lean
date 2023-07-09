@@ -42,21 +42,33 @@ lemma eq_399 (A₁₁ : matrix m m R) (A₁₂ : matrix m n R) (A₂₁ : matrix
   (from_blocks A₁₁ A₁₂ A₂₁ A₂₂)⁻¹ =
     let C₁ := A₁₁ - A₁₂⬝⅟A₂₂⬝A₂₁, i : invertible C₁ := ‹_› in by exactI
     from_blocks
-      (⅟C₁)          (-⅟C₁⬝A₁₂⬝⅟A₂₂)
-      (-⅟A₂₂⬝A₂₁⬝⅟C₁) (⅟A₂₂ + ⅟A₂₂⬝A₂₁⬝⅟C₁⬝A₁₂⬝⅟A₂₂) := sorry
+      (⅟C₁)          (-(⅟C₁⬝A₁₂⬝⅟A₂₂))
+      (-(⅟A₂₂⬝A₂₁⬝⅟C₁)) (⅟A₂₂ + ⅟A₂₂⬝A₂₁⬝⅟C₁⬝A₁₂⬝⅟A₂₂) :=
+begin
+  letI := from_blocks₂₂_invertible A₁₁ A₁₂ A₂₁ A₂₂,
+  convert inv_of_from_blocks₂₂_eq A₁₁ A₁₂ A₂₁ A₂₂,
+  rw inv_of_eq_nonsing_inv,
+end
+
 /-- Eq 400 is the definition of `C₂`,  this is the equation below it without `C₁` at all. -/
 lemma eq_400 (A₁₁ : matrix m m R) (A₁₂ : matrix m n R) (A₂₁ : matrix n m R) (A₂₂ : matrix n n R)
   [invertible A₁₁] [invertible (A₂₂ - A₂₁⬝⅟A₁₁⬝A₁₂)] :
   (from_blocks A₁₁ A₁₂ A₂₁ A₂₂)⁻¹ =
     let C₂ := A₂₂ - A₂₁⬝⅟A₁₁⬝A₁₂, i : invertible C₂ := ‹_› in by exactI
     from_blocks
-      (⅟A₁₁ + ⅟A₁₁⬝A₁₂⬝⅟C₂⬝A₂₁⬝⅟A₁₁) (-⅟A₁₁⬝A₁₂⬝⅟C₂)
-      (-⅟C₂⬝A₂₁⬝⅟A₁₁)                (⅟C₂) := sorry
+      (⅟A₁₁ + ⅟A₁₁⬝A₁₂⬝⅟C₂⬝A₂₁⬝⅟A₁₁) (-(⅟A₁₁⬝A₁₂⬝⅟C₂))
+      (-(⅟C₂⬝A₂₁⬝⅟A₁₁))                (⅟C₂) :=
+begin
+  letI := from_blocks₁₁_invertible A₁₁ A₁₂ A₂₁ A₂₂,
+  convert inv_of_from_blocks₁₁_eq A₁₁ A₁₂ A₂₁ A₂₂,
+  rw inv_of_eq_nonsing_inv,
+end
 
 /-! ### Block diagonal -/
 
-lemma eq_401 (A₁₁ : matrix m m R) (A₂₂ : matrix n n R) :
-  (from_blocks A₁₁ 0 0 A₂₂)⁻¹ = from_blocks A₁₁⁻¹ 0 0 A₂₂⁻¹ := sorry
+lemma eq_401 (A₁₁ : matrix m m R) (A₂₂ : matrix n n R) (h : is_unit A₁₁ ↔ is_unit A₂₂) :
+  (from_blocks A₁₁ 0 0 A₂₂)⁻¹ = from_blocks A₁₁⁻¹ 0 0 A₂₂⁻¹ :=
+(inv_from_blocks_zero₁₂_of_is_unit_iff _ _ _ h).trans $ by simp
 lemma eq_402 (A₁₁ : matrix m m R) (A₂₂ : matrix n n R) :
   det (from_blocks A₁₁ 0 0 A₂₂) = det A₁₁ * det A₂₂ := det_from_blocks_zero₁₂ _ _ _
 

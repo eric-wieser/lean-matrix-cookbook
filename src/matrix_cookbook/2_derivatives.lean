@@ -48,8 +48,19 @@ funext $ λ a, ((hX a).has_deriv_at.matrix_hadamard (hY a).has_deriv_at).deriv
 lemma eq_39 (X : R → matrix m n R) (Y : R → matrix p q R) (hX : differentiable R X) (hY : differentiable R Y) :
   deriv (λ a, (X a) ⊗ₖ (Y a)) = λ a, deriv X a ⊗ₖ Y a + X a ⊗ₖ deriv Y a :=
 funext $ λ a, ((hX a).has_deriv_at.matrix_kronecker (hY a).has_deriv_at).deriv
-lemma eq_40 (X : R → matrix n n R) (hX : differentiable R X) :
-  deriv (λ a, (X a)⁻¹) = λ a, -(X a)⁻¹ * deriv X a * (X a)⁻¹ := sorry
+
+section
+local attribute [-instance] matrix.normed_add_comm_group matrix.normed_space
+local attribute [instance] matrix.linfty_op_normed_ring matrix.linfty_op_normed_algebra
+variables [complete_space R]
+
+-- TODO: this one needs a different norm structure!
+lemma eq_40 (X : R → matrix n n R) (hX : differentiable R X) (hX' : ∀ a, is_unit (X a)) :
+  deriv (λ a, (X a)⁻¹) = λ a, -(X a)⁻¹ * deriv X a * (X a)⁻¹ :=
+funext $ λ a, ((hX a).has_deriv_at.matrix_inv (hX' a)).deriv
+
+end
+
 lemma eq_41 (X : R → matrix n n R) (hX : differentiable R X) :
   deriv (λ a, det (X a)) = λ a, trace (adjugate (X a) * deriv X a) := sorry
 lemma eq_42 (X : R → matrix n n R) (hX : differentiable R X) :

@@ -1,10 +1,11 @@
 import linear_algebra.matrix.nonsingular_inverse
 import data.complex.basic
-import matrix_cookbook.for_mathlib.linear_algebra.matrix.adjugate
-import matrix_cookbook.for_mathlib.linear_algebra.matrix.nonsing_inverse
 import tactic.swap_var
 import linear_algebra.matrix.reindex
+import matrix_cookbook.for_mathlib.linear_algebra.matrix.adjugate
+import matrix_cookbook.for_mathlib.linear_algebra.matrix.nonsing_inverse
 import matrix_cookbook.lib.mat_vec_append
+
 /-! # Inverses -/
 
 namespace matrix_cookbook
@@ -38,7 +39,7 @@ lemma eq_147 {n : ℕ} (A : matrix (fin n.succ) (fin n.succ) ℂ) :
   cofactor A = of (λ i j, cofactor A i j) := rfl -- eq_147 is a trivial matrix definiton!
 
 lemma eq_148 {n : ℕ} (A : matrix (fin n.succ) (fin n.succ) ℂ) : adjugate A = (cofactor A)ᵀ :=
-matrix.ext $ adjugate_eq_det_submatrix _
+matrix.ext $ adjugate_fin_succ_eq_det_submatrix _
 
 /-! ### Determinant -/
 
