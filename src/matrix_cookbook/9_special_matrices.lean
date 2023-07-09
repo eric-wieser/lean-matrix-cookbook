@@ -66,8 +66,9 @@ end
 
 /-! ### Block diagonal -/
 
-lemma eq_401 (A₁₁ : matrix m m R) (A₂₂ : matrix n n R) :
-  (from_blocks A₁₁ 0 0 A₂₂)⁻¹ = from_blocks A₁₁⁻¹ 0 0 A₂₂⁻¹ := sorry
+lemma eq_401 (A₁₁ : matrix m m R) (A₂₂ : matrix n n R) (h : is_unit A₁₁ ↔ is_unit A₂₂) :
+  (from_blocks A₁₁ 0 0 A₂₂)⁻¹ = from_blocks A₁₁⁻¹ 0 0 A₂₂⁻¹ :=
+(inv_from_blocks_zero₁₂_of_is_unit_iff _ _ _ h).trans $ by simp
 lemma eq_402 (A₁₁ : matrix m m R) (A₂₂ : matrix n n R) :
   det (from_blocks A₁₁ 0 0 A₂₂) = det A₁₁ * det A₂₂ := det_from_blocks_zero₁₂ _ _ _
 
