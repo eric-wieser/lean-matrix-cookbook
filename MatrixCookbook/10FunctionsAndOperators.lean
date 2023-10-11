@@ -57,8 +57,7 @@ theorem eq_494 (A : Matrix n n ℝ) : exp ℝ A = ∑' n : ℕ, (n !⁻¹ : ℝ)
 theorem eq_495 (A : Matrix n n ℝ) : exp ℝ (-A) = ∑' n : ℕ, (n !⁻¹ : ℝ) • (-1) ^ n * A ^ n := by
   simp_rw [exp_eq_tsum, neg_pow A, smul_mul_assoc]
 
-theorem eq_496 (t : ℝ) (A : Matrix n n ℝ) : exp ℝ (t • A) = ∑' n : ℕ, (n !⁻¹ : ℝ) • t ^ n • A ^ n :=
-  by simp_rw [exp_eq_tsum, smul_pow]
+theorem eq_496 (t : ℝ) (A : Matrix n n ℝ) : exp ℝ (t • A) = ∑' n : ℕ, (n !⁻¹ : ℝ) • t ^ n • A ^ n := by simp_rw [exp_eq_tsum, smul_pow]
 
 theorem eq_498 (A B : Matrix n n ℝ) (h : A * B = B * A) : exp ℝ A * exp ℝ B = exp ℝ (A + B) :=
   (exp_add_of_commute _ _ _ h).symm
@@ -82,8 +81,7 @@ theorem eq_506 (A : Matrix m n R) (B C : Matrix r q R) : A ⊗ₖ (B + C) = A �
   kronecker_add _ _ _
 
 theorem eq_507 [Nontrivial m] [Nonempty n] :
-    ¬∀ (A : Matrix m n R) (B : Matrix m n R), A ⊗ₖ B = B ⊗ₖ A :=
-  by
+    ¬∀ (A : Matrix m n R) (B : Matrix m n R), A ⊗ₖ B = B ⊗ₖ A := by
   intro h
   obtain ⟨m1, m2, hm⟩ := exists_pair_ne m
   obtain ⟨n1⟩ := id ‹Nonempty n›
@@ -148,8 +146,7 @@ theorem eq_523 (r : R) (A : Matrix m n R) : vec (r • A) = r • vec A :=
 
 -- note: `Bᵀ` is `B` in the PDF
 theorem eq_524 (a : m → R) (X : Matrix m n R) (B : Matrix n n R) (c : m → R) :
-    row a ⬝ X ⬝ B ⬝ Xᵀ ⬝ col c = (vec X)ᵀ ⬝ Bᵀ ⊗ₖ (col c ⬝ row a) ⬝ vec X :=
-  by
+    row a ⬝ X ⬝ B ⬝ Xᵀ ⬝ col c = (vec X)ᵀ ⬝ Bᵀ ⊗ₖ (col c ⬝ row a) ⬝ vec X := by
   -- not the proof from the book
   ext ⟨i, j⟩
   simp only [vec, Matrix.mul_apply, Finset.sum_mul, Finset.mul_sum, Matrix.kroneckerMap_apply,

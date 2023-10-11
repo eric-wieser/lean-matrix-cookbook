@@ -44,8 +44,7 @@ theorem det_fin_four (A : Matrix (Fin 4) (Fin 4) R) :
               A 0 3 * A 1 1 * A 2 0 * A 3 2 -
             A 0 3 * A 1 1 * A 2 2 * A 3 0 -
           A 0 3 * A 1 2 * A 2 0 * A 3 1 +
-        A 0 3 * A 1 2 * A 2 1 * A 3 0 :=
-  by
+        A 0 3 * A 1 2 * A 2 1 * A 3 0 := by
   rw [Matrix.det_succ_row_zero]
   simp_rw [det_fin_three, submatrix_apply, Fin.sum_univ_four]
   -- `norm_fin` can't handle these

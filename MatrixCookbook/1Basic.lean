@@ -116,8 +116,7 @@ theorem eq_25 {A : Matrix (Fin 2) (Fin 2) R} : det (1 + A) = 1 + det A + trace A
   simp [det_fin_two, trace_fin_two]; ring
 
 theorem eq_26 {A : Matrix (Fin 3) (Fin 3) R} [Invertible (2 : R)] :
-    det (1 + A) = 1 + det A + trace A + ⅟ 2 * trace A ^ 2 - ⅟ 2 * trace (A ^ 2) :=
-  by
+    det (1 + A) = 1 + det A + trace A + ⅟ 2 * trace A ^ 2 - ⅟ 2 * trace (A ^ 2) := by
   apply mul_left_cancel₀ (isUnit_of_invertible (2 : R)).NeZero
   simp only [det_fin_three, trace_fin_three, pow_two, Matrix.mul_eq_mul, Matrix.mul_apply,
     Fin.sum_univ_succ, Matrix.one_apply]
@@ -132,8 +131,7 @@ theorem eq_26 {A : Matrix (Fin 3) (Fin 3) R} [Invertible (2 : R)] :
 theorem eq_27 {A : Matrix (Fin 4) (Fin 4) R} [CharZero R] :
     det (1 + A) =
       1 + det A + trace A + 1 / 2 * (trace A ^ 2 - trace (A ^ 2)) +
-        1 / 6 * (trace A ^ 3 - 3 * trace A * trace (A ^ 2) + 2 * trace (A ^ 3)) :=
-  by
+        1 / 6 * (trace A ^ 3 - 3 * trace A * trace (A ^ 2) + 2 * trace (A ^ 3)) := by
   -- TODO: it might be cleaner to prove this via the
   -- [Girard-Waring formula](https://math.stackexchange.com/a/2779104/1896), which wouldn't produce
   -- such a frighteniningly long goal state!
@@ -175,8 +173,7 @@ theorem eq_30 {A : Matrix (Fin 2) (Fin 2) R} : trace A = A 0 0 + A 1 1 :=
 /-! Note: there are some non-numbered eigenvalue things here -/
 
 
-theorem eq_31 {A : Matrix (Fin 2) (Fin 2) R} : A⁻¹ = (det A)⁻¹ • !![A 1 1, -A 0 1; -A 1 0, A 0 0] :=
-  by rw [inv_def, adjugate_fin_two, Ring.inverse_eq_inv]
+theorem eq_31 {A : Matrix (Fin 2) (Fin 2) R} : A⁻¹ = (det A)⁻¹ • !![A 1 1, -A 0 1; -A 1 0, A 0 0] := by rw [inv_def, adjugate_fin_two, Ring.inverse_eq_inv]
 
 end
 

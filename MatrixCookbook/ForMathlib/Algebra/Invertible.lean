@@ -23,8 +23,7 @@ def invertibleGroupSmul (g : G) (x : M) [Invertible x] : Invertible (g • x)
   mul_invOf_self := by rw [← smul_mul', mul_invOf_self, smul_one]
 
 theorem invOf_smul {G M} [Group G] [Monoid M] [MulDistribMulAction G M] (g : G) (x : M)
-    [Invertible x] [Invertible (g • x)] : ⅟ (g • x) = g • ⅟ x :=
-  by
+    [Invertible x] [Invertible (g • x)] : ⅟ (g • x) = g • ⅟ x := by
   letI := invertibleGroupSmul g x
   convert (rfl : ⅟ (g • x) = _)
 
@@ -34,8 +33,7 @@ def invertibleConj [Invertible x] [Invertible y] : Invertible (x * y * ⅟ x) :=
   invertibleGroupSmul (ConjAct.toConjAct (unitOfInvertible x)) y
 
 theorem invOf_conj [Invertible x] [Invertible y] [Invertible (x * y * ⅟ x)] :
-    ⅟ (x * y * ⅟ x) = x * ⅟ y * ⅟ x :=
-  by
+    ⅟ (x * y * ⅟ x) = x * ⅟ y * ⅟ x := by
   letI := invertibleConj x y
   convert (rfl : ⅟ (x * y * ⅟ x) = _)
 
@@ -43,8 +41,7 @@ def invertibleConj' [Invertible x] [Invertible y] : Invertible (⅟ x * y * x) :
   invertibleGroupSmul (ConjAct.toConjAct (unitOfInvertible x)⁻¹) y
 
 theorem invOf_conj' [Invertible x] [Invertible y] [Invertible (⅟ x * y * x)] :
-    ⅟ (⅟ x * y * x) = ⅟ x * ⅟ y * x :=
-  by
+    ⅟ (⅟ x * y * x) = ⅟ x * ⅟ y * x := by
   letI := invertibleConj' x y
   convert (rfl : ⅟ (⅟ x * y * x) = _)
 

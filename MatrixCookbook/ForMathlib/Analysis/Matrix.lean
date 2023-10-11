@@ -46,8 +46,7 @@ theorem hasDerivAt_matrix {f : R → Matrix m n A} {r : R} {f' : Matrix m n A} :
 
 theorem HasDerivAt.matrix_mul {X : R → Matrix m n A} {Y : R → Matrix n p A} {X' : Matrix m n A}
     {Y' : Matrix n p A} {r : R} (hX : HasDerivAt X X' r) (hY : HasDerivAt Y Y' r) :
-    HasDerivAt (fun a => X a ⬝ Y a) (X' ⬝ Y r + X r ⬝ Y') r :=
-  by
+    HasDerivAt (fun a => X a ⬝ Y a) (X' ⬝ Y r + X r ⬝ Y') r := by
   rw [hasDerivAt_matrix] at hX hY ⊢
   intro i j
   simp only [mul_apply, Pi.add_apply, ← Finset.sum_add_distrib]
@@ -55,16 +54,14 @@ theorem HasDerivAt.matrix_mul {X : R → Matrix m n A} {Y : R → Matrix n p A} 
 
 theorem HasDerivAt.matrix_kronecker {X : R → Matrix m n A} {Y : R → Matrix p q A}
     {X' : Matrix m n A} {Y' : Matrix p q A} {r : R} (hX : HasDerivAt X X' r)
-    (hY : HasDerivAt Y Y' r) : HasDerivAt (fun a => X a ⊗ₖ Y a) (X' ⊗ₖ Y r + X r ⊗ₖ Y') r :=
-  by
+    (hY : HasDerivAt Y Y' r) : HasDerivAt (fun a => X a ⊗ₖ Y a) (X' ⊗ₖ Y r + X r ⊗ₖ Y') r := by
   rw [hasDerivAt_matrix] at hX hY ⊢
   rintro ⟨i, i'⟩ ⟨j, j'⟩
   exact (hX _ _).mul (hY _ _)
 
 theorem HasDerivAt.matrix_hadamard {X Y : R → Matrix m n A} {X' Y' : Matrix m n A} {r : R}
     (hX : HasDerivAt X X' r) (hY : HasDerivAt Y Y' r) :
-    HasDerivAt (fun a => X a ⊙ Y a) (X' ⊙ Y r + X r ⊙ Y') r :=
-  by
+    HasDerivAt (fun a => X a ⊙ Y a) (X' ⊙ Y r + X r ⊙ Y') r := by
   rw [hasDerivAt_matrix] at hX hY ⊢
   rintro i j
   exact (hX _ _).mul (hY _ _)
@@ -84,8 +81,7 @@ theorem HasDerivAt.conjTranspose [StarRing R] [TrivialStar R] [StarAddMonoid A] 
 
 -- This is only about the elementwise norm...
 theorem deriv_matrix (f : R → Matrix m n A) (r : R) (hX : DifferentiableAt R f r) :
-    deriv f r = of fun i j => deriv (fun r => f r i j) r :=
-  by
+    deriv f r = of fun i j => deriv (fun r => f r i j) r := by
   ext i j
   rw [deriv_pi]
   simp_rw [deriv_pi, of_apply]
@@ -107,8 +103,7 @@ variable [NontriviallyNormedField R] [NormedCommRing A] [NormedAlgebra R A] [Com
 
 theorem HasDerivAt.matrix_inv {X : R → Matrix m m A} {X' : Matrix m m A} {r : R}
     (hX : HasDerivAt X X' r) (hX' : IsUnit (X r)) :
-    HasDerivAt (fun a => (X a)⁻¹) (-(X r)⁻¹ * X' * (X r)⁻¹) r :=
-  by
+    HasDerivAt (fun a => (X a)⁻¹) (-(X r)⁻¹ * X' * (X r)⁻¹) r := by
   simp_rw [nonsing_inv_eq_ring_inverse]
   obtain ⟨u, hu⟩ := hX'
   have : HasFDerivAt _ (_ : _ →L[R] _) _ := hasFDerivAt_ring_inverse u

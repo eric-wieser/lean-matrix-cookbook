@@ -52,8 +52,7 @@ theorem eq_399 (A₁₁ : Matrix m m R) (A₁₂ : Matrix m n R) (A₂₁ : Matr
       let C₁ := A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁
       let i : Invertible C₁ := ‹_›
       from_blocks (⅟ C₁) (-⅟ C₁ ⬝ A₁₂ ⬝ ⅟ A₂₂) (-⅟ A₂₂ ⬝ A₂₁ ⬝ ⅟ C₁)
-        (⅟ A₂₂ + ⅟ A₂₂ ⬝ A₂₁ ⬝ ⅟ C₁ ⬝ A₁₂ ⬝ ⅟ A₂₂) :=
-  by
+        (⅟ A₂₂ + ⅟ A₂₂ ⬝ A₂₁ ⬝ ⅟ C₁ ⬝ A₁₂ ⬝ ⅟ A₂₂) := by
   letI := from_blocks₂₂_invertible A₁₁ A₁₂ A₂₁ A₂₂
   convert inv_of_from_blocks₂₂_eq A₁₁ A₁₂ A₂₁ A₂₂
   rw [inv_of_eq_nonsing_inv]
@@ -65,8 +64,7 @@ theorem eq_400 (A₁₁ : Matrix m m R) (A₁₂ : Matrix m n R) (A₂₁ : Matr
       let C₂ := A₂₂ - A₂₁ ⬝ ⅟ A₁₁ ⬝ A₁₂
       let i : Invertible C₂ := ‹_›
       from_blocks (⅟ A₁₁ + ⅟ A₁₁ ⬝ A₁₂ ⬝ ⅟ C₂ ⬝ A₂₁ ⬝ ⅟ A₁₁) (-⅟ A₁₁ ⬝ A₁₂ ⬝ ⅟ C₂)
-        (-⅟ C₂ ⬝ A₂₁ ⬝ ⅟ A₁₁) (⅟ C₂) :=
-  by
+        (-⅟ C₂ ⬝ A₂₁ ⬝ ⅟ A₁₁) (⅟ C₂) := by
   letI := from_blocks₁₁_invertible A₁₁ A₁₂ A₂₁ A₂₂
   convert inv_of_from_blocks₁₁_eq A₁₁ A₁₂ A₂₁ A₂₂
   rw [inv_of_eq_nonsing_inv]
@@ -448,8 +446,7 @@ theorem eq_476 (A : Matrix m n R) (j) : (fun i => A i j) = A.mulVec (Pi.single j
 
 theorem eq_477 :
     (!![0, 1, 0; 1, 0, 0; 0, 0, 1] : Matrix _ _ R) =
-      of ![(Pi.single 1 1 : Fin 3 → R), Pi.single 0 1, Pi.single 2 1] :=
-  by ext i j; fin_cases i <;> fin_cases j <;> rfl
+      of ![(Pi.single 1 1 : Fin 3 → R), Pi.single 0 1, Pi.single 2 1] := by ext i j; fin_cases i <;> fin_cases j <;> rfl
 
 theorem eq_478 (e : Equiv.Perm m) :
     e.toPEquiv.toMatrix ⬝ e.toPEquiv.toMatrixᵀ = (1 : Matrix m m R) := by
