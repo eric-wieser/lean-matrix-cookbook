@@ -1,4 +1,4 @@
-import Mathlib.LinearAlgebra.Matrix.Ldl
+import Mathlib.LinearAlgebra.Matrix.LDL
 
 /-! # Solutions and Decompositions -/
 
