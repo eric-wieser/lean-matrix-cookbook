@@ -9,8 +9,6 @@ import Mathlib.Tactic.NormFin
 import Mathlib.Topology.MetricSpace.Basic
 import MatrixCookbook.Lib.TraceDetFinFour
 
-#align_import matrix_cookbook.«1_basic»
-
 /-! # Basics -/
 
 

@@ -1,8 +1,6 @@
 import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
 import Mathlib.Data.Complex.Basic
 
-#align_import matrix_cookbook.«3_inverses»
-
 /-! # Inverses -/
 
 

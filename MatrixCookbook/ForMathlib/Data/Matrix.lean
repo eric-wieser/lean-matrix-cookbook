@@ -4,8 +4,6 @@ import Mathlib.Data.Matrix.Notation
 import Mathlib.Data.Fintype.BigOperators
 import Mathlib.Tactic.NormFin
 
-#align_import matrix_cookbook.for_mathlib.data.matrix
-
 /-! # Missing lemmas about Trace and Determinant of 4 x 4 matrices -/
 
 

@@ -6,8 +6,6 @@ Authors: Eric Wieser
 import Mathlib.Algebra.Invertible
 import Mathlib.GroupTheory.GroupAction.ConjAct
 
-#align_import matrix_cookbook.for_mathlib.algebra.invertible
-
 /-! # More lemmas about `invertible` -/
 
 

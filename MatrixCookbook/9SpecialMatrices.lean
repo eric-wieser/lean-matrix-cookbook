@@ -5,8 +5,6 @@ import Mathlib.LinearAlgebra.Matrix.SchurComplement
 import Mathlib.LinearAlgebra.Matrix.Symmetric
 import Mathlib.LinearAlgebra.Vandermonde
 
-#align_import matrix_cookbook.«9_special_matrices»
-
 /-! # Special Matrices -/
 
 

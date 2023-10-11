@@ -13,8 +13,6 @@ import Mathlib.Data.IsROrC.Basic
 import Mathlib.Algebra.CharP.Basic
 import MatrixCookbook.ForMathlib.Data.Matrix
 
-#align_import matrix_cookbook.lib.trace_det_fin_four
-
 /-!
 # Traces and Determinants of 1st, 2nd and 3rd Powers of 4x4 Matrices
 

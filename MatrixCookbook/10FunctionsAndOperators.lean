@@ -10,8 +10,6 @@ import Mathlib.Data.Matrix.Rank
 import Mathlib.LinearAlgebra.Matrix.PosDef
 import Mathlib.Analysis.InnerProductSpace.PiL2
 
-#align_import matrix_cookbook.«10_functions_and_operators»
-
 /-! # Functions and Operators -/
 
 

@@ -1,7 +1,5 @@
 import Mathlib.LinearAlgebra.Matrix.Ldl
 
-#align_import matrix_cookbook.«5_solutions_and_decompositions»
-
 /-! # Solutions and Decompositions -/
 
 

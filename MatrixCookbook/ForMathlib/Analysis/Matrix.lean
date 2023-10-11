@@ -7,8 +7,6 @@ import Mathlib.Data.Matrix.Kronecker
 import Mathlib.Data.Matrix.Hadamard
 import Mathlib.Topology.UniformSpace.Matrix
 
-#align_import matrix_cookbook.for_mathlib.analysis.matrix
-
 /-! # Missing lemmas about matrix analysis -/
 
 

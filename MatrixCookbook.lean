@@ -6,5 +6,3 @@ import MatrixCookbook.«5SolutionsAndDecompositions»
 import MatrixCookbook.«9SpecialMatrices»
 import MatrixCookbook.«10FunctionsAndOperators»
 
-#align_import matrix_cookbook
-
