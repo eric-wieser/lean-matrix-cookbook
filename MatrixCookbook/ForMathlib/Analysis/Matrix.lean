@@ -42,6 +42,7 @@ def matrixFieldNormedSpace : NormedSpace R (Matrix m n R) :=
 
 theorem hasDerivAt_matrix {f : R → Matrix m n A} {r : R} {f' : Matrix m n A} :
     HasDerivAt f f' r ↔ ∀ i j, HasDerivAt (fun r => f r i j) (f' i j) r := by
+  erw [hasDerivAt_pi]
   simp_rw [hasDerivAt_pi]
 
 theorem HasDerivAt.matrix_mul {X : R → Matrix m n A} {Y : R → Matrix n p A} {X' : Matrix m n A}
@@ -49,8 +50,8 @@ theorem HasDerivAt.matrix_mul {X : R → Matrix m n A} {Y : R → Matrix n p A} 
     HasDerivAt (fun a => X a ⬝ Y a) (X' ⬝ Y r + X r ⬝ Y') r := by
   rw [hasDerivAt_matrix] at hX hY ⊢
   intro i j
-  simp only [mul_apply, Pi.add_apply, ← Finset.sum_add_distrib]
-  exact HasDerivAt.sum fun k hk => (hX _ _).mul (hY _ _)
+  simp only [mul_apply, Matrix.add_apply, ← Finset.sum_add_distrib]
+  exact HasDerivAt.sum fun k _hk => (hX _ _).mul (hY _ _)
 
 theorem HasDerivAt.matrix_kronecker {X : R → Matrix m n A} {Y : R → Matrix p q A}
     {X' : Matrix m n A} {Y' : Matrix p q A} {r : R} (hX : HasDerivAt X X' r)
@@ -68,7 +69,7 @@ theorem HasDerivAt.matrix_hadamard {X Y : R → Matrix m n A} {X' Y' : Matrix m 
 
 theorem HasDerivAt.trace {X : R → Matrix m m A} {X' : Matrix m m A} {r : R}
     (hX : HasDerivAt X X' r) : HasDerivAt (fun a => (X a).trace) X'.trace r :=
-  HasDerivAt.sum fun i hi => (hasDerivAt_matrix.mp hX : _) i i
+  HasDerivAt.sum fun i _hi => (hasDerivAt_matrix.mp hX : _) i i
 
 theorem HasDerivAt.transpose {X : R → Matrix m n A} {X' : Matrix m n A} {r : R}
     (hX : HasDerivAt X X' r) : HasDerivAt (fun a => (X a)ᵀ) X'ᵀ r :=
@@ -77,7 +78,7 @@ theorem HasDerivAt.transpose {X : R → Matrix m n A} {X' : Matrix m n A} {r : R
 theorem HasDerivAt.conjTranspose [StarRing R] [TrivialStar R] [StarAddMonoid A] [StarModule R A]
     [ContinuousStar A] {X : R → Matrix m n A} {X' : Matrix m n A} {r : R} (hX : HasDerivAt X X' r) :
     HasDerivAt (fun a => (X a)ᴴ) X'ᴴ r :=
-  hasDerivAt_matrix.mpr fun i j => ((hasDerivAt_matrix.mp hX : _) j i).unit
+  hasDerivAt_matrix.mpr fun i j => ((hasDerivAt_matrix.mp hX : _) j i).star
 
 -- This is only about the elementwise norm...
 theorem deriv_matrix (f : R → Matrix m n A) (r : R) (hX : DifferentiableAt R f r) :
@@ -87,6 +88,7 @@ theorem deriv_matrix (f : R → Matrix m n A) (r : R) (hX : DifferentiableAt R f
   simp_rw [deriv_pi, of_apply]
   rw [deriv_pi]
   · intro i
+    erw [differentiableAt_pi] at hX -- porting note: added
     simp_rw [differentiableAt_pi] at hX 
     apply hX
   · intro i
@@ -107,11 +109,12 @@ theorem HasDerivAt.matrix_inv {X : R → Matrix m m A} {X' : Matrix m m A} {r : 
   simp_rw [nonsing_inv_eq_ring_inverse]
   obtain ⟨u, hu⟩ := hX'
   have : HasFDerivAt _ (_ : _ →L[R] _) _ := hasFDerivAt_ring_inverse u
-  simp_rw [← Ring.inverse_unit u, hu, ← Ring.inverse_unit u, hu] at this 
+  simp_rw [← Ring.inverse_unit u, hu] at this
   rw [hasDerivAt_iff_hasFDerivAt] at hX ⊢
   convert HasFDerivAt.comp _ this hX
-  ext1 r
-  simp [Matrix.mul_smul]
+  ext r : 2 -- porting note: added one!
+  -- porting note: added `()`-wrapped lemmas
+  simp [Matrix.mul_smul, (ContinuousLinearMap.smulRight_apply), (ContinuousLinearMap.comp_apply), (ContinuousLinearMap.neg_apply)]
 
 end LinftyOpNorm
 
