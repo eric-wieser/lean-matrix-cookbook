@@ -5,7 +5,7 @@ import Mathlib.Data.Matrix.Hadamard
 import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
 import Mathlib.LinearAlgebra.Matrix.Trace
 import Mathlib.Analysis.Normed.Field.Basic
-import Project.MatrixCookbook.ForMathlib.Analysis.Matrix
+import MatrixCookbook.ForMathlib.Analysis.Matrix
 
 #align_import matrix_cookbook.«2_derivatives»
 

@@ -7,7 +7,7 @@ import Mathlib.LinearAlgebra.Matrix.Trace
 import Mathlib.RingTheory.PowerSeries.Basic
 import Mathlib.Tactic.NormFin
 import Mathlib.Topology.MetricSpace.Basic
-import Project.MatrixCookbook.Lib.TraceDetFinFour
+import MatrixCookbook.Lib.TraceDetFinFour
 
 #align_import matrix_cookbook.«1_basic»
 

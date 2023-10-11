@@ -11,7 +11,7 @@ import Mathlib.Tactic.Ring
 import Mathlib.Tactic.NormFin
 import Mathlib.Data.IsROrC.Basic
 import Mathlib.Algebra.CharP.Basic
-import Project.MatrixCookbook.ForMathlib.Data.Matrix
+import MatrixCookbook.ForMathlib.Data.Matrix
 
 #align_import matrix_cookbook.lib.trace_det_fin_four
 
