@@ -43,6 +43,8 @@ theorem trace_pow_two_fin_four (A : Matrix (Fin 4) (Fin 4) R) :
   simp_rw [Matrix.trace_fin_four, pow_two, mul_eq_mul, mul_apply, Fin.sum_univ_four]
   ring
 
+-- porting note: added
+set_option linter.unreachableTactic false in
 theorem trace_pow_three_fin_four (A : Matrix (Fin 4) (Fin 4) R) :
     trace (A ^ 3) =
       A 0 0 * (A 0 0 ^ 2 + A 0 1 * A 1 0 + A 0 2 * A 2 0 + A 0 3 * A 3 0) +
@@ -235,7 +237,7 @@ theorem det_one_add_fin_four (A : Matrix (Fin 4) (Fin 4) R) :
             A 0 3 * A 1 2 * A 2 0 * A 3 1 +
           A 0 3 * A 1 2 * A 2 1 * A 3 0 +
         1 := by
-  simp only [det_fin_four, Pi.add_apply, one_apply_eq]
+  simp only [det_fin_four, Matrix.add_apply, one_apply_eq]
   simp (disch := decide) only [one_apply_ne]
   ring
 
