@@ -1,5 +1,5 @@
 import Mathlib.Data.Matrix.Notation
-import Mathlib.Data.Real.Nnreal
+import Mathlib.Data.Real.NNReal
 import Mathlib.LinearAlgebra.Matrix.Charpoly.Eigs
 import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
 import Mathlib.LinearAlgebra.Matrix.SchurComplement
