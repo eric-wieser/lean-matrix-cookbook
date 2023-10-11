@@ -48,15 +48,15 @@ theorem det_fin_four (A : Matrix (Fin 4) (Fin 4) R) :
   rw [Matrix.det_succ_row_zero]
   simp_rw [det_fin_three, submatrix_apply, Fin.sum_univ_four]
   -- `norm_fin` can't handle these
-  have h10 : (1 : Fin 4).succAboveEmb 0 = 0 := rfl
-  have h11 : (1 : Fin 4).succAboveEmb 1 = 2 := rfl
-  have h12 : (1 : Fin 4).succAboveEmb 2 = 3 := rfl
-  have h20 : (2 : Fin 4).succAboveEmb 0 = 0 := rfl
-  have h21 : (2 : Fin 4).succAboveEmb 1 = 1 := rfl
-  have h22 : (2 : Fin 4).succAboveEmb 2 = 3 := rfl
-  have h30 : (3 : Fin 4).succAboveEmb 0 = 0 := rfl
-  have h31 : (3 : Fin 4).succAboveEmb 1 = 1 := rfl
-  have h32 : (3 : Fin 4).succAboveEmb 2 = 2 := rfl
+  have h10 : (1 : Fin 4).succAbove 0 = 0 := rfl
+  have h11 : (1 : Fin 4).succAbove 1 = 2 := rfl
+  have h12 : (1 : Fin 4).succAbove 2 = 3 := rfl
+  have h20 : (2 : Fin 4).succAbove 0 = 0 := rfl
+  have h21 : (2 : Fin 4).succAbove 1 = 1 := rfl
+  have h22 : (2 : Fin 4).succAbove 2 = 3 := rfl
+  have h30 : (3 : Fin 4).succAbove 0 = 0 := rfl
+  have h31 : (3 : Fin 4).succAbove 1 = 1 := rfl
+  have h32 : (3 : Fin 4).succAbove 2 = 2 := rfl
   simp_rw [h10, h11, h12, h20, h21, h22, h30, h31, h32, Fin.zero_succAbove]
   -- `norm_fin` is too slow here
   have s0 : (0 : Fin 3).succ = 1 := rfl
