@@ -49,21 +49,21 @@ theorem eq_35 (X Y : R → Matrix m n R) (hX : Differentiable R X) (hY : Differe
 
 theorem eq_36 (X : R → Matrix m m R) (hX : Differentiable R X) :
     (deriv fun a => trace (X a)) = fun a => trace (deriv X a) :=
-  funext fun _ => (hX _).HasDerivAt.trace.deriv
+  funext fun _ => (hX _).hasDerivAt.trace.deriv
 
 theorem eq_37 (X : R → Matrix m n R) (Y : R → Matrix n p R) (hX : Differentiable R X)
     (hY : Differentiable R Y) :
     (deriv fun a => X a ⬝ Y a) = fun a => deriv X a ⬝ Y a + X a ⬝ deriv Y a :=
-  funext fun a => ((hX a).HasDerivAt.matrixMul (hY a).HasDerivAt).deriv
+  funext fun a => ((hX a).hasDerivAt.matrix_mul (hY a).hasDerivAt).deriv
 
 theorem eq_38 (X Y : R → Matrix n p R) (hX : Differentiable R X) (hY : Differentiable R Y) :
     (deriv fun a => X a ⊙ Y a) = fun a => deriv X a ⊙ Y a + X a ⊙ deriv Y a :=
-  funext fun a => ((hX a).HasDerivAt.matrix_hadamard (hY a).HasDerivAt).deriv
+  funext fun a => ((hX a).hasDerivAt.matrix_hadamard (hY a).hasDerivAt).deriv
 
 theorem eq_39 (X : R → Matrix m n R) (Y : R → Matrix p q R) (hX : Differentiable R X)
     (hY : Differentiable R Y) :
     (deriv fun a => X a ⊗ₖ Y a) = fun a => deriv X a ⊗ₖ Y a + X a ⊗ₖ deriv Y a :=
-  funext fun a => ((hX a).HasDerivAt.matrix_kronecker (hY a).HasDerivAt).deriv
+  funext fun a => ((hX a).hasDerivAt.matrix_kronecker (hY a).hasDerivAt).deriv
 
 section
 
@@ -73,10 +73,12 @@ attribute [local instance] Matrix.linftyOpNormedRing Matrix.linftyOpNormedAlgebr
 
 variable [CompleteSpace R]
 
--- TODO: this one needs a different norm structure!
+-- porting note: added
+local instance : NormedSpace R (Matrix n n R) := NormedAlgebra.toNormedSpace _
+
 theorem eq_40 (X : R → Matrix n n R) (hX : Differentiable R X) (hX' : ∀ a, IsUnit (X a)) :
     (deriv fun a => (X a)⁻¹) = fun a => -(X a)⁻¹ * deriv X a * (X a)⁻¹ :=
-  funext fun a => ((hX a).HasDerivAt.matrix_inv (hX' a)).deriv
+  funext fun a => ((hX a).hasDerivAt.matrix_inv (hX' a)).deriv
 
 end
 
@@ -94,11 +96,11 @@ theorem eq_43 (X : ℝ → Matrix n n ℝ) (hX : Differentiable ℝ X) :
 
 theorem eq_44 (X : R → Matrix m n R) (hX : Differentiable R X) :
     (deriv fun a => (X a)ᵀ) = fun a => (deriv X a)ᵀ :=
-  funext fun _ => (hX _).HasDerivAt.transpose.deriv
+  funext fun _ => (hX _).hasDerivAt.transpose.deriv
 
 theorem eq_45 (X : ℝ → Matrix m n ℂ) (hX : Differentiable ℝ X) :
     (deriv fun a => (X a)ᴴ) = fun a => (deriv X a)ᴴ :=
-  funext fun _ => (hX _).HasDerivAt.conjTranspose.deriv
+  funext fun _ => (hX _).hasDerivAt.conjTranspose.deriv
 
 /-! ## Derivatives of a Determinant -/
 
