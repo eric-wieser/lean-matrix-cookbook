@@ -8,7 +8,7 @@ import Mathlib.LinearAlgebra.Matrix.Determinant
 import Mathlib.Data.Matrix.Notation
 import Mathlib.Data.Fintype.BigOperators
 import Mathlib.Tactic.Ring
-import Mathlib.Tactic.NormFin
+-- import Mathlib.Tactic.NormFin
 import Mathlib.Data.IsROrC.Basic
 import Mathlib.Algebra.CharP.Basic
 import MatrixCookbook.ForMathlib.Data.Matrix

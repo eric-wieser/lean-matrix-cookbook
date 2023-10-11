@@ -2,7 +2,7 @@ import Mathlib.LinearAlgebra.Matrix.Trace
 import Mathlib.LinearAlgebra.Matrix.Determinant
 import Mathlib.Data.Matrix.Notation
 import Mathlib.Data.Fintype.BigOperators
-import Mathlib.Tactic.NormFin
+-- import Mathlib.Tactic.NormFin
 
 /-! # Missing lemmas about Trace and Determinant of 4 x 4 matrices -/
 

@@ -5,7 +5,7 @@ import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
 import Mathlib.LinearAlgebra.Matrix.SchurComplement
 import Mathlib.LinearAlgebra.Matrix.Trace
 import Mathlib.RingTheory.PowerSeries.Basic
-import Mathlib.Tactic.NormFin
+-- import Mathlib.Tactic.NormFin
 import Mathlib.Topology.MetricSpace.Basic
 import MatrixCookbook.Lib.TraceDetFinFour
 
