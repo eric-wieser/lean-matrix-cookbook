@@ -30,7 +30,7 @@ variable [Field R]
 theorem eq_1 {A : Matrix m m R} {B : Matrix m m R} : (A * B)⁻¹ = B⁻¹ * A⁻¹ :=
   Matrix.mul_inv_rev _ _
 
-theorem eq_2 {l : List (Matrix m m R)} : l.Prod⁻¹ = (l.reverse.map Inv.inv).Prod :=
+theorem eq_2 {l : List (Matrix m m R)} : l.prod⁻¹ = (l.reverse.map Inv.inv).prod :=
   Matrix.list_prod_inv_reverse _
 
 theorem eq_3 {A : Matrix m m R} : Aᵀ⁻¹ = A⁻¹ᵀ :=
@@ -42,7 +42,7 @@ theorem eq_4 {A B : Matrix m n R} : (A + B)ᵀ = Aᵀ + Bᵀ :=
 theorem eq_5 {A : Matrix m n R} {B : Matrix n p R} : (A ⬝ B)ᵀ = Bᵀ ⬝ Aᵀ :=
   transpose_mul _ _
 
-theorem eq_6 {l : List (Matrix m m R)} : l.Prodᵀ = (l.map transpose).reverse.Prod :=
+theorem eq_6 {l : List (Matrix m m R)} : l.prodᵀ = (l.map transpose).reverse.prod :=
   Matrix.transpose_list_prod _
 
 theorem eq_7 [StarRing R] {A : Matrix m m R} : Aᴴ⁻¹ = A⁻¹ᴴ :=
@@ -55,7 +55,7 @@ theorem eq_9 [StarRing R] {A : Matrix m n R} {B : Matrix n p R} : (A ⬝ B)ᴴ =
   conjTranspose_mul _ _
 
 theorem eq_10 [StarRing R] {l : List (Matrix m m R)} :
-    l.Prodᴴ = (l.map conjTranspose).reverse.Prod :=
+    l.prodᴴ = (l.map conjTranspose).reverse.prod :=
   Matrix.conjTranspose_list_prod _
 
 /-! ### Trace -/
@@ -66,7 +66,7 @@ section
 theorem eq_11 {A : Matrix m m R} : trace A = ∑ i, A i i :=
   rfl
 
-theorem eq_12 {A : Matrix m m R} [IsAlgClosed R] : trace A = A.charpoly.roots.Sum :=
+theorem eq_12 {A : Matrix m m R} [IsAlgClosed R] : trace A = A.charpoly.roots.sum :=
   trace_eq_sum_roots_charpoly _
 
 theorem eq_13 {A : Matrix m m R} : trace A = trace Aᵀ :=
@@ -91,7 +91,7 @@ end
 
 
 -- `matrix.is_hermitian.det_eq_prod_eigenvalues` is close, but needs `A` to be hermitian which is too strong
-theorem eq_18 {A : Matrix m m R} [IsAlgClosed R] : det A = A.charpoly.roots.Prod :=
+theorem eq_18 {A : Matrix m m R} [IsAlgClosed R] : det A = A.charpoly.roots.prod :=
   det_eq_prod_roots_charpoly _
 
 theorem eq_19 (c : R) {A : Matrix m m R} : det (c • A) = c ^ Fintype.card m * det A :=
@@ -110,14 +110,14 @@ theorem eq_23 {A : Matrix m m R} (k : ℕ) : det (A ^ k) = det A ^ k :=
   det_pow _ _
 
 theorem eq_24 {u v : m → R} : det (1 + col u ⬝ row v) = 1 + dotProduct u v := by
-  rw [det_one_add_col_mul_row u v, dot_product_comm]
+  rw [det_one_add_col_mul_row u v, dotProduct_comm]
 
 theorem eq_25 {A : Matrix (Fin 2) (Fin 2) R} : det (1 + A) = 1 + det A + trace A := by
   simp [det_fin_two, trace_fin_two]; ring
 
 theorem eq_26 {A : Matrix (Fin 3) (Fin 3) R} [Invertible (2 : R)] :
     det (1 + A) = 1 + det A + trace A + ⅟ 2 * trace A ^ 2 - ⅟ 2 * trace (A ^ 2) := by
-  apply mul_left_cancel₀ (isUnit_of_invertible (2 : R)).NeZero
+  apply mul_left_cancel₀ (isUnit_of_invertible (2 : R)).ne_zero
   simp only [det_fin_three, trace_fin_three, pow_two, Matrix.mul_eq_mul, Matrix.mul_apply,
     Fin.sum_univ_succ, Matrix.one_apply]
   dsimp
@@ -153,9 +153,9 @@ theorem eq_28 {A : Matrix n n ℝ} :
 theorem eq_28' {A : Matrix n n R} :
     let ε : PowerSeries R := PowerSeries.X
     let A : Matrix n n (PowerSeries R) := A.map (PowerSeries.C _)
-    (det (1 + ε • A)).Trunc 2 =
+    (det (1 + ε • A)).trunc 2 =
       (1 + det A + ε • trace A + (1 / 2 : R) • ε ^ 2 * trace A ^ 2 -
-            (1 / 2 : R) • ε ^ 2 * trace (A ^ 2)).Trunc
+            (1 / 2 : R) • ε ^ 2 * trace (A ^ 2)).trunc
         2 :=
   sorry
 
