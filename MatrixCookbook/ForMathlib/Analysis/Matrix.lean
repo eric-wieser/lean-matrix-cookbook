@@ -1,11 +1,11 @@
-import Mathbin.Analysis.Calculus.Deriv.Add
-import Mathbin.Analysis.Calculus.Deriv.Mul
-import Mathbin.Analysis.Calculus.Deriv.Prod
-import Mathbin.Analysis.Calculus.Deriv.Star
-import Mathbin.Analysis.Matrix
-import Mathbin.Data.Matrix.Kronecker
-import Mathbin.Data.Matrix.Hadamard
-import Mathbin.Topology.UniformSpace.Matrix
+import Mathlib.Analysis.Calculus.Deriv.Add
+import Mathlib.Analysis.Calculus.Deriv.Mul
+import Mathlib.Analysis.Calculus.Deriv.Prod
+import Mathlib.Analysis.Calculus.Deriv.Star
+import Mathlib.Analysis.Matrix
+import Mathlib.Data.Matrix.Kronecker
+import Mathlib.Data.Matrix.Hadamard
+import Mathlib.Topology.UniformSpace.Matrix
 
 #align_import matrix_cookbook.for_mathlib.analysis.matrix
 

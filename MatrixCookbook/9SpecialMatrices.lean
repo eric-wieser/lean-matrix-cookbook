@@ -1,9 +1,9 @@
-import Mathbin.Data.Complex.Basic
-import Mathbin.LinearAlgebra.Matrix.Hermitian
-import Mathbin.LinearAlgebra.Matrix.NonsingularInverse
-import Mathbin.LinearAlgebra.Matrix.SchurComplement
-import Mathbin.LinearAlgebra.Matrix.Symmetric
-import Mathbin.LinearAlgebra.Vandermonde
+import Mathlib.Data.Complex.Basic
+import Mathlib.LinearAlgebra.Matrix.Hermitian
+import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
+import Mathlib.LinearAlgebra.Matrix.SchurComplement
+import Mathlib.LinearAlgebra.Matrix.Symmetric
+import Mathlib.LinearAlgebra.Vandermonde
 
 #align_import matrix_cookbook.«9_special_matrices»
 

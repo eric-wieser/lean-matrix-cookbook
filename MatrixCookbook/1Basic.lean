@@ -1,12 +1,12 @@
-import Mathbin.Data.Matrix.Notation
-import Mathbin.Data.Real.Nnreal
-import Mathbin.LinearAlgebra.Matrix.Charpoly.Eigs
-import Mathbin.LinearAlgebra.Matrix.NonsingularInverse
-import Mathbin.LinearAlgebra.Matrix.SchurComplement
-import Mathbin.LinearAlgebra.Matrix.Trace
-import Mathbin.RingTheory.PowerSeries.Basic
-import Mathbin.Tactic.NormFin
-import Mathbin.Topology.MetricSpace.Basic
+import Mathlib.Data.Matrix.Notation
+import Mathlib.Data.Real.Nnreal
+import Mathlib.LinearAlgebra.Matrix.Charpoly.Eigs
+import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
+import Mathlib.LinearAlgebra.Matrix.SchurComplement
+import Mathlib.LinearAlgebra.Matrix.Trace
+import Mathlib.RingTheory.PowerSeries.Basic
+import Mathlib.Tactic.NormFin
+import Mathlib.Topology.MetricSpace.Basic
 import Project.MatrixCookbook.Lib.TraceDetFinFour
 
 #align_import matrix_cookbook.«1_basic»

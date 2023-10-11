@@ -1,8 +1,8 @@
-import Mathbin.LinearAlgebra.Matrix.Trace
-import Mathbin.LinearAlgebra.Matrix.Determinant
-import Mathbin.Data.Matrix.Notation
-import Mathbin.Data.Fintype.BigOperators
-import Mathbin.Tactic.NormFin
+import Mathlib.LinearAlgebra.Matrix.Trace
+import Mathlib.LinearAlgebra.Matrix.Determinant
+import Mathlib.Data.Matrix.Notation
+import Mathlib.Data.Fintype.BigOperators
+import Mathlib.Tactic.NormFin
 
 #align_import matrix_cookbook.for_mathlib.data.matrix
 

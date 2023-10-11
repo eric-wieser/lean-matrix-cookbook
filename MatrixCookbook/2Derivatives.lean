@@ -1,10 +1,10 @@
-import Mathbin.Analysis.Calculus.Deriv.Basic
-import Mathbin.Analysis.Matrix
-import Mathbin.Data.Matrix.Kronecker
-import Mathbin.Data.Matrix.Hadamard
-import Mathbin.LinearAlgebra.Matrix.NonsingularInverse
-import Mathbin.LinearAlgebra.Matrix.Trace
-import Mathbin.Analysis.Normed.Field.Basic
+import Mathlib.Analysis.Calculus.Deriv.Basic
+import Mathlib.Analysis.Matrix
+import Mathlib.Data.Matrix.Kronecker
+import Mathlib.Data.Matrix.Hadamard
+import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
+import Mathlib.LinearAlgebra.Matrix.Trace
+import Mathlib.Analysis.Normed.Field.Basic
 import Project.MatrixCookbook.ForMathlib.Analysis.Matrix
 
 #align_import matrix_cookbook.«2_derivatives»

@@ -1,5 +1,5 @@
-import Mathbin.LinearAlgebra.Matrix.NonsingularInverse
-import Mathbin.Data.Complex.Basic
+import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
+import Mathlib.Data.Complex.Basic
 
 #align_import matrix_cookbook.«3_inverses»
 

@@ -1,4 +1,4 @@
-import Mathbin.LinearAlgebra.Matrix.Ldl
+import Mathlib.LinearAlgebra.Matrix.Ldl
 
 #align_import matrix_cookbook.«5_solutions_and_decompositions»
 

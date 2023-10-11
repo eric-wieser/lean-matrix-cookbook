@@ -3,14 +3,14 @@ Copyright (c) 2023 Mohanad Ahmed, Eric Wieser. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Mohanad Ahmed, Eric Wieser
 -/
-import Mathbin.LinearAlgebra.Matrix.Trace
-import Mathbin.LinearAlgebra.Matrix.Determinant
-import Mathbin.Data.Matrix.Notation
-import Mathbin.Data.Fintype.BigOperators
-import Mathbin.Tactic.Ring
-import Mathbin.Tactic.NormFin
-import Mathbin.Data.IsROrC.Basic
-import Mathbin.Algebra.CharP.Basic
+import Mathlib.LinearAlgebra.Matrix.Trace
+import Mathlib.LinearAlgebra.Matrix.Determinant
+import Mathlib.Data.Matrix.Notation
+import Mathlib.Data.Fintype.BigOperators
+import Mathlib.Tactic.Ring
+import Mathlib.Tactic.NormFin
+import Mathlib.Data.IsROrC.Basic
+import Mathlib.Algebra.CharP.Basic
 import Project.MatrixCookbook.ForMathlib.Data.Matrix
 
 #align_import matrix_cookbook.lib.trace_det_fin_four

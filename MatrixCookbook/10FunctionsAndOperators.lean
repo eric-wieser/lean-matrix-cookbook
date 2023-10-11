@@ -1,14 +1,14 @@
-import Mathbin.LinearAlgebra.Matrix.NonsingularInverse
-import Mathbin.LinearAlgebra.Matrix.Trace
-import Mathbin.Data.Real.Nnreal
-import Mathbin.Topology.MetricSpace.Basic
-import Mathbin.Data.Matrix.Notation
-import Mathbin.RingTheory.PowerSeries.Basic
-import Mathbin.Analysis.NormedSpace.MatrixExponential
-import Mathbin.Data.Matrix.Kronecker
-import Mathbin.Data.Matrix.Rank
-import Mathbin.LinearAlgebra.Matrix.PosDef
-import Mathbin.Analysis.InnerProductSpace.PiL2
+import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
+import Mathlib.LinearAlgebra.Matrix.Trace
+import Mathlib.Data.Real.Nnreal
+import Mathlib.Topology.MetricSpace.Basic
+import Mathlib.Data.Matrix.Notation
+import Mathlib.RingTheory.PowerSeries.Basic
+import Mathlib.Analysis.NormedSpace.MatrixExponential
+import Mathlib.Data.Matrix.Kronecker
+import Mathlib.Data.Matrix.Rank
+import Mathlib.LinearAlgebra.Matrix.PosDef
+import Mathlib.Analysis.InnerProductSpace.PiL2
 
 #align_import matrix_cookbook.«10_functions_and_operators»
 

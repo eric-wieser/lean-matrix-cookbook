@@ -3,8 +3,8 @@ Copyright (c) 2023 Eric Wieser. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Eric Wieser
 -/
-import Mathbin.Algebra.Invertible
-import Mathbin.GroupTheory.GroupAction.ConjAct
+import Mathlib.Algebra.Invertible
+import Mathlib.GroupTheory.GroupAction.ConjAct
 
 #align_import matrix_cookbook.for_mathlib.algebra.invertible
 
