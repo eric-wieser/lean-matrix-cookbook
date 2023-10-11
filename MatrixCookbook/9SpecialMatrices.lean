@@ -51,11 +51,11 @@ theorem eq_399 (A₁₁ : Matrix m m R) (A₁₂ : Matrix m n R) (A₂₁ : Matr
     (fromBlocks A₁₁ A₁₂ A₂₁ A₂₂)⁻¹ =
       let C₁ := A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁
       let i : Invertible C₁ := ‹_›
-      from_blocks (⅟ C₁) (-⅟ C₁ ⬝ A₁₂ ⬝ ⅟ A₂₂) (-⅟ A₂₂ ⬝ A₂₁ ⬝ ⅟ C₁)
+      fromBlocks (⅟ C₁) (-⅟ C₁ ⬝ A₁₂ ⬝ ⅟ A₂₂) (-⅟ A₂₂ ⬝ A₂₁ ⬝ ⅟ C₁)
         (⅟ A₂₂ + ⅟ A₂₂ ⬝ A₂₁ ⬝ ⅟ C₁ ⬝ A₁₂ ⬝ ⅟ A₂₂) := by
-  letI := from_blocks₂₂_invertible A₁₁ A₁₂ A₂₁ A₂₂
-  convert inv_of_from_blocks₂₂_eq A₁₁ A₁₂ A₂₁ A₂₂
-  rw [inv_of_eq_nonsing_inv]
+  letI := fromBlocks₂₂Invertible A₁₁ A₁₂ A₂₁ A₂₂
+  convert invOf_fromBlocks₂₂_eq A₁₁ A₁₂ A₂₁ A₂₂
+  rw [invOf_eq_nonsing_inv]
 
 /-- Eq 400 is the definition of `C₂`,  this is the equation below it without `C₁` at all. -/
 theorem eq_400 (A₁₁ : Matrix m m R) (A₁₂ : Matrix m n R) (A₂₁ : Matrix n m R) (A₂₂ : Matrix n n R)
@@ -63,11 +63,11 @@ theorem eq_400 (A₁₁ : Matrix m m R) (A₁₂ : Matrix m n R) (A₂₁ : Matr
     (fromBlocks A₁₁ A₁₂ A₂₁ A₂₂)⁻¹ =
       let C₂ := A₂₂ - A₂₁ ⬝ ⅟ A₁₁ ⬝ A₁₂
       let i : Invertible C₂ := ‹_›
-      from_blocks (⅟ A₁₁ + ⅟ A₁₁ ⬝ A₁₂ ⬝ ⅟ C₂ ⬝ A₂₁ ⬝ ⅟ A₁₁) (-⅟ A₁₁ ⬝ A₁₂ ⬝ ⅟ C₂)
+      fromBlocks (⅟ A₁₁ + ⅟ A₁₁ ⬝ A₁₂ ⬝ ⅟ C₂ ⬝ A₂₁ ⬝ ⅟ A₁₁) (-⅟ A₁₁ ⬝ A₁₂ ⬝ ⅟ C₂)
         (-⅟ C₂ ⬝ A₂₁ ⬝ ⅟ A₁₁) (⅟ C₂) := by
-  letI := from_blocks₁₁_invertible A₁₁ A₁₂ A₂₁ A₂₂
-  convert inv_of_from_blocks₁₁_eq A₁₁ A₁₂ A₂₁ A₂₂
-  rw [inv_of_eq_nonsing_inv]
+  letI := fromBlocks₁₁Invertible A₁₁ A₁₂ A₂₁ A₂₂
+  convert invOf_fromBlocks₁₁_eq A₁₁ A₁₂ A₂₁ A₂₂
+  rw [invOf_eq_nonsing_inv]
 
 /-! ### Block diagonal -/
 
@@ -146,8 +146,10 @@ section
 
 variable (A : Matrix m m R) (B : Matrix m m R)
 
-theorem eq_418 (hA : IsIdempotentElem A) (n : ℕ) (hn : n ≠ 0) : A ^ n = A := by cases n;
-  · cases hn rfl; exact hA.pow_succ_eq n
+theorem eq_418 (hA : IsIdempotentElem A) (n : ℕ) (hn : n ≠ 0) : A ^ n = A := by
+  cases' n with n
+  · cases hn rfl
+  · exact hA.pow_succ_eq n
 
 theorem eq_419 (hA : IsIdempotentElem A) : IsIdempotentElem (1 - A) :=
   hA.one_sub
@@ -166,10 +168,12 @@ theorem eq_423 (hA : IsIdempotentElem A) : sorry = trace A :=
   sorry
 
 theorem eq_424 (hA : IsIdempotentElem A) : A ⬝ (1 - A) = 0 := by
-  simp [mul_sub, ← Matrix.mul_eq_mul, hA.eq]
+  -- porting note: was `simp [mul_sub, ← Matrix.mul_eq_mul, hA.eq]`
+  rw [Matrix.mul_sub, Matrix.mul_one, ←Matrix.mul_eq_mul, hA.eq, sub_self]
 
 theorem eq_425 (hA : IsIdempotentElem A) : (1 - A) ⬝ A = 0 := by
-  simp [sub_mul, ← Matrix.mul_eq_mul, hA.eq]
+   -- porting note: was `simp [sub_mul, ← Matrix.mul_eq_mul, hA.eq]`
+  rw [Matrix.sub_mul, Matrix.one_mul, ←Matrix.mul_eq_mul, hA.eq, sub_self]
 
 theorem eq426 : sorry :=
   sorry
