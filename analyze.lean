@@ -1,120 +1,114 @@
-import matrix_cookbook
+import MatrixCookbook
+import Lean.CoreM
+import Lean.Util.Sorry
+import Mathlib.Data.String.Defs
 
-def url : string := "https://github.com/eric-wieser/lean-matrix-cookbook"
+set_option autoImplicit false
 
-/-- Split a path into an optional parent component and filename -/
-def path_split (path : string) : option string × string :=
-match (path.split (= '/')).reverse with
-| [] := (none, "/")
-| [a] := (none, a)
-| (a :: as) := ("/".intercalate as.reverse, a)
-end
+open Lean
 
+def url : String := "https://github.com/eric-wieser/lean-matrix-cookbook"
+
+/-- Split a path into an Optional parent component and filename -/
+def path_split (path : String) : Option String × String :=
+  match (path.split (· = '/')).reverse with
+  | [] => (none, "/")
+  | [a] => (none, a)
+  | (a :: as) => ("/".intercalate as.reverse, a)
 /-- Split a lean path into a project/parent pair -/
-def project_file_split (path : string) : io (option string × string) :=
-do
-  (parent, some rest, tt) ← (io.iterate (some path, (none : option string), ff) $ λ state, do {
-    (some p, old_rest, ff) ← pure state | pure none,
-    (parent, rest) ← pure (path_split p),
-    let rest := (match old_rest with
-    | some r := rest ++ "/" ++ r
-    | none := rest
-    end),
-    some parent ← pure parent | pure (some (parent, old_rest, tt)),
-    found ← io.fs.file_exists (parent ++ "/leanpkg.toml"),
-    if !found && "/lib/lean/library".is_suffix_of p then
-      pure (some (none, some rest, tt))
-    else
-      pure (some (parent, some rest, found)) }),
-  pure (parent, rest)
+def project_file_split (path : System.FilePath) : IO (Option System.FilePath × System.FilePath) :=
+  do
+    let path := path.withExtension "lean"
+    (IO.iterate (path, (none : Option System.FilePath)) $ fun state => do
+      let (p, old_rest) := state
+      let some rest := p.fileName | throw default
+      let rest := match old_rest with
+      | some r => rest / r
+      | none => rest
+      let some parent := p.parent | return .inr (none, rest)
+      let some pparent := parent.parent | return .inr (none, rest)
+      let some ppparent := pparent.parent | return .inr (none, rest)
+      if ← (ppparent / "lakefile.lean").pathExists then
+        return .inr (ppparent, rest)
+      else if "/lib/lean".data.isSuffix parent.toString.data then
+        return .inr (none, rest)
+      else
+        return .inl (parent, some rest))
 
 inductive status
-| missing
-| stated
-| proved
+  | missing
+  | stated
+  | proved
 
-instance : has_repr (status) :=
-⟨λ r, match r with
-| status.missing := "missing"
-| status.stated := "stated"
-| status.proved := "proved"
-end⟩
+instance : Repr (status) where
+  reprPrec r _ := match r with
+  | status.missing => "missing"
+  | status.stated => "stated"
+  | status.proved => "proved"
 
-meta instance : has_to_format (status) :=
-⟨λ r, match r with
-| status.missing := "missing"
-| status.stated := "stated"
-| status.proved := "proved"
-end⟩
-
-meta def status_of (n : name) : tactic status :=
-do
-  some d ← tactic.try_core (tactic.get_decl n) | pure status.missing,
-  if d.type.contains_sorry then
-    pure status.missing
-  else if d.value.contains_sorry then
-    pure status.stated
+def status_of (d : ConstantInfo) : Lean.CoreM status := do
+  if d.type.hasSorry then
+    return status.missing
   else
-    pure status.proved
+    let some v := d.value? | return .missing
+    if v.hasSorry then
+      return status.stated
+    else
+      return status.proved
 
-meta def info_for (n : name) : tactic (option string × option pos × status) :=
-do
-  e ← tactic.get_env,
-  s ← status_of n,
-  (f : option string) ← tactic.try_core (e.decl_olean n),
-  p ← tactic.try_core (e.decl_pos n),
-  f ← match f with
-  | none := pure f
-  | some f := (do
-    f ← tactic.unsafe_run_io (project_file_split f),
+def getModuleNameFor? (env : Environment) (nm : Name) : Option Name :=
+  env.getModuleIdxFor? nm >>= fun i => env.header.moduleNames[i.toNat]?
+
+def info_for (n : Name) : Lean.CoreM (Option System.FilePath × Option DeclarationRange × status) := do
+  let e ← getEnv
+  let some d := e.find? n | return (none, none, status.missing)
+  let s ← status_of d
+  let f := getModuleNameFor? e n
+  let p := DeclarationRanges.range <$> (← Lean.findDeclarationRanges? n)
+  let f ← match f with
+  | none => pure none
+  | some f => (do
+    let f ← project_file_split (←Lean.findOLean f)
     pure f.2)
-  end,
   pure (f, p, s)
 
-meta def commit_sha : io string :=
-string.pop_back <$> io.cmd { cmd := "git", args := ["rev-parse", "HEAD"] }
+def commit_sha : IO String :=
+  String.trim <$> IO.Process.run { cmd := "git", args := #["rev-parse", "HEAD"] }
 
-meta def get_url : io (string → option pos → string) :=
-do
-  sha ← commit_sha,
-  pure (λ s p, url ++ "/blob/" ++ sha ++ "/" ++ s ++ match p with
-  | some ⟨r, c⟩ := "#L" ++ to_string r
-  | none := ""
-  end)
+def get_url : IO (System.FilePath → Option DeclarationRange → String) := do
+  let sha ← commit_sha
+  return fun s p => url ++ "/blob/" ++ sha ++ "/" ++ s.toString ++ match p with
+    | some r => s!"#L{r.pos.line}-L{r.endPos.line}"
+    | none => ""
 
-meta def make_svg (cells : list (ℕ × option string × status)) : id string :=
-do
-  let svg := λ c,
-    format!/-"<svg id="svg" width="{550*2}" height="25" version="1.1" xmlns="http://www.w3.org/2000/svg">"-/
+def make_svg (cells : List (ℕ × Option String × status)) : Id String := do
+  let svg := fun c =>
+    f!"<svg id=\"svg\" width=\"{550*2}\" height=\"25\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">"
     ++ c ++ 
-    /-"</svg>"-/,
-  
-  -- "-/  -- cursed highlighting fixer
+    "</svg>"
 
-  rects ← cells.mmap (λ c : ℕ × option string × status, do
+  let rects ← cells.mapM (fun c : ℕ × Option String × status => do
     let color := match c.2.2 with
-    | status.missing := "red"
-    | status.stated := "yellow"
-    | status.proved := "green"
-    end,
-    let r := format!/-"
-      <rect fill="{color}" x="{c.1*2}" y="0" width="2" height="25">
+    | status.missing => "red"
+    | status.stated => "yellow"
+    | status.proved => "green"
+    let r := f!"
+      <rect fill=\"{color}\" x=\"{c.1*2}\" y=\"0\" width=\"2\" height=\"25\">
         <title>{c.1}</title>
-      </rect>"-/,
+      </rect>"
 
-    -- "-/  -- cursed highlighting fixer
-  
     match c.2.1 with
-    | none := r
-    | some f := pure format!/-"<a href="{f}">{r}</a>"-/
-    end),
-  to_string $ svg (format.intercalate "\n" rects)
+    | none => r
+    | some f => pure f!"<a href=\"{f}\">{r}</a>")
+  toString $ svg (Format.joinSep rects "\n")
 
-meta def main : io unit := do
-  get_url ← get_url,
-  decls ← (list.range' 1 551).mmap (λ i, do
-    let n := (`matrix_cookbook).mk_string ("eq_" ++ to_string i),
-    (f, p, s) ← io.run_tactic (info_for n),
-    let f := (λ f : string, get_url f p) <$> f,
-    pure (i, f, s)),
-  io.print (show string, from make_svg decls)
+def printSvg : CoreM String := do
+  let get_url ← get_url
+  let decls ← (List.range' 1 551).mapM (fun i => do
+    let n := (`MatrixCookbook).str ("eq_" ++ toString i)
+    let (f, p, s) ← info_for n
+    let f := (get_url · p) <$> f
+    pure (i, f, s))
+  return make_svg decls
+
+#eval do IO.print (← printSvg)

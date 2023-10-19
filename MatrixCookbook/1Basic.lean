@@ -1,119 +1,181 @@
-import data.matrix.notation
-import data.real.nnreal
-import linear_algebra.matrix.charpoly.eigs
-import linear_algebra.matrix.nonsingular_inverse
-import linear_algebra.matrix.schur_complement
-import linear_algebra.matrix.trace
-import ring_theory.power_series.basic
-import tactic.norm_fin
-import topology.metric_space.basic
-
-import matrix_cookbook.lib.trace_det_fin_four
+import Mathlib.Data.Matrix.Notation
+import Mathlib.Data.Real.NNReal
+import Mathlib.LinearAlgebra.Matrix.Charpoly.Eigs
+import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
+import Mathlib.LinearAlgebra.Matrix.SchurComplement
+import Mathlib.LinearAlgebra.Matrix.Trace
+import Mathlib.RingTheory.PowerSeries.Basic
+-- import Mathlib.Tactic.NormFin
+import Mathlib.Topology.MetricSpace.Basic
+import MatrixCookbook.Lib.TraceDetFinFour
 
 /-! # Basics -/
 
-variables {ι : Type*} {R : Type*} {m n p : Type*}
-variables [fintype m] [fintype n] [fintype p]
-variables [decidable_eq m] [decidable_eq n] [decidable_eq p]
 
-namespace matrix_cookbook
+variable {ι : Type _} {R : Type _} {m n p : Type _}
 
-open_locale matrix big_operators filter topology
-open matrix
+variable [Fintype m] [Fintype n] [Fintype p]
+
+variable [DecidableEq m] [DecidableEq n] [DecidableEq p]
+
+namespace MatrixCookbook
+
+open scoped Matrix BigOperators Filter Topology
+
+open Matrix
 
 -- anyone looking at the cookbook likely only cares about fields anyway!
-variables [field R]
+variable [Field R]
 
-lemma eq_1 {A : matrix m m R} {B : matrix m m R} : (A * B)⁻¹ = B⁻¹ * A⁻¹ := matrix.mul_inv_rev _ _
-lemma eq_2 {l : list (matrix m m R)} : l.prod⁻¹ = (l.reverse.map has_inv.inv).prod := matrix.list_prod_inv_reverse _
-lemma eq_3 {A : matrix m m R} : Aᵀ⁻¹ = A⁻¹ᵀ := (transpose_nonsing_inv _).symm
-lemma eq_4 {A B : matrix m n R} : (A + B)ᵀ = Aᵀ + Bᵀ := transpose_add _ _
-lemma eq_5 {A : matrix m n R} {B : matrix n p R} : (A ⬝ B)ᵀ = Bᵀ ⬝ Aᵀ := transpose_mul _ _
-lemma eq_6 {l : list (matrix m m R)} : l.prodᵀ = (l.map transpose).reverse.prod := matrix.transpose_list_prod _
-lemma eq_7 [star_ring R] {A : matrix m m R} : Aᴴ⁻¹ = A⁻¹ᴴ := (conj_transpose_nonsing_inv _).symm
-lemma eq_8 [star_ring R] {A B : matrix m n R} : (A + B)ᴴ = Aᴴ + Bᴴ := conj_transpose_add _ _
-lemma eq_9 [star_ring R] {A : matrix m n R} {B : matrix n p R} : (A ⬝ B)ᴴ = Bᴴ ⬝ Aᴴ := conj_transpose_mul _ _
-lemma eq_10 [star_ring R] {l : list (matrix m m R)} : l.prodᴴ = (l.map conj_transpose).reverse.prod := matrix.conj_transpose_list_prod _
+theorem eq_1 {A : Matrix m m R} {B : Matrix m m R} : (A * B)⁻¹ = B⁻¹ * A⁻¹ :=
+  Matrix.mul_inv_rev _ _
+
+theorem eq_2 {l : List (Matrix m m R)} : l.prod⁻¹ = (l.reverse.map Inv.inv).prod :=
+  Matrix.list_prod_inv_reverse _
+
+theorem eq_3 {A : Matrix m m R} : Aᵀ⁻¹ = A⁻¹ᵀ :=
+  (transpose_nonsing_inv _).symm
+
+theorem eq_4 {A B : Matrix m n R} : (A + B)ᵀ = Aᵀ + Bᵀ :=
+  transpose_add _ _
+
+theorem eq_5 {A : Matrix m n R} {B : Matrix n p R} : (A ⬝ B)ᵀ = Bᵀ ⬝ Aᵀ :=
+  transpose_mul _ _
+
+theorem eq_6 {l : List (Matrix m m R)} : l.prodᵀ = (l.map transpose).reverse.prod :=
+  Matrix.transpose_list_prod _
+
+theorem eq_7 [StarRing R] {A : Matrix m m R} : Aᴴ⁻¹ = A⁻¹ᴴ :=
+  (conjTranspose_nonsing_inv _).symm
+
+theorem eq_8 [StarRing R] {A B : Matrix m n R} : (A + B)ᴴ = Aᴴ + Bᴴ :=
+  conjTranspose_add _ _
+
+theorem eq_9 [StarRing R] {A : Matrix m n R} {B : Matrix n p R} : (A ⬝ B)ᴴ = Bᴴ ⬝ Aᴴ :=
+  conjTranspose_mul _ _
+
+theorem eq_10 [StarRing R] {l : List (Matrix m m R)} :
+    l.prodᴴ = (l.map conjTranspose).reverse.prod :=
+  Matrix.conjTranspose_list_prod _
 
 /-! ### Trace -/
+
+
 section
 
-lemma eq_11 {A : matrix m m R} : trace A = ∑ i, A i i := rfl
-lemma eq_12 {A : matrix m m R} [is_alg_closed R] : trace A = A.charpoly.roots.sum := trace_eq_sum_roots_charpoly _
-lemma eq_13 {A : matrix m m R} : trace A = trace Aᵀ := (matrix.trace_transpose _).symm
-lemma eq_14 {A : matrix m n R} {B : matrix n m R} : trace (A ⬝ B) = trace (B ⬝ A) := matrix.trace_mul_comm _ _
-lemma eq_15 {A B : matrix m m R} : trace (A + B) = trace A + trace B := trace_add _ _
-lemma eq_16 {A : matrix m n R} {B : matrix n p R} {C : matrix p m R} :
-  trace (A ⬝ B ⬝ C) = trace (B ⬝ C ⬝ A) := (matrix.trace_mul_cycle B C A).symm
-lemma eq_17 {a : m → R} : dot_product a a = trace (col a ⬝ row a) := (matrix.trace_col_mul_row _ _).symm
+theorem eq_11 {A : Matrix m m R} : trace A = ∑ i, A i i :=
+  rfl
+
+theorem eq_12 {A : Matrix m m R} [IsAlgClosed R] : trace A = A.charpoly.roots.sum :=
+  trace_eq_sum_roots_charpoly _
+
+theorem eq_13 {A : Matrix m m R} : trace A = trace Aᵀ :=
+  (Matrix.trace_transpose _).symm
+
+theorem eq_14 {A : Matrix m n R} {B : Matrix n m R} : trace (A ⬝ B) = trace (B ⬝ A) :=
+  Matrix.trace_mul_comm _ _
+
+theorem eq_15 {A B : Matrix m m R} : trace (A + B) = trace A + trace B :=
+  trace_add _ _
+
+theorem eq_16 {A : Matrix m n R} {B : Matrix n p R} {C : Matrix p m R} :
+    trace (A ⬝ B ⬝ C) = trace (B ⬝ C ⬝ A) :=
+  (Matrix.trace_mul_cycle B C A).symm
+
+theorem eq_17 {a : m → R} : dotProduct a a = trace (col a ⬝ row a) :=
+  (Matrix.trace_col_mul_row _ _).symm
 
 end
 
 /-! ### Determinant -/
 
+
 -- `matrix.is_hermitian.det_eq_prod_eigenvalues` is close, but needs `A` to be hermitian which is too strong
-lemma eq_18 {A : matrix m m R} [is_alg_closed R] : det A = A.charpoly.roots.prod := det_eq_prod_roots_charpoly _
-lemma eq_19 (c : R) {A : matrix m m R} : det (c • A) = c ^ fintype.card m * det A := det_smul _ _
-lemma eq_20 {A : matrix m m R} : det (Aᵀ) = det A := det_transpose _
-lemma eq_21 {A B : matrix m m R} : det (A * B) = det A * det B := det_mul _ _
-lemma eq_22 {A : matrix m m R} : det (A⁻¹) = (det A)⁻¹ := (det_nonsing_inv _).trans (ring.inverse_eq_inv _)
-lemma eq_23 {A : matrix m m R} (k : ℕ) : det (A ^ k) = (det A) ^ k := det_pow _ _
-lemma eq_24 {u v : m → R} : det (1 + col u ⬝ row v) = 1 + dot_product u v :=
-by rw [det_one_add_col_mul_row u v, dot_product_comm]
-lemma eq_25 {A : matrix (fin 2) (fin 2) R} : det (1 + A) = 1 + det A + trace A := 
-by { simp [det_fin_two, trace_fin_two], ring }
-lemma eq_26 {A : matrix (fin 3) (fin 3) R} [invertible (2 : R)] :
-  det (1 + A) = 1 + det A + trace A + ⅟2*trace A^2 - ⅟2*trace (A^2) :=
-begin
-  apply mul_left_cancel₀ (is_unit_of_invertible (2 : R)).ne_zero,
-  simp only [det_fin_three, trace_fin_three, pow_two, matrix.mul_eq_mul, matrix.mul_apply, fin.sum_univ_succ,
-    matrix.one_apply],
-  dsimp,
-  simp only [mul_add, mul_sub, mul_inv_of_self_assoc],
-  simp_rw matrix.one_apply,
-  simp,
-  norm_num,
-  ring,
-  -- ring,
-end
-lemma eq_27 {A : matrix (fin 4) (fin 4) R} [char_zero R] :
-  det (1 + A) = 1 + det A + trace A +  
-    (1/2)*( (trace A)^2 - trace (A^2)) + 
-    (1/6)*( (trace A)^3 - 3*trace A * trace (A^2) + 2 * trace (A^3) ) := 
-begin
+theorem eq_18 {A : Matrix m m R} [IsAlgClosed R] : det A = A.charpoly.roots.prod :=
+  det_eq_prod_roots_charpoly _
+
+theorem eq_19 (c : R) {A : Matrix m m R} : det (c • A) = c ^ Fintype.card m * det A :=
+  det_smul _ _
+
+theorem eq_20 {A : Matrix m m R} : det Aᵀ = det A :=
+  det_transpose _
+
+theorem eq_21 {A B : Matrix m m R} : det (A * B) = det A * det B :=
+  det_mul _ _
+
+theorem eq_22 {A : Matrix m m R} : det A⁻¹ = (det A)⁻¹ :=
+  (det_nonsing_inv _).trans (Ring.inverse_eq_inv _)
+
+theorem eq_23 {A : Matrix m m R} (k : ℕ) : det (A ^ k) = det A ^ k :=
+  det_pow _ _
+
+theorem eq_24 {u v : m → R} : det (1 + col u ⬝ row v) = 1 + dotProduct u v := by
+  rw [det_one_add_col_mul_row u v, dotProduct_comm]
+
+theorem eq_25 {A : Matrix (Fin 2) (Fin 2) R} : det (1 + A) = 1 + det A + trace A := by
+  simp [det_fin_two, trace_fin_two]; ring
+
+theorem eq_26 {A : Matrix (Fin 3) (Fin 3) R} [Invertible (2 : R)] :
+    det (1 + A) = 1 + det A + trace A + ⅟ 2 * trace A ^ 2 - ⅟ 2 * trace (A ^ 2) := by
+  apply mul_left_cancel₀ (isUnit_of_invertible (2 : R)).ne_zero
+  simp only [det_fin_three, trace_fin_three, pow_two, Matrix.mul_eq_mul, Matrix.mul_apply,
+    Fin.sum_univ_succ, Matrix.one_apply]
+  dsimp
+  simp only [mul_add, mul_sub, mul_invOf_self_assoc]
+  simp_rw [Matrix.one_apply]
+  simp
+  norm_num
+  ring
+
+-- ring,
+theorem eq_27 {A : Matrix (Fin 4) (Fin 4) R} [CharZero R] :
+    det (1 + A) =
+      1 + det A + trace A + 1 / 2 * (trace A ^ 2 - trace (A ^ 2)) +
+        1 / 6 * (trace A ^ 3 - 3 * trace A * trace (A ^ 2) + 2 * trace (A ^ 3)) := by
   -- TODO: it might be cleaner to prove this via the
   -- [Girard-Waring formula](https://math.stackexchange.com/a/2779104/1896), which wouldn't produce
   -- such a frighteniningly long goal state!
-  field_simp,
-  rw [det_one_add_fin_four, det_fin_four, 
-    trace_pow_three_fin_four, trace_pow_two_fin_four,
-    sq_trace_fin_four, trace_fin_four],
-  ring,
-end
+  field_simp
+  rw [det_one_add_fin_four, det_fin_four, trace_pow_three_fin_four, trace_pow_two_fin_four,
+    sq_trace_fin_four, trace_fin_four]
+  ring
+
 /-! Note: it is likely that eq (28) is just wrong in the source material! -/
 
+
 -- TODO: is this statement correct?
-lemma eq_28 {A : matrix n n ℝ} :
-  (λ ε : nnreal, det (1 + ε • A)) =ᶠ[filter.at_bot] (λ ε, 1 + det A + ε * trace A + 1/2 * ε^2 * trace(A)^2 - 1/2 * ε^2 * trace (A^2)) := sorry
+theorem eq_28 {A : Matrix n n ℝ} :
+    (fun ε : NNReal => det (1 + ε • A)) =ᶠ[Filter.atBot] fun ε =>
+      1 + det A + ε * trace A + 1 / 2 * ε ^ 2 * trace A ^ 2 - 1 / 2 * ε ^ 2 * trace (A ^ 2) :=
+  sorry
 
 -- TODO: or is this statement correct?
-lemma eq_28' {A : matrix n n R} :
-  let ε : power_series R := power_series.X,
-      A : matrix n n (power_series R) := A.map (power_series.C _) in
-  (det (1 + ε • A)).trunc 2 = (1 + det A + ε • trace A + (1/2 : R) •  ε^2 * trace(A)^2 - (1/2 : R) • ε^2 * trace (A^2)).trunc 2 := sorry
-
+theorem eq_28' {A : Matrix n n R} :
+    let ε : PowerSeries R := PowerSeries.X
+    let A : Matrix n n (PowerSeries R) := A.map (PowerSeries.C _)
+    (det (1 + ε • A)).trunc 2 =
+      (1 + det A + ε • trace A + (1 / 2 : R) • ε ^ 2 * trace A ^ 2 -
+            (1 / 2 : R) • ε ^ 2 * trace (A ^ 2)).trunc
+        2 :=
+  sorry
 
 /-! ### The special case 2×2-/
+
+
 section
 
-lemma eq_29 {A : matrix (fin 2) (fin 2) R} : det A = A 0 0 * A 1 1 - A 0 1 * A 1 0 := det_fin_two _
-lemma eq_30 {A : matrix (fin 2) (fin 2) R} : trace A = A 0 0 + A 1 1 := trace_fin_two _
+theorem eq_29 {A : Matrix (Fin 2) (Fin 2) R} : det A = A 0 0 * A 1 1 - A 0 1 * A 1 0 :=
+  det_fin_two _
+
+theorem eq_30 {A : Matrix (Fin 2) (Fin 2) R} : trace A = A 0 0 + A 1 1 :=
+  trace_fin_two _
 
 /-! Note: there are some non-numbered eigenvalue things here -/
 
-lemma eq_31 {A : matrix (fin 2) (fin 2) R} : A⁻¹ = (det A)⁻¹ • !![A 1 1, -A 0 1; -A 1 0, A 0 0] :=
-by rw [inv_def, adjugate_fin_two, ring.inverse_eq_inv]
+
+theorem eq_31 {A : Matrix (Fin 2) (Fin 2) R} : A⁻¹ = (det A)⁻¹ • !![A 1 1, -A 0 1; -A 1 0, A 0 0] := by rw [inv_def, adjugate_fin_two, Ring.inverse_eq_inv]
 
 end
 
-end matrix_cookbook
+end MatrixCookbook
+

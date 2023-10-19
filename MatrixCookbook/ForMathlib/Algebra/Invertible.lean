@@ -3,70 +3,65 @@ Copyright (c) 2023 Eric Wieser. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Eric Wieser
 -/
-
-import algebra.invertible
-import group_theory.group_action.conj_act
+import Mathlib.Algebra.Invertible
+import Mathlib.GroupTheory.GroupAction.ConjAct
 
 /-! # More lemmas about `invertible` -/
 
-variables {G M R : Type*}
 
-section monoid
-variables [group G] [monoid M] [mul_distrib_mul_action G M]
+variable {G M R : Type _}
+
+section Monoid
+
+variable [Group G] [Monoid M] [MulDistribMulAction G M]
 
 /-- A conjugation action preserves invertibility. -/
-def invertible_group_smul (g : G) (x : M)
-  [invertible x] : 
-  invertible (g • x) :=
-{ inv_of := g • ⅟x, 
-  inv_of_mul_self := by rw [←smul_mul', inv_of_mul_self, smul_one],
-  mul_inv_of_self := by rw [←smul_mul', mul_inv_of_self, smul_one] }
+def invertibleGroupSmul (g : G) (x : M) [Invertible x] : Invertible (g • x)
+    where
+  invOf := g • ⅟ x
+  invOf_mul_self := by rw [← smul_mul', invOf_mul_self, smul_one]
+  mul_invOf_self := by rw [← smul_mul', mul_invOf_self, smul_one]
 
-lemma inv_of_smul {G M} [group G] [monoid M] [mul_distrib_mul_action G M] (g : G) (x : M)
-  [invertible x] [invertible (g • x)] : 
-  ⅟(g • x) = g • ⅟x :=
-begin
-  letI := invertible_group_smul g x,
-  convert (rfl : ⅟(g • x) = _),
-end
+theorem invOf_smul {G M} [Group G] [Monoid M] [MulDistribMulAction G M] (g : G) (x : M)
+    [Invertible x] [Invertible (g • x)] : ⅟ (g • x) = g • ⅟ x := by
+  letI := invertibleGroupSmul g x
+  convert (rfl : ⅟ (g • x) = _)
 
-variables (x y : M)
+variable (x y : M)
 
-def invertible_conj [invertible x] [invertible y] : invertible (x*y*⅟x) :=
-invertible_group_smul (conj_act.to_conj_act (unit_of_invertible x)) y
+def invertibleConj [Invertible x] [Invertible y] : Invertible (x * y * ⅟ x) :=
+  invertibleGroupSmul (ConjAct.toConjAct (unitOfInvertible x)) y
 
-lemma inv_of_conj [invertible x] [invertible y] [invertible (x*y*⅟x)] : 
-  ⅟(x*y*⅟x) = x*⅟y*⅟x :=
-begin
-  letI := invertible_conj x y,
-  convert (rfl : ⅟(x*y*⅟x) = _),
-end
+theorem invOf_conj [Invertible x] [Invertible y] [Invertible (x * y * ⅟ x)] :
+    ⅟ (x * y * ⅟ x) = x * ⅟ y * ⅟ x := by
+  letI := invertibleConj x y
+  convert (rfl : ⅟ (x * y * ⅟ x) = _)
 
-def invertible_conj' [invertible x] [invertible y] : invertible (⅟x*y*x) :=
-invertible_group_smul (conj_act.to_conj_act (unit_of_invertible x)⁻¹) y
+def invertibleConj' [Invertible x] [Invertible y] : Invertible (⅟ x * y * x) :=
+  invertibleGroupSmul (ConjAct.toConjAct (unitOfInvertible x)⁻¹) y
 
-lemma inv_of_conj' [invertible x] [invertible y] [invertible (⅟x*y*x)] : 
-  ⅟(⅟x*y*x) = ⅟x*⅟y*x :=
-begin
-  letI := invertible_conj' x y,
-  convert (rfl : ⅟(⅟x*y*x) = _),
-end
+theorem invOf_conj' [Invertible x] [Invertible y] [Invertible (⅟ x * y * x)] :
+    ⅟ (⅟ x * y * x) = ⅟ x * ⅟ y * x := by
+  letI := invertibleConj' x y
+  convert (rfl : ⅟ (⅟ x * y * x) = _)
 
-end monoid
+end Monoid
 
-section ring
-variables [ring R] (x : R)
+section Ring
 
-lemma inv_of_one_add [invertible (1 + x)] : ⅟(1 + x) = 1 - ⅟(1 + x) * x :=
-eq_sub_of_add_eq $ (mul_one_add _ _).symm.trans $ inv_of_mul_self _
+variable [Ring R] (x : R)
 
-lemma inv_of_one_add' [invertible (1 + x)] : ⅟(1 + x) = 1 - x * ⅟(1 + x) :=
-eq_sub_of_add_eq $ (one_add_mul _ _).symm.trans $ mul_inv_of_self _
+theorem invOf_one_add [Invertible (1 + x)] : ⅟ (1 + x) = 1 - ⅟ (1 + x) * x :=
+  eq_sub_of_add_eq <| (mul_one_add _ _).symm.trans <| invOf_mul_self _
 
-lemma inv_of_add_one [invertible (x + 1)] : ⅟(x + 1) = 1 - ⅟(x + 1) * x :=
-eq_sub_of_add_eq' $ (mul_add_one _ _).symm.trans $ inv_of_mul_self _
+theorem invOf_one_add' [Invertible (1 + x)] : ⅟ (1 + x) = 1 - x * ⅟ (1 + x) :=
+  eq_sub_of_add_eq <| (one_add_mul _ _).symm.trans <| mul_invOf_self _
 
-lemma inv_of_add_one' [invertible (x + 1)] : ⅟(x + 1) = 1 - x * ⅟(x + 1) :=
-eq_sub_of_add_eq' $ (add_one_mul _ _).symm.trans $ mul_inv_of_self _
+theorem invOf_add_one [Invertible (x + 1)] : ⅟ (x + 1) = 1 - ⅟ (x + 1) * x :=
+  eq_sub_of_add_eq' <| (mul_add_one _ _).symm.trans <| invOf_mul_self _
 
-end ring
+theorem invOf_add_one' [Invertible (x + 1)] : ⅟ (x + 1) = 1 - x * ⅟ (x + 1) :=
+  eq_sub_of_add_eq' <| (add_one_mul _ _).symm.trans <| mul_invOf_self _
+
+end Ring
+

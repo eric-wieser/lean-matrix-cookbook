@@ -1,207 +1,232 @@
-import linear_algebra.matrix.nonsingular_inverse
-import linear_algebra.matrix.trace
-import data.real.nnreal
-import topology.metric_space.basic
-import data.matrix.notation
-import ring_theory.power_series.basic
-import analysis.normed_space.matrix_exponential
-import data.matrix.kronecker
-import data.matrix.rank
-import linear_algebra.matrix.pos_def
-import analysis.inner_product_space.pi_L2
+import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
+import Mathlib.LinearAlgebra.Matrix.Trace
+import Mathlib.Data.Real.NNReal
+import Mathlib.Topology.MetricSpace.Basic
+import Mathlib.Data.Matrix.Notation
+import Mathlib.RingTheory.PowerSeries.Basic
+import Mathlib.Analysis.NormedSpace.MatrixExponential
+import Mathlib.Data.Matrix.Kronecker
+import Mathlib.Data.Matrix.Rank
+import Mathlib.LinearAlgebra.Matrix.PosDef
+import Mathlib.Analysis.InnerProductSpace.PiL2
 
 /-! # Functions and Operators -/
 
-variables {ι : Type*} {R : Type*} {l m n p q r : Type*}
-variables [fintype l] [fintype m] [fintype n] [fintype p] [fintype q] [fintype r]
-variables [decidable_eq l] [decidable_eq m] [decidable_eq n] [decidable_eq p] [decidable_eq q] [decidable_eq r]
+local macro_rules | `($x ^ $y) => `(HPow.hPow $x $y) -- Porting note: See issue lean4#2220
 
-open_locale nat big_operators matrix nnreal ennreal
-open matrix
+variable {ι : Type _} {R : Type _} {l m n p q r : Type _}
 
-namespace matrix_cookbook
+variable [Fintype l] [Fintype m] [Fintype n] [Fintype p] [Fintype q] [Fintype r]
 
-variables [field R]
+variable [DecidableEq l] [DecidableEq m] [DecidableEq n] [DecidableEq p] [DecidableEq q]
+  [DecidableEq r]
+
+open scoped Nat BigOperators Matrix NNReal ENNReal
+
+open Matrix
+
+namespace MatrixCookbook
+
+variable [Field R]
 
 /-! ### Functions and Series -/
 
+
 /-! #### Finite Series -/
 
+
 /-- The pdf does not mention `hx`! -/
-lemma eq_487 (X : matrix m m R) (n : ℕ) (hx : (X - 1).det ≠ 0):
-  (X ^ n - 1) * (X - 1)⁻¹ = ∑ i in finset.range n, X^i :=
-by rw [←geom_sum_mul X n, matrix.mul_eq_mul, matrix.mul_eq_mul,
-    mul_nonsing_inv_cancel_right _ _ hx.is_unit]
+theorem eq_487 (X : Matrix m m R) (n : ℕ) (hx : (X - 1).det ≠ 0) :
+    (X ^ n - 1) * (X - 1)⁻¹ = ∑ i in Finset.range n, X ^ i := by
+  rw [← geom_sum_mul X n, Matrix.mul_eq_mul, Matrix.mul_eq_mul,
+    mul_nonsing_inv_cancel_right _ _ hx.isUnit]
 
 /-! #### Taylor Expansion of Scalar Function -/
 
 
 /-! #### Matrix Functions by Infinite Series -/
 
+
 /-! #### Identity and commutations -/
+
 
 /-! #### Exponential Matrix Function -/
 
-lemma eq_494 (A : matrix n n ℝ) : exp ℝ A = ∑' n : ℕ, (n!⁻¹ : ℝ) • A ^ n :=
-by rw exp_eq_tsum
 
-lemma eq_495 (A : matrix n n ℝ) : exp ℝ (-A) = ∑' n : ℕ, (n!⁻¹ : ℝ) • (-1)^n * A ^ n :=
-by simp_rw [exp_eq_tsum, neg_pow A, smul_mul_assoc]
+theorem eq_494 (A : Matrix n n ℝ) : exp ℝ A = ∑' n : ℕ, (n !⁻¹ : ℝ) • A ^ n := by rw [exp_eq_tsum]
 
-lemma eq_496 (t : ℝ) (A : matrix n n ℝ) : exp ℝ (t • A) = ∑' n : ℕ, (n!⁻¹ : ℝ) • t ^ n • A ^ n :=
-by simp_rw [exp_eq_tsum, smul_pow]
+theorem eq_495 (A : Matrix n n ℝ) : exp ℝ (-A) = ∑' n : ℕ, (n !⁻¹ : ℝ) • (-1 : Matrix _ _ ℝ) ^ n * A ^ n := by
+  simp_rw [exp_eq_tsum, neg_pow A, smul_mul_assoc]
 
-lemma eq_498 (A B : matrix n n ℝ) (h : A * B = B * A) : exp ℝ A * exp ℝ B = exp ℝ (A + B) :=
-(exp_add_of_commute _ _ _ h).symm
+theorem eq_496 (t : ℝ) (A : Matrix n n ℝ) : exp ℝ (t • A) = ∑' n : ℕ, (n !⁻¹ : ℝ) • t ^ (n : ℕ) • A ^ n := by simp_rw [exp_eq_tsum, smul_pow]
 
-lemma eq_499 (A : matrix n n ℝ) : (exp ℝ A)⁻¹ = exp ℝ (-A) :=
-(exp_neg _ _).symm
+theorem eq_498 (A B : Matrix n n ℝ) (h : A * B = B * A) : exp ℝ A * exp ℝ B = exp ℝ (A + B) :=
+  (exp_add_of_commute _ _ _ h).symm
+
+theorem eq_499 (A : Matrix n n ℝ) : (exp ℝ A)⁻¹ = exp ℝ (-A) :=
+  (exp_neg _ _).symm
 
 /-! ### Kronecker and vec Operator -/
 
+
 /-! #### The Kronecker Product -/
-open_locale kronecker
 
-lemma eq_505 (A : matrix m n R) (B : matrix r q R) :
-  A ⊗ₖ B = matrix.of (λ i j : _ × _, (A i.1 j.1 • B) i.2 j.2) := rfl
 
-lemma eq_506 (A : matrix m n R) (B C : matrix r q R) : A ⊗ₖ (B + C) = A ⊗ₖ B + A ⊗ₖ C :=
-kronecker_add _ _ _
+open scoped Kronecker
 
-lemma eq_507 [nontrivial m] [nonempty n]:
-  ¬∀ (A : matrix m n R) (B : matrix m n R), A ⊗ₖ B = B ⊗ₖ A :=
-begin
-  intro h,
-  obtain ⟨m1, m2, hm⟩ := exists_pair_ne m,
-  obtain ⟨n1⟩ := id ‹nonempty n›,
-  let A := std_basis_matrix m1 n1 (1 : R),
-  let B := std_basis_matrix m2 n1 (1 : R),
-  have := matrix.ext_iff.mpr (h A B) (m1, m2) (n1, n1),
-  simpa [A, B, std_basis_matrix.apply_same, std_basis_matrix.apply_of_row_ne hm, mul_zero, mul_one,
-    one_ne_zero] using this,
-end
+theorem eq_505 (A : Matrix m n R) (B : Matrix r q R) :
+    A ⊗ₖ B = Matrix.of fun i j : _ × _ => (A i.1 j.1 • B) i.2 j.2 :=
+  rfl
+
+theorem eq_506 (A : Matrix m n R) (B C : Matrix r q R) : A ⊗ₖ (B + C) = A ⊗ₖ B + A ⊗ₖ C :=
+  kronecker_add _ _ _
+
+theorem eq_507 [Nontrivial m] [Nonempty n] :
+    ¬∀ (A : Matrix m n R) (B : Matrix m n R), A ⊗ₖ B = B ⊗ₖ A := by
+  intro h
+  obtain ⟨m1, m2, hm⟩ := exists_pair_ne m
+  obtain ⟨n1⟩ := id ‹Nonempty n›
+  let A := stdBasisMatrix m1 n1 (1 : R)
+  let B := stdBasisMatrix m2 n1 (1 : R)
+  have := Matrix.ext_iff.mpr (h A B) (m1, m2) (n1, n1)
+  simpa [StdBasisMatrix.apply_same, StdBasisMatrix.apply_of_row_ne hm,
+    MulZeroClass.mul_zero, mul_one, one_ne_zero] using this
 
 /-- Note we have to "cast" between the types -/
-lemma eq_508 (A : matrix m n R) (B : matrix r q R) (C : matrix l p R) :
-  A ⊗ₖ (B ⊗ₖ C) = reindex (equiv.prod_assoc _ _ _) (equiv.prod_assoc _ _ _)
-    ((A ⊗ₖ B) ⊗ₖ C) :=
-(kronecker_assoc _ _ _).symm
+theorem eq_508 (A : Matrix m n R) (B : Matrix r q R) (C : Matrix l p R) :
+    A ⊗ₖ (B ⊗ₖ C) = reindex (Equiv.prodAssoc _ _ _) (Equiv.prodAssoc _ _ _) (A ⊗ₖ B ⊗ₖ C) :=
+  (kronecker_assoc _ _ _).symm
 
-lemma eq_509 (a b : R) (A : matrix m n R) (B : matrix r q R) :
-  (a • A) ⊗ₖ (b • B) = (a*b) • (A ⊗ₖ B) :=
-by rw [smul_kronecker, kronecker_smul, smul_smul]
+theorem eq_509 (a b : R) (A : Matrix m n R) (B : Matrix r q R) :
+    (a • A) ⊗ₖ (b • B) = (a * b) • A ⊗ₖ B := by rw [smul_kronecker, kronecker_smul, smul_smul]
 
-lemma eq_510 (A : matrix m n R) (B : matrix r q R) :
-  (A ⊗ₖ B)ᵀ = (Aᵀ ⊗ₖ Bᵀ) :=
-by rw [kronecker_map_transpose]
+theorem eq_510 (A : Matrix m n R) (B : Matrix r q R) : (A ⊗ₖ B)ᵀ = Aᵀ ⊗ₖ Bᵀ := by
+  rw [kroneckerMap_transpose]
 
-lemma eq_511 (A : matrix l m R) (B : matrix p q R) (C : matrix m n R) (D : matrix q r R) :
-  (A ⊗ₖ B) ⬝ (C ⊗ₖ D) = (A ⬝ C) ⊗ₖ (B ⬝ D) :=
-by rw matrix.mul_kronecker_mul
+theorem eq_511 (A : Matrix l m R) (B : Matrix p q R) (C : Matrix m n R) (D : Matrix q r R) :
+    A ⊗ₖ B ⬝ C ⊗ₖ D = (A ⬝ C) ⊗ₖ (B ⬝ D) := by rw [Matrix.mul_kronecker_mul]
 
-lemma eq_512 (A : matrix m m R) (B : matrix n n R) :
-  (A ⊗ₖ B)⁻¹ = (A⁻¹ ⊗ₖ B⁻¹) :=
-inv_kronecker _ _
+theorem eq_512 (A : Matrix m m R) (B : Matrix n n R) : (A ⊗ₖ B)⁻¹ = A⁻¹ ⊗ₖ B⁻¹ :=
+  inv_kronecker _ _
 
 -- lemma eq_513 : sorry := sorry
 -- lemma eq_514 : sorry := sorry
+theorem eq_515 (A : Matrix m m R) (B : Matrix n n R) : trace (A ⊗ₖ B) = trace A * trace B := by
+  simp_rw [Matrix.trace, Matrix.diag, Finset.sum_mul, Finset.mul_sum, ← Finset.univ_product_univ,
+    Finset.sum_product, kronecker_apply]
 
-lemma eq_515 (A : matrix m m R) (B : matrix n n R) :
-  trace (A ⊗ₖ B) = trace A * trace B :=
-by simp_rw [matrix.trace, matrix.diag, finset.sum_mul, finset.mul_sum,
-    ←finset.univ_product_univ, finset.sum_product, kronecker_apply]
+theorem eq_516 (A : Matrix m m R) (B : Matrix n n R) :
+    det (A ⊗ₖ B) = det A ^ Fintype.card n * det B ^ Fintype.card m :=
+  det_kronecker _ _
 
-lemma eq_516 (A : matrix m m R) (B : matrix n n R) :
-  det (A ⊗ₖ B) = det A ^ fintype.card n * det B ^ fintype.card m :=
-det_kronecker _ _
+/-! #### The Vec Operator -/
+
 
 -- lemma eq_517 : sorry := sorry
 -- lemma eq_518 : sorry := sorry
 -- lemma eq_519 : sorry := sorry
+def vec (A : Matrix m n R) : Matrix (n × m) Unit R :=
+  col fun ij => A ij.2 ij.1
 
-/-! #### The Vec Operator -/
+theorem eq_520 (A : Matrix l m R) (X : Matrix m n R) (B : Matrix n p R) :
+    vec (A ⬝ X ⬝ B) = Bᵀ ⊗ₖ A ⬝ vec X := by
+  ext ⟨k, l⟩
+  simp_rw [vec, Matrix.mul_apply, Matrix.kroneckerMap_apply, col_apply, Finset.sum_mul,
+    transpose_apply, ← Finset.univ_product_univ, Finset.sum_product, mul_right_comm _ _ (B _ _),
+    mul_comm _ (B _ _)]
 
-def vec (A : matrix m n R) : matrix (n × m) unit R :=
-col (λ ij, A ij.2 ij.1)
+theorem eq_521 (A B : Matrix m n R) : (Aᵀ ⬝ B).trace = ((vec A)ᵀ ⬝ vec B) () () := by
+  simp_rw [Matrix.trace, Matrix.diag, Matrix.mul_apply, vec, transpose_apply, col_apply, ←
+    Finset.univ_product_univ, Finset.sum_product]
 
-lemma eq_520 (A : matrix l m R) (X : matrix m n R) (B : matrix n p R) :
-  vec (A ⬝ X ⬝ B) = (Bᵀ ⊗ₖ A) ⬝ vec X :=
-begin
-  ext ⟨k, l⟩,
-  simp_rw [vec, matrix.mul_apply, matrix.kronecker_map_apply, col_apply, finset.sum_mul,
-    transpose_apply, ←finset.univ_product_univ, finset.sum_product, mul_right_comm _ _ (B _ _),
-      mul_comm _ (B _ _)],
-end
-lemma eq_521 (A B : matrix m n R) : (Aᵀ ⬝ B).trace = ((vec A)ᵀ ⬝ vec B) () () :=
-by simp_rw [matrix.trace, matrix.diag, matrix.mul_apply, vec, transpose_apply, col_apply,
-    ←finset.univ_product_univ, finset.sum_product]
-lemma eq_522 (A B : matrix m n R) : vec (A + B) = vec A + vec B := rfl
-lemma eq_523 (r : R) (A : matrix m n R) : vec (r • A) = r • vec A := rfl
+theorem eq_522 (A B : Matrix m n R) : vec (A + B) = vec A + vec B :=
+  rfl
+
+theorem eq_523 (r : R) (A : Matrix m n R) : vec (r • A) = r • vec A :=
+  rfl
 
 -- note: `Bᵀ` is `B` in the PDF
-lemma eq_524 (a : m → R) (X : matrix m n R) (B : matrix n n R) (c : m → R) :
-  row a ⬝ X ⬝ B ⬝ Xᵀ ⬝ col c = (vec X)ᵀ ⬝ (Bᵀ ⊗ₖ (col c ⬝ row a)) ⬝ vec X :=
-begin
+theorem eq_524 (a : m → R) (X : Matrix m n R) (B : Matrix n n R) (c : m → R) :
+    row a ⬝ X ⬝ B ⬝ Xᵀ ⬝ col c = (vec X)ᵀ ⬝ Bᵀ ⊗ₖ (col c ⬝ row a) ⬝ vec X := by
   -- not the proof from the book
-  ext ⟨i, j⟩,
-  simp only [vec, matrix.mul_apply, finset.sum_mul, finset.mul_sum,
-    matrix.kronecker_map_apply, transpose_apply, matrix.row_apply, matrix.col_apply,
-    fintype.sum_unique],
-  simp_rw [←finset.univ_product_univ, finset.sum_product, @finset.sum_comm _ m n],
-  rw finset.sum_comm,
-  refine finset.sum_congr rfl (λ k _, _),
-  refine finset.sum_congr rfl (λ l _, _),
-  rw finset.sum_comm,
-  refine finset.sum_congr rfl (λ kk _, _),
-  refine finset.sum_congr rfl (λ ll _, _),
-  ring,
-end
+  ext ⟨i, j⟩
+  simp only [vec, Matrix.mul_apply, Finset.sum_mul, Finset.mul_sum, Matrix.kroneckerMap_apply,
+    transpose_apply, Matrix.row_apply, Matrix.col_apply, Fintype.sum_unique]
+  simp_rw [← Finset.univ_product_univ, Finset.sum_product, @Finset.sum_comm _ m n]
+  rw [Finset.sum_comm]
+  refine' Finset.sum_congr rfl fun k _ => _
+  refine' Finset.sum_congr rfl fun l _ => _
+  rw [Finset.sum_comm]
+  refine' Finset.sum_congr rfl fun kk _ => _
+  refine' Finset.sum_congr rfl fun ll _ => _
+  ring
 
 /-! ### Vector Norms -/
 
+
 /-! #### Examples -/
 
-lemma eq_525 (x : n → ℂ) : ‖(pi_Lp.equiv 1 _).symm x‖ = ∑ i, complex.abs (x i) :=
-by simpa using pi_Lp.norm_eq_of_nat 1 (nat.cast_one.symm) ((pi_Lp.equiv 1 _).symm x)
 
-lemma eq_526 (x : n → ℂ) : ↑(‖(pi_Lp.equiv 2 _).symm x‖^2) = star x ⬝ᵥ x :=
-by rw [←euclidean_space.inner_pi_Lp_equiv_symm, inner_self_eq_norm_sq_to_K, complex.of_real_pow]
+theorem eq_525 (x : n → ℂ) : ‖(PiLp.equiv 1 _).symm x‖ = ∑ i, Complex.abs (x i) := by
+  simpa using PiLp.norm_eq_of_nat 1 Nat.cast_one.symm ((PiLp.equiv 1 _).symm x)
 
-lemma eq_527 (x : n → ℂ) (p : ℝ≥0∞) (h : 0 < p.to_real) :
-  ‖(pi_Lp.equiv p _).symm x‖ = (∑ i, complex.abs (x i) ^ p.to_real)^(1/p.to_real) :=
-by simp_rw [pi_Lp.norm_eq_sum h, pi_Lp.equiv_symm_apply, complex.norm_eq_abs]
+theorem eq_526 (x : n → ℂ) : ↑(‖(PiLp.equiv 2 _).symm x‖ ^ 2) = star x ⬝ᵥ x := by
+  rw [← EuclideanSpace.inner_piLp_equiv_symm, inner_self_eq_norm_sq_to_K, Complex.ofReal_pow]
+  rfl  -- porting note: added
 
-lemma eq_528 (x : n → ℂ) :
-  ‖(pi_Lp.equiv ∞ _).symm x‖ = ⨆ i, complex.abs (x i) :=
-by simp_rw [pi_Lp.norm_eq_csupr, pi_Lp.equiv_symm_apply, complex.norm_eq_abs]
+theorem eq_527 (x : n → ℂ) (p : ℝ≥0∞) (h : 0 < p.toReal) :
+    ‖(PiLp.equiv p _).symm x‖ = (∑ i, Complex.abs (x i) ^ p.toReal) ^ (1 / p.toReal) := by
+  simp_rw [PiLp.norm_eq_sum h, PiLp.equiv_symm_apply, Complex.norm_eq_abs]
+
+theorem eq_528 (x : n → ℂ) : ‖(PiLp.equiv ∞ _).symm x‖ = ⨆ i, Complex.abs (x i) := by
+  simp_rw [PiLp.norm_eq_ciSup, PiLp.equiv_symm_apply, Complex.norm_eq_abs]
 
 /-! ### Matrix Norms -/
 
-/-! #### Definitions -/
-section
-local attribute [instance] matrix.normed_add_comm_group matrix.normed_space
 
-lemma eq_529 (A : matrix n n ℝ) : 0 ≤ ‖A‖ := norm_nonneg _
-lemma eq_530 (A : matrix n n ℝ) : ‖A‖ = 0 ↔ A = 0 := norm_eq_zero
-lemma eq_531 (r : ℝ) (A : matrix n n ℝ) : ‖r • A‖ = |r| * ‖A‖ := by rw [norm_smul r A, real.norm_eq_abs]
-lemma eq_532 (A B : matrix n n ℝ) : ‖A + B‖ ≤ ‖A‖ + ‖B‖ := norm_add_le _ _
+/-! #### Definitions -/
+
+
+section
+
+attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
+
+theorem eq_529 (A : Matrix n n ℝ) : 0 ≤ ‖A‖ :=
+  norm_nonneg _
+
+theorem eq_530 (A : Matrix n n ℝ) : ‖A‖ = 0 ↔ A = 0 :=
+  norm_eq_zero
+
+theorem eq_531 (r : ℝ) (A : Matrix n n ℝ) : ‖r • A‖ = |r| * ‖A‖ := by
+  rw [norm_smul r A, Real.norm_eq_abs]
+
+theorem eq_532 (A B : Matrix n n ℝ) : ‖A + B‖ ≤ ‖A‖ + ‖B‖ :=
+  norm_add_le _ _
 
 end
 
 /-! #### Induced Norm or Operator Norm -/
 
--- lemma eq_533 : sorry := sorry
 
+-- lemma eq_533 : sorry := sorry
 -- we just use one of the norms as an example; there is no generalization available
 section
-local attribute [instance] matrix.linfty_op_normed_add_comm_group matrix.linfty_op_normed_space
-local attribute [instance] matrix.linfty_op_normed_ring matrix.linfty_op_normed_algebra
-local attribute [instance] matrix.linfty_op_norm_one_class
-lemma eq_534 [nonempty n] : ‖(1 : matrix n n ℝ)‖ = 1 := norm_one
-lemma eq_535 (A : matrix m n ℝ) (x : n → ℝ) : ‖A.mul_vec x‖ ≤ ‖A‖ * ‖x‖ :=
-linfty_op_norm_mul_vec _ _
-lemma eq_536 (A : matrix m n ℝ) (B : matrix n p ℝ) : ‖A⬝B‖ ≤ ‖A‖ * ‖B‖ :=
-linfty_op_norm_mul _ _
+
+attribute [local instance] Matrix.linftyOpNormedAddCommGroup Matrix.linftyOpNormedSpace
+
+attribute [local instance] Matrix.linftyOpNormedRing Matrix.linftyOpNormedAlgebra
+
+attribute [local instance] Matrix.linfty_op_normOneClass
+
+theorem eq_534 [Nonempty n] : ‖(1 : Matrix n n ℝ)‖ = 1 :=
+  norm_one
+
+theorem eq_535 (A : Matrix m n ℝ) (x : n → ℝ) : ‖A.mulVec x‖ ≤ ‖A‖ * ‖x‖ :=
+  linfty_op_norm_mulVec _ _
+
+theorem eq_536 (A : Matrix m n ℝ) (B : Matrix n p ℝ) : ‖A ⬝ B‖ ≤ ‖A‖ * ‖B‖ :=
+  linfty_op_norm_mul _ _
+
 end
 
 /-! #### Examples -/
@@ -210,54 +235,67 @@ end
 -- lemma eq_537 : sorry := sorry
 -- lemma eq_538 : sorry := sorry
 -- lemma eq_539 : sorry := sorry
-
 section
-local attribute [instance] matrix.linfty_op_normed_add_comm_group matrix.linfty_op_normed_space
-lemma eq_540 (A : matrix m n ℝ) : ‖A‖ = ↑(finset.univ.sup (λ i, ∑ j, ‖A i j‖₊)) :=
-by rw [linfty_op_norm_def]
+
+attribute [local instance] Matrix.linftyOpNormedAddCommGroup Matrix.linftyOpNormedSpace
+
+theorem eq_540 (A : Matrix m n ℝ) : ‖A‖ = ↑(Finset.univ.sup fun i => ∑ j, ‖A i j‖₊) := by
+  rw [linfty_op_norm_def]
+
 end
 
 section
-local attribute [instance] matrix.frobenius_normed_add_comm_group matrix.frobenius_normed_space
-lemma eq_541 (A : matrix m n ℝ) : ‖A‖ = real.sqrt (∑ i j, ‖A i j‖ ^ (2 : ℝ)) :=
-by rw [frobenius_norm_def, real.sqrt_eq_rpow]
+
+attribute [local instance] Matrix.frobeniusNormedAddCommGroup Matrix.frobeniusNormedSpace
+
+/- ./././Mathport/Syntax/Translate/Expr.lean:107:6: warning: expanding binder group (i j) -/
+theorem eq_541 (A : Matrix m n ℝ) : ‖A‖ = Real.sqrt (∑ i, ∑ j, ‖A i j‖ ^ (2 : ℝ)) := by
+  rw [frobenius_norm_def, Real.sqrt_eq_rpow]
+
 end
 
 section
-local attribute [instance] matrix.normed_add_comm_group matrix.normed_space
-lemma eq_542 (A : matrix m n ℝ) : ‖A‖ = ↑(finset.univ.sup (λ ij : _ × _, ‖A ij.1 ij.2‖₊)) :=
-by simp_rw [←finset.univ_product_univ, finset.sup_product_left, ←pi.nnnorm_def, coe_nnnorm]
-end
 
--- lemma eq_543 : sorry := sorry
+attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
+
+theorem eq_542 (A : Matrix m n ℝ) : ‖A‖ = ↑(Finset.univ.sup fun ij : _ × _ => ‖A ij.1 ij.2‖₊) := by
+  simp_rw [← Finset.univ_product_univ, Finset.sup_product_left, ← Pi.nnnorm_def, coe_nnnorm]
+
+end
 
 /-! #### Inequalities -/
 
--- lemma eq_544 : sorry := sorry
 
 /-! #### Condition Number -/
 
--- lemma eq_545 : sorry := sorry
 
 /-! ### Rank -/
 
+
 /-! #### Sylvester’s Inequality -/
 
-lemma eq_546 (A : matrix m n ℝ) (B : matrix n r ℝ) :
-  rank A + rank B - fintype.card n ≤ rank(A ⬝ B) ∧ rank(A ⬝ B) ≤ min (rank A) (rank B) :=
-⟨sorry, rank_mul_le _ _⟩
+
+-- lemma eq_543 : sorry := sorry
+-- lemma eq_544 : sorry := sorry
+-- lemma eq_545 : sorry := sorry
+theorem eq_546 (A : Matrix m n ℝ) (B : Matrix n r ℝ) :
+    rank A + rank B - Fintype.card n ≤ rank (A ⬝ B) ∧ rank (A ⬝ B) ≤ min (rank A) (rank B) :=
+  ⟨sorry, rank_mul_le _ _⟩
 
 /-! ### Integral Involving Dirac Delta Functions -/
 
--- lemma eq_547 : sorry := sorry
--- lemma eq_548 : sorry := sorry
 
 /-! ### Miscellaneous -/
 
-lemma eq_549 (A : matrix m n ℝ) :
-  A.rank = Aᵀ.rank ∧ A.rank = (A ⬝ Aᵀ).rank ∧ A.rank = (Aᵀ ⬝ A).rank :=
-⟨A.rank_transpose.symm, A.rank_self_mul_transpose.symm, A.rank_transpose_mul_self.symm⟩
-lemma eq_550 (A : matrix m m ℝ) : A.pos_def ↔ ∃ B : (matrix m m ℝ)ˣ, A = B ⬝ Bᵀ :=
-sorry
 
-end matrix_cookbook
+-- lemma eq_547 : sorry := sorry
+-- lemma eq_548 : sorry := sorry
+theorem eq_549 (A : Matrix m n ℝ) :
+    A.rank = Aᵀ.rank ∧ A.rank = (A ⬝ Aᵀ).rank ∧ A.rank = (Aᵀ ⬝ A).rank :=
+  ⟨A.rank_transpose.symm, A.rank_self_mul_transpose.symm, A.rank_transpose_mul_self.symm⟩
+
+theorem eq_550 (A : Matrix m m ℝ) : A.PosDef ↔ ∃ B : (Matrix m m ℝ)ˣ, A = ↑B * ↑Bᵀ :=
+  sorry
+
+end MatrixCookbook
+

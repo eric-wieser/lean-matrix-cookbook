@@ -1,3 +1,2 @@
-*.olean
-/_target
-/leanpkg.path
+/build/
+/lake-packages

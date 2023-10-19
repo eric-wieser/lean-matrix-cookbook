@@ -1,143 +1,237 @@
-import linear_algebra.matrix.ldl
+import Mathlib.LinearAlgebra.Matrix.LDL
 
 /-! # Solutions and Decompositions -/
 
-variables {m n p : Type*}
-variables [fintype m] [fintype n] [fintype p]
-variables [decidable_eq m] [decidable_eq n] [decidable_eq p]
 
-open_locale matrix
+variable {m n p : Type _}
 
-namespace matrix_cookbook
+variable [Fintype m] [Fintype n] [Fintype p]
+
+variable [DecidableEq m] [DecidableEq n] [DecidableEq p]
+
+open scoped Matrix
+
+namespace MatrixCookbook
 
 /-! ## Solutions to linear equations -/
 
+
 /-! ### Simple Linear Regression -/
 
-lemma eq_260 : sorry := sorry
+
+theorem eq260 : sorry :=
+  sorry
 
 /-! ### Existence in Linear Systems -/
 
-lemma eq_261 : sorry := sorry
+
+theorem eq261 : sorry :=
+  sorry
 
 /-! ### Standard Square -/
 
-lemma eq_262 : sorry := sorry
+
+theorem eq262 : sorry :=
+  sorry
 
 /-! ### Degenerated Square -/
 
+
 /-! ### Cramer's rule -/
 
-lemma eq_263 : sorry := sorry
-lemma eq_264 : sorry := sorry
+
+theorem eq263 : sorry :=
+  sorry
+
+theorem eq264 : sorry :=
+  sorry
 
 /-! ### Over-determined Rectangular -/
 
-lemma eq_265 : sorry := sorry
-lemma eq_266 : sorry := sorry
+
+theorem eq265 : sorry :=
+  sorry
+
+theorem eq266 : sorry :=
+  sorry
 
 /-! ### Under-determined Rectangular -/
 
-lemma eq_267 : sorry := sorry
-lemma eq_268 : sorry := sorry
-lemma eq_269 : sorry := sorry
+
+theorem eq267 : sorry :=
+  sorry
+
+theorem eq268 : sorry :=
+  sorry
+
+theorem eq269 : sorry :=
+  sorry
 
 /-! ### Linear form and zeros -/
 
-lemma eq_270 (A : matrix m m ℝ) : (∀ x, A.mul_vec x = 0) → A = 0 := sorry
+
+theorem eq_270 (A : Matrix m m ℝ) : (∀ x, A.mulVec x = 0) → A = 0 :=
+  sorry
 
 /-! ### Square form and zeros -/
 
-lemma eq_271 (A : matrix m m ℝ) (hA : A.is_symm) : (∀ x, x ⬝ᵥ A.mul_vec x = 0) → A = 0 := sorry
+
+theorem eq_271 (A : Matrix m m ℝ) (hA : A.IsSymm) : (∀ x, x ⬝ᵥ A.mulVec x = 0) → A = 0 :=
+  sorry
 
 /-! ### The Lyapunov Equation -/
 
-lemma eq_272 : sorry := sorry
-lemma eq_273 : sorry := sorry
+
+theorem eq272 : sorry :=
+  sorry
+
+theorem eq273 : sorry :=
+  sorry
 
 /-! ### Encapsulating Sum -/
 
-lemma eq_274 : sorry := sorry
-lemma eq_275 : sorry := sorry
+
+theorem eq274 : sorry :=
+  sorry
+
+theorem eq275 : sorry :=
+  sorry
 
 /-! ## Eigenvalues and Eigenvectors -/
 
+
 /-! ### Definition -/
 
-lemma eq_276 : sorry := sorry
+
+theorem eq276 : sorry :=
+  sorry
 
 /-! ### Decompositions -/
 
-lemma eq_277 : sorry := sorry
-lemma eq_278 : sorry := sorry
-lemma eq_279 : sorry := sorry
+
+theorem eq277 : sorry :=
+  sorry
+
+theorem eq278 : sorry :=
+  sorry
+
+theorem eq279 : sorry :=
+  sorry
 
 /-! ### General Properties -/
 
-lemma eq_280 : sorry := sorry
-lemma eq_281 : sorry := sorry
+
+theorem eq280 : sorry :=
+  sorry
+
+theorem eq281 : sorry :=
+  sorry
 
 /-! ### Symmetric -/
 
-lemma eq_282 : sorry := sorry
-lemma eq_283 : sorry := sorry
-lemma eq_284 : sorry := sorry
-lemma eq_285 : sorry := sorry
-lemma eq_286 : sorry := sorry
-lemma eq_287 : sorry := sorry
-lemma eq_288 : sorry := sorry
+
+theorem eq282 : sorry :=
+  sorry
+
+theorem eq283 : sorry :=
+  sorry
+
+theorem eq284 : sorry :=
+  sorry
+
+theorem eq285 : sorry :=
+  sorry
+
+theorem eq286 : sorry :=
+  sorry
+
+theorem eq287 : sorry :=
+  sorry
+
+theorem eq288 : sorry :=
+  sorry
 
 /-! ### Characteristic polynomial -/
 
-lemma eq_289 : sorry := sorry
-lemma eq_290 : sorry := sorry
+
+theorem eq289 : sorry :=
+  sorry
+
+theorem eq290 : sorry :=
+  sorry
 
 /-! ## Singular Value Decomposition -/
 
-lemma eq_291 : sorry := sorry
-lemma eq_292 : sorry := sorry
+
+theorem eq291 : sorry :=
+  sorry
+
+theorem eq292 : sorry :=
+  sorry
 
 /-! ### Symmetric Square decomposed into squares -/
 
-lemma eq_293 : sorry := sorry
+
+theorem eq293 : sorry :=
+  sorry
 
 /-! ### Square decomposed into squares -/
 
-lemma eq_294 : sorry := sorry
+
+theorem eq294 : sorry :=
+  sorry
 
 /-! ### Square decomposed into rectangular -/
 
-lemma eq_295 : sorry := sorry
+
+theorem eq295 : sorry :=
+  sorry
 
 /-! ### Rectangular decomposition I -/
 
-lemma eq_296 : sorry := sorry
+
+theorem eq296 : sorry :=
+  sorry
 
 /-! ### Rectangular decomposition II -/
 
-lemma eq_297 : sorry := sorry
+
+theorem eq297 : sorry :=
+  sorry
 
 /-! ### Rectangular decomposition III -/
 
-lemma eq_298 : sorry := sorry
+
+theorem eq298 : sorry :=
+  sorry
 
 /-! ## Triangular Decomposition -/
 
+
 /-! ## LU decomposition -/
 
-lemma eq_299 : sorry := sorry
+
+theorem eq299 : sorry :=
+  sorry
 
 /-! ### Cholesky-decomposition -/
 
-lemma eq_300 : sorry := sorry
+
+theorem eq300 : sorry :=
+  sorry
 
 /-! ## LDM decomposition -/
 
-lemma eq_301 : sorry := sorry
+
+theorem eq301 : sorry :=
+  sorry
 
 /-! ## LDL decompositions -/
 
-lemma eq_302 {n : ℕ} (A : matrix (fin n) (fin n) ℝ) (hA : A.pos_def) :
-  A = LDL.lower hA ⬝ LDL.diag hA ⬝ (LDL.lower hA)ᴴ := (LDL.lower_conj_diag hA).symm
 
-end matrix_cookbook
+theorem eq_302 {n : ℕ} (A : Matrix (Fin n) (Fin n) ℝ) (hA : A.PosDef) :
+    A = LDL.lower hA ⬝ LDL.diag hA ⬝ (LDL.lower hA)ᴴ :=
+  (LDL.lower_conj_diag hA).symm
+
+end MatrixCookbook
+
