@@ -39,7 +39,7 @@ theorem eq_3 {A : Matrix m m R} : Aᵀ⁻¹ = A⁻¹ᵀ :=
 theorem eq_4 {A B : Matrix m n R} : (A + B)ᵀ = Aᵀ + Bᵀ :=
   transpose_add _ _
 
-theorem eq_5 {A : Matrix m n R} {B : Matrix n p R} : (A ⬝ B)ᵀ = Bᵀ ⬝ Aᵀ :=
+theorem eq_5 {A : Matrix m n R} {B : Matrix n p R} : (A * B)ᵀ = Bᵀ * Aᵀ :=
   transpose_mul _ _
 
 theorem eq_6 {l : List (Matrix m m R)} : l.prodᵀ = (l.map transpose).reverse.prod :=
@@ -51,7 +51,7 @@ theorem eq_7 [StarRing R] {A : Matrix m m R} : Aᴴ⁻¹ = A⁻¹ᴴ :=
 theorem eq_8 [StarRing R] {A B : Matrix m n R} : (A + B)ᴴ = Aᴴ + Bᴴ :=
   conjTranspose_add _ _
 
-theorem eq_9 [StarRing R] {A : Matrix m n R} {B : Matrix n p R} : (A ⬝ B)ᴴ = Bᴴ ⬝ Aᴴ :=
+theorem eq_9 [StarRing R] {A : Matrix m n R} {B : Matrix n p R} : (A * B)ᴴ = Bᴴ * Aᴴ :=
   conjTranspose_mul _ _
 
 theorem eq_10 [StarRing R] {l : List (Matrix m m R)} :
@@ -72,17 +72,17 @@ theorem eq_12 {A : Matrix m m R} [IsAlgClosed R] : trace A = A.charpoly.roots.su
 theorem eq_13 {A : Matrix m m R} : trace A = trace Aᵀ :=
   (Matrix.trace_transpose _).symm
 
-theorem eq_14 {A : Matrix m n R} {B : Matrix n m R} : trace (A ⬝ B) = trace (B ⬝ A) :=
+theorem eq_14 {A : Matrix m n R} {B : Matrix n m R} : trace (A * B) = trace (B * A) :=
   Matrix.trace_mul_comm _ _
 
 theorem eq_15 {A B : Matrix m m R} : trace (A + B) = trace A + trace B :=
   trace_add _ _
 
 theorem eq_16 {A : Matrix m n R} {B : Matrix n p R} {C : Matrix p m R} :
-    trace (A ⬝ B ⬝ C) = trace (B ⬝ C ⬝ A) :=
+    trace (A * B * C) = trace (B * C * A) :=
   (Matrix.trace_mul_cycle B C A).symm
 
-theorem eq_17 {a : m → R} : dotProduct a a = trace (col a ⬝ row a) :=
+theorem eq_17 {a : m → R} : dotProduct a a = trace (col a * row a) :=
   (Matrix.trace_col_mul_row _ _).symm
 
 end
@@ -109,7 +109,7 @@ theorem eq_22 {A : Matrix m m R} : det A⁻¹ = (det A)⁻¹ :=
 theorem eq_23 {A : Matrix m m R} (k : ℕ) : det (A ^ k) = det A ^ k :=
   det_pow _ _
 
-theorem eq_24 {u v : m → R} : det (1 + col u ⬝ row v) = 1 + dotProduct u v := by
+theorem eq_24 {u v : m → R} : det (1 + col u * row v) = 1 + dotProduct u v := by
   rw [det_one_add_col_mul_row u v, dotProduct_comm]
 
 theorem eq_25 {A : Matrix (Fin 2) (Fin 2) R} : det (1 + A) = 1 + det A + trace A := by
@@ -118,7 +118,7 @@ theorem eq_25 {A : Matrix (Fin 2) (Fin 2) R} : det (1 + A) = 1 + det A + trace A
 theorem eq_26 {A : Matrix (Fin 3) (Fin 3) R} [Invertible (2 : R)] :
     det (1 + A) = 1 + det A + trace A + ⅟ 2 * trace A ^ 2 - ⅟ 2 * trace (A ^ 2) := by
   apply mul_left_cancel₀ (isUnit_of_invertible (2 : R)).ne_zero
-  simp only [det_fin_three, trace_fin_three, pow_two, Matrix.mul_eq_mul, Matrix.mul_apply,
+  simp only [det_fin_three, trace_fin_three, pow_two, Matrix.mul_apply,
     Fin.sum_univ_succ, Matrix.one_apply]
   dsimp
   simp only [mul_add, mul_sub, mul_invOf_self_assoc]
@@ -173,7 +173,8 @@ theorem eq_30 {A : Matrix (Fin 2) (Fin 2) R} : trace A = A 0 0 + A 1 1 :=
 /-! Note: there are some non-numbered eigenvalue things here -/
 
 
-theorem eq_31 {A : Matrix (Fin 2) (Fin 2) R} : A⁻¹ = (det A)⁻¹ • !![A 1 1, -A 0 1; -A 1 0, A 0 0] := by rw [inv_def, adjugate_fin_two, Ring.inverse_eq_inv]
+theorem eq_31 {A : Matrix (Fin 2) (Fin 2) R} : A⁻¹ = (det A)⁻¹ • !![A 1 1, -A 0 1; -A 1 0, A 0 0] := by
+  rw [inv_def, adjugate_fin_two, Ring.inverse_eq_inv]
 
 end
 

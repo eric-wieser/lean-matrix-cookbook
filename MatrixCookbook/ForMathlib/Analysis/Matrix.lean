@@ -47,7 +47,7 @@ theorem hasDerivAt_matrix {f : R → Matrix m n A} {r : R} {f' : Matrix m n A} :
 
 theorem HasDerivAt.matrix_mul {X : R → Matrix m n A} {Y : R → Matrix n p A} {X' : Matrix m n A}
     {Y' : Matrix n p A} {r : R} (hX : HasDerivAt X X' r) (hY : HasDerivAt Y Y' r) :
-    HasDerivAt (fun a => X a ⬝ Y a) (X' ⬝ Y r + X r ⬝ Y') r := by
+    HasDerivAt (fun a => X a * Y a) (X' * Y r + X r * Y') r := by
   rw [hasDerivAt_matrix] at hX hY ⊢
   intro i j
   simp only [mul_apply, Matrix.add_apply, ← Finset.sum_add_distrib]
@@ -84,8 +84,8 @@ theorem HasDerivAt.conjTranspose [StarRing R] [TrivialStar R] [StarAddMonoid A] 
 theorem deriv_matrix (f : R → Matrix m n A) (r : R) (hX : DifferentiableAt R f r) :
     deriv f r = of fun i j => deriv (fun r => f r i j) r := by
   ext i j
-  rw [deriv_pi]
-  simp_rw [deriv_pi, of_apply]
+  rw [of_apply, deriv_pi]
+  dsimp only
   rw [deriv_pi]
   · intro i
     erw [differentiableAt_pi] at hX -- porting note: added

@@ -35,11 +35,11 @@ namespace MatrixCookbook
 
 
 theorem eq_397 (A₁₁ : Matrix m m R) (A₁₂ : Matrix m n R) (A₂₁ : Matrix n m R) (A₂₂ : Matrix n n R)
-    [Invertible A₂₂] : (fromBlocks A₁₁ A₁₂ A₂₁ A₂₂).det = A₂₂.det * (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁).det :=
+    [Invertible A₂₂] : (fromBlocks A₁₁ A₁₂ A₂₁ A₂₂).det = A₂₂.det * (A₁₁ - A₁₂ * ⅟ A₂₂ * A₂₁).det :=
   det_fromBlocks₂₂ _ _ _ _
 
 theorem eq_398 (A₁₁ : Matrix m m R) (A₁₂ : Matrix m n R) (A₂₁ : Matrix n m R) (A₂₂ : Matrix n n R)
-    [Invertible A₁₁] : (fromBlocks A₁₁ A₁₂ A₂₁ A₂₂).det = A₁₁.det * (A₂₂ - A₂₁ ⬝ ⅟ A₁₁ ⬝ A₁₂).det :=
+    [Invertible A₁₁] : (fromBlocks A₁₁ A₁₂ A₂₁ A₂₂).det = A₁₁.det * (A₂₂ - A₂₁ * ⅟ A₁₁ * A₁₂).det :=
   det_fromBlocks₁₁ _ _ _ _
 
 /-! ### The Inverse -/
@@ -47,24 +47,26 @@ theorem eq_398 (A₁₁ : Matrix m m R) (A₁₂ : Matrix m n R) (A₂₁ : Matr
 
 /-- Eq 399 is the definition of `C₁`, this is the equation below it without `C₂` at all. -/
 theorem eq_399 (A₁₁ : Matrix m m R) (A₁₂ : Matrix m n R) (A₂₁ : Matrix n m R) (A₂₂ : Matrix n n R)
-    [Invertible A₂₂] [Invertible (A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁)] :
+    [Invertible A₂₂] [Invertible (A₁₁ - A₁₂ * ⅟ A₂₂ * A₂₁)] :
     (fromBlocks A₁₁ A₁₂ A₂₁ A₂₂)⁻¹ =
-      let C₁ := A₁₁ - A₁₂ ⬝ ⅟ A₂₂ ⬝ A₂₁
+      let C₁ := A₁₁ - A₁₂ * ⅟ A₂₂ * A₂₁
       let i : Invertible C₁ := ‹_›
-      fromBlocks (⅟ C₁) (-⅟ C₁ ⬝ A₁₂ ⬝ ⅟ A₂₂) (-⅟ A₂₂ ⬝ A₂₁ ⬝ ⅟ C₁)
-        (⅟ A₂₂ + ⅟ A₂₂ ⬝ A₂₁ ⬝ ⅟ C₁ ⬝ A₁₂ ⬝ ⅟ A₂₂) := by
+      fromBlocks
+        (⅟ C₁) (-(⅟ C₁ * A₁₂ * ⅟ A₂₂))
+        (-(⅟ A₂₂ * A₂₁ * ⅟ C₁)) (⅟ A₂₂ + ⅟ A₂₂ * A₂₁ * ⅟ C₁ * A₁₂ * ⅟ A₂₂) := by
   letI := fromBlocks₂₂Invertible A₁₁ A₁₂ A₂₁ A₂₂
   convert invOf_fromBlocks₂₂_eq A₁₁ A₁₂ A₂₁ A₂₂
   rw [invOf_eq_nonsing_inv]
 
 /-- Eq 400 is the definition of `C₂`,  this is the equation below it without `C₁` at all. -/
 theorem eq_400 (A₁₁ : Matrix m m R) (A₁₂ : Matrix m n R) (A₂₁ : Matrix n m R) (A₂₂ : Matrix n n R)
-    [Invertible A₁₁] [Invertible (A₂₂ - A₂₁ ⬝ ⅟ A₁₁ ⬝ A₁₂)] :
+    [Invertible A₁₁] [Invertible (A₂₂ - A₂₁ * ⅟ A₁₁ * A₁₂)] :
     (fromBlocks A₁₁ A₁₂ A₂₁ A₂₂)⁻¹ =
-      let C₂ := A₂₂ - A₂₁ ⬝ ⅟ A₁₁ ⬝ A₁₂
+      let C₂ := A₂₂ - A₂₁ * ⅟ A₁₁ * A₁₂
       let i : Invertible C₂ := ‹_›
-      fromBlocks (⅟ A₁₁ + ⅟ A₁₁ ⬝ A₁₂ ⬝ ⅟ C₂ ⬝ A₂₁ ⬝ ⅟ A₁₁) (-⅟ A₁₁ ⬝ A₁₂ ⬝ ⅟ C₂)
-        (-⅟ C₂ ⬝ A₂₁ ⬝ ⅟ A₁₁) (⅟ C₂) := by
+      fromBlocks
+        (⅟ A₁₁ + ⅟ A₁₁ * A₁₂ * ⅟ C₂ * A₂₁ * ⅟ A₁₁) (-(⅟ A₁₁ * A₁₂ * ⅟ C₂))
+        (-(⅟ C₂ * A₂₁ * ⅟ A₁₁)) (⅟ C₂) := by
   letI := fromBlocks₁₁Invertible A₁₁ A₁₂ A₂₁ A₂₂
   convert invOf_fromBlocks₁₁_eq A₁₁ A₁₂ A₂₁ A₂₂
   rw [invOf_eq_nonsing_inv]
@@ -161,19 +163,19 @@ theorem eq_421 [StarRing R] (hA : IsIdempotentElem A) : IsIdempotentElem (1 - A�
   sorry
 
 theorem eq_422 (hA : IsIdempotentElem A) (hB : IsIdempotentElem B) (h : Commute A B) :
-    IsIdempotentElem (A ⬝ B) :=
+    IsIdempotentElem (A * B) :=
   hA.mul_of_commute h hB
 
 theorem eq_423 (hA : IsIdempotentElem A) : sorry = trace A :=
   sorry
 
-theorem eq_424 (hA : IsIdempotentElem A) : A ⬝ (1 - A) = 0 := by
+theorem eq_424 (hA : IsIdempotentElem A) : A * (1 - A) = 0 := by
   -- porting note: was `simp [mul_sub, ← Matrix.mul_eq_mul, hA.eq]`
-  rw [Matrix.mul_sub, Matrix.mul_one, ←Matrix.mul_eq_mul, hA.eq, sub_self]
+  rw [Matrix.mul_sub, Matrix.mul_one, hA.eq, sub_self]
 
-theorem eq_425 (hA : IsIdempotentElem A) : (1 - A) ⬝ A = 0 := by
+theorem eq_425 (hA : IsIdempotentElem A) : (1 - A) * A = 0 := by
    -- porting note: was `simp [sub_mul, ← Matrix.mul_eq_mul, hA.eq]`
-  rw [Matrix.sub_mul, Matrix.one_mul, ←Matrix.mul_eq_mul, hA.eq, sub_self]
+  rw [Matrix.sub_mul, Matrix.one_mul, hA.eq, sub_self]
 
 theorem eq426 : sorry :=
   sorry
@@ -453,7 +455,7 @@ theorem eq_477 :
       of ![(Pi.single 1 1 : Fin 3 → R), Pi.single 0 1, Pi.single 2 1] := by ext i j; fin_cases i <;> fin_cases j <;> rfl
 
 theorem eq_478 (e : Equiv.Perm m) :
-    e.toPEquiv.toMatrix ⬝ e.toPEquiv.toMatrixᵀ = (1 : Matrix m m R) := by
+    e.toPEquiv.toMatrix * e.toPEquiv.toMatrixᵀ = (1 : Matrix m m R) := by
   rw [← PEquiv.toMatrix_symm, ← PEquiv.toMatrix_trans, ← Equiv.toPEquiv_symm, ←
     Equiv.toPEquiv_trans, Equiv.self_trans_symm, Equiv.toPEquiv_refl, PEquiv.toMatrix_refl]
 

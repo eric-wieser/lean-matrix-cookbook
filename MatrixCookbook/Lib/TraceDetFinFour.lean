@@ -40,7 +40,7 @@ theorem trace_pow_two_fin_four (A : Matrix (Fin 4) (Fin 4) R) :
             2 * A 1 2 * A 2 1 +
           2 * A 1 3 * A 3 1 +
         2 * A 2 3 * A 3 2 := by
-  simp_rw [Matrix.trace_fin_four, pow_two, mul_eq_mul, mul_apply, Fin.sum_univ_four]
+  simp_rw [Matrix.trace_fin_four, pow_two, mul_apply, Fin.sum_univ_four]
   ring
 
 -- porting note: added
@@ -68,7 +68,7 @@ theorem trace_pow_three_fin_four (A : Matrix (Fin 4) (Fin 4) R) :
             A 3 2 * (A 0 3 * A 2 0 + A 1 3 * A 2 1 + A 2 2 * A 2 3 + A 2 3 * A 3 3) +
           A 1 3 * (A 0 1 * A 3 0 + A 1 1 * A 3 1 + A 2 1 * A 3 2 + A 3 1 * A 3 3) +
         A 2 3 * (A 0 2 * A 3 0 + A 1 2 * A 3 1 + A 2 2 * A 3 2 + A 3 2 * A 3 3) := by
-  simp_rw [Matrix.trace_fin_four, pow_three, mul_eq_mul, mul_apply, Fin.sum_univ_four]
+  simp_rw [Matrix.trace_fin_four, pow_three, mul_apply, Fin.sum_univ_four]
   ring
 
 theorem det_one_add_fin_four (A : Matrix (Fin 4) (Fin 4) R) :

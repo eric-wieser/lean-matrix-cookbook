@@ -36,7 +36,7 @@ open Matrix
 /-! TODO: is this what is actually meant by `∂(XY) = (∂X)Y + X(∂Y)`? -/
 
 
-theorem eq_33 (A : Matrix m n R) : (deriv fun x : R => A) = 0 :=
+theorem eq_33 (A : Matrix m n R) : (deriv fun _ : R => A) = 0 :=
   deriv_const' _
 
 theorem eq_34 (c : R) (X : R → Matrix m n R) (hX : Differentiable R X) :
@@ -53,7 +53,7 @@ theorem eq_36 (X : R → Matrix m m R) (hX : Differentiable R X) :
 
 theorem eq_37 (X : R → Matrix m n R) (Y : R → Matrix n p R) (hX : Differentiable R X)
     (hY : Differentiable R Y) :
-    (deriv fun a => X a ⬝ Y a) = fun a => deriv X a ⬝ Y a + X a ⬝ deriv Y a :=
+    (deriv fun a => X a * Y a) = fun a => deriv X a * Y a + X a * deriv Y a :=
   funext fun a => ((hX a).hasDerivAt.matrix_mul (hY a).hasDerivAt).deriv
 
 theorem eq_38 (X Y : R → Matrix n p R) (hX : Differentiable R X) (hY : Differentiable R Y) :

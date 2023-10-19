@@ -230,7 +230,7 @@ theorem eq301 : sorry :=
 
 
 theorem eq_302 {n : ℕ} (A : Matrix (Fin n) (Fin n) ℝ) (hA : A.PosDef) :
-    A = LDL.lower hA ⬝ LDL.diag hA ⬝ (LDL.lower hA)ᴴ :=
+    A = LDL.lower hA * LDL.diag hA * (LDL.lower hA)ᴴ :=
   (LDL.lower_conj_diag hA).symm
 
 end MatrixCookbook

@@ -102,41 +102,41 @@ theorem eq158 : sorry :=
 
 
 theorem eq_159 (B : Matrix n m ℂ) (C : Matrix m n ℂ) :
-    (A + B ⬝ C)⁻¹ = A⁻¹ - A⁻¹ ⬝ B ⬝ (1 + C ⬝ A⁻¹ ⬝ B)⁻¹ ⬝ C ⬝ A⁻¹ :=
+    (A + B * C)⁻¹ = A⁻¹ - A⁻¹ * B * (1 + C * A⁻¹ * B)⁻¹ * C * A⁻¹ :=
   sorry
 
 /-! ### Sherman-Morrison -/
 
 
 theorem eq_160 (b c : n → ℂ) :
-    (A + col b ⬝ row c)⁻¹ = A⁻¹ - (1 + c ⬝ᵥ A⁻¹.mulVec b)⁻¹ • A⁻¹ ⬝ (col b ⬝ row c) ⬝ A⁻¹ := by
+    (A + col b * row c)⁻¹ = A⁻¹ - (1 + c ⬝ᵥ A⁻¹.mulVec b)⁻¹ • A⁻¹ * (col b * row c) * A⁻¹ := by
   rw [eq_159, ← Matrix.mul_assoc _ (col b), Matrix.mul_assoc _ (row c), Matrix.mul_assoc _ (row c),
-    ← Matrix.mul_smul, Matrix.mul_assoc _ _ (row c ⬝ _)]
+    Matrix.smul_mul]
   congr
   sorry
 
 /-! ### The Searle Set of Identities -/
 
 
-theorem eq_161 : (1 + A⁻¹)⁻¹ = A ⬝ (A + 1)⁻¹ :=
+theorem eq_161 : (1 + A⁻¹)⁻¹ = A * (A + 1)⁻¹ :=
   sorry
 
-theorem eq_162 : (A + Bᵀ ⬝ B)⁻¹ ⬝ B = A⁻¹ ⬝ B ⬝ (1 + Bᵀ ⬝ A⁻¹ ⬝ B)⁻¹ :=
+theorem eq_162 : (A + Bᵀ * B)⁻¹ * B = A⁻¹ * B * (1 + Bᵀ * A⁻¹ * B)⁻¹ :=
   sorry
 
-theorem eq_163 : (A⁻¹ + B⁻¹)⁻¹ = A ⬝ (A + B)⁻¹ ⬝ B ∧ (A⁻¹ + B⁻¹)⁻¹ = B ⬝ (A + B)⁻¹ ⬝ A :=
+theorem eq_163 : (A⁻¹ + B⁻¹)⁻¹ = A * (A + B)⁻¹ * B ∧ (A⁻¹ + B⁻¹)⁻¹ = B * (A + B)⁻¹ * A :=
   sorry
 
-theorem eq_164 : A - A ⬝ (A + B)⁻¹ ⬝ A = B - B ⬝ (A + B)⁻¹ ⬝ B :=
+theorem eq_164 : A - A * (A + B)⁻¹ * A = B - B * (A + B)⁻¹ * B :=
   sorry
 
-theorem eq_165 : A⁻¹ + B⁻¹ = A⁻¹ ⬝ (A + B)⁻¹ ⬝ B⁻¹ :=
+theorem eq_165 : A⁻¹ + B⁻¹ = A⁻¹ * (A + B)⁻¹ * B⁻¹ :=
   sorry
 
-theorem eq_166 : (1 + A ⬝ B)⁻¹ = 1 - A ⬝ (1 + B ⬝ A)⁻¹ ⬝ B :=
+theorem eq_166 : (1 + A * B)⁻¹ = 1 - A * (1 + B * A)⁻¹ * B :=
   sorry
 
-theorem eq_167 : (1 + A ⬝ B)⁻¹ ⬝ A = A ⬝ (1 + B ⬝ A)⁻¹ :=
+theorem eq_167 : (1 + A * B)⁻¹ * A = A * (1 + B * A)⁻¹ :=
   sorry
 
 /-! ### Rank-1 update of inverse of inner product -/
@@ -196,7 +196,7 @@ theorem eq183 : sorry :=
 /-! ## Implication on Inverses -/
 
 
-theorem eq_184 : (A + B)⁻¹ = A⁻¹ + B⁻¹ → A ⬝ B⁻¹ ⬝ A = B ⬝ A⁻¹ ⬝ B :=
+theorem eq_184 : (A + B)⁻¹ = A⁻¹ + B⁻¹ → A * B⁻¹ * A = B * A⁻¹ * B :=
   sorry
 
 /-! ### A PosDef identity -/

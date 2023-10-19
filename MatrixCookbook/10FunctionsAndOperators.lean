@@ -38,8 +38,7 @@ variable [Field R]
 /-- The pdf does not mention `hx`! -/
 theorem eq_487 (X : Matrix m m R) (n : ℕ) (hx : (X - 1).det ≠ 0) :
     (X ^ n - 1) * (X - 1)⁻¹ = ∑ i in Finset.range n, X ^ i := by
-  rw [← geom_sum_mul X n, Matrix.mul_eq_mul, Matrix.mul_eq_mul,
-    mul_nonsing_inv_cancel_right _ _ hx.isUnit]
+  rw [← geom_sum_mul X n, mul_nonsing_inv_cancel_right _ _ hx.isUnit]
 
 /-! #### Taylor Expansion of Scalar Function -/
 
@@ -89,8 +88,8 @@ theorem eq_507 [Nontrivial m] [Nonempty n] :
   let A := stdBasisMatrix m1 n1 (1 : R)
   let B := stdBasisMatrix m2 n1 (1 : R)
   have := Matrix.ext_iff.mpr (h A B) (m1, m2) (n1, n1)
-  simpa [StdBasisMatrix.apply_same, StdBasisMatrix.apply_of_row_ne hm,
-    MulZeroClass.mul_zero, mul_one, one_ne_zero] using this
+  simp [StdBasisMatrix.apply_same, StdBasisMatrix.apply_of_row_ne hm,
+    mul_zero, mul_one, one_ne_zero] at this
 
 /-- Note we have to "cast" between the types -/
 theorem eq_508 (A : Matrix m n R) (B : Matrix r q R) (C : Matrix l p R) :
@@ -104,7 +103,7 @@ theorem eq_510 (A : Matrix m n R) (B : Matrix r q R) : (A ⊗ₖ B)ᵀ = Aᵀ �
   rw [kroneckerMap_transpose]
 
 theorem eq_511 (A : Matrix l m R) (B : Matrix p q R) (C : Matrix m n R) (D : Matrix q r R) :
-    A ⊗ₖ B ⬝ C ⊗ₖ D = (A ⬝ C) ⊗ₖ (B ⬝ D) := by rw [Matrix.mul_kronecker_mul]
+    A ⊗ₖ B * C ⊗ₖ D = (A * C) ⊗ₖ (B * D) := by rw [Matrix.mul_kronecker_mul]
 
 theorem eq_512 (A : Matrix m m R) (B : Matrix n n R) : (A ⊗ₖ B)⁻¹ = A⁻¹ ⊗ₖ B⁻¹ :=
   inv_kronecker _ _
@@ -129,13 +128,13 @@ def vec (A : Matrix m n R) : Matrix (n × m) Unit R :=
   col fun ij => A ij.2 ij.1
 
 theorem eq_520 (A : Matrix l m R) (X : Matrix m n R) (B : Matrix n p R) :
-    vec (A ⬝ X ⬝ B) = Bᵀ ⊗ₖ A ⬝ vec X := by
+    vec (A * X * B) = Bᵀ ⊗ₖ A * vec X := by
   ext ⟨k, l⟩
   simp_rw [vec, Matrix.mul_apply, Matrix.kroneckerMap_apply, col_apply, Finset.sum_mul,
     transpose_apply, ← Finset.univ_product_univ, Finset.sum_product, mul_right_comm _ _ (B _ _),
     mul_comm _ (B _ _)]
 
-theorem eq_521 (A B : Matrix m n R) : (Aᵀ ⬝ B).trace = ((vec A)ᵀ ⬝ vec B) () () := by
+theorem eq_521 (A B : Matrix m n R) : (Aᵀ * B).trace = ((vec A)ᵀ * vec B) () () := by
   simp_rw [Matrix.trace, Matrix.diag, Matrix.mul_apply, vec, transpose_apply, col_apply, ←
     Finset.univ_product_univ, Finset.sum_product]
 
@@ -147,7 +146,7 @@ theorem eq_523 (r : R) (A : Matrix m n R) : vec (r • A) = r • vec A :=
 
 -- note: `Bᵀ` is `B` in the PDF
 theorem eq_524 (a : m → R) (X : Matrix m n R) (B : Matrix n n R) (c : m → R) :
-    row a ⬝ X ⬝ B ⬝ Xᵀ ⬝ col c = (vec X)ᵀ ⬝ Bᵀ ⊗ₖ (col c ⬝ row a) ⬝ vec X := by
+    row a * X * B * Xᵀ * col c = (vec X)ᵀ * Bᵀ ⊗ₖ (col c * row a) * vec X := by
   -- not the proof from the book
   ext ⟨i, j⟩
   simp only [vec, Matrix.mul_apply, Finset.sum_mul, Finset.mul_sum, Matrix.kroneckerMap_apply,
@@ -167,19 +166,19 @@ theorem eq_524 (a : m → R) (X : Matrix m n R) (B : Matrix n n R) (c : m → R)
 /-! #### Examples -/
 
 
-theorem eq_525 (x : n → ℂ) : ‖(PiLp.equiv 1 _).symm x‖ = ∑ i, Complex.abs (x i) := by
-  simpa using PiLp.norm_eq_of_nat 1 Nat.cast_one.symm ((PiLp.equiv 1 _).symm x)
+theorem eq_525 (x : n → ℂ) : ‖(WithLp.equiv 1 _).symm x‖ = ∑ i, Complex.abs (x i) := by
+  simpa using PiLp.norm_eq_of_nat 1 Nat.cast_one.symm ((WithLp.equiv 1 _).symm x)
 
-theorem eq_526 (x : n → ℂ) : ↑(‖(PiLp.equiv 2 _).symm x‖ ^ 2) = star x ⬝ᵥ x := by
+theorem eq_526 (x : n → ℂ) : ↑(‖(WithLp.equiv 2 _).symm x‖ ^ 2) = star x ⬝ᵥ x := by
   rw [← EuclideanSpace.inner_piLp_equiv_symm, inner_self_eq_norm_sq_to_K, Complex.ofReal_pow]
   rfl  -- porting note: added
 
 theorem eq_527 (x : n → ℂ) (p : ℝ≥0∞) (h : 0 < p.toReal) :
-    ‖(PiLp.equiv p _).symm x‖ = (∑ i, Complex.abs (x i) ^ p.toReal) ^ (1 / p.toReal) := by
-  simp_rw [PiLp.norm_eq_sum h, PiLp.equiv_symm_apply, Complex.norm_eq_abs]
+    ‖(WithLp.equiv p _).symm x‖ = (∑ i, Complex.abs (x i) ^ p.toReal) ^ (1 / p.toReal) := by
+  simp_rw [PiLp.norm_eq_sum h, WithLp.equiv_symm_pi_apply, Complex.norm_eq_abs]
 
-theorem eq_528 (x : n → ℂ) : ‖(PiLp.equiv ∞ _).symm x‖ = ⨆ i, Complex.abs (x i) := by
-  simp_rw [PiLp.norm_eq_ciSup, PiLp.equiv_symm_apply, Complex.norm_eq_abs]
+theorem eq_528 (x : n → ℂ) : ‖(WithLp.equiv ∞ _).symm x‖ = ⨆ i, Complex.abs (x i) := by
+  simp_rw [PiLp.norm_eq_ciSup, WithLp.equiv_symm_pi_apply, Complex.norm_eq_abs]
 
 /-! ### Matrix Norms -/
 
@@ -224,7 +223,7 @@ theorem eq_534 [Nonempty n] : ‖(1 : Matrix n n ℝ)‖ = 1 :=
 theorem eq_535 (A : Matrix m n ℝ) (x : n → ℝ) : ‖A.mulVec x‖ ≤ ‖A‖ * ‖x‖ :=
   linfty_op_norm_mulVec _ _
 
-theorem eq_536 (A : Matrix m n ℝ) (B : Matrix n p ℝ) : ‖A ⬝ B‖ ≤ ‖A‖ * ‖B‖ :=
+theorem eq_536 (A : Matrix m n ℝ) (B : Matrix n p ℝ) : ‖A * B‖ ≤ ‖A‖ * ‖B‖ :=
   linfty_op_norm_mul _ _
 
 end
@@ -279,7 +278,7 @@ end
 -- lemma eq_544 : sorry := sorry
 -- lemma eq_545 : sorry := sorry
 theorem eq_546 (A : Matrix m n ℝ) (B : Matrix n r ℝ) :
-    rank A + rank B - Fintype.card n ≤ rank (A ⬝ B) ∧ rank (A ⬝ B) ≤ min (rank A) (rank B) :=
+    rank A + rank B - Fintype.card n ≤ rank (A * B) ∧ rank (A * B) ≤ min (rank A) (rank B) :=
   ⟨sorry, rank_mul_le _ _⟩
 
 /-! ### Integral Involving Dirac Delta Functions -/
@@ -291,10 +290,11 @@ theorem eq_546 (A : Matrix m n ℝ) (B : Matrix n r ℝ) :
 -- lemma eq_547 : sorry := sorry
 -- lemma eq_548 : sorry := sorry
 theorem eq_549 (A : Matrix m n ℝ) :
-    A.rank = Aᵀ.rank ∧ A.rank = (A ⬝ Aᵀ).rank ∧ A.rank = (Aᵀ ⬝ A).rank :=
+    A.rank = Aᵀ.rank ∧ A.rank = (A * Aᵀ).rank ∧ A.rank = (Aᵀ * A).rank :=
   ⟨A.rank_transpose.symm, A.rank_self_mul_transpose.symm, A.rank_transpose_mul_self.symm⟩
 
-theorem eq_550 (A : Matrix m m ℝ) : A.PosDef ↔ ∃ B : (Matrix m m ℝ)ˣ, A = ↑B * ↑Bᵀ :=
+theorem eq_550 (A : Matrix m m ℝ) :
+    A.PosDef ↔ ∃ B : (Matrix m m ℝ)ˣ, A = (↑B : Matrix m m ℝ) * ↑Bᵀ :=
   sorry
 
 end MatrixCookbook
