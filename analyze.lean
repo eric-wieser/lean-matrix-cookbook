@@ -30,7 +30,7 @@ def project_file_split (path : System.FilePath) : IO (Option System.FilePath × 
       let some ppparent := pparent.parent | return .inr (none, rest)
       if ← (ppparent / "lakefile.lean").pathExists then
         return .inr (ppparent, rest)
-      else if "/lib/lean".data.isSuffix parent.toString.data then
+      else if "/lib/lean".data.IsSuffix parent.toString.data then
         return .inr (none, rest)
       else
         return .inl (parent, some rest))
