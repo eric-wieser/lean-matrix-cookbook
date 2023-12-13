@@ -123,7 +123,7 @@ theorem eq_26 {A : Matrix (Fin 3) (Fin 3) R} [Invertible (2 : R)] :
   dsimp
   simp only [mul_add, mul_sub, mul_invOf_self_assoc]
   simp_rw [Matrix.one_apply]
-  simp
+  simp (config := {decide := true})
   norm_num
   ring
 
@@ -179,4 +179,3 @@ theorem eq_31 {A : Matrix (Fin 2) (Fin 2) R} : A⁻¹ = (det A)⁻¹ • !![A 1 
 end
 
 end MatrixCookbook
-

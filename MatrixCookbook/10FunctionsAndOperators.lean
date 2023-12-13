@@ -51,6 +51,8 @@ theorem eq_487 (X : Matrix m m R) (n : ℕ) (hx : (X - 1).det ≠ 0) :
 
 /-! #### Exponential Matrix Function -/
 
+section
+open NormedSpace
 
 theorem eq_494 (A : Matrix n n ℝ) : exp ℝ A = ∑' n : ℕ, (n !⁻¹ : ℝ) • A ^ n := by rw [exp_eq_tsum]
 
@@ -64,6 +66,8 @@ theorem eq_498 (A B : Matrix n n ℝ) (h : A * B = B * A) : exp ℝ A * exp ℝ 
 
 theorem eq_499 (A : Matrix n n ℝ) : (exp ℝ A)⁻¹ = exp ℝ (-A) :=
   (exp_neg _ _).symm
+
+end
 
 /-! ### Kronecker and vec Operator -/
 
@@ -298,4 +302,3 @@ theorem eq_550 (A : Matrix m m ℝ) :
   sorry
 
 end MatrixCookbook
-
