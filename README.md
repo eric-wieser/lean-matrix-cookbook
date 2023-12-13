@@ -9,4 +9,4 @@ Ideally, every proof in this repository should be a reference to a single lemma 
 The progress bar below shows the state of this repository; green represents lemmas which are proven, yellow lemmas which are stated, and red lemmas which are neither.
 Clicking on the progress bar will take you to a version that links to each lemma.
 
-![](https://eric-wieser.github.io/lean-matrix-cookbook/progress_bar.svg)
+[![](https://eric-wieser.github.io/lean-matrix-cookbook/progress_bar.svg)](https://eric-wieser.github.io/lean-matrix-cookbook/progress_bar.svg)
