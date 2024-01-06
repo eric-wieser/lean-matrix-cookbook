@@ -299,9 +299,14 @@ theorem eq442 : sorry :=
 
 /-! ### Definition -/
 
-
-theorem eq443 : sorry :=
-  sorry
+-- note this is 0-indexed not 1-indexed
+theorem eq443 :
+    stdBasisMatrix (1 : Fin 4) (2 : Fin 4) 1 =
+      !![0, 0, 0, 0;
+         0, 0, 1, 0;
+         0, 0, 0, 0;
+         0, 0, 0, 0] := by
+  decide
 
 /-! ### Swap and Zeros -/
 
