@@ -12,8 +12,6 @@ import Mathlib.Analysis.InnerProductSpace.PiL2
 
 /-! # Functions and Operators -/
 
-local macro_rules | `($x ^ $y) => `(HPow.hPow $x $y) -- Porting note: See issue lean4#2220
-
 variable {ι : Type _} {R : Type _} {l m n p q r : Type _}
 
 variable [Fintype l] [Fintype m] [Fintype n] [Fintype p] [Fintype q] [Fintype r]
@@ -173,7 +171,7 @@ theorem eq_524 (a : m → R) (X : Matrix m n R) (B : Matrix n n R) (c : m → R)
 theorem eq_525 (x : n → ℂ) : ‖(WithLp.equiv 1 _).symm x‖ = ∑ i, Complex.abs (x i) := by
   simpa using PiLp.norm_eq_of_nat 1 Nat.cast_one.symm ((WithLp.equiv 1 _).symm x)
 
-theorem eq_526 (x : n → ℂ) : ↑(‖(WithLp.equiv 2 _).symm x‖ ^ 2) = star x ⬝ᵥ x := by
+theorem eq_526 (x : n → ℂ) : ↑(‖(WithLp.equiv 2 _).symm x‖ ^ 2 : ℝ) = star x ⬝ᵥ x := by
   rw [← EuclideanSpace.inner_piLp_equiv_symm, inner_self_eq_norm_sq_to_K, Complex.ofReal_pow]
   rfl  -- porting note: added
 

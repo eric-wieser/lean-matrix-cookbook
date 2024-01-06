@@ -1,3 +1,4 @@
+import Mathlib.Algebra.Ring.Idempotents
 import Mathlib.Data.Complex.Basic
 import Mathlib.LinearAlgebra.Matrix.Hermitian
 import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
@@ -491,4 +492,3 @@ theorem eq_486 {n : ℕ} (v : Fin n → R) :
   det_vandermonde _
 
 end MatrixCookbook
-
