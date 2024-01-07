@@ -3,6 +3,7 @@ import Mathlib.Data.Complex.Basic
 import Mathlib.Data.Matrix.Reflection
 import Mathlib.LinearAlgebra.Matrix.Hermitian
 import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
+import Mathlib.LinearAlgebra.Matrix.PosDef
 import Mathlib.LinearAlgebra.Matrix.SchurComplement
 import Mathlib.LinearAlgebra.Matrix.Symmetric
 import Mathlib.LinearAlgebra.Vandermonde
@@ -244,10 +245,10 @@ theorem eq438 : sorry :=
 /-! ### Definitions -/
 
 
-theorem eq439 : sorry :=
+theorem eq439 (A : Matrix n n ℝ) : A.PosDef ↔ ∀ x ≠ 0, x ⬝ᵥ A.mulVec x > 0 :=
   sorry
 
-theorem eq440 : sorry :=
+theorem eq440 (A : Matrix n n ℝ) : A.PosSemidef ↔ ∀ x, x ⬝ᵥ A.mulVec x ≥ 0 :=
   sorry
 
 /-! ### Eigenvalues -/
