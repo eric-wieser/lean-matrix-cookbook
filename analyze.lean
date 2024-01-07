@@ -37,20 +37,22 @@ def project_file_split (path : System.FilePath) : IO (Option System.FilePath × 
 
 inductive status
   | missing
+  | notStated
   | stated
   | proved
 
 instance : Repr (status) where
   reprPrec r _ := match r with
   | status.missing => "missing"
+  | status.notStated => "notStated"
   | status.stated => "stated"
   | status.proved => "proved"
 
 def status_of (d : ConstantInfo) : Lean.CoreM status := do
   if d.type.hasSorry then
-    return status.missing
+    return status.notStated
   else
-    let some v := d.value? | return .missing
+    let some v := d.value? | throwError "Axioms not permitted!"
     if v.hasSorry then
       return status.stated
     else
@@ -84,12 +86,13 @@ def get_url : IO (System.FilePath → Option DeclarationRange → String) := do
 def make_svg (cells : List (ℕ × Option String × status)) : Id String := do
   let svg := fun c =>
     f!"<svg id=\"svg\" width=\"{550*2}\" height=\"25\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">"
-    ++ c ++ 
+    ++ c ++
     "</svg>"
 
   let rects ← cells.mapM (fun c : ℕ × Option String × status => do
     let color := match c.2.2 with
-    | status.missing => "red"
+    | status.missing => "darkred"
+    | status.notStated => "red"
     | status.stated => "yellow"
     | status.proved => "green"
     let r := f!"
