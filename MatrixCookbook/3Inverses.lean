@@ -68,13 +68,13 @@ theorem eq_151 : A⁻¹ = (1 / A.det) • adjugate A := by rw [inv_def, Ring.inv
 /-! ### Condition number -/
 
 
-theorem eq152 : sorry :=
+theorem eq_152 : sorry :=
   sorry
 
-theorem eq153 : sorry :=
+theorem eq_153 : sorry :=
   sorry
 
-theorem eq154 : sorry :=
+theorem eq_154 : sorry :=
   sorry
 
 /-! ## Exact Relations -/
@@ -89,13 +89,13 @@ theorem eq_155 (A B : Matrix m m ℂ) : (A * B)⁻¹ = B⁻¹ * A⁻¹ :=
 /-! ### The Woodbury identity -/
 
 
-theorem eq156 : sorry :=
+theorem eq_156 : sorry :=
   sorry
 
-theorem eq157 : sorry :=
+theorem eq_157 : sorry :=
   sorry
 
-theorem eq158 : sorry :=
+theorem eq_158 : sorry :=
   sorry
 
 /-! ### The Kailath Variant -/
@@ -145,52 +145,52 @@ theorem eq_167 : (1 + A * B)⁻¹ * A = A * (1 + B * A)⁻¹ :=
 /-! ### Rank-1 update of Moore-Penrose Inverse -/
 
 
-theorem eq168 : sorry :=
+theorem eq_168 : sorry :=
   sorry
 
-theorem eq169 : sorry :=
+theorem eq_169 : sorry :=
   sorry
 
-theorem eq170 : sorry :=
+theorem eq_170 : sorry :=
   sorry
 
-theorem eq171 : sorry :=
+theorem eq_171 : sorry :=
   sorry
 
-theorem eq172 : sorry :=
+theorem eq_172 : sorry :=
   sorry
 
-theorem eq173 : sorry :=
+theorem eq_173 : sorry :=
   sorry
 
-theorem eq174 : sorry :=
+theorem eq_174 : sorry :=
   sorry
 
-theorem eq175 : sorry :=
+theorem eq_175 : sorry :=
   sorry
 
-theorem eq176 : sorry :=
+theorem eq_176 : sorry :=
   sorry
 
-theorem eq177 : sorry :=
+theorem eq_177 : sorry :=
   sorry
 
-theorem eq178 : sorry :=
+theorem eq_178 : sorry :=
   sorry
 
-theorem eq179 : sorry :=
+theorem eq_179 : sorry :=
   sorry
 
-theorem eq180 : sorry :=
+theorem eq_180 : sorry :=
   sorry
 
-theorem eq181 : sorry :=
+theorem eq_181 : sorry :=
   sorry
 
-theorem eq182 : sorry :=
+theorem eq_182 : sorry :=
   sorry
 
-theorem eq183 : sorry :=
+theorem eq_183 : sorry :=
   sorry
 
 /-! ## Implication on Inverses -/
@@ -202,52 +202,52 @@ theorem eq_184 : (A + B)⁻¹ = A⁻¹ + B⁻¹ → A * B⁻¹ * A = B * A⁻¹ 
 /-! ### A PosDef identity -/
 
 
-theorem eq185 : sorry :=
+theorem eq_185 : sorry :=
   sorry
 
 /-! ## Approximations -/
 
 
-theorem eq186 : sorry :=
+theorem eq_186 : sorry :=
   sorry
 
-theorem eq187 : sorry :=
+theorem eq_187 : sorry :=
   sorry
 
-theorem eq188 : sorry :=
+theorem eq_188 : sorry :=
   sorry
 
-theorem eq189 : sorry :=
+theorem eq_189 : sorry :=
   sorry
 
-theorem eq190 : sorry :=
+theorem eq_190 : sorry :=
   sorry
 
-theorem eq191 : sorry :=
+theorem eq_191 : sorry :=
   sorry
 
-theorem eq192 : sorry :=
+theorem eq_192 : sorry :=
   sorry
 
-theorem eq193 : sorry :=
+theorem eq_193 : sorry :=
   sorry
 
-theorem eq194 : sorry :=
+theorem eq_194 : sorry :=
   sorry
 
-theorem eq195 : sorry :=
+theorem eq_195 : sorry :=
   sorry
 
-theorem eq196 : sorry :=
+theorem eq_196 : sorry :=
   sorry
 
-theorem eq197 : sorry :=
+theorem eq_197 : sorry :=
   sorry
 
 /-! ## Generalized Inverse -/
 
 
-theorem eq198 : sorry :=
+theorem eq_198 : sorry :=
   sorry
 
 /-! ### Definition -/
@@ -256,91 +256,91 @@ theorem eq198 : sorry :=
 /-! ## Pseudo Inverse -/
 
 
-theorem eq199 : sorry :=
+theorem eq_199 : sorry :=
   sorry
 
-theorem eq200 : sorry :=
+theorem eq_200 : sorry :=
   sorry
 
-theorem eq201 : sorry :=
+theorem eq_201 : sorry :=
   sorry
 
-theorem eq202 : sorry :=
+theorem eq_202 : sorry :=
   sorry
 
-theorem eq203 : sorry :=
+theorem eq_203 : sorry :=
   sorry
 
-theorem eq204 : sorry :=
+theorem eq_204 : sorry :=
   sorry
 
-theorem eq205 : sorry :=
+theorem eq_205 : sorry :=
   sorry
 
-theorem eq206 : sorry :=
+theorem eq_206 : sorry :=
   sorry
 
-theorem eq207 : sorry :=
+theorem eq_207 : sorry :=
   sorry
 
-theorem eq208 : sorry :=
+theorem eq_208 : sorry :=
   sorry
 
-theorem eq209 : sorry :=
+theorem eq_209 : sorry :=
   sorry
 
-theorem eq210 : sorry :=
+theorem eq_210 : sorry :=
   sorry
 
-theorem eq211 : sorry :=
+theorem eq_211 : sorry :=
   sorry
 
-theorem eq212 : sorry :=
+theorem eq_212 : sorry :=
   sorry
 
-theorem eq213 : sorry :=
+theorem eq_213 : sorry :=
   sorry
 
-theorem eq214 : sorry :=
+theorem eq_214 : sorry :=
   sorry
 
-theorem eq215 : sorry :=
+theorem eq_215 : sorry :=
   sorry
 
-theorem eq216 : sorry :=
+theorem eq_216 : sorry :=
   sorry
 
 /-! ### Definition -/
 
 
-theorem eq217 : sorry :=
+theorem eq_217 : sorry :=
   sorry
 
-theorem eq218 : sorry :=
+theorem eq_218 : sorry :=
   sorry
 
-theorem eq219 : sorry :=
+theorem eq_219 : sorry :=
   sorry
 
-theorem eq220 : sorry :=
+theorem eq_220 : sorry :=
   sorry
 
 /-! ### Properties -/
 
 
-theorem eq221 : sorry :=
+theorem eq_221 : sorry :=
   sorry
 
-theorem eq222 : sorry :=
+theorem eq_222 : sorry :=
   sorry
 
 /-! ### Construction -/
 
 
-theorem eq223 : sorry :=
+theorem eq_223 : sorry :=
   sorry
 
-theorem eq224 : sorry :=
+theorem eq_224 : sorry :=
   sorry
 
 end MatrixCookbook

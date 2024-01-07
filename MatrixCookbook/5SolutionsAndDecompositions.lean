@@ -19,19 +19,19 @@ namespace MatrixCookbook
 /-! ### Simple Linear Regression -/
 
 
-theorem eq260 : sorry :=
+theorem eq_260 : sorry :=
   sorry
 
 /-! ### Existence in Linear Systems -/
 
 
-theorem eq261 : sorry :=
+theorem eq_261 : sorry :=
   sorry
 
 /-! ### Standard Square -/
 
 
-theorem eq262 : sorry :=
+theorem eq_262 : sorry :=
   sorry
 
 /-! ### Degenerated Square -/
@@ -40,31 +40,31 @@ theorem eq262 : sorry :=
 /-! ### Cramer's rule -/
 
 
-theorem eq263 : sorry :=
+theorem eq_263 : sorry :=
   sorry
 
-theorem eq264 : sorry :=
+theorem eq_264 : sorry :=
   sorry
 
 /-! ### Over-determined Rectangular -/
 
 
-theorem eq265 : sorry :=
+theorem eq_265 : sorry :=
   sorry
 
-theorem eq266 : sorry :=
+theorem eq_266 : sorry :=
   sorry
 
 /-! ### Under-determined Rectangular -/
 
 
-theorem eq267 : sorry :=
+theorem eq_267 : sorry :=
   sorry
 
-theorem eq268 : sorry :=
+theorem eq_268 : sorry :=
   sorry
 
-theorem eq269 : sorry :=
+theorem eq_269 : sorry :=
   sorry
 
 /-! ### Linear form and zeros -/
@@ -82,19 +82,19 @@ theorem eq_271 (A : Matrix m m ℝ) (hA : A.IsSymm) : (∀ x, x ⬝ᵥ A.mulVec 
 /-! ### The Lyapunov Equation -/
 
 
-theorem eq272 : sorry :=
+theorem eq_272 : sorry :=
   sorry
 
-theorem eq273 : sorry :=
+theorem eq_273 : sorry :=
   sorry
 
 /-! ### Encapsulating Sum -/
 
 
-theorem eq274 : sorry :=
+theorem eq_274 : sorry :=
   sorry
 
-theorem eq275 : sorry :=
+theorem eq_275 : sorry :=
   sorry
 
 /-! ## Eigenvalues and Eigenvectors -/
@@ -103,106 +103,106 @@ theorem eq275 : sorry :=
 /-! ### Definition -/
 
 
-theorem eq276 : sorry :=
+theorem eq_276 : sorry :=
   sorry
 
 /-! ### Decompositions -/
 
 
-theorem eq277 : sorry :=
+theorem eq_277 : sorry :=
   sorry
 
-theorem eq278 : sorry :=
+theorem eq_278 : sorry :=
   sorry
 
-theorem eq279 : sorry :=
+theorem eq_279 : sorry :=
   sorry
 
 /-! ### General Properties -/
 
 
-theorem eq280 : sorry :=
+theorem eq_280 : sorry :=
   sorry
 
-theorem eq281 : sorry :=
+theorem eq_281 : sorry :=
   sorry
 
 /-! ### Symmetric -/
 
 
-theorem eq282 : sorry :=
+theorem eq_282 : sorry :=
   sorry
 
-theorem eq283 : sorry :=
+theorem eq_283 : sorry :=
   sorry
 
-theorem eq284 : sorry :=
+theorem eq_284 : sorry :=
   sorry
 
-theorem eq285 : sorry :=
+theorem eq_285 : sorry :=
   sorry
 
-theorem eq286 : sorry :=
+theorem eq_286 : sorry :=
   sorry
 
-theorem eq287 : sorry :=
+theorem eq_287 : sorry :=
   sorry
 
-theorem eq288 : sorry :=
+theorem eq_288 : sorry :=
   sorry
 
 /-! ### Characteristic polynomial -/
 
 
-theorem eq289 : sorry :=
+theorem eq_289 : sorry :=
   sorry
 
-theorem eq290 : sorry :=
+theorem eq_290 : sorry :=
   sorry
 
 /-! ## Singular Value Decomposition -/
 
 
-theorem eq291 : sorry :=
+theorem eq_291 : sorry :=
   sorry
 
-theorem eq292 : sorry :=
+theorem eq_292 : sorry :=
   sorry
 
 /-! ### Symmetric Square decomposed into squares -/
 
 
-theorem eq293 : sorry :=
+theorem eq_293 : sorry :=
   sorry
 
 /-! ### Square decomposed into squares -/
 
 
-theorem eq294 : sorry :=
+theorem eq_294 : sorry :=
   sorry
 
 /-! ### Square decomposed into rectangular -/
 
 
-theorem eq295 : sorry :=
+theorem eq_295 : sorry :=
   sorry
 
 /-! ### Rectangular decomposition I -/
 
 
-theorem eq296 : sorry :=
+theorem eq_296 : sorry :=
   sorry
 
 /-! ### Rectangular decomposition II -/
 
 
-theorem eq297 : sorry :=
+theorem eq_297 : sorry :=
   sorry
 
 /-! ### Rectangular decomposition III -/
 
 
-theorem eq298 : sorry :=
+theorem eq_298 : sorry :=
   sorry
 
 /-! ## Triangular Decomposition -/
@@ -211,19 +211,19 @@ theorem eq298 : sorry :=
 /-! ## LU decomposition -/
 
 
-theorem eq299 : sorry :=
+theorem eq_299 : sorry :=
   sorry
 
 /-! ### Cholesky-decomposition -/
 
 
-theorem eq300 : sorry :=
+theorem eq_300 : sorry :=
   sorry
 
 /-! ## LDM decomposition -/
 
 
-theorem eq301 : sorry :=
+theorem eq_301 : sorry :=
   sorry
 
 /-! ## LDL decompositions -/

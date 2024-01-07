@@ -91,34 +91,34 @@ theorem eq_402 (A₁₁ : Matrix m m R) (A₂₂ : Matrix n n R) :
 /-! ## Discrete Fourier Transform Matrix, The -/
 
 
-theorem eq403 : sorry :=
+theorem eq_403 : sorry :=
   sorry
 
-theorem eq404 : sorry :=
+theorem eq_404 : sorry :=
   sorry
 
-theorem eq405 : sorry :=
+theorem eq_405 : sorry :=
   sorry
 
-theorem eq406 : sorry :=
+theorem eq_406 : sorry :=
   sorry
 
-theorem eq407 : sorry :=
+theorem eq_407 : sorry :=
   sorry
 
-theorem eq408 : sorry :=
+theorem eq_408 : sorry :=
   sorry
 
-theorem eq409 : sorry :=
+theorem eq_409 : sorry :=
   sorry
 
-theorem eq410 : sorry :=
+theorem eq_410 : sorry :=
   sorry
 
-theorem eq411 : sorry :=
+theorem eq_411 : sorry :=
   sorry
 
-theorem eq412 : sorry :=
+theorem eq_412 : sorry :=
   sorry
 
 /-! ## Hermitian Matrices and skew-Hermitian -/
@@ -141,7 +141,7 @@ theorem eq_416 (A : Matrix m m ℂ) :
     A ∈ skewAdjoint (Matrix m m ℂ) ↔ ∀ x y, star x ⬝ᵥ A.mulVec y = -star x ⬝ᵥ Aᴴ.mulVec y :=
   sorry
 
-theorem eq417 (A : Matrix m m ℂ) : A.IsHermitian → sorry :=
+theorem eq_417 (A : Matrix m m ℂ) : A.IsHermitian → sorry :=
   sorry
 
 /-! ## Idempotent Matrices -/
@@ -180,10 +180,10 @@ theorem eq_425 (hA : IsIdempotentElem A) : (1 - A) * A = 0 := by
    -- porting note: was `simp [sub_mul, ← Matrix.mul_eq_mul, hA.eq]`
   rw [Matrix.sub_mul, Matrix.one_mul, hA.eq, sub_self]
 
-theorem eq426 : sorry :=
+theorem eq_426 : sorry :=
   sorry
 
-theorem eq427 : sorry :=
+theorem eq_427 : sorry :=
   sorry
 
 end
@@ -191,13 +191,13 @@ end
 /-! ### Nilpotent -/
 
 
-theorem eq428 : sorry :=
+theorem eq_428 : sorry :=
   sorry
 
 /-! ### Unipotent -/
 
 
-theorem eq429 : sorry :=
+theorem eq_429 : sorry :=
   sorry
 
 /-! ## Orthogonal matrices -/
@@ -206,37 +206,37 @@ theorem eq429 : sorry :=
 /-! ### Ortho-Sym -/
 
 
-theorem eq430 : sorry :=
+theorem eq_430 : sorry :=
   sorry
 
-theorem eq431 : sorry :=
+theorem eq_431 : sorry :=
   sorry
 
-theorem eq432 : sorry :=
+theorem eq_432 : sorry :=
   sorry
 
-theorem eq433 : sorry :=
+theorem eq_433 : sorry :=
   sorry
 
 /-! ### Ortho-Skew -/
 
 
-theorem eq434 : sorry :=
+theorem eq_434 : sorry :=
   sorry
 
-theorem eq435 : sorry :=
+theorem eq_435 : sorry :=
   sorry
 
-theorem eq436 : sorry :=
+theorem eq_436 : sorry :=
   sorry
 
-theorem eq437 : sorry :=
+theorem eq_437 : sorry :=
   sorry
 
 /-! ### Decomposition -/
 
 
-theorem eq438 : sorry :=
+theorem eq_438 : sorry :=
   sorry
 
 /-! ## Positive Definite and Semi-definite Matrices -/
@@ -245,22 +245,22 @@ theorem eq438 : sorry :=
 /-! ### Definitions -/
 
 
-theorem eq439 (A : Matrix n n ℝ) : A.PosDef ↔ ∀ x ≠ 0, x ⬝ᵥ A.mulVec x > 0 :=
+theorem eq_439 (A : Matrix n n ℝ) : A.PosDef ↔ ∀ x ≠ 0, x ⬝ᵥ A.mulVec x > 0 :=
   sorry
 
-theorem eq440 (A : Matrix n n ℝ) : A.PosSemidef ↔ ∀ x, x ⬝ᵥ A.mulVec x ≥ 0 :=
+theorem eq_440 (A : Matrix n n ℝ) : A.PosSemidef ↔ ∀ x, x ⬝ᵥ A.mulVec x ≥ 0 :=
   sorry
 
 /-! ### Eigenvalues -/
 
 
-theorem eq441 : sorry :=
+theorem eq_441 : sorry :=
   sorry
 
 /-! ### Trace -/
 
 
-theorem eq442 : sorry :=
+theorem eq_442 : sorry :=
   sorry
 
 /-! ### Inverse -/
@@ -302,7 +302,7 @@ theorem eq442 : sorry :=
 /-! ### Definition -/
 
 -- note this is 0-indexed not 1-indexed
-theorem eq443 :
+theorem eq_443 :
     stdBasisMatrix (1 : Fin 4) (2 : Fin 4) 1 =
       !![0, 0, 0, 0;
          0, 0, 1, 0;
@@ -312,32 +312,32 @@ theorem eq443 :
 
 /-! ### Swap and Zeros -/
 
-theorem eq444 (A : Matrix n m R) (i : m) (j : p) :
+theorem eq_444 (A : Matrix n m R) (i : m) (j : p) :
     A * stdBasisMatrix i j (1 : R) = updateColumn 0 j (A · i)  :=
   sorry
 
-theorem eq445 (i : p) (j : n) (A : Matrix n m R) :
+theorem eq_445 (i : p) (j : n) (A : Matrix n m R) :
     stdBasisMatrix i j (1 : R) * A = updateRow 0 i (A j)  :=
   sorry
 
 /-! ### Rewriting product of elements -/
 
 
-theorem eq446 (A : Matrix l m R) (B : Matrix n p R) (k i j l) :
+theorem eq_446 (A : Matrix l m R) (B : Matrix n p R) (k i j l) :
     A k i * B j l = (A * stdBasisMatrix i j (1 : R) * B) k l := by
   sorry
 
-theorem eq447 (A : Matrix l m R) (B : Matrix n p R) (k i j l) :
+theorem eq_447 (A : Matrix l m R) (B : Matrix n p R) (k i j l) :
     A i k * B l j = (Aᵀ * stdBasisMatrix i j (1 : R) * Bᵀ) k l := by
-  rw [←eq446]; rfl
+  rw [←eq_446]; rfl
 
-theorem eq448 (A : Matrix l m R) (B : Matrix n p R) (k i j l) :
+theorem eq_448 (A : Matrix l m R) (B : Matrix n p R) (k i j l) :
     A i k * B j l = (Aᵀ * stdBasisMatrix i j (1 : R) * B) k l := by
-  rw [←eq446]; rfl
+  rw [←eq_446]; rfl
 
-theorem eq449 (A : Matrix l m R) (B : Matrix n p R) (k i j l) :
+theorem eq_449 (A : Matrix l m R) (B : Matrix n p R) (k i j l) :
     A k i * B l j = (A * stdBasisMatrix i j (1 : R) * Bᵀ) k l := by
-  rw [←eq446]; rfl
+  rw [←eq_446]; rfl
 
 /-! ### Properties of the Singleentry Matrix -/
 
@@ -345,33 +345,33 @@ theorem eq449 (A : Matrix l m R) (B : Matrix n p R) (k i j l) :
 /-! ### The Singleentry Matrix in Scalar Expressions -/
 
 
-theorem eq450 (A : Matrix n m R) :
+theorem eq_450 (A : Matrix n m R) :
     trace (A * stdBasisMatrix i j (1 : R)) = Aᵀ i j ∧
     trace (stdBasisMatrix i j (1 : R) * A) = Aᵀ i j :=
   sorry
 
-theorem eq451 (A : Matrix n n R) (i : n) (j : m) (B : Matrix m n R) :
+theorem eq_451 (A : Matrix n n R) (i : n) (j : m) (B : Matrix m n R) :
     trace (A * stdBasisMatrix i j (1 : R) * B) = (Aᵀ * Bᵀ) i j :=
   sorry
 
-theorem eq452 (A : Matrix n n R) (j : n) (i : m) (B : Matrix m n R) :
+theorem eq_452 (A : Matrix n n R) (j : n) (i : m) (B : Matrix m n R) :
     trace (A * stdBasisMatrix j i (1 : R) * B) = (B * A) i j :=
   sorry
 
 /-- The cookbook declares incompatible dimensions here; weassume the matrices are supposed to be
 square. -/
-theorem eq453 (A : Matrix n n R) (i : n) (j : n) (B : Matrix n n R) :
+theorem eq_453 (A : Matrix n n R) (i : n) (j : n) (B : Matrix n n R) :
     trace (A * stdBasisMatrix i j (1 : R) * stdBasisMatrix i j (1 : R) * B) =
       diagonal (diag (Aᵀ * Bᵀ)) i j :=
   sorry
 
-theorem eq454 (A : Matrix n n R) (i : n) (j : m) (B : Matrix m n R) (x : n → R) :
+theorem eq_454 (A : Matrix n n R) (i : n) (j : m) (B : Matrix m n R) (x : n → R) :
     x ⬝ᵥ (A * stdBasisMatrix i j (1 : R) * B).mulVec x = (Aᵀ * vecMulVec x x * Bᵀ) i j :=
   sorry
 
 /-- The cookbook declares incompatible dimensions here; weassume the matrices are supposed to be
 square. -/
-theorem eq455  (A : Matrix n n R) (i : n) (j : n) (B : Matrix n n R) (x : n → R) :
+theorem eq_455  (A : Matrix n n R) (i : n) (j : n) (B : Matrix n n R) (x : n → R) :
     x ⬝ᵥ (A * stdBasisMatrix i j (1 : R) * stdBasisMatrix i j (1 : R) * B).mulVec x =
       diagonal (diag (Aᵀ * vecMulVec x x * Bᵀ)) i j :=
   sorry
@@ -379,13 +379,13 @@ theorem eq455  (A : Matrix n n R) (i : n) (j : n) (B : Matrix n n R) (x : n → 
 /-! ### Structure Matrices -/
 
 
-theorem eq456 : sorry :=
+theorem eq_456 : sorry :=
   sorry
 
-theorem eq457 : sorry :=
+theorem eq_457 : sorry :=
   sorry
 
-theorem eq458 : sorry :=
+theorem eq_458 : sorry :=
   sorry
 
 /-! ## Symmetric, Skew-symmetric/Antisymmetric -/
@@ -413,28 +413,28 @@ theorem eq_462 (A : Matrix m m R) (hA : A = -Aᵀ) (hn : Odd (Fintype.card m)) :
 /-! ### Decomposition -/
 
 
-theorem eq463 : sorry :=
+theorem eq_463 : sorry :=
   sorry
 
-theorem eq464 : sorry :=
+theorem eq_464 : sorry :=
   sorry
 
 /-! ## Toeplitz Matrices -/
 
 
-theorem eq465 : sorry :=
+theorem eq_465 : sorry :=
   sorry
 
-theorem eq466 : sorry :=
+theorem eq_466 : sorry :=
   sorry
 
-theorem eq467 : sorry :=
+theorem eq_467 : sorry :=
   sorry
 
-theorem eq468 : sorry :=
+theorem eq_468 : sorry :=
   sorry
 
-theorem eq469 : sorry :=
+theorem eq_469 : sorry :=
   sorry
 
 /-! ### Properties of Toeplitz Matrices -/
@@ -443,19 +443,19 @@ theorem eq469 : sorry :=
 /-! ## Transition matrices -/
 
 
-theorem eq470 : sorry :=
+theorem eq_470 : sorry :=
   sorry
 
-theorem eq471 : sorry :=
+theorem eq_471 : sorry :=
   sorry
 
-theorem eq472 : sorry :=
+theorem eq_472 : sorry :=
   sorry
 
-theorem eq473 : sorry :=
+theorem eq_473 : sorry :=
   sorry
 
-theorem eq474 : sorry :=
+theorem eq_474 : sorry :=
   sorry
 
 /-! ## Units, Permutation and Shift -/
@@ -485,25 +485,25 @@ theorem eq_478 (e : Equiv.Perm m) :
   rw [← PEquiv.toMatrix_symm, ← PEquiv.toMatrix_trans, ← Equiv.toPEquiv_symm, ←
     Equiv.toPEquiv_trans, Equiv.self_trans_symm, Equiv.toPEquiv_refl, PEquiv.toMatrix_refl]
 
-theorem eq479 : sorry :=
+theorem eq_479 : sorry :=
   sorry
 
 /-! ### Translation, Shift or Lag Operators -/
 
 
-theorem eq480 : sorry :=
+theorem eq_480 : sorry :=
   sorry
 
-theorem eq481 : sorry :=
+theorem eq_481 : sorry :=
   sorry
 
-theorem eq482 : sorry :=
+theorem eq_482 : sorry :=
   sorry
 
-theorem eq483 : sorry :=
+theorem eq_483 : sorry :=
   sorry
 
-theorem eq484 : sorry :=
+theorem eq_484 : sorry :=
   sorry
 
 /-! ## Vandermonde Matrices -/
