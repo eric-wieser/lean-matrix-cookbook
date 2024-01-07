@@ -1,5 +1,6 @@
 import Mathlib.Algebra.Ring.Idempotents
 import Mathlib.Data.Complex.Basic
+import Mathlib.Data.Matrix.Reflection
 import Mathlib.LinearAlgebra.Matrix.Hermitian
 import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
 import Mathlib.LinearAlgebra.Matrix.SchurComplement
@@ -310,27 +311,32 @@ theorem eq443 :
 
 /-! ### Swap and Zeros -/
 
-
-theorem eq444 : sorry :=
+theorem eq444 (A : Matrix n m R) (i : m) (j : p) :
+    A * stdBasisMatrix i j (1 : R) = updateColumn 0 j (A · i)  :=
   sorry
 
-theorem eq445 : sorry :=
+theorem eq445 (i : p) (j : n) (A : Matrix n m R) :
+    stdBasisMatrix i j (1 : R) * A = updateRow 0 i (A j)  :=
   sorry
 
 /-! ### Rewriting product of elements -/
 
 
-theorem eq446 : sorry :=
+theorem eq446 (A : Matrix l m R) (B : Matrix n p R) (k i j l) :
+    A k i * B j l = (A * stdBasisMatrix i j (1 : R) * B) k l := by
   sorry
 
-theorem eq447 : sorry :=
-  sorry
+theorem eq447 (A : Matrix l m R) (B : Matrix n p R) (k i j l) :
+    A i k * B l j = (Aᵀ * stdBasisMatrix i j (1 : R) * Bᵀ) k l := by
+  rw [←eq446]; rfl
 
-theorem eq448 : sorry :=
-  sorry
+theorem eq448 (A : Matrix l m R) (B : Matrix n p R) (k i j l) :
+    A i k * B j l = (Aᵀ * stdBasisMatrix i j (1 : R) * B) k l := by
+  rw [←eq446]; rfl
 
-theorem eq449 : sorry :=
-  sorry
+theorem eq449 (A : Matrix l m R) (B : Matrix n p R) (k i j l) :
+    A k i * B l j = (A * stdBasisMatrix i j (1 : R) * Bᵀ) k l := by
+  rw [←eq446]; rfl
 
 /-! ### Properties of the Singleentry Matrix -/
 
@@ -338,22 +344,35 @@ theorem eq449 : sorry :=
 /-! ### The Singleentry Matrix in Scalar Expressions -/
 
 
-theorem eq450 : sorry :=
+theorem eq450 (A : Matrix n m R) :
+    trace (A * stdBasisMatrix i j (1 : R)) = Aᵀ i j ∧
+    trace (stdBasisMatrix i j (1 : R) * A) = Aᵀ i j :=
   sorry
 
-theorem eq451 : sorry :=
+theorem eq451 (A : Matrix n n R) (i : n) (j : m) (B : Matrix m n R) :
+    trace (A * stdBasisMatrix i j (1 : R) * B) = (Aᵀ * Bᵀ) i j :=
   sorry
 
-theorem eq452 : sorry :=
+theorem eq452 (A : Matrix n n R) (j : n) (i : m) (B : Matrix m n R) :
+    trace (A * stdBasisMatrix j i (1 : R) * B) = (B * A) i j :=
   sorry
 
-theorem eq453 : sorry :=
+/-- The cookbook declares incompatible dimensions here; weassume the matrices are supposed to be
+square. -/
+theorem eq453 (A : Matrix n n R) (i : n) (j : n) (B : Matrix n n R) :
+    trace (A * stdBasisMatrix i j (1 : R) * stdBasisMatrix i j (1 : R) * B) =
+      diagonal (diag (Aᵀ * Bᵀ)) i j :=
   sorry
 
-theorem eq454 : sorry :=
+theorem eq454 (A : Matrix n n R) (i : n) (j : m) (B : Matrix m n R) (x : n → R) :
+    x ⬝ᵥ (A * stdBasisMatrix i j (1 : R) * B).mulVec x = (Aᵀ * vecMulVec x x * Bᵀ) i j :=
   sorry
 
-theorem eq455 : sorry :=
+/-- The cookbook declares incompatible dimensions here; weassume the matrices are supposed to be
+square. -/
+theorem eq455  (A : Matrix n n R) (i : n) (j : n) (B : Matrix n n R) (x : n → R) :
+    x ⬝ᵥ (A * stdBasisMatrix i j (1 : R) * stdBasisMatrix i j (1 : R) * B).mulVec x =
+      diagonal (diag (Aᵀ * vecMulVec x x * Bᵀ)) i j :=
   sorry
 
 /-! ### Structure Matrices -/
