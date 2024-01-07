@@ -296,7 +296,7 @@ theorem eq_549 (A : Matrix m n ℝ) :
   ⟨A.rank_transpose.symm, A.rank_self_mul_transpose.symm, A.rank_transpose_mul_self.symm⟩
 
 theorem eq_550 (A : Matrix m m ℝ) :
-    A.PosDef ↔ ∃ B : (Matrix m m ℝ)ˣ, A = (↑B : Matrix m m ℝ) * ↑Bᵀ := by
-  rw [PosDef]
+    A.PosDef ↔ ∃ B : (Matrix m m ℝ)ˣ, A = (↑B : Matrix m m ℝ) * ↑Bᵀ :=
+  sorry
 
 end MatrixCookbook
