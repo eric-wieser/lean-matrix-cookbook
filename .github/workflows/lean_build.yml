@@ -52,6 +52,6 @@ jobs:
         path: 'gh-pages'
 
     - name: Deploy to GitHub Pages
-      if: github.ref == 'refs/heads/lean4'
+      if: github.ref == 'refs/heads/master'
       id: deployment
       uses: actions/deploy-pages@v1
