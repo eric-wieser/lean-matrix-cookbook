@@ -111,7 +111,9 @@ theorem eq_512 (A : Matrix m m R) (B : Matrix n n R) : (A ⊗ₖ B)⁻¹ = A⁻�
   inv_kronecker _ _
 
 -- lemma eq_513 : sorry := sorry
--- lemma eq_514 : sorry := sorry
+
+lemma eq_514 (A : Matrix l m R) (B : Matrix p q R) : rank (A ⊗ₖ B) = rank A * rank B := sorry
+
 theorem eq_515 (A : Matrix m m R) (B : Matrix n n R) : trace (A ⊗ₖ B) = trace A * trace B := by
   simp_rw [Matrix.trace, Matrix.diag, Finset.sum_mul, Finset.mul_sum, ← Finset.univ_product_univ,
     Finset.sum_product, kronecker_apply]
@@ -120,12 +122,12 @@ theorem eq_516 (A : Matrix m m R) (B : Matrix n n R) :
     det (A ⊗ₖ B) = det A ^ Fintype.card n * det B ^ Fintype.card m :=
   det_kronecker _ _
 
+lemma eq_517 : sorry := sorry
+lemma eq_518 : sorry := sorry
+lemma eq_519 : sorry := sorry
+
 /-! #### The Vec Operator -/
 
-
--- lemma eq_517 : sorry := sorry
--- lemma eq_518 : sorry := sorry
--- lemma eq_519 : sorry := sorry
 def vec (A : Matrix m n R) : Matrix (n × m) Unit R :=
   col fun ij => A ij.2 ij.1
 
@@ -209,7 +211,6 @@ end
 /-! #### Induced Norm or Operator Norm -/
 
 
--- lemma eq_533 : sorry := sorry
 -- we just use one of the norms as an example; there is no generalization available
 section
 
@@ -218,6 +219,14 @@ attribute [local instance] Matrix.linftyOpNormedAddCommGroup Matrix.linftyOpNorm
 attribute [local instance] Matrix.linftyOpNormedRing Matrix.linftyOpNormedAlgebra
 
 attribute [local instance] Matrix.linfty_op_normOneClass
+
+lemma eq_533 (A : Matrix m n ℝ) : ‖A‖ = sSup { ‖A.mulVec x‖ | (x) (hx : ‖x‖ = 1)} := by
+  suffices ‖A‖ = sSup ((‖A.mulVec ·‖) '' Metric.sphere 0 1) by
+    simpa [Set.image, mem_sphere_zero_iff_norm] using this
+  simp_rw [linfty_op_norm_eq_op_norm]
+  -- this is not quite the right lemma
+  rw [←ContinuousLinearMap.sSup_unit_ball_eq_norm]
+  sorry
 
 theorem eq_534 [Nonempty n] : ‖(1 : Matrix n n ℝ)‖ = 1 :=
   norm_one
@@ -233,7 +242,8 @@ end
 /-! #### Examples -/
 
 
--- lemma eq_537 : sorry := sorry
+lemma eq_537 (A : Matrix m n ℝ) : sorry = ⨆ j, ∑ i, ‖A i j‖ := sorry
+
 -- lemma eq_538 : sorry := sorry
 -- lemma eq_539 : sorry := sorry
 section
@@ -277,7 +287,21 @@ end
 
 
 -- lemma eq_543 : sorry := sorry
--- lemma eq_544 : sorry := sorry
+lemma eq_544 (A : Matrix m n ℝ) :
+    letI m' := Fintype.card m
+    letI n' := Fintype.card n
+    letI d := A.rank
+    let norms : Fin 6 → (Matrix m n ℝ → ℝ) := sorry
+    let coeffs : Matrix _ _ ℝ := !![
+      1,                   1,              1,              1,        1,        1;
+      m',                  1,              m',             .sqrt m', .sqrt m', .sqrt m';
+      n',                  n',             1,              .sqrt n', .sqrt n', .sqrt n';
+      .sqrt (m' * n'),     .sqrt n',       .sqrt m',       1,        1,        1;
+      .sqrt (m' * n'),     .sqrt n',       .sqrt m',       .sqrt d,  1,        1;
+      .sqrt (m' * n' * d), .sqrt (n' * d), .sqrt (m' * d), d,        .sqrt d,  1]
+    ∀ i j, norms i A ≤ coeffs i j * norms j A := sorry
+
+
 -- lemma eq_545 : sorry := sorry
 theorem eq_546 (A : Matrix m n ℝ) (B : Matrix n r ℝ) :
     rank A + rank B - Fintype.card n ≤ rank (A * B) ∧ rank (A * B) ≤ min (rank A) (rank B) :=
