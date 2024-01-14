@@ -35,35 +35,36 @@ def project_file_split (path : System.FilePath) : IO (Option System.FilePath × 
       else
         return .inl (parent, some rest))
 
-inductive status
+inductive Status
   | missing
   | notStated
   | stated
   | proved
+  deriving DecidableEq, Hashable
 
-instance : Repr (status) where
+instance : Repr Status where
   reprPrec r _ := match r with
-  | status.missing => "missing"
-  | status.notStated => "notStated"
-  | status.stated => "stated"
-  | status.proved => "proved"
+  | .missing => "missing"
+  | .notStated => "notStated"
+  | .stated => "stated"
+  | .proved => "proved"
 
-def status_of (d : ConstantInfo) : Lean.CoreM status := do
+def status_of (d : ConstantInfo) : Lean.CoreM Status := do
   if d.type.hasSorry then
-    return status.notStated
+    return .notStated
   else
     let some v := d.value? | throwError "Axioms not permitted!"
     if v.hasSorry then
-      return status.stated
+      return .stated
     else
-      return status.proved
+      return .proved
 
 def getModuleNameFor? (env : Environment) (nm : Name) : Option Name :=
   env.getModuleIdxFor? nm >>= fun i => env.header.moduleNames[i.toNat]?
 
-def info_for (n : Name) : Lean.CoreM (Option System.FilePath × Option DeclarationRange × status) := do
+def info_for (n : Name) : Lean.CoreM (Option System.FilePath × Option DeclarationRange × Status) := do
   let e ← getEnv
-  let some d := e.find? n | return (none, none, status.missing)
+  let some d := e.find? n | return (none, none, .missing)
   let s ← status_of d
   let f := getModuleNameFor? e n
   let p := DeclarationRanges.range <$> (← Lean.findDeclarationRanges? n)
@@ -83,18 +84,18 @@ def get_url : IO (System.FilePath → Option DeclarationRange → String) := do
     | some r => s!"#L{r.pos.line}-L{r.endPos.line}"
     | none => ""
 
-def make_svg (cells : List (ℕ × Option String × status)) : Id String := do
+def make_svg (cells : List (ℕ × Option String × Status)) : Id String := do
   let svg := fun c =>
     f!"<svg id=\"svg\" width=\"{550*2}\" height=\"25\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">"
     ++ c ++
     "</svg>"
 
-  let rects ← cells.mapM (fun c : ℕ × Option String × status => do
+  let rects ← cells.mapM (fun c : ℕ × Option String × Status => do
     let color := match c.2.2 with
-    | status.missing => "darkred"
-    | status.notStated => "red"
-    | status.stated => "yellow"
-    | status.proved => "green"
+    | .missing => "darkred"
+    | .notStated => "red"
+    | .stated => "yellow"
+    | .proved => "green"
     let r := f!"
       <rect fill=\"{color}\" x=\"{c.1*2}\" y=\"0\" width=\"2\" height=\"25\">
         <title>{c.1}</title>
