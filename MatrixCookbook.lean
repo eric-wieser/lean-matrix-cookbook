@@ -3,6 +3,8 @@ import MatrixCookbook.«2Derivatives»
 import MatrixCookbook.«3Inverses»
 import MatrixCookbook.«4ComplexMatrices»
 import MatrixCookbook.«5SolutionsAndDecompositions»
+import MatrixCookbook.«6StatisticsAndProbability»
+import MatrixCookbook.«7MultivariateDistributions»
+import MatrixCookbook.«8Gaussians»
 import MatrixCookbook.«9SpecialMatrices»
 import MatrixCookbook.«10FunctionsAndOperators»
-
