@@ -84,7 +84,15 @@ def get_url : IO (System.FilePath → Option DeclarationRange → String) := do
     | some r => s!"#L{r.pos.line}-L{r.endPos.line}"
     | none => ""
 
-def make_svg (cells : List (ℕ × String × Option String × Status))
+def getTitle (n : Name) : CoreM String := do
+  let some doc := Lean.getModuleDoc? (←getEnv) n | throwError "no docstring"
+  if h : 0 < doc.size then
+    let s := (doc[0]'h).doc
+    let i := s.find (· = '#')
+    return String.trim <| s.extract (s.next i) (s.findAux (· = '\n') s.endPos i)
+  throwError "no docstring"
+
+def makeSVG (cells : List (ℕ × String × Option String × Status))
     (sections : Array (String × ℕ × ℕ)): Id String := do
   let mut counts := Std.mkHashMap
   for s in [Status.missing, Status.notStated, Status.stated, Status.proved] do
@@ -94,20 +102,21 @@ def make_svg (cells : List (ℕ × String × Option String × Status))
 
   let svg := fun c =>
     f!"<svg id=\"svg\" width=\"{550*2}\" height=\"95\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">"
-    ++ "<style>" ++ .nest 2 (
+    ++ .indentD (
+      "<style>" ++ .nest 2 (
       "text { fill: gray; font-size: 16px; font-family: -apple-system,BlinkMacSystemFont,\"Segoe UI\",\"Noto Sans\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\"}"
-    ) ++ "</style>"
-    ++ c ++
+    ) ++ "</style>" ++ .line
+    ++ c) ++ .line ++
     "</svg>"
   let width := 2
   let rects ← cells.mapM (fun (i, n, f, d) => do
-    let r := f!"
-      <rect fill=\"{color d}\" x=\"{i*width}\" y=\"25\" width=\"{width}\" height=\"25\">
-        <title>{n}</title>
-      </rect>"
+    let r :=
+      f!"<rect fill=\"{color d}\" x=\"{i*width}\" y=\"25\" width=\"{width}\" height=\"25\">\n" ++
+      f!"  <title>{n}</title>\n" ++
+      f!"</rect>"
     match f with
     | none => r
-    | some f => pure f!"<a href=\"{f}\">{r}</a>")
+    | some f => pure f!"<a href=\"{f}\">{Std.Format.indentD r ++ .line}</a>")
 
   let legendEntries ← counts.toList.mapM fun (k, v) => do
     f!"<tspan fill=\"{color k}\">{k}: {v} <tspan style=\"opacity: 0.75\">({⌊(v*100/cells.length : ℚ) + 0.5⌋}%)</tspan></tspan>"
@@ -122,7 +131,7 @@ def make_svg (cells : List (ℕ × String × Option String × Status))
     return f!"<text text-anchor=\"{anchor}\" x=\"{x}\" y=\"{if i % 2 = 0 then 20 else 66}\" width=\"{(e-s)*width}\">{sn}</text>" ++
       f!"<line x1=\"{s*width}\" x2=\"{e*width}\" y1=\"{y}\" y2=\"{y}\" stroke=\"gray\" stroke-width=\"2\" />")
 
-  toString $ svg (Format.joinSep rects "\n" ++ legend ++ Format.joinSep titleEntries "\n")
+  toString $ svg (Format.joinSep rects .line ++ legend ++ Format.joinSep titleEntries "\n")
 where
   color : Status → String
     | .missing => "darkred"
@@ -130,15 +139,53 @@ where
     | .stated => "yellow"
     | .proved => "green"
 
-def getTitle (n : Name) : CoreM String := do
-  let some doc := Lean.getModuleDoc? (←getEnv) n | throwError "no docstring"
-  if h : 0 < doc.size then
-    let s := (doc[0]'h).doc
-    let i := s.find (· = '#')
-    return String.trim <| s.extract (s.next i) (s.findAux (· = '\n') s.endPos i)
-  throwError "no docstring"
+def makeTIKZ (cells : List (ℕ × String × Option String × Status))
+    (sections : Array (String × ℕ × ℕ)): Id String := do
+  let mut counts := Std.mkHashMap
+  for s in [Status.missing, Status.notStated, Status.stated, Status.proved] do
+    counts := counts.insert s 0
+  for (_, _, _, s) in cells do
+    counts := counts.modify s (fun _ v => v + 1)
 
-def printSvg : CoreM String := do
+  let tikz := fun c =>
+    f!"\\begin\{tikzpicture}"
+    ++ .indentD (
+      f!"\\newlength\\width" ++ .line ++
+      f!"\\pgfmathsetlength\\width\{\\linewidth / {cells.length}}" ++ .line ++
+       .group c) ++ .line ++
+    f!"\\end\{tikzpicture}"
+  let rects ← cells.mapM (fun (i, _n, _f, d) => do
+    return f!"\\fill[{color d}] ({i}\\width,1em) rectangle ++(\\width,1em);")
+
+  let legend := ""
+
+  let titleEntries ← sections.toList.enum.mapM (fun (i, sn, s, e) => do
+    let (y, dy, side) := if i % 2 = 0 then
+      ("2em", "+", "above")
+    else
+      ("1em", "-", "below")
+    let side :=
+      if i = sections.size - 1 then "anchor=north east,pos=1"
+      else if sn = "MV Dists." then "anchor=south west,pos=0"
+      else s!"midway,{side}"
+    return f!"\\fill" ++ .indentD (
+          f!"({s}\\width, {y}{dy}0.4pt) -- " ++ .line ++
+        f!"({s}\\width, {y}{dy}2pt) -- node[inner sep=0,outer sep=0,font=\\tiny,{side}] \{\\strut {sn}} " ++ .line ++
+        f!"({e}\\width, {y}{dy}2pt) -- " ++ .line ++
+        f!"({e}\\width, {y}{dy}0.4pt) -- " ++ .line ++
+        f!"({e}\\width-0.4pt, {y}{dy}1.6pt) -- " ++ .line ++
+        f!"({s}\\width+0.4pt, {y}{dy}1.6pt) -- " ++ .line ++
+        f!"cycle;"))
+
+  toString $ tikz (Format.joinSep rects "\n"++ .line ++ legend ++ .line ++ Format.joinSep titleEntries "\n")
+where
+  color : Status → String
+    | .missing => "black!25!red!75!white"
+    | .notStated => "black!25!red!75!white"
+    | .stated => "black!25!yellow!75!white"
+    | .proved => "black!25!green!75!white"
+
+def getOutput (is_svg : Bool): CoreM String := do
   let get_url ← get_url
   let infos ← (List.range' 0 550).mapM (fun i => do
     let n := (`MatrixCookbook).str ("eq_" ++ toString (i + 1))
@@ -165,6 +212,9 @@ def printSvg : CoreM String := do
   let sections' ← sections.mapM fun (sn, ij) => do
     let t ← getTitle sn
     return (shortNames.findD t t, ij)
-  return make_svg decls sections'
+  if is_svg then
+    return makeSVG decls sections'
+  else
+    return makeTIKZ decls sections'
 
-#eval do IO.print (← printSvg)
+#eval do IO.print (← getOutput true)
