@@ -106,27 +106,49 @@ theorem eq_252 : sorry :=
 
 /-! ## Inverse of complex sum -/
 
+section
+variable [Fintype m] [DecidableEq m] (A B : Matrix m m ℝ) {t : ℝ}
 
-theorem eq_253 : sorry :=
+local notation "E" => A + t • B
+local notation "F" => B - t • A
+
+open Complex (I)
+
+theorem eq_253 : E = A + t • B := rfl
+
+theorem eq_254 : F = B - t • A := rfl
+
+theorem eq_255 (h : IsUnit E) :
+    (A.map (↑) + B.map (· • I))⁻¹ =
+      (1 - t • I : ℂ) • ((E).map (↑) + (F).map (· • I))⁻¹ :=
   sorry
 
-theorem eq_254 : sorry :=
+theorem eq_256 (h : IsUnit E)  :
+    (A.map (↑) + B.map (· • I))⁻¹ =
+      (1 - t • I : ℂ) • ((E + F * E⁻¹ * F)⁻¹.map (↑) - ((E + F * E⁻¹ * F)⁻¹ * F * E).map (· • I))⁻¹ := by
+  rw [eq_255 _ _ h]
   sorry
 
-theorem eq_255 : sorry :=
+theorem eq_257 (h : IsUnit E)  :
+    (A.map (↑) + B.map (· • I))⁻¹ =
+      (1 - t • I : ℂ) • ((E + F * E⁻¹ * F)⁻¹.map (↑) * (1 - (F * E⁻¹).map (· • I))) := by
+  rw [eq_256 _ _ h]
   sorry
 
-theorem eq_256 : sorry :=
+theorem eq_258 (h : IsUnit E) :
+    (A.map (↑) + B.map (· • I))⁻¹ =
+      (E + F * E⁻¹ * F)⁻¹.map (↑) *
+        ((1 - t • (F * E⁻¹).map (↑)) - (t • 1 + (F * E⁻¹)).map (· • I)) := by
+  rw [eq_257 _ _ h]
   sorry
 
-theorem eq_257 : sorry :=
+theorem eq_259 (h : IsUnit E) :
+    (A.map (↑) + B.map (· • I))⁻¹ =
+      ((E + F * E⁻¹ * F)⁻¹ * (1 - t • (F * E⁻¹))).map (↑) -
+       ((E + F * E⁻¹ * F)⁻¹ * (t • 1 + (F * E⁻¹))).map (· • I) := by
+  rw [eq_258 _ _ h, mul_sub]
   sorry
 
-theorem eq_258 : sorry :=
-  sorry
-
-theorem eq_259 : sorry :=
-  sorry
+end
 
 end MatrixCookbook
-
