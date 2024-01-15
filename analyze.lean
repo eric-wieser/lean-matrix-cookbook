@@ -110,7 +110,7 @@ def make_svg (cells : List (ℕ × String × Option String × Status))
     | some f => pure f!"<a href=\"{f}\">{r}</a>")
 
   let legendEntries ← counts.toList.mapM fun (k, v) => do
-    f!"<tspan fill=\"{color k}\">{k}: {v} <tspan style=\"opacity: 0.75\">({v*100/cells.length}%)</tspan></tspan>"
+    f!"<tspan fill=\"{color k}\">{k}: {v} <tspan style=\"opacity: 0.75\">({⌊(v*100/cells.length : ℚ) + 0.5⌋}%)</tspan></tspan>"
   let legend := f!"<text x=\"0\" y=\"85\" width=\"{width*cells.length}\">{Format.joinSep legendEntries ", "}</text>"
 
   let titleEntries ← sections.toList.enum.mapM (fun (i, sn, s, e) => do
