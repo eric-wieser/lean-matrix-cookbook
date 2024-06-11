@@ -28,8 +28,9 @@ def project_file_split (path : System.FilePath) : IO (Option System.FilePath × 
       let some parent := p.parent | return .inr (none, rest)
       let some pparent := parent.parent | return .inr (none, rest)
       let some ppparent := pparent.parent | return .inr (none, rest)
-      if ← (ppparent / "lakefile.lean").pathExists then
-        return .inr (ppparent, rest)
+      let some pppparent := ppparent.parent | return .inr (none, rest)
+      if ← (pppparent / "lakefile.lean").pathExists then
+        return .inr (pppparent, rest)
       else if "/lib/lean".data.IsSuffix parent.toString.data then
         return .inr (none, rest)
       else
