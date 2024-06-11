@@ -1,4 +1,5 @@
 import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
+import Mathlib.LinearAlgebra.Matrix.PosDef
 import Mathlib.Data.Complex.Basic
 
 /-! # Inverses -/
@@ -88,22 +89,33 @@ theorem eq_155 (A B : Matrix m m ℂ) : (A * B)⁻¹ = B⁻¹ * A⁻¹ :=
 
 /-! ### The Woodbury identity -/
 
-
-theorem eq_156 : (sorry : Prop) :=
+private theorem woodbury (A : Matrix n n ℂ) (B : Matrix m m ℂ) (U : Matrix n m ℂ) (V : Matrix m n ℂ)
+    [Invertible A] [Invertible B] :
+    (A + U * B * V)⁻¹ = A⁻¹ - A⁻¹ * U * (B⁻¹ + V*A⁻¹*U)⁻¹ * V * A⁻¹ := by
   sorry
 
-theorem eq_157 : (sorry : Prop) :=
-  sorry
+theorem eq_156 (A : Matrix n n ℂ) (B : Matrix m m ℂ) (C : Matrix n m ℂ) [Invertible A] [Invertible B]  :
+    (A + C * B * Cᵀ)⁻¹ = A⁻¹ - A⁻¹ * C * (B⁻¹ + Cᵀ*A⁻¹*C)⁻¹ * Cᵀ * A⁻¹ :=
+  woodbury _ _ _ _
 
-theorem eq_158 : (sorry : Prop) :=
+theorem eq_157 (A : Matrix n n ℂ) (B : Matrix m m ℂ) (U : Matrix n m ℂ) (V : Matrix m n ℂ) [Invertible A] [Invertible B]  :
+    (A + U * B * V)⁻¹ = A⁻¹ - A⁻¹ * U * (B⁻¹ + V*A⁻¹*U)⁻¹ * V * A⁻¹ :=
+  woodbury _ _ _ _
+
+open scoped ComplexOrder in
+theorem eq_158 (P : Matrix n n ℂ) (R : Matrix m m ℂ) (B : Matrix m n ℂ)
+    (hP : P.PosDef) (hR : R.PosDef) :
+    (P + Bᵀ * R * B)⁻¹ * Bᵀ * R⁻¹ = P * Bᵀ * (B*P⁻¹*Bᵀ + R)⁻¹ := by
   sorry
 
 /-! ### The Kailath Variant -/
 
-
-theorem eq_159 (B : Matrix n m ℂ) (C : Matrix m n ℂ) :
-    (A + B * C)⁻¹ = A⁻¹ - A⁻¹ * B * (1 + C * A⁻¹ * B)⁻¹ * C * A⁻¹ :=
-  sorry
+theorem eq_159 [Invertible A]
+    (B : Matrix n m ℂ) (C : Matrix m n ℂ) [Invertible (1 + C * A⁻¹ * B)] :
+    (A + B * C)⁻¹ = A⁻¹ - A⁻¹ * B * (1 + C * A⁻¹ * B)⁻¹ * C * A⁻¹ := by
+  letI : Invertible (1 : Matrix m m ℂ) := invertibleOne
+  rw [← Matrix.mul_one B, woodbury]
+  simp [Matrix.mul_sub, Matrix.sub_mul, sub_sub]
 
 /-! ### Sherman-Morrison -/
 
@@ -138,8 +150,10 @@ theorem eq_164 : A - A * (A + B)⁻¹ * A = B - B * (A + B)⁻¹ * B :=
 theorem eq_165 (hA : IsUnit A) (hB : IsUnit B) : A⁻¹ + B⁻¹ = A⁻¹ * (A + B) * B⁻¹ :=
   Matrix.inv_add_inv <| iff_of_true hA hB
 
-theorem eq_166 : (1 + A * B)⁻¹ = 1 - A * (1 + B * A)⁻¹ * B :=
-  sorry
+theorem eq_166 : (1 + A * B)⁻¹ = 1 - A * (1 + B * A)⁻¹ * B := by
+  rw [eq_159]
+  simp only [inv_one, Matrix.one_mul, Matrix.mul_one]
+
 
 theorem eq_167 : (1 + A * B)⁻¹ * A = A * (1 + B * A)⁻¹ :=
   sorry
