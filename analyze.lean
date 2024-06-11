@@ -94,7 +94,7 @@ def getTitle (n : Name) : CoreM String := do
 
 def makeSVG (cells : List (ℕ × String × Option String × Status))
     (sections : Array (String × ℕ × ℕ)): Id String := do
-  let mut counts := Std.mkHashMap
+  let mut counts := Batteries.mkHashMap
   for s in [Status.missing, Status.notStated, Status.stated, Status.proved] do
     counts := counts.insert s 0
   for (_, _, _, s) in cells do
@@ -141,7 +141,7 @@ where
 
 def makeTIKZ (cells : List (ℕ × String × Option String × Status))
     (sections : Array (String × ℕ × ℕ)): Id String := do
-  let mut counts := Std.mkHashMap
+  let mut counts := Batteries.mkHashMap
   for s in [Status.missing, Status.notStated, Status.stated, Status.proved] do
     counts := counts.insert s 0
   for (_, _, _, s) in cells do
@@ -205,7 +205,7 @@ def getOutput (is_svg : Bool): CoreM String := do
         lastn := i
     lastf := some fn
   sections := sections.push (lastf.get!, (lastn, infos.length))
-  let mut shortNames := Std.mkHashMap
+  let mut shortNames := Batteries.mkHashMap
   shortNames := shortNames.insert "Solutions and Decompositions" "Decompositions"
   shortNames := shortNames.insert "Statistics and Probability" "Statistics"
   shortNames := shortNames.insert "Multivariate Distributions" "MV Dists."
