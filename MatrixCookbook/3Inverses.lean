@@ -124,14 +124,19 @@ theorem eq_161 : (1 + A⁻¹)⁻¹ = A * (A + 1)⁻¹ :=
 theorem eq_162 : (A + Bᵀ * B)⁻¹ * B = A⁻¹ * B * (1 + Bᵀ * A⁻¹ * B)⁻¹ :=
   sorry
 
-theorem eq_163 : (A⁻¹ + B⁻¹)⁻¹ = A * (A + B)⁻¹ * B ∧ (A⁻¹ + B⁻¹)⁻¹ = B * (A + B)⁻¹ * A :=
-  sorry
+theorem eq_163 (hA : IsUnit A) (hB : IsUnit B) :
+    (A⁻¹ + B⁻¹)⁻¹ = A * (A + B)⁻¹ * B ∧ (A⁻¹ + B⁻¹)⁻¹ = B * (A + B)⁻¹ * A := by
+  letI := hA.invertible; letI := hB.invertible
+  conv_lhs => rw [add_comm]
+  rw [Matrix.inv_add_inv (iff_of_true hA hB), Matrix.inv_add_inv (iff_of_true hB hA)]
+  simp_rw [Matrix.mul_inv_rev, Matrix.inv_inv_of_invertible, mul_assoc, add_comm]
+  simp
 
 theorem eq_164 : A - A * (A + B)⁻¹ * A = B - B * (A + B)⁻¹ * B :=
   sorry
 
-theorem eq_165 : A⁻¹ + B⁻¹ = A⁻¹ * (A + B)⁻¹ * B⁻¹ :=
-  sorry
+theorem eq_165 (hA : IsUnit A) (hB : IsUnit B) : A⁻¹ + B⁻¹ = A⁻¹ * (A + B) * B⁻¹ :=
+  Matrix.inv_add_inv <| iff_of_true hA hB
 
 theorem eq_166 : (1 + A * B)⁻¹ = 1 - A * (1 + B * A)⁻¹ * B :=
   sorry
