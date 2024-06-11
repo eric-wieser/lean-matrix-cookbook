@@ -218,12 +218,10 @@ attribute [local instance] Matrix.linftyOpNormedAddCommGroup Matrix.linftyOpNorm
 
 attribute [local instance] Matrix.linftyOpNormedRing Matrix.linftyOpNormedAlgebra
 
-attribute [local instance] Matrix.linfty_op_normOneClass
-
 lemma eq_533 (A : Matrix m n ℝ) : ‖A‖ = sSup { ‖A.mulVec x‖ | (x) (hx : ‖x‖ = 1)} := by
   suffices ‖A‖ = sSup ((‖A.mulVec ·‖) '' Metric.sphere 0 1) by
     simpa [Set.image, mem_sphere_zero_iff_norm] using this
-  simp_rw [linfty_op_norm_eq_op_norm]
+  simp_rw [linfty_opNorm_eq_opNorm]
   -- this is not quite the right lemma
   rw [←ContinuousLinearMap.sSup_unit_ball_eq_norm]
   sorry
@@ -232,10 +230,10 @@ theorem eq_534 [Nonempty n] : ‖(1 : Matrix n n ℝ)‖ = 1 :=
   norm_one
 
 theorem eq_535 (A : Matrix m n ℝ) (x : n → ℝ) : ‖A.mulVec x‖ ≤ ‖A‖ * ‖x‖ :=
-  linfty_op_norm_mulVec _ _
+  linfty_opNorm_mulVec _ _
 
 theorem eq_536 (A : Matrix m n ℝ) (B : Matrix n p ℝ) : ‖A * B‖ ≤ ‖A‖ * ‖B‖ :=
-  linfty_op_norm_mul _ _
+  linfty_opNorm_mul _ _
 
 end
 
@@ -251,7 +249,7 @@ section
 attribute [local instance] Matrix.linftyOpNormedAddCommGroup Matrix.linftyOpNormedSpace
 
 theorem eq_540 (A : Matrix m n ℝ) : ‖A‖ = ↑(Finset.univ.sup fun i => ∑ j, ‖A i j‖₊) := by
-  rw [linfty_op_norm_def]
+  rw [linfty_opNorm_def]
 
 end
 
