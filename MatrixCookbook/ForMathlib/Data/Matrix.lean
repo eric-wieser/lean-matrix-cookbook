@@ -1,5 +1,5 @@
 import Mathlib.LinearAlgebra.Matrix.Trace
-import Mathlib.LinearAlgebra.Matrix.Determinant
+import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 import Mathlib.Data.Matrix.Notation
 import Mathlib.Data.Fintype.BigOperators
 -- import Mathlib.Tactic.NormFin
@@ -72,4 +72,3 @@ theorem det_fin_four (A : Matrix (Fin 4) (Fin 4) R) :
   ring
 
 end Matrix
-

@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Mohanad Ahmed, Eric Wieser
 -/
 import Mathlib.LinearAlgebra.Matrix.Trace
-import Mathlib.LinearAlgebra.Matrix.Determinant
+import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 import Mathlib.Data.Matrix.Notation
 import Mathlib.Data.Fintype.BigOperators
 import Mathlib.Tactic.Ring

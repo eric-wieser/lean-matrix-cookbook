@@ -1,5 +1,6 @@
 import Mathlib.Algebra.Ring.Idempotents
 import Mathlib.Data.Complex.Basic
+import Mathlib.Data.Matrix.PEquiv
 import Mathlib.Data.Matrix.Reflection
 import Mathlib.LinearAlgebra.Matrix.Hermitian
 import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
@@ -91,34 +92,34 @@ theorem eq_402 (A₁₁ : Matrix m m R) (A₂₂ : Matrix n n R) :
 /-! ## Discrete Fourier Transform Matrix, The -/
 
 
-theorem eq_403 : sorry :=
+theorem eq_403 : (sorry : Prop) :=
   sorry
 
-theorem eq_404 : sorry :=
+theorem eq_404 : (sorry : Prop) :=
   sorry
 
-theorem eq_405 : sorry :=
+theorem eq_405 : (sorry : Prop) :=
   sorry
 
-theorem eq_406 : sorry :=
+theorem eq_406 : (sorry : Prop) :=
   sorry
 
-theorem eq_407 : sorry :=
+theorem eq_407 : (sorry : Prop) :=
   sorry
 
-theorem eq_408 : sorry :=
+theorem eq_408 : (sorry : Prop) :=
   sorry
 
-theorem eq_409 : sorry :=
+theorem eq_409 : (sorry : Prop) :=
   sorry
 
-theorem eq_410 : sorry :=
+theorem eq_410 : (sorry : Prop) :=
   sorry
 
-theorem eq_411 : sorry :=
+theorem eq_411 : (sorry : Prop) :=
   sorry
 
-theorem eq_412 : sorry :=
+theorem eq_412 : (sorry : Prop) :=
   sorry
 
 /-! ## Hermitian Matrices and skew-Hermitian -/
@@ -141,7 +142,7 @@ theorem eq_416 (A : Matrix m m ℂ) :
     A ∈ skewAdjoint (Matrix m m ℂ) ↔ ∀ x y, star x ⬝ᵥ A.mulVec y = -star x ⬝ᵥ Aᴴ.mulVec y :=
   sorry
 
-theorem eq_417 (A : Matrix m m ℂ) : A.IsHermitian → sorry :=
+theorem eq_417 (A : Matrix m m ℂ) : A.IsHermitian → (sorry : Prop) :=
   sorry
 
 /-! ## Idempotent Matrices -/
@@ -180,10 +181,10 @@ theorem eq_425 (hA : IsIdempotentElem A) : (1 - A) * A = 0 := by
    -- porting note: was `simp [sub_mul, ← Matrix.mul_eq_mul, hA.eq]`
   rw [Matrix.sub_mul, Matrix.one_mul, hA.eq, sub_self]
 
-theorem eq_426 : sorry :=
+theorem eq_426 : (sorry : Prop) :=
   sorry
 
-theorem eq_427 : sorry :=
+theorem eq_427 : (sorry : Prop) :=
   sorry
 
 end
@@ -191,13 +192,13 @@ end
 /-! ### Nilpotent -/
 
 
-theorem eq_428 : sorry :=
+theorem eq_428 : (sorry : Prop) :=
   sorry
 
 /-! ### Unipotent -/
 
 
-theorem eq_429 : sorry :=
+theorem eq_429 : (sorry : Prop) :=
   sorry
 
 /-! ## Orthogonal matrices -/
@@ -206,37 +207,37 @@ theorem eq_429 : sorry :=
 /-! ### Ortho-Sym -/
 
 
-theorem eq_430 : sorry :=
+theorem eq_430 : (sorry : Prop) :=
   sorry
 
-theorem eq_431 : sorry :=
+theorem eq_431 : (sorry : Prop) :=
   sorry
 
-theorem eq_432 : sorry :=
+theorem eq_432 : (sorry : Prop) :=
   sorry
 
-theorem eq_433 : sorry :=
+theorem eq_433 : (sorry : Prop) :=
   sorry
 
 /-! ### Ortho-Skew -/
 
 
-theorem eq_434 : sorry :=
+theorem eq_434 : (sorry : Prop) :=
   sorry
 
-theorem eq_435 : sorry :=
+theorem eq_435 : (sorry : Prop) :=
   sorry
 
-theorem eq_436 : sorry :=
+theorem eq_436 : (sorry : Prop) :=
   sorry
 
-theorem eq_437 : sorry :=
+theorem eq_437 : (sorry : Prop) :=
   sorry
 
 /-! ### Decomposition -/
 
 
-theorem eq_438 : sorry :=
+theorem eq_438 : (sorry : Prop) :=
   sorry
 
 /-! ## Positive Definite and Semi-definite Matrices -/
@@ -254,13 +255,13 @@ theorem eq_440 (A : Matrix n n ℝ) : A.PosSemidef ↔ ∀ x, x ⬝ᵥ A.mulVec 
 /-! ### Eigenvalues -/
 
 
-theorem eq_441 : sorry :=
+theorem eq_441 : (sorry : Prop) :=
   sorry
 
 /-! ### Trace -/
 
 
-theorem eq_442 : sorry :=
+theorem eq_442 : (sorry : Prop) :=
   sorry
 
 /-! ### Inverse -/
@@ -379,13 +380,13 @@ theorem eq_455  (A : Matrix n n R) (i : n) (j : n) (B : Matrix n n R) (x : n →
 /-! ### Structure Matrices -/
 
 
-theorem eq_456 : sorry :=
+theorem eq_456 : (sorry : Prop) :=
   sorry
 
-theorem eq_457 : sorry :=
+theorem eq_457 : (sorry : Prop) :=
   sorry
 
-theorem eq_458 : sorry :=
+theorem eq_458 : (sorry : Prop) :=
   sorry
 
 /-! ## Symmetric, Skew-symmetric/Antisymmetric -/
@@ -413,28 +414,28 @@ theorem eq_462 (A : Matrix m m R) (hA : A = -Aᵀ) (hn : Odd (Fintype.card m)) :
 /-! ### Decomposition -/
 
 
-theorem eq_463 : sorry :=
+theorem eq_463 : (sorry : Prop) :=
   sorry
 
-theorem eq_464 : sorry :=
+theorem eq_464 : (sorry : Prop) :=
   sorry
 
 /-! ## Toeplitz Matrices -/
 
 
-theorem eq_465 : sorry :=
+theorem eq_465 : (sorry : Prop) :=
   sorry
 
-theorem eq_466 : sorry :=
+theorem eq_466 : (sorry : Prop) :=
   sorry
 
-theorem eq_467 : sorry :=
+theorem eq_467 : (sorry : Prop) :=
   sorry
 
-theorem eq_468 : sorry :=
+theorem eq_468 : (sorry : Prop) :=
   sorry
 
-theorem eq_469 : sorry :=
+theorem eq_469 : (sorry : Prop) :=
   sorry
 
 /-! ### Properties of Toeplitz Matrices -/
@@ -443,19 +444,19 @@ theorem eq_469 : sorry :=
 /-! ## Transition matrices -/
 
 
-theorem eq_470 : sorry :=
+theorem eq_470 : (sorry : Prop) :=
   sorry
 
-theorem eq_471 : sorry :=
+theorem eq_471 : (sorry : Prop) :=
   sorry
 
-theorem eq_472 : sorry :=
+theorem eq_472 : (sorry : Prop) :=
   sorry
 
-theorem eq_473 : sorry :=
+theorem eq_473 : (sorry : Prop) :=
   sorry
 
-theorem eq_474 : sorry :=
+theorem eq_474 : (sorry : Prop) :=
   sorry
 
 /-! ## Units, Permutation and Shift -/
@@ -485,25 +486,25 @@ theorem eq_478 (e : Equiv.Perm m) :
   rw [← PEquiv.toMatrix_symm, ← PEquiv.toMatrix_trans, ← Equiv.toPEquiv_symm, ←
     Equiv.toPEquiv_trans, Equiv.self_trans_symm, Equiv.toPEquiv_refl, PEquiv.toMatrix_refl]
 
-theorem eq_479 : sorry :=
+theorem eq_479 : (sorry : Prop) :=
   sorry
 
 /-! ### Translation, Shift or Lag Operators -/
 
 
-theorem eq_480 : sorry :=
+theorem eq_480 : (sorry : Prop) :=
   sorry
 
-theorem eq_481 : sorry :=
+theorem eq_481 : (sorry : Prop) :=
   sorry
 
-theorem eq_482 : sorry :=
+theorem eq_482 : (sorry : Prop) :=
   sorry
 
-theorem eq_483 : sorry :=
+theorem eq_483 : (sorry : Prop) :=
   sorry
 
-theorem eq_484 : sorry :=
+theorem eq_484 : (sorry : Prop) :=
   sorry
 
 /-! ## Vandermonde Matrices -/

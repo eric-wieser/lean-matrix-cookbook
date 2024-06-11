@@ -110,7 +110,7 @@ theorem eq_511 (A : Matrix l m R) (B : Matrix p q R) (C : Matrix m n R) (D : Mat
 theorem eq_512 (A : Matrix m m R) (B : Matrix n n R) : (A ⊗ₖ B)⁻¹ = A⁻¹ ⊗ₖ B⁻¹ :=
   inv_kronecker _ _
 
--- lemma eq_513 : sorry := sorry
+-- lemma eq_513 : (sorry : Prop) := sorry
 
 lemma eq_514 (A : Matrix l m R) (B : Matrix p q R) : rank (A ⊗ₖ B) = rank A * rank B := sorry
 
@@ -122,9 +122,9 @@ theorem eq_516 (A : Matrix m m R) (B : Matrix n n R) :
     det (A ⊗ₖ B) = det A ^ Fintype.card n * det B ^ Fintype.card m :=
   det_kronecker _ _
 
-lemma eq_517 : sorry := sorry
-lemma eq_518 : sorry := sorry
-lemma eq_519 : sorry := sorry
+lemma eq_517 : (sorry : Prop) := sorry
+lemma eq_518 : (sorry : Prop) := sorry
+lemma eq_519 : (sorry : Prop) := sorry
 
 /-! #### The Vec Operator -/
 
@@ -242,8 +242,8 @@ end
 
 lemma eq_537 (A : Matrix m n ℝ) : sorry = ⨆ j, ∑ i, ‖A i j‖ := sorry
 
--- lemma eq_538 : sorry := sorry
--- lemma eq_539 : sorry := sorry
+-- lemma eq_538 : (sorry : Prop) := sorry
+-- lemma eq_539 : (sorry : Prop) := sorry
 section
 
 attribute [local instance] Matrix.linftyOpNormedAddCommGroup Matrix.linftyOpNormedSpace
@@ -284,7 +284,7 @@ end
 /-! #### Sylvester’s Inequality -/
 
 
--- lemma eq_543 : sorry := sorry
+-- lemma eq_543 : (sorry : Prop) := sorry
 lemma eq_544 (A : Matrix m n ℝ) :
     letI m' := Fintype.card m
     letI n' := Fintype.card n
@@ -300,7 +300,7 @@ lemma eq_544 (A : Matrix m n ℝ) :
     ∀ i j, norms i A ≤ coeffs i j * norms j A := sorry
 
 
--- lemma eq_545 : sorry := sorry
+-- lemma eq_545 : (sorry : Prop) := sorry
 theorem eq_546 (A : Matrix m n ℝ) (B : Matrix n r ℝ) :
     rank A + rank B - Fintype.card n ≤ rank (A * B) ∧ rank (A * B) ≤ min (rank A) (rank B) :=
   ⟨sorry, rank_mul_le _ _⟩
@@ -311,8 +311,8 @@ theorem eq_546 (A : Matrix m n ℝ) (B : Matrix n r ℝ) :
 /-! ### Miscellaneous -/
 
 
--- lemma eq_547 : sorry := sorry
--- lemma eq_548 : sorry := sorry
+-- lemma eq_547 : (sorry : Prop) := sorry
+-- lemma eq_548 : (sorry : Prop) := sorry
 theorem eq_549 (A : Matrix m n ℝ) :
     A.rank = Aᵀ.rank ∧ A.rank = (A * Aᵀ).rank ∧ A.rank = (Aᵀ * A).rank :=
   ⟨A.rank_transpose.symm, A.rank_self_mul_transpose.symm, A.rank_transpose_mul_self.symm⟩

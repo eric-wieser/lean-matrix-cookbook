@@ -11,97 +11,97 @@ theorem eq_225 (z : ℂ) : Algebra.leftMulMatrix Complex.basisOneI z = !![z.re, 
 /-! ## Complex Derivatives -/
 
 
-theorem eq_226 : sorry :=
+theorem eq_226 : (sorry : Prop) :=
   sorry
 
-theorem eq_227 : sorry :=
+theorem eq_227 : (sorry : Prop) :=
   sorry
 
-theorem eq_228 : sorry :=
+theorem eq_228 : (sorry : Prop) :=
   sorry
 
-theorem eq_229 : sorry :=
+theorem eq_229 : (sorry : Prop) :=
   sorry
 
-theorem eq_230 : sorry :=
+theorem eq_230 : (sorry : Prop) :=
   sorry
 
-theorem eq_231 : sorry :=
+theorem eq_231 : (sorry : Prop) :=
   sorry
 
-theorem eq_232 : sorry :=
+theorem eq_232 : (sorry : Prop) :=
   sorry
 
-theorem eq_233 : sorry :=
+theorem eq_233 : (sorry : Prop) :=
   sorry
 
 /-! ### The Chain Rule for complex numbers -/
 
 
-theorem eq_234 : sorry :=
+theorem eq_234 : (sorry : Prop) :=
   sorry
 
-theorem eq_235 : sorry :=
+theorem eq_235 : (sorry : Prop) :=
   sorry
 
 /-! ### Complex Derivatives of Traces -/
 
 
-theorem eq_236 : sorry :=
+theorem eq_236 : (sorry : Prop) :=
   sorry
 
-theorem eq_237 : sorry :=
+theorem eq_237 : (sorry : Prop) :=
   sorry
 
-theorem eq_238 : sorry :=
+theorem eq_238 : (sorry : Prop) :=
   sorry
 
-theorem eq_239 : sorry :=
+theorem eq_239 : (sorry : Prop) :=
   sorry
 
-theorem eq_240 : sorry :=
+theorem eq_240 : (sorry : Prop) :=
   sorry
 
-theorem eq_241 : sorry :=
+theorem eq_241 : (sorry : Prop) :=
   sorry
 
-theorem eq_242 : sorry :=
+theorem eq_242 : (sorry : Prop) :=
   sorry
 
-theorem eq_243 : sorry :=
+theorem eq_243 : (sorry : Prop) :=
   sorry
 
-theorem eq_244 : sorry :=
+theorem eq_244 : (sorry : Prop) :=
   sorry
 
-theorem eq_245 : sorry :=
+theorem eq_245 : (sorry : Prop) :=
   sorry
 
-theorem eq_246 : sorry :=
+theorem eq_246 : (sorry : Prop) :=
   sorry
 
-theorem eq_247 : sorry :=
+theorem eq_247 : (sorry : Prop) :=
   sorry
 
-theorem eq_248 : sorry :=
+theorem eq_248 : (sorry : Prop) :=
   sorry
 
 /-! ### Complex Derivative Involving Determinants -/
 
 
-theorem eq_249 : sorry :=
+theorem eq_249 : (sorry : Prop) :=
   sorry
 
-theorem eq_250 : sorry :=
+theorem eq_250 : (sorry : Prop) :=
   sorry
 
 /-! ## Higher order and non-linear derivatives -/
 
 
-theorem eq_251 : sorry :=
+theorem eq_251 : (sorry : Prop) :=
   sorry
 
-theorem eq_252 : sorry :=
+theorem eq_252 : (sorry : Prop) :=
   sorry
 
 /-! ## Inverse of complex sum -/

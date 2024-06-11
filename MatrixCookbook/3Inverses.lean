@@ -68,13 +68,13 @@ theorem eq_151 : A⁻¹ = (1 / A.det) • adjugate A := by rw [inv_def, Ring.inv
 /-! ### Condition number -/
 
 
-theorem eq_152 : sorry :=
+theorem eq_152 : (sorry : Prop) :=
   sorry
 
-theorem eq_153 : sorry :=
+theorem eq_153 : (sorry : Prop) :=
   sorry
 
-theorem eq_154 : sorry :=
+theorem eq_154 : (sorry : Prop) :=
   sorry
 
 /-! ## Exact Relations -/
@@ -89,13 +89,13 @@ theorem eq_155 (A B : Matrix m m ℂ) : (A * B)⁻¹ = B⁻¹ * A⁻¹ :=
 /-! ### The Woodbury identity -/
 
 
-theorem eq_156 : sorry :=
+theorem eq_156 : (sorry : Prop) :=
   sorry
 
-theorem eq_157 : sorry :=
+theorem eq_157 : (sorry : Prop) :=
   sorry
 
-theorem eq_158 : sorry :=
+theorem eq_158 : (sorry : Prop) :=
   sorry
 
 /-! ### The Kailath Variant -/
@@ -145,52 +145,52 @@ theorem eq_167 : (1 + A * B)⁻¹ * A = A * (1 + B * A)⁻¹ :=
 /-! ### Rank-1 update of Moore-Penrose Inverse -/
 
 
-theorem eq_168 : sorry :=
+theorem eq_168 : (sorry : Prop) :=
   sorry
 
-theorem eq_169 : sorry :=
+theorem eq_169 : (sorry : Prop) :=
   sorry
 
-theorem eq_170 : sorry :=
+theorem eq_170 : (sorry : Prop) :=
   sorry
 
-theorem eq_171 : sorry :=
+theorem eq_171 : (sorry : Prop) :=
   sorry
 
-theorem eq_172 : sorry :=
+theorem eq_172 : (sorry : Prop) :=
   sorry
 
-theorem eq_173 : sorry :=
+theorem eq_173 : (sorry : Prop) :=
   sorry
 
-theorem eq_174 : sorry :=
+theorem eq_174 : (sorry : Prop) :=
   sorry
 
-theorem eq_175 : sorry :=
+theorem eq_175 : (sorry : Prop) :=
   sorry
 
-theorem eq_176 : sorry :=
+theorem eq_176 : (sorry : Prop) :=
   sorry
 
-theorem eq_177 : sorry :=
+theorem eq_177 : (sorry : Prop) :=
   sorry
 
-theorem eq_178 : sorry :=
+theorem eq_178 : (sorry : Prop) :=
   sorry
 
-theorem eq_179 : sorry :=
+theorem eq_179 : (sorry : Prop) :=
   sorry
 
-theorem eq_180 : sorry :=
+theorem eq_180 : (sorry : Prop) :=
   sorry
 
-theorem eq_181 : sorry :=
+theorem eq_181 : (sorry : Prop) :=
   sorry
 
-theorem eq_182 : sorry :=
+theorem eq_182 : (sorry : Prop) :=
   sorry
 
-theorem eq_183 : sorry :=
+theorem eq_183 : (sorry : Prop) :=
   sorry
 
 /-! ## Implication on Inverses -/
@@ -202,52 +202,52 @@ theorem eq_184 : (A + B)⁻¹ = A⁻¹ + B⁻¹ → A * B⁻¹ * A = B * A⁻¹ 
 /-! ### A PosDef identity -/
 
 
-theorem eq_185 : sorry :=
+theorem eq_185 : (sorry : Prop) :=
   sorry
 
 /-! ## Approximations -/
 
 
-theorem eq_186 : sorry :=
+theorem eq_186 : (sorry : Prop) :=
   sorry
 
-theorem eq_187 : sorry :=
+theorem eq_187 : (sorry : Prop) :=
   sorry
 
-theorem eq_188 : sorry :=
+theorem eq_188 : (sorry : Prop) :=
   sorry
 
-theorem eq_189 : sorry :=
+theorem eq_189 : (sorry : Prop) :=
   sorry
 
-theorem eq_190 : sorry :=
+theorem eq_190 : (sorry : Prop) :=
   sorry
 
-theorem eq_191 : sorry :=
+theorem eq_191 : (sorry : Prop) :=
   sorry
 
-theorem eq_192 : sorry :=
+theorem eq_192 : (sorry : Prop) :=
   sorry
 
-theorem eq_193 : sorry :=
+theorem eq_193 : (sorry : Prop) :=
   sorry
 
-theorem eq_194 : sorry :=
+theorem eq_194 : (sorry : Prop) :=
   sorry
 
-theorem eq_195 : sorry :=
+theorem eq_195 : (sorry : Prop) :=
   sorry
 
-theorem eq_196 : sorry :=
+theorem eq_196 : (sorry : Prop) :=
   sorry
 
-theorem eq_197 : sorry :=
+theorem eq_197 : (sorry : Prop) :=
   sorry
 
 /-! ## Generalized Inverse -/
 
 
-theorem eq_198 : sorry :=
+theorem eq_198 : (sorry : Prop) :=
   sorry
 
 /-! ### Definition -/
@@ -256,92 +256,91 @@ theorem eq_198 : sorry :=
 /-! ## Pseudo Inverse -/
 
 
-theorem eq_199 : sorry :=
+theorem eq_199 : (sorry : Prop) :=
   sorry
 
-theorem eq_200 : sorry :=
+theorem eq_200 : (sorry : Prop) :=
   sorry
 
-theorem eq_201 : sorry :=
+theorem eq_201 : (sorry : Prop) :=
   sorry
 
-theorem eq_202 : sorry :=
+theorem eq_202 : (sorry : Prop) :=
   sorry
 
-theorem eq_203 : sorry :=
+theorem eq_203 : (sorry : Prop) :=
   sorry
 
-theorem eq_204 : sorry :=
+theorem eq_204 : (sorry : Prop) :=
   sorry
 
-theorem eq_205 : sorry :=
+theorem eq_205 : (sorry : Prop) :=
   sorry
 
-theorem eq_206 : sorry :=
+theorem eq_206 : (sorry : Prop) :=
   sorry
 
-theorem eq_207 : sorry :=
+theorem eq_207 : (sorry : Prop) :=
   sorry
 
-theorem eq_208 : sorry :=
+theorem eq_208 : (sorry : Prop) :=
   sorry
 
-theorem eq_209 : sorry :=
+theorem eq_209 : (sorry : Prop) :=
   sorry
 
-theorem eq_210 : sorry :=
+theorem eq_210 : (sorry : Prop) :=
   sorry
 
-theorem eq_211 : sorry :=
+theorem eq_211 : (sorry : Prop) :=
   sorry
 
-theorem eq_212 : sorry :=
+theorem eq_212 : (sorry : Prop) :=
   sorry
 
-theorem eq_213 : sorry :=
+theorem eq_213 : (sorry : Prop) :=
   sorry
 
-theorem eq_214 : sorry :=
+theorem eq_214 : (sorry : Prop) :=
   sorry
 
-theorem eq_215 : sorry :=
+theorem eq_215 : (sorry : Prop) :=
   sorry
 
-theorem eq_216 : sorry :=
+theorem eq_216 : (sorry : Prop) :=
   sorry
 
 /-! ### Definition -/
 
 
-theorem eq_217 : sorry :=
+theorem eq_217 : (sorry : Prop) :=
   sorry
 
-theorem eq_218 : sorry :=
+theorem eq_218 : (sorry : Prop) :=
   sorry
 
-theorem eq_219 : sorry :=
+theorem eq_219 : (sorry : Prop) :=
   sorry
 
-theorem eq_220 : sorry :=
+theorem eq_220 : (sorry : Prop) :=
   sorry
 
 /-! ### Properties -/
 
 
-theorem eq_221 : sorry :=
+theorem eq_221 : (sorry : Prop) :=
   sorry
 
-theorem eq_222 : sorry :=
+theorem eq_222 : (sorry : Prop) :=
   sorry
 
 /-! ### Construction -/
 
 
-theorem eq_223 : sorry :=
+theorem eq_223 : (sorry : Prop) :=
   sorry
 
-theorem eq_224 : sorry :=
+theorem eq_224 : (sorry : Prop) :=
   sorry
 
 end MatrixCookbook
-
