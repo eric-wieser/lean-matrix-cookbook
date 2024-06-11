@@ -9,7 +9,7 @@ import Mathlib.Data.Matrix.Notation
 import Mathlib.Data.Fintype.BigOperators
 import Mathlib.Tactic.Ring
 -- import Mathlib.Tactic.NormFin
-import Mathlib.Data.IsROrC.Basic
+import Mathlib.Analysis.RCLike.Basic
 import Mathlib.Algebra.CharP.Basic
 import MatrixCookbook.ForMathlib.Data.Matrix
 
@@ -18,7 +18,7 @@ import MatrixCookbook.ForMathlib.Data.Matrix
 
 This file contains lemmas in rather verbose form of matrix fin 4 fin 4 R.
 
-These are used to prove equation 27 in the matrix cookbook. 
+These are used to prove equation 27 in the matrix cookbook.
 
 The results are all for commutative rings.
 
@@ -250,4 +250,3 @@ theorem sq_trace_fin_four (A : Matrix (Fin 4) (Fin 4) R) :
         2 * A 2 2 * A 3 3 := by
   rw [trace_fin_four, pow_two]
   ring
-

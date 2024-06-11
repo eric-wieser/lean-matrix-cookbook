@@ -91,7 +91,7 @@ theorem eq_507 [Nontrivial m] [Nonempty n] :
   let B := stdBasisMatrix m2 n1 (1 : R)
   have := Matrix.ext_iff.mpr (h A B) (m1, m2) (n1, n1)
   simp [StdBasisMatrix.apply_same, StdBasisMatrix.apply_of_row_ne hm,
-    mul_zero, mul_one, one_ne_zero] at this
+    mul_zero, mul_one, one_ne_zero, A, B] at this
 
 /-- Note we have to "cast" between the types -/
 theorem eq_508 (A : Matrix m n R) (B : Matrix r q R) (C : Matrix l p R) :
@@ -155,7 +155,7 @@ theorem eq_524 (a : m → R) (X : Matrix m n R) (B : Matrix n n R) (c : m → R)
   ext ⟨i, j⟩
   simp only [vec, Matrix.mul_apply, Finset.sum_mul, Finset.mul_sum, Matrix.kroneckerMap_apply,
     transpose_apply, Matrix.row_apply, Matrix.col_apply, Fintype.sum_unique]
-  simp_rw [← Finset.univ_product_univ, Finset.sum_product, @Finset.sum_comm _ m n]
+  simp_rw [← Finset.univ_product_univ, Finset.sum_product, @Finset.sum_comm n _ m]
   rw [Finset.sum_comm]
   refine' Finset.sum_congr rfl fun k _ => _
   refine' Finset.sum_congr rfl fun l _ => _
