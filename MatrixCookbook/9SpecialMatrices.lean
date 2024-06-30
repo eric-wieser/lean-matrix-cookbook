@@ -193,10 +193,16 @@ theorem eq_404 {N : ℕ} (x : Fin N → ℂ) (k : Fin N): (dft x) k =  ∑ (n : 
 
 theorem eq_405 {N : ℕ} (X : Fin N → ℂ) (n : Fin N): (idft X) n =  (1 / N) * ∑ (k : Fin N), (Wₙ (-k) n) * (X k) := by
   simp only [idft, one_div]
+  done
 
-theorem eq_406 {N : ℕ} (x : Fin N → ℂ) : (dft x) = Matrix.mulVec Wₙ x := rfl
+theorem eq_406 {N : ℕ} (x : Fin N → ℂ) : (dft x) = Matrix.mulVec Wₙ x := by rfl
 
--- theorem eq_407 {N : ℕ} (X : Fin N → ℂ) : (idft X) = Matrix.mulVec  :=
+-- theorem eq_407 {N : ℕ} (X : Fin N → ℂ) : (idft X) = Matrix.mulVec Wₙ⁻¹ X := by
+--   rw [inv_Wₙ]
+--   unfold idft iWₙ
+--   funext z
+
+
 --   sorry
 
 theorem eq_408 : (sorry : Prop) :=
