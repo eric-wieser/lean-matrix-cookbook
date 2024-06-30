@@ -1,10 +1,12 @@
-import linear_algebra.matrix.nonsingular_inverse
-import linear_algebra.matrix.trace
-import data.real.nnreal
-import topology.metric_space.basic
 import data.matrix.notation
+import data.real.nnreal
+import linear_algebra.matrix.charpoly.eigs
+import linear_algebra.matrix.nonsingular_inverse
+import linear_algebra.matrix.schur_complement
+import linear_algebra.matrix.trace
 import ring_theory.power_series.basic
 import tactic.norm_fin
+import topology.metric_space.basic
 
 import matrix_cookbook.lib.trace_det_fin_four
 
@@ -37,7 +39,7 @@ lemma eq_10 [star_ring R] {l : list (matrix m m R)} : l.prodᴴ = (l.map conj_tr
 section
 
 lemma eq_11 {A : matrix m m R} : trace A = ∑ i, A i i := rfl
-lemma eq_12 {A : matrix m m R} (eigvals : m → R) : trace A = ∑ i, eigvals i := sorry
+lemma eq_12 {A : matrix m m R} [is_alg_closed R] : trace A = A.charpoly.roots.sum := trace_eq_sum_roots_charpoly _
 lemma eq_13 {A : matrix m m R} : trace A = trace Aᵀ := (matrix.trace_transpose _).symm
 lemma eq_14 {A : matrix m n R} {B : matrix n m R} : trace (A ⬝ B) = trace (B ⬝ A) := matrix.trace_mul_comm _ _
 lemma eq_15 {A B : matrix m m R} : trace (A + B) = trace A + trace B := trace_add _ _
@@ -50,7 +52,7 @@ end
 /-! ### Determinant -/
 
 -- `matrix.is_hermitian.det_eq_prod_eigenvalues` is close, but needs `A` to be hermitian which is too strong
-lemma eq_18 {A : matrix m m R} (eigvals : m → R) : det A = ∏ i, eigvals i := sorry
+lemma eq_18 {A : matrix m m R} [is_alg_closed R] : det A = A.charpoly.roots.prod := det_eq_prod_roots_charpoly _
 lemma eq_19 (c : R) {A : matrix m m R} : det (c • A) = c ^ fintype.card m * det A := det_smul _ _
 lemma eq_20 {A : matrix m m R} : det (Aᵀ) = det A := det_transpose _
 lemma eq_21 {A B : matrix m m R} : det (A * B) = det A * det B := det_mul _ _
