@@ -236,7 +236,7 @@ theorem eq_409 {N : ℕ} : (@Wₙ N) * Wₙᴴ = (N:ℂ) • 1 := by
     rw [ne_eq, one_div, inv_eq_zero, Nat.cast_eq_zero]
     apply hN
   · rw [ne_eq, not_not] at hN
-    funext a b
+    funext a
     exfalso
     apply Fin.elim0 (by convert a; exact hN.symm)
 
