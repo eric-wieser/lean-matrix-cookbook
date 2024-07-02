@@ -102,6 +102,7 @@ noncomputable def Wₙ {N: ℕ}: Matrix (Fin N) (Fin N) ℂ :=
 
 noncomputable def iWₙ {N: ℕ} : Matrix (Fin N) (Fin N) ℂ :=
   fun k n => (1/N) * Complex.exp (2 * π * I * k * n / N)
+
 lemma mod_eq_mod_neg (m a : ℤ) : Int.mod (-a) m = -Int.mod (a) m := by
   rw [Int.mod_def, Int.mod_def, Int.neg_div, neg_sub', mul_neg, sub_neg_eq_add]
 
@@ -181,32 +182,45 @@ theorem inv_Wₙ {N: ℕ} : Wₙ⁻¹ = @iWₙ N := by
   exact hN
   apply cexp_sub_ne_one _ _ h
 
+lemma iWₙ_inv_def {N : ℕ} (k n : Fin N) :  Wₙ⁻¹ k n = (1/N) * Complex.exp (2 * π * I * k * n / N) := by
+  rw [inv_Wₙ, iWₙ]
+
 theorem eq_403 {N : ℕ} (k n : Fin N) :  Wₙ k n = Complex.exp (-2 * π * I * k * n / N) := rfl
 
 noncomputable def dft {N: ℕ} (x: (Fin N) → ℂ) : (Fin N → ℂ) :=
   fun (k: Fin N) => ∑ (n : Fin N), (Wₙ k n) * (x n)
 
 noncomputable def idft {N: ℕ} (X: (Fin N) → ℂ) : (Fin N → ℂ) :=
-  fun (n: Fin N) => (1 / N) * ∑ (k : Fin N), (Wₙ (-k) n) * (X k)
+  fun (n: Fin N) => ∑ (k : Fin N), (Wₙ⁻¹ k n) * (X k)
 
 theorem eq_404 {N : ℕ} (x : Fin N → ℂ) (k : Fin N): (dft x) k =  ∑ (n : Fin N), (Wₙ k n) * (x n) := rfl
 
-theorem eq_405 {N : ℕ} (X : Fin N → ℂ) (n : Fin N): (idft X) n =  (1 / N) * ∑ (k : Fin N), (Wₙ (-k) n) * (X k) := by
-  simp only [idft, one_div]
-  done
+theorem eq_405 {N : ℕ} (X : Fin N → ℂ) (n : Fin N): (idft X) n =  ∑ (k : Fin N), (Wₙ⁻¹ k n) * (X k) := by rfl
 
 theorem eq_406 {N : ℕ} (x : Fin N → ℂ) : (dft x) = Matrix.mulVec Wₙ x := by rfl
 
--- theorem eq_407 {N : ℕ} (X : Fin N → ℂ) : (idft X) = Matrix.mulVec Wₙ⁻¹ X := by
---   rw [inv_Wₙ]
---   unfold idft iWₙ
---   funext z
+theorem eq_407 {N : ℕ} (X : Fin N → ℂ) : (idft X) = Matrix.mulVec Wₙ⁻¹ X := by
+  funext z
+  unfold idft
+  simp_rw [Matrix.mulVec, dotProduct, iWₙ_inv_def]
+  rw [Fintype.sum_congr]
+  intro a
+  simp_rw [mul_assoc (1/N:ℂ)]
+  rw [mul_eq_mul_left_iff]
+  left
+  ring_nf
 
-
---   sorry
-
-theorem eq_408 : (sorry : Prop) :=
-  sorry
+theorem eq_408 {N : ℕ} : Wₙ⁻¹ = (1 /N:ℂ) • (@Wₙ N)ᴴ  := by
+  rw [inv_Wₙ]
+  unfold Wₙ iWₙ
+  funext a b
+  rw [smul_apply, smul_eq_mul, mul_eq_mul_left_iff, conjTranspose_apply, star_def, ← Complex.exp_conj]
+  left
+  simp only [neg_mul, map_div₀, map_neg, _root_.map_mul, map_ofNat, conj_I, mul_neg, map_natCast,
+    neg_neg, Complex.conj_ofReal]
+  congr 2
+  ring
+  done
 
 theorem eq_409 : (sorry : Prop) :=
   sorry
