@@ -240,8 +240,13 @@ theorem eq_409 {N : ℕ} : (@Wₙ N) * Wₙᴴ = (N:ℂ) • 1 := by
     exfalso
     apply Fin.elim0 (by convert a; exact hN.symm)
 
-theorem eq_410 : (sorry : Prop) :=
-  sorry
+def Matrix.conj [Star R](M : Matrix m n R) := Mᴴᵀ --M.map star
+
+theorem eq_410 {N : ℕ} :  Matrix.conj (@Wₙ N) =  Wₙᴴ := by
+  unfold Matrix.conj
+  funext a b
+  simp_rw [transpose_apply, conjTranspose_apply, star_inj, eq_403]
+  ring_nf
 
 theorem eq_411 : (sorry : Prop) :=
   sorry
