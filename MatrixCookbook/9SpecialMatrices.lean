@@ -96,10 +96,6 @@ theorem eq_402 (A₁₁ : Matrix m m R) (A₂₂ : Matrix n n R) :
 noncomputable def Wₙ {N: ℕ}: Matrix (Fin N) (Fin N) ℂ :=
   fun k n => Complex.exp (-2 * π * I * k * n / N)
 
--- -- Conjugate DFT Matrix: Just the complex conjugate
--- noncomputable def sWₙ {N: ℕ} : Matrix (Fin N) (Fin N) ℂ :=
---   fun k n => Complex.exp (2 * π * I * k * n / N)
-
 noncomputable def iWₙ {N: ℕ} : Matrix (Fin N) (Fin N) ℂ :=
   fun k n => (1/N) * Complex.exp (2 * π * I * k * n / N)
 
@@ -145,9 +141,7 @@ lemma cexp_sub_ne_one {N : ℕ} (k p : Fin N) (h : (k ≠ p)) :
     apply Fin.is_lt
     apply le_of_lt
     exact_mod_cast h1
-
-theorem inv_Wₙ {N: ℕ} : Wₙ⁻¹ = @iWₙ N := by
-  rw [inv_eq_left_inv]
+theorem iWₙ_mul_Wₙ_eq_one {N : ℕ} : iWₙ * (@Wₙ N) = 1 := by
   funext p q
   rw [mul_apply]
   unfold Wₙ iWₙ
@@ -181,6 +175,13 @@ theorem inv_Wₙ {N: ℕ} : Wₙ⁻¹ = @iWₙ N := by
   simp only [ne_eq, Nat.cast_eq_zero]
   exact hN
   apply cexp_sub_ne_one _ _ h
+
+theorem inv_Wₙ {N: ℕ} : Wₙ⁻¹ = @iWₙ N := by
+  rw [inv_eq_left_inv]
+  exact iWₙ_mul_Wₙ_eq_one
+
+noncomputable def instInvertibleWₙ {N: ℕ} : Invertible (@Wₙ N) :=
+  invertibleOfLeftInverse  _ (@iWₙ N) (iWₙ_mul_Wₙ_eq_one)
 
 lemma iWₙ_inv_def {N : ℕ} (k n : Fin N) :  Wₙ⁻¹ k n = (1/N) * Complex.exp (2 * π * I * k * n / N) := by
   rw [inv_Wₙ, iWₙ]
@@ -222,8 +223,22 @@ theorem eq_408 {N : ℕ} : Wₙ⁻¹ = (1 /N:ℂ) • (@Wₙ N)ᴴ  := by
   ring
   done
 
-theorem eq_409 : (sorry : Prop) :=
-  sorry
+theorem eq_409 {N : ℕ} : (@Wₙ N) * Wₙᴴ = (N:ℂ) • 1 := by
+  by_cases hN : N ≠ 0
+  · apply_fun (fun x => (1/N:ℂ) • x)
+    dsimp
+    rw [← Matrix.mul_smul, ← eq_408, Matrix.mul_nonsing_inv, one_div, smul_smul, inv_mul_cancel,
+      one_smul]
+    exact_mod_cast hN
+    let _ := @instInvertibleWₙ N
+    apply isUnit_det_of_invertible
+    apply smul_right_injective
+    rw [ne_eq, one_div, inv_eq_zero, Nat.cast_eq_zero]
+    apply hN
+  · rw [ne_eq, not_not] at hN
+    funext a b
+    exfalso
+    apply Fin.elim0 (by convert a; exact hN.symm)
 
 theorem eq_410 : (sorry : Prop) :=
   sorry
