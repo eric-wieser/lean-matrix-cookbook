@@ -248,8 +248,89 @@ theorem eq_410 {N : ℕ} :  Matrix.conj (@Wₙ N) =  Wₙᴴ := by
   simp_rw [transpose_apply, conjTranspose_apply, star_inj, eq_403]
   ring_nf
 
-theorem eq_411 : (sorry : Prop) :=
+lemma twiddle_neg_half_cycle_eq_neg' {N: ℕ} (hN: N ≠ 0):
+  Complex.exp (-2 * π * I / N)^((N:ℂ)/(2:ℂ)) = -1 := by
+  rw [← Complex.exp_pi_mul_I, cpow_def_of_ne_zero, Complex.exp_eq_exp_iff_exists_int]
+  use (-1:ℤ)
+  rw [Complex.log_exp]
+  ring_nf
+  rw [mul_assoc, mul_inv_cancel, mul_one]
+  exact_mod_cast hN
+  rotate_right
+  exact Complex.exp_ne_zero _
+  all_goals (simp only [neg_mul, div_natCast_im, neg_im, mul_im, mul_re, re_ofNat, ofReal_re, im_ofNat,
+    ofReal_im, mul_zero, sub_zero, I_im, mul_one, zero_mul, add_zero, I_re, neg_div, neg_lt_neg_iff])
+  rotate_left
+  apply le_of_lt
+  apply lt_trans _ pi_pos
+  apply neg_lt_zero.2 _
+  apply div_pos two_pi_pos (Nat.cast_pos.2 (Nat.pos_iff_ne_zero.2 hN))
+  rw [div_lt_iff, mul_comm]
+  apply (mul_lt_mul_iff_of_pos_left pi_pos).2
+
+  done
+
+
+  -- simp_rw [neg_mul, neg_div, Complex.exp_neg]
+  -- rw [Complex.inv_cpow]
+  -- apply_fun (fun x => x⁻¹)
+  -- dsimp
+  -- simp only [inv_inv, inv_neg_one]
+  -- by_cases h2 : N = 2
+  -- · sorry
+  -- · have h3 : 3 ≤ N := by sorry
+  --   rw [← exp_pi_mul_I, cpow_def_of_ne_zero]
+    -- rw [Complex.exp_eq_exp_iff_exists_int]
+
+
+
+
   sorry
+  -- by_cases h2: (N = 2)
+  -- rw [h2]
+  -- ring_nf
+  -- have: (1/(2:ℂ)*↑2) = 1 := by ring
+  -- sorry
+  -- sorry
+  -- rw [this]
+  -- simp only [cpow_one], rw exp_neg,
+  -- rw mul_comm, rw exp_pi_mul_I,
+  -- norm_num,
+  -- rw le_iff_lt_or_eq at hN,
+  -- cases hN with hNlt2 hNeq2,
+  -- rw cpow_def_of_ne_zero,
+  -- rw log_exp,
+  -- rw div_mul,
+  -- set η:ℂ := ↑N,
+  -- have hη: η ≠ 0,
+  --   by {simp only [nat.cast_ne_zero], linarith,},
+
+  -- rw div_div_cancel' hη, ring_nf,
+  -- rw mul_comm, rw exp_neg,
+  -- rw exp_pi_mul_I, norm_num,
+  -- rw neg_mul, rw neg_mul, rw neg_div, rw neg_im,
+  -- rw neg_lt_neg_iff,
+  -- exact two_pi_I_by_N_piInt_pos hNlt2,
+
+  -- rw neg_mul, rw neg_mul, rw neg_div, rw neg_im,
+  -- rw neg_le,
+  -- exact (le_of_lt (two_pi_I_by_N_piInt_neg hNlt2)),
+  -- exact exp_ne_zero ((-2) * π * I / N),
+  -- exfalso, exact h2 hNeq2.symm,
+  -- done
+
+theorem eq_411 {N: ℕ}{h2: 2 ≤ N} {m: ℤ} :
+    let Wₙ := Complex.exp (-2 * π * I  / N)
+    Wₙ ^ (m + N/2: ℂ)  = -Wₙ ^ (m:ℂ)  := by
+  dsimp
+  rw [Complex.cpow_add]
+  simp only [Complex.cpow_intCast]
+  rw [← neg_one_mul ((Complex.exp (-2 * π * I / N:ℂ))^m), mul_comm, mul_left_inj']
+  exact twiddle_neg_half_cycle_eq_neg' h2
+  rw [← Complex.exp_int_mul]
+  exact Complex.exp_ne_zero _
+  exact Complex.exp_ne_zero _
+
 
 theorem eq_412 : (sorry : Prop) :=
   sorry
