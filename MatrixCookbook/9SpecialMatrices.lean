@@ -310,8 +310,15 @@ lemma Wₙ_add {N : ℕ} (a x y : Fin N): Wₙ a (x + y) = Wₙ a x * Wₙ a y :
   simp_rw [eq_403, ← Complex.exp_add, neg_mul, neg_div, ← neg_add]
   rw [Complex.exp_eq_exp_iff_exists_int]
   let z:ℤ := ((↑x + ↑y)/N)
-  let w:ℤ := a*z
+  set w:ℤ := a*z with hw
   use w
+  rw [neg_add_eq_sub, mul_comm (w:ℂ)]
+  simp_rw [mul_assoc (2 * π * I), ← add_div, ← mul_add, mul_div_assoc, ← mul_sub]
+  rw [← mul_neg]
+  rw [mul_eq_mul_left_iff]
+  rw [hw]
+  left
+  norm_cast
   -- refine neg_inj.mpr ?e_z.a
   -- rw [← add_div]
   -- simp_rw [mul_assoc (2 * π * I), ← mul_add]
