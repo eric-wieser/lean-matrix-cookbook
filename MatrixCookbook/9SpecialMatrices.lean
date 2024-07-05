@@ -303,22 +303,98 @@ def shiftk_equiv {N: ℕ} {hN: NeZero N} (k: Fin N) : (Fin N) ≃ (Fin N) :=
   right_inv := by (intro x; rw [shiftk, shiftk]; ring)
 }
 
+lemma sumFins1 (N : ℕ) (a b : Fin N) (hab : (a:ℤ) + (b:ℤ) < N) : ((a + b):Fin N) = (a:ℤ) + (b:ℤ) := by
+  -- norm_cast
+  rw [Fin.add_def]
+  norm_cast
+  dsimp
+  rw  [Nat.mod_eq_of_lt]
+  exact_mod_cast hab
+
+lemma sumFins2 (N : ℕ) (a b : Fin N) (hab : N ≤ (a:ℤ) + (b:ℤ)) : ((a + b):Fin N) = (a:ℤ) + (b:ℤ) - N := by
+  norm_cast
+  rw [Fin.add_def]
+  dsimp
+  norm_cast
+  rw [Nat.mod_eq]
+  rw [if_pos]
+  simp only [Int.ofNat_emod]
+  rw [Int.subNatNat_eq_coe]
+  rw [Int.natCast_sub]
+  rw [Int.emod_eq_of_lt]
+  simp only [Nat.cast_add, sub_nonneg]
+  exact_mod_cast hab
+  simp only [Nat.cast_add]
+  omega
+  exact_mod_cast hab
+  constructor
+  apply Nat.pos_of_ne_zero
+  by_contra hc
+  apply Fin.elim0 (by convert a; exact hc.symm)
+  exact_mod_cast hab
+
 lemma Wₙ_add {N : ℕ} (a x y : Fin N): Wₙ a (x + y) = Wₙ a x * Wₙ a y := by
   have hN : N ≠ 0 := by
     by_contra hc
     apply Fin.elim0 (by convert a; exact hc.symm);
   simp_rw [eq_403, ← Complex.exp_add, neg_mul, neg_div, ← neg_add]
+  simp_rw [mul_assoc (2 * π * I), ← add_div, ← mul_add]
+  -- simp_rw [← div_mul_eq_mul_div₀ (2 * π * I)]
+  apply_fun (fun x => x⁻¹)
+  dsimp
+  simp_rw [← Complex.exp_neg, neg_neg]
   rw [Complex.exp_eq_exp_iff_exists_int]
-  let z:ℤ := ((↑x + ↑y)/N)
+  set z:ℤ := ( ((x + y) : Fin N) / N) - ( (x:ℤ) + (y:ℤ)) / N with hz
   set w:ℤ := a*z with hw
   use w
-  rw [neg_add_eq_sub, mul_comm (w:ℂ)]
-  simp_rw [mul_assoc (2 * π * I), ← add_div, ← mul_add, mul_div_assoc, ← mul_sub]
-  rw [← mul_neg]
+  rw [mul_comm (w:ℂ), mul_div_assoc, mul_div_assoc, mul_div_assoc, ← mul_add]
   rw [mul_eq_mul_left_iff]
-  rw [hw]
   left
+  rw [hw]
+  -- norm_cast
+  simp only [Nat.cast_mul, Nat.cast_add, Int.cast_mul, Int.cast_natCast]
+  rw [mul_div_assoc, ← mul_add, mul_eq_mul_left_iff]
+  left
+
+  apply_fun (fun x => (N:ℂ)*x)
+  dsimp
+  rw [mul_div_assoc', mul_div_cancel_left₀, mul_add, mul_div_assoc', mul_div_cancel_left₀]
+  -- rw [Fin.add_def]
+  -- dsimp
+  by_cases hc : (x:ℤ) + (y:ℤ) < N
   norm_cast
+  rw [sumFins1 N x y]
+  norm_cast
+  sorry
+  exact inv_injective
+
+
+  -- rw [neg_add_eq_sub, mul_comm (w:ℂ)]
+  -- simp_rw [mul_assoc (2 * π * I), ← add_div, ← mul_add, mul_div_assoc, ← mul_sub]
+  -- rw [← mul_neg]
+  -- rw [mul_eq_mul_left_iff]
+  -- rw [hw]
+  -- left
+  -- norm_cast
+  -- simp only [Int.cast_mul, Int.cast_natCast, Nat.cast_add]
+  -- symm
+  -- rw [sub_eq_iff_eq_add', ← sub_eq_add_neg, ← mul_sub, mul_eq_mul_left_iff]
+  -- left
+  -- rw [hz]
+  -- rw [← sub_div]
+  -- rw [eq_div_iff]
+  -- norm_cast
+  -- rw [Int.subNatNat_of_le]
+  -- simp only [Nat.cast_mul, Int.ofNat_ediv, Nat.cast_add]
+
+
+
+  -- rw [Nat.div_eq]
+  -- split_ifs with hif
+  -- simp only [Nat.cast_mul, Nat.cast_add, Int.ofNat_ediv, Nat.cast_one]
+  -- cases' hif with hif1 hif2
+  -- rw [add_mul, one_mul]
+
   -- refine neg_inj.mpr ?e_z.a
   -- rw [← add_div]
   -- simp_rw [mul_assoc (2 * π * I), ← mul_add]
@@ -326,9 +402,10 @@ lemma Wₙ_add {N : ℕ} (a x y : Fin N): Wₙ a (x + y) = Wₙ a x * Wₙ a y :
   -- left
   -- norm_cast
   -- rw [Fin.coe_sub]
-  sorry
   -- exact two_pi_I_ne_zero
   -- exact Nat.cast_ne_zero.mpr hN
+
+#exit
 
 theorem eq_412 {N : ℕ}(hN: NeZero N)(t : Fin N → ℂ) :
   Matrix.circulant t = Wₙ⁻¹ * Matrix.diagonal (dft t) * Wₙ := by
