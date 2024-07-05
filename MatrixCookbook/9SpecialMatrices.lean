@@ -156,38 +156,6 @@ theorem eq_410 {N : ℕ} :  Matrix.conj (@Wₙ N) =  Wₙᴴ := by
   simp_rw [transpose_apply, conjTranspose_apply, star_inj, eq_403]
   ring_nf
 
-lemma twiddle_neg_half_cycle_eq_neg' {N: ℕ} (hN1: 1 < N):
-  Complex.exp (-2 * π * I / N)^((N:ℂ)/(2:ℂ)) = -1 := by
-  have hN : N ≠ 0 := Nat.pos_iff_ne_zero.1 (lt_trans zero_lt_one hN1)
-  by_cases hN2: N = 2
-  · simp_rw [hN2, neg_mul, neg_div, Nat.cast_ofNat]
-    rw [div_self two_ne_zero, cpow_one, mul_assoc, mul_div_cancel_left₀]
-    rw [Complex.exp_neg, ← inv_neg_one]
-    apply inv_inj.2
-    exact exp_pi_mul_I
-    exact two_ne_zero
-  have hNg2 : 2 < N := by omega
-  rw [← Complex.exp_pi_mul_I, cpow_def_of_ne_zero, Complex.exp_eq_exp_iff_exists_int]
-  use (-1:ℤ)
-  rw [Complex.log_exp]
-  ring_nf
-  rw [mul_assoc, mul_inv_cancel, mul_one]
-  exact_mod_cast hN
-  rotate_right
-  exact Complex.exp_ne_zero _
-  all_goals (simp only [neg_mul, div_natCast_im, neg_im, mul_im, mul_re, re_ofNat, ofReal_re, im_ofNat,
-    ofReal_im, mul_zero, sub_zero, I_im, mul_one, zero_mul, add_zero, I_re, neg_div, neg_lt_neg_iff])
-  rotate_left
-  apply le_of_lt
-  apply lt_trans _ pi_pos
-  apply neg_lt_zero.2 _
-  apply div_pos two_pi_pos (Nat.cast_pos.2 (Nat.pos_iff_ne_zero.2 hN))
-  rw [div_lt_iff, mul_comm]
-  apply (mul_lt_mul_iff_of_pos_left pi_pos).2
-  exact_mod_cast hNg2
-  apply (lt_trans zero_lt_one _)
-  exact_mod_cast hN1
-
 theorem eq_411 {N : ℕ}{h2: 2 ≤ N} {m: ℤ} :
     let Wₙ := Complex.exp (-2 * π * I  / N)
     Wₙ ^ (m + N/2: ℂ)  = -Wₙ ^ (m:ℂ)  := by
