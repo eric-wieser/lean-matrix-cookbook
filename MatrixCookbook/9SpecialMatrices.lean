@@ -337,75 +337,38 @@ lemma Wₙ_add {N : ℕ} (a x y : Fin N): Wₙ a (x + y) = Wₙ a x * Wₙ a y :
   have hN : N ≠ 0 := by
     by_contra hc
     apply Fin.elim0 (by convert a; exact hc.symm);
-  simp_rw [eq_403, ← Complex.exp_add, neg_mul, neg_div, ← neg_add]
-  simp_rw [mul_assoc (2 * π * I), ← add_div, ← mul_add]
-  -- simp_rw [← div_mul_eq_mul_div₀ (2 * π * I)]
+  simp_rw [eq_403, ← Complex.exp_add, neg_mul, neg_div, ← neg_add, mul_assoc (2 * π * I),
+    ← add_div, ← mul_add]
   apply_fun (fun x => x⁻¹)
   dsimp
   simp_rw [← Complex.exp_neg, neg_neg]
   rw [Complex.exp_eq_exp_iff_exists_int]
-  set z:ℤ := ( ((x + y) : Fin N) / N) - ( (x:ℤ) + (y:ℤ)) / N with hz
-  set w:ℤ := a*z with hw
-  use w
-  rw [mul_comm (w:ℂ), mul_div_assoc, mul_div_assoc, mul_div_assoc, ← mul_add]
-  rw [mul_eq_mul_left_iff]
-  left
-  rw [hw]
-  -- norm_cast
-  simp only [Nat.cast_mul, Nat.cast_add, Int.cast_mul, Int.cast_natCast]
-  rw [mul_div_assoc, ← mul_add, mul_eq_mul_left_iff]
-  left
 
-  apply_fun (fun x => (N:ℂ)*x)
-  dsimp
-  rw [mul_div_assoc', mul_div_cancel_left₀, mul_add, mul_div_assoc', mul_div_cancel_left₀]
-  -- rw [Fin.add_def]
-  -- dsimp
   by_cases hc : (x:ℤ) + (y:ℤ) < N
-  norm_cast
-  rw [sumFins1 N x y]
-  norm_cast
-  sorry
-  exact inv_injective
+  · use 0
+    simp only [Int.cast_zero, zero_mul, add_zero]
+    rw [div_left_inj', mul_right_inj' two_pi_I_ne_zero, mul_eq_mul_left_iff]
+    left
+    exact_mod_cast (sumFins1 N x y hc)
+    exact_mod_cast hN
+  · use (-a)
+    push_neg at hc
+    rw [mul_div_assoc (2 * π * I), mul_div_assoc (2 * π * I), mul_comm ((-a:ℤ):ℂ), ← mul_add,
+      mul_right_inj' two_pi_I_ne_zero]
+    apply_fun (fun x => (N:ℂ)*x)
+    dsimp
+    rw [mul_div_assoc', mul_div_cancel_left₀, mul_add, mul_div_assoc', mul_div_cancel_left₀]
+    rw [mul_comm (N:ℂ)]
+    simp only [Int.cast_neg, Int.cast_natCast, neg_mul, ← sub_eq_add_neg]
+    rw [← mul_sub, mul_eq_mul_left_iff]
+    left
+    exact_mod_cast (sumFins2 N x y hc)
+    exact_mod_cast hN
+    exact_mod_cast hN
+    exact mul_right_injective₀ (Nat.cast_ne_zero.mpr hN)
 
-
-  -- rw [neg_add_eq_sub, mul_comm (w:ℂ)]
-  -- simp_rw [mul_assoc (2 * π * I), ← add_div, ← mul_add, mul_div_assoc, ← mul_sub]
-  -- rw [← mul_neg]
-  -- rw [mul_eq_mul_left_iff]
-  -- rw [hw]
-  -- left
-  -- norm_cast
-  -- simp only [Int.cast_mul, Int.cast_natCast, Nat.cast_add]
-  -- symm
-  -- rw [sub_eq_iff_eq_add', ← sub_eq_add_neg, ← mul_sub, mul_eq_mul_left_iff]
-  -- left
-  -- rw [hz]
-  -- rw [← sub_div]
-  -- rw [eq_div_iff]
-  -- norm_cast
-  -- rw [Int.subNatNat_of_le]
-  -- simp only [Nat.cast_mul, Int.ofNat_ediv, Nat.cast_add]
-
-
-
-  -- rw [Nat.div_eq]
-  -- split_ifs with hif
-  -- simp only [Nat.cast_mul, Nat.cast_add, Int.ofNat_ediv, Nat.cast_one]
-  -- cases' hif with hif1 hif2
-  -- rw [add_mul, one_mul]
-
-  -- refine neg_inj.mpr ?e_z.a
-  -- rw [← add_div]
-  -- simp_rw [mul_assoc (2 * π * I), ← mul_add]
-  -- rw [mul_right_inj', mul_eq_mul_left_iff]
-  -- left
-  -- norm_cast
-  -- rw [Fin.coe_sub]
-  -- exact two_pi_I_ne_zero
-  -- exact Nat.cast_ne_zero.mpr hN
-
-#exit
+  apply inv_injective
+  done
 
 theorem eq_412 {N : ℕ}(hN: NeZero N)(t : Fin N → ℂ) :
   Matrix.circulant t = Wₙ⁻¹ * Matrix.diagonal (dft t) * Wₙ := by
@@ -415,8 +378,8 @@ theorem eq_412 {N : ℕ}(hN: NeZero N)(t : Fin N → ℂ) :
   rw [mul_assoc, Matrix.mul_nonsing_inv_cancel_left]
   funext a b
   rw [mul_apply, mul_apply]
-  simp only [diagonal_apply, ite_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, ↓reduceIte]
-  simp only [circulant_apply]
+  simp only [diagonal_apply, ite_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, ↓reduceIte,
+    circulant_apply]
   unfold dft
   rw [Finset.sum_mul]
   conv =>
@@ -426,8 +389,7 @@ theorem eq_412 {N : ℕ}(hN: NeZero N)(t : Fin N → ℂ) :
     ext
     rw [mul_comm, ← mul_assoc, mul_comm (Wₙ a b)]
     rfl
-  rw [← Equiv.sum_comp (@shiftk_equiv N hN (-b))]
-  rw [shiftk_equiv]
+  rw [← Equiv.sum_comp (@shiftk_equiv N hN (-b)), shiftk_equiv]
   dsimp
   simp_rw [shiftk, neg_neg, add_sub_cancel_right, Wₙ_add]
   apply isUnit_det_of_invertible
