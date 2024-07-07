@@ -8,6 +8,8 @@ import Mathlib.LinearAlgebra.Matrix.PosDef
 import Mathlib.LinearAlgebra.Matrix.SchurComplement
 import Mathlib.LinearAlgebra.Matrix.Symmetric
 import Mathlib.LinearAlgebra.Vandermonde
+import Mathlib.LinearAlgebra.Matrix.Circulant
+import MatrixCookbook.Lib.DFTTwiddles
 
 /-! # Special Matrices -/
 
@@ -26,6 +28,8 @@ open Matrix
 open scoped BigOperators
 
 open scoped Matrix
+
+open Real Complex
 
 namespace MatrixCookbook
 
@@ -90,37 +94,114 @@ theorem eq_402 (A₁₁ : Matrix m m R) (A₂₂ : Matrix n n R) :
 
 
 /-! ## Discrete Fourier Transform Matrix, The -/
+theorem eq_403 {N : ℕ} (k n : Fin N) :  Wₙ k n = Complex.exp (-2 * π * I * k * n / N) := rfl
 
+noncomputable def dft {N: ℕ} (x: (Fin N) → ℂ) : (Fin N → ℂ) :=
+  fun (k: Fin N) => ∑ (n : Fin N), (Wₙ k n) * (x n)
 
-theorem eq_403 : (sorry : Prop) :=
-  sorry
+noncomputable def idft {N: ℕ} (X: (Fin N) → ℂ) : (Fin N → ℂ) :=
+  fun (n: Fin N) => ∑ (k : Fin N), (Wₙ⁻¹ k n) * (X k)
 
-theorem eq_404 : (sorry : Prop) :=
-  sorry
+theorem eq_404 {N : ℕ} (x : Fin N → ℂ) (k : Fin N): (dft x) k =  ∑ (n : Fin N), (Wₙ k n) * (x n) := rfl
 
-theorem eq_405 : (sorry : Prop) :=
-  sorry
+theorem eq_405 {N : ℕ} (X : Fin N → ℂ) (n : Fin N): (idft X) n =  ∑ (k : Fin N), (Wₙ⁻¹ k n) * (X k) := by rfl
 
-theorem eq_406 : (sorry : Prop) :=
-  sorry
+theorem eq_406 {N : ℕ} (x : Fin N → ℂ) : (dft x) = Matrix.mulVec Wₙ x := by rfl
 
-theorem eq_407 : (sorry : Prop) :=
-  sorry
+theorem eq_407 {N : ℕ} (X : Fin N → ℂ) : (idft X) = Matrix.mulVec Wₙ⁻¹ X := by
+  funext z
+  unfold idft
+  simp_rw [Matrix.mulVec, dotProduct, iWₙ_inv_def]
+  rw [Fintype.sum_congr]
+  intro a
+  simp_rw [mul_assoc (1/N:ℂ)]
+  rw [mul_eq_mul_left_iff]
+  left
+  ring_nf
 
-theorem eq_408 : (sorry : Prop) :=
-  sorry
+theorem eq_408 {N : ℕ} : Wₙ⁻¹ = (1 /N:ℂ) • (@Wₙ N)ᴴ  := by
+  rw [inv_Wₙ]
+  unfold Wₙ iWₙ
+  funext a b
+  rw [smul_apply, smul_eq_mul, mul_eq_mul_left_iff, conjTranspose_apply, star_def, ← Complex.exp_conj]
+  left
+  simp only [neg_mul, map_div₀, map_neg, _root_.map_mul, map_ofNat, conj_I, mul_neg, map_natCast,
+    neg_neg, Complex.conj_ofReal]
+  congr 2
+  ring
+  done
 
-theorem eq_409 : (sorry : Prop) :=
-  sorry
+theorem eq_409 {N : ℕ} : (@Wₙ N) * Wₙᴴ = (N:ℂ) • 1 := by
+  by_cases hN : N ≠ 0
+  · apply_fun (fun x => (1/N:ℂ) • x)
+    dsimp
+    rw [← Matrix.mul_smul, ← eq_408, Matrix.mul_nonsing_inv, one_div, smul_smul, inv_mul_cancel,
+      one_smul]
+    exact_mod_cast hN
+    let _ := @instInvertibleWₙ N
+    apply isUnit_det_of_invertible
+    apply smul_right_injective
+    rw [ne_eq, one_div, inv_eq_zero, Nat.cast_eq_zero]
+    apply hN
+  · rw [ne_eq, not_not] at hN
+    funext a
+    exfalso
+    apply Fin.elim0 (by convert a; exact hN.symm)
 
-theorem eq_410 : (sorry : Prop) :=
-  sorry
+def Matrix.conj [Star R](M : Matrix m n R) := Mᴴᵀ --M.map star
 
-theorem eq_411 : (sorry : Prop) :=
-  sorry
+theorem eq_410 {N : ℕ} :  Matrix.conj (@Wₙ N) =  Wₙᴴ := by
+  unfold Matrix.conj
+  funext a b
+  simp_rw [transpose_apply, conjTranspose_apply, star_inj, eq_403]
+  ring_nf
 
-theorem eq_412 : (sorry : Prop) :=
-  sorry
+theorem eq_411 {N : ℕ}{h2: 2 ≤ N} {m: ℤ} :
+    let Wₙ := Complex.exp (-2 * π * I  / N)
+    Wₙ ^ (m + N/2: ℂ)  = -Wₙ ^ (m:ℂ)  := by
+  dsimp
+  rw [Complex.cpow_add]
+  simp only [Complex.cpow_intCast]
+  rw [← neg_one_mul ((Complex.exp (-2 * π * I / N:ℂ))^m), mul_comm, mul_left_inj']
+  exact twiddle_neg_half_cycle_eq_neg' h2
+  rw [← Complex.exp_int_mul]
+  exact Complex.exp_ne_zero _
+  exact Complex.exp_ne_zero _
+
+theorem eq_412 {N : ℕ}(hN: NeZero N)(t : Fin N → ℂ) :
+  Matrix.circulant t = Wₙ⁻¹ * Matrix.diagonal (dft t) * Wₙ := by
+  let _ := @instInvertibleWₙ N
+  apply_fun (fun x => Wₙ * x)
+  dsimp
+  rw [mul_assoc, Matrix.mul_nonsing_inv_cancel_left]
+  funext a b
+  rw [mul_apply, mul_apply]
+  simp only [diagonal_apply, ite_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, ↓reduceIte,
+    circulant_apply]
+  unfold dft
+  rw [Finset.sum_mul]
+  conv =>
+    rhs
+    congr
+    rfl
+    ext
+    rw [mul_comm, ← mul_assoc, mul_comm (Wₙ a b)]
+    rfl
+  rw [← Equiv.sum_comp (@shiftk_equiv N hN (-b)), shiftk_equiv]
+  dsimp
+  simp_rw [shiftk, neg_neg, add_sub_cancel_right, Wₙ_add]
+  apply isUnit_det_of_invertible
+  apply Matrix.mul_right_injective_of_invertible
+
+theorem notice_between_411_412 {N : ℕ} (hN : NeZero N) :
+  let Wrow : (Fin N) → ℂ  := fun (k: Fin N) => cexp (-2*π*I*k/N)
+  (Wₙ: Matrix (Fin N) (Fin N) ℂ) = vandermonde (Wrow) := by
+  unfold vandermonde
+  funext k n
+  rw [Wₙ]
+  dsimp
+  simp_rw [← Complex.exp_nat_mul, neg_mul, neg_div, mul_neg, Complex.exp_neg, inv_eq_iff_eq_inv, inv_inv]
+  ring_nf
 
 /-! ## Hermitian Matrices and skew-Hermitian -/
 
