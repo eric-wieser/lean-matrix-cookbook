@@ -193,6 +193,15 @@ theorem eq_412 {N : ℕ}(hN: NeZero N)(t : Fin N → ℂ) :
   apply isUnit_det_of_invertible
   apply Matrix.mul_right_injective_of_invertible
 
+theorem notice_between_411_412 {N : ℕ} (hN : NeZero N) :
+  let Wrow : (Fin N) → ℂ  := fun (k: Fin N) => cexp (-2*π*I*k/N)
+  (Wₙ: Matrix (Fin N) (Fin N) ℂ) = vandermonde (Wrow) := by
+  unfold vandermonde
+  funext k n
+  rw [Wₙ]
+  dsimp
+  simp_rw [← Complex.exp_nat_mul, neg_mul, neg_div, mul_neg, Complex.exp_neg, inv_eq_iff_eq_inv, inv_inv]
+  ring_nf
 
 /-! ## Hermitian Matrices and skew-Hermitian -/
 
