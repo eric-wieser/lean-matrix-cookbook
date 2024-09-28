@@ -470,10 +470,10 @@ theorem eq_474 : (sorry : Prop) :=
 
 
 theorem eq_475 (A : Matrix m n R) (i) : A i = A.vecMul (Pi.single i 1) :=
-  funext fun _ => (vecMul_stdBasis _ _ _).symm
+  (single_one_vecMul _ _).symm
 
 theorem eq_476 (A : Matrix m n R) (j) : (fun i => A i j) = A.mulVec (Pi.single j 1) :=
-  funext fun _ => (mulVec_stdBasis _ _ _).symm
+  (mulVec_single_one _ _).symm
 
 /-! ### Permutations -/
 

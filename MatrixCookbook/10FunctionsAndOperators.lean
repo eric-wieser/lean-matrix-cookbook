@@ -4,7 +4,7 @@ import Mathlib.Data.NNReal.Basic
 import Mathlib.Topology.MetricSpace.Basic
 import Mathlib.Data.Matrix.Notation
 import Mathlib.RingTheory.PowerSeries.Basic
-import Mathlib.Analysis.NormedSpace.MatrixExponential
+import Mathlib.Analysis.Normed.Algebra.MatrixExponential
 import Mathlib.Data.Matrix.Kronecker
 import Mathlib.Data.Matrix.Rank
 import Mathlib.LinearAlgebra.Matrix.PosDef
