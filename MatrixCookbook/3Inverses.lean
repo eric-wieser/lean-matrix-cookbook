@@ -1,5 +1,8 @@
 import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
 import Mathlib.Data.Complex.Basic
+import Mathlib.Analysis.RCLike.Basic
+import Mathlib.LinearAlgebra.Matrix.PosDef
+import MatrixCookbook.ForMathlib.Data.Matrix
 
 /-! # Inverses -/
 
@@ -89,31 +92,46 @@ theorem eq_155 (A B : Matrix m m ℂ) : (A * B)⁻¹ = B⁻¹ * A⁻¹ :=
 /-! ### The Woodbury identity -/
 
 
-theorem eq_156 : (sorry : Prop) :=
-  sorry
+theorem eq_156
+    (A : Matrix n n ℂ) (B : Matrix m m ℂ) (C : Matrix n m ℂ)
+    (hA : IsUnit A) (hB : IsUnit B) (h : IsUnit (B⁻¹ + Cᵀ*A⁻¹*C)) :
+    (A + C * B * Cᵀ)⁻¹ = A⁻¹ - A⁻¹ * C * (B⁻¹ + Cᵀ*A⁻¹*C)⁻¹ * Cᵀ * A⁻¹ :=
+  Matrix.add_mul_mul_inv_eq_sub _ _ _ _ hA hB h
 
-theorem eq_157 : (sorry : Prop) :=
-  sorry
+theorem eq_157 (A : Matrix n n ℂ) (B : Matrix m m ℂ) (U : Matrix n m ℂ) (V : Matrix m n ℂ)
+    (hA : IsUnit A) (hB : IsUnit B) (h : IsUnit (B⁻¹ + V*A⁻¹*U)) :
+    (A + U * B * V)⁻¹ = A⁻¹ - A⁻¹ * U * (B⁻¹ + V*A⁻¹*U)⁻¹ * V * A⁻¹ :=
+  Matrix.add_mul_mul_inv_eq_sub _ _ _ _ hA hB h
 
-theorem eq_158 : (sorry : Prop) :=
+open scoped ComplexOrder in
+theorem eq_158 (P : Matrix n n ℂ) (R : Matrix m m ℂ) (B : Matrix m n ℂ)
+    (hP : P.PosDef) (hR : R.PosDef) :
+    (P + Bᵀ * R * B)⁻¹ * Bᵀ * R⁻¹ = P * Bᵀ * (B*P⁻¹*Bᵀ + R)⁻¹ := by
   sorry
 
 /-! ### The Kailath Variant -/
 
-
-theorem eq_159 (B : Matrix n m ℂ) (C : Matrix m n ℂ) :
-    (A + B * C)⁻¹ = A⁻¹ - A⁻¹ * B * (1 + C * A⁻¹ * B)⁻¹ * C * A⁻¹ :=
-  sorry
+theorem eq_159 (B : Matrix n m ℂ) (C : Matrix m n ℂ)
+    (hA : IsUnit A) (h : IsUnit (1 + C * A⁻¹ * B)) :
+    (A + B * C)⁻¹ = A⁻¹ - A⁻¹ * B * (1 + C * A⁻¹ * B)⁻¹ * C * A⁻¹ := by
+  have := Matrix.add_mul_mul_inv_eq_sub A B _ C hA isUnit_one (by simpa using h)
+  simpa using this
 
 /-! ### Sherman-Morrison -/
 
 
-theorem eq_160 (b c : n → ℂ) :
-    (A + col Unit b * row Unit c)⁻¹ = A⁻¹ - (1 + c ⬝ᵥ A⁻¹.mulVec b)⁻¹ • A⁻¹ * (col Unit b * row Unit c) * A⁻¹ := by
-  rw [eq_159, ← Matrix.mul_assoc _ (col Unit b), Matrix.mul_assoc _ (row Unit c), Matrix.mul_assoc _ (row Unit c),
+theorem eq_160 (b c : n → ℂ) (hA : IsUnit A) (h : 1 + c ⬝ᵥ A⁻¹ *ᵥ b ≠ 0) :
+    (A + col Unit b * row Unit c)⁻¹ = A⁻¹ - (1 + c ⬝ᵥ A⁻¹ *ᵥ b)⁻¹ • A⁻¹ * (col Unit b * row Unit c) * A⁻¹ := by
+  rw [eq_159 _ _ _ hA, ← Matrix.mul_assoc _ (col Unit b), Matrix.mul_assoc _ (row Unit c), Matrix.mul_assoc _ (row Unit c),
     Matrix.smul_mul]
-  congr
-  sorry
+  · congr
+    rw [← col_mulVec, ← row_vecMul, row_mul_col, smul_eq_mul_diagonal,
+      Matrix.inv_unique (m := Unit), diagonal_unique]
+    simp_rw [Ring.inverse_eq_inv]
+    simp [← dotProduct_mulVec]
+  · rw [isUnit_iff_isUnit_det, det_unique, add_apply, one_apply_eq]
+    rw [← col_mulVec, ← row_vecMul, row_mulVec_eq_const, ← dotProduct_mulVec, isUnit_iff_ne_zero]
+    exact h
 
 /-! ### The Searle Set of Identities -/
 

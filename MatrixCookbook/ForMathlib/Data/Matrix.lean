@@ -1,5 +1,6 @@
 import Mathlib.LinearAlgebra.Matrix.Trace
 import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
+import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
 import Mathlib.Data.Matrix.Notation
 import Mathlib.Data.Fintype.BigOperators
 -- import Mathlib.Tactic.NormFin
@@ -12,6 +13,32 @@ variable {R : Type _} [CommRing R]
 open scoped Matrix BigOperators
 
 namespace Matrix
+
+-- https://github.com/leanprover-community/mathlib4/pull/17243
+section pr17243
+
+theorem row_mulVec_eq_const [Fintype m] [NonUnitalNonAssocSemiring α] (v w : m → α) :
+    Matrix.row ι v *ᵥ w = Function.const _ (v ⬝ᵥ w) := rfl
+
+theorem mulVec_col_eq_const [Fintype m] [NonUnitalNonAssocSemiring α] (v w : m → α) :
+    v ᵥ* Matrix.col ι w = Function.const _ (v ⬝ᵥ w) := rfl
+
+theorem row_mul_col [Fintype m] [Mul α] [AddCommMonoid α] (v w : m → α) :
+    row ι v * col ι w = of fun _ _ => v ⬝ᵥ w :=
+  rfl
+
+end pr17243
+
+theorem diagonal_unique [Unique m] [Fintype m] [DecidableEq m] (d : m → R) :
+    diagonal d = of fun _ _ => d default := by
+  ext i j
+  cases Subsingleton.elim i default
+  cases Subsingleton.elim j default
+  simp [diagonal]
+
+theorem inv_unique [Unique m] [Fintype m] [DecidableEq m] (A : Matrix m m R) :
+    A⁻¹ = of fun _ _ => Ring.inverse (A default default) := by
+  rw [inv_def, adjugate_subsingleton, det_unique, smul_one_eq_diagonal, diagonal_unique]
 
 theorem one_fin_four :
     (1 : Matrix (Fin 4) (Fin 4) R) = !![1, 0, 0, 0; 0, 1, 0, 0; 0, 0, 1, 0; 0, 0, 0, 1] := by
