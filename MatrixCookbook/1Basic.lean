@@ -121,7 +121,7 @@ theorem eq_26 {A : Matrix (Fin 3) (Fin 3) R} [Invertible (2 : R)] :
   simp only [det_fin_three, trace_fin_three, pow_two, Matrix.mul_apply,
     Fin.sum_univ_succ, Matrix.one_apply]
   dsimp
-  simp only [mul_add, mul_sub, mul_invOf_self_assoc]
+  simp only [mul_add, mul_sub, mul_invOf_cancel_left]
   simp_rw [Matrix.one_apply]
   simp (config := {decide := true})
   ring
