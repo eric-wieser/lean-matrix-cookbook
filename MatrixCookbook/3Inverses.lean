@@ -109,8 +109,8 @@ theorem eq_159 (B : Matrix n m ℂ) (C : Matrix m n ℂ) :
 
 
 theorem eq_160 (b c : n → ℂ) :
-    (A + col b * row c)⁻¹ = A⁻¹ - (1 + c ⬝ᵥ A⁻¹.mulVec b)⁻¹ • A⁻¹ * (col b * row c) * A⁻¹ := by
-  rw [eq_159, ← Matrix.mul_assoc _ (col b), Matrix.mul_assoc _ (row c), Matrix.mul_assoc _ (row c),
+    (A + col Unit b * row Unit c)⁻¹ = A⁻¹ - (1 + c ⬝ᵥ A⁻¹.mulVec b)⁻¹ • A⁻¹ * (col Unit b * row Unit c) * A⁻¹ := by
+  rw [eq_159, ← Matrix.mul_assoc _ (col Unit b), Matrix.mul_assoc _ (row Unit c), Matrix.mul_assoc _ (row Unit c),
     Matrix.smul_mul]
   congr
   sorry

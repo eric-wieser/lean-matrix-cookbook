@@ -1,4 +1,5 @@
 import Mathlib.LinearAlgebra.Matrix.LDL
+import Mathlib.Data.Real.StarOrdered
 
 /-! # Solutions and Decompositions -/
 

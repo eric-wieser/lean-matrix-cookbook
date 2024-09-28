@@ -1,6 +1,6 @@
 import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
 import Mathlib.LinearAlgebra.Matrix.Trace
-import Mathlib.Data.Real.NNReal
+import Mathlib.Data.NNReal.Basic
 import Mathlib.Topology.MetricSpace.Basic
 import Mathlib.Data.Matrix.Notation
 import Mathlib.RingTheory.PowerSeries.Basic
@@ -9,6 +9,7 @@ import Mathlib.Data.Matrix.Kronecker
 import Mathlib.Data.Matrix.Rank
 import Mathlib.LinearAlgebra.Matrix.PosDef
 import Mathlib.Analysis.InnerProductSpace.PiL2
+import Mathlib.Data.Real.StarOrdered
 
 /-! # Functions and Operators -/
 
@@ -129,7 +130,7 @@ lemma eq_519 : (sorry : Prop) := sorry
 /-! #### The Vec Operator -/
 
 def vec (A : Matrix m n R) : Matrix (n × m) Unit R :=
-  col fun ij => A ij.2 ij.1
+  col Unit fun ij => A ij.2 ij.1
 
 theorem eq_520 (A : Matrix l m R) (X : Matrix m n R) (B : Matrix n p R) :
     vec (A * X * B) = Bᵀ ⊗ₖ A * vec X := by
@@ -150,18 +151,18 @@ theorem eq_523 (r : R) (A : Matrix m n R) : vec (r • A) = r • vec A :=
 
 -- note: `Bᵀ` is `B` in the PDF
 theorem eq_524 (a : m → R) (X : Matrix m n R) (B : Matrix n n R) (c : m → R) :
-    row a * X * B * Xᵀ * col c = (vec X)ᵀ * Bᵀ ⊗ₖ (col c * row a) * vec X := by
+    row Unit a * X * B * Xᵀ * col Unit c = (vec X)ᵀ * Bᵀ ⊗ₖ (col Unit c * row Unit a) * vec X := by
   -- not the proof from the book
   ext ⟨i, j⟩
   simp only [vec, Matrix.mul_apply, Finset.sum_mul, Finset.mul_sum, Matrix.kroneckerMap_apply,
     transpose_apply, Matrix.row_apply, Matrix.col_apply, Fintype.sum_unique]
   simp_rw [← Finset.univ_product_univ, Finset.sum_product, @Finset.sum_comm n _ m]
   rw [Finset.sum_comm]
-  refine' Finset.sum_congr rfl fun k _ => _
-  refine' Finset.sum_congr rfl fun l _ => _
+  refine Finset.sum_congr rfl fun k _ => ?_
+  refine Finset.sum_congr rfl fun l _ => ?_
   rw [Finset.sum_comm]
-  refine' Finset.sum_congr rfl fun kk _ => _
-  refine' Finset.sum_congr rfl fun ll _ => _
+  refine Finset.sum_congr rfl fun kk _ => ?_
+  refine Finset.sum_congr rfl fun ll _ => ?_
   ring
 
 /-! ### Vector Norms -/

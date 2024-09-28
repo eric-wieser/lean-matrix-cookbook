@@ -8,6 +8,7 @@ import Mathlib.LinearAlgebra.Matrix.PosDef
 import Mathlib.LinearAlgebra.Matrix.SchurComplement
 import Mathlib.LinearAlgebra.Matrix.Symmetric
 import Mathlib.LinearAlgebra.Vandermonde
+import Mathlib.Data.Real.StarOrdered
 
 /-! # Special Matrices -/
 
