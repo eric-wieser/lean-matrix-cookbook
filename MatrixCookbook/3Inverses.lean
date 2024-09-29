@@ -106,8 +106,23 @@ theorem eq_157 (A : Matrix n n ℂ) (B : Matrix m m ℂ) (U : Matrix n m ℂ) (V
 open scoped ComplexOrder in
 theorem eq_158 (P : Matrix n n ℂ) (R : Matrix m m ℂ) (B : Matrix m n ℂ)
     (hP : P.PosDef) (hR : R.PosDef) :
-    (P + Bᵀ * R * B)⁻¹ * Bᵀ * R⁻¹ = P * Bᵀ * (B*P⁻¹*Bᵀ + R)⁻¹ := by
-  sorry
+    (P⁻¹ + Bᵀ * R⁻¹ * B)⁻¹ * Bᵀ * R⁻¹ = P * Bᵀ * (B*P*Bᵀ + R)⁻¹ := by
+  letI : Invertible P := sorry
+  letI : Invertible R := sorry
+  letI : Invertible (R + B*P*Bᵀ) := sorry
+  rw [Matrix.add_mul_mul_inv_eq_sub, add_comm _ R]
+  simp_rw [Matrix.inv_inv_of_invertible, Matrix.sub_mul, Matrix.mul_assoc, ← Matrix.mul_sub]
+  congr 2
+  simp_rw [← Matrix.mul_assoc]
+  apply_fun (· * R)
+  simp_rw [Matrix.sub_mul, sub_eq_iff_eq_add, Matrix.mul_assoc, ← Matrix.mul_add,
+    ← Matrix.mul_assoc, Matrix.inv_mul_cancel_right_of_invertible,
+    Matrix.inv_mul_of_invertible]
+  · sorry
+  · sorry
+  · sorry
+  · simp_rw [Matrix.inv_inv_of_invertible]
+    exact isUnit_of_invertible _
 
 /-! ### The Kailath Variant -/
 
