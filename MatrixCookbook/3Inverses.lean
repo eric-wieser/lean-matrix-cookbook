@@ -113,13 +113,13 @@ theorem eq_158 (P : Matrix n n ℂ) (R : Matrix m m ℂ) (B : Matrix m n ℂ)
   letI : Invertible (R + B*P*Bᴴ) :=
     (hR.add_posSemidef <| hP.posSemidef.mul_mul_conjTranspose_same B).isUnit.invertible
   rw [Matrix.add_mul_mul_inv_eq_sub, add_comm _ R]
-  simp_rw [Matrix.inv_inv_of_invertible, Matrix.sub_mul, Matrix.mul_assoc, ← Matrix.mul_sub]
-  congr 2
-  simp_rw [← Matrix.mul_assoc]
-  refine hR.isUnit.isRegular.right ?_
-  simp_rw [Matrix.sub_mul, sub_eq_iff_eq_add, Matrix.mul_assoc, ← Matrix.mul_add,
-    ← Matrix.mul_assoc, Matrix.inv_mul_cancel_right_of_invertible,
-    Matrix.inv_mul_of_invertible]
+  · simp_rw [Matrix.inv_inv_of_invertible, Matrix.sub_mul, Matrix.mul_assoc, ← Matrix.mul_sub]
+    congr 2
+    simp_rw [← Matrix.mul_assoc]
+    refine hR.isUnit.isRegular.right ?_
+    simp_rw [Matrix.sub_mul, sub_eq_iff_eq_add, Matrix.mul_assoc, ← Matrix.mul_add,
+      ← Matrix.mul_assoc, Matrix.inv_mul_cancel_right_of_invertible,
+      Matrix.inv_mul_of_invertible]
   · simpa only [isUnit_nonsing_inv_iff] using hP.isUnit
   · simpa only [isUnit_nonsing_inv_iff] using hR.isUnit
   · simp_rw [Matrix.inv_inv_of_invertible]
