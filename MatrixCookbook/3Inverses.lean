@@ -126,7 +126,7 @@ theorem eq_160 (b c : n → ℂ) (hA : IsUnit A) (h : 1 + c ⬝ᵥ A⁻¹ *ᵥ b
     Matrix.smul_mul]
   · congr
     rw [← col_mulVec, ← row_vecMul, row_mul_col, smul_eq_mul_diagonal,
-      Matrix.inv_unique (m := Unit), diagonal_unique]
+      Matrix.inv_subsingleton (m := Unit)]
     simp_rw [Ring.inverse_eq_inv]
     simp [← dotProduct_mulVec]
   · rw [isUnit_iff_isUnit_det, det_unique, add_apply, one_apply_eq]
