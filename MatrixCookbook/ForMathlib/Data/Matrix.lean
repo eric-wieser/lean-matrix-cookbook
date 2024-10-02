@@ -1,5 +1,6 @@
 import Mathlib.LinearAlgebra.Matrix.Trace
 import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
+import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
 import Mathlib.Data.Matrix.Notation
 import Mathlib.Data.Fintype.BigOperators
 -- import Mathlib.Tactic.NormFin

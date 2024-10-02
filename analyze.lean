@@ -2,6 +2,7 @@ import MatrixCookbook
 import Lean.CoreM
 import Lean.Util.Sorry
 import Mathlib.Data.String.Defs
+import Batteries.Data.HashMap
 
 set_option autoImplicit false
 
