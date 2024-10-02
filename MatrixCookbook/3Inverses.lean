@@ -110,10 +110,8 @@ theorem eq_158 (P : Matrix n n ℂ) (R : Matrix m m ℂ) (B : Matrix m n ℂ)
     (P⁻¹ + Bᴴ * R⁻¹ * B)⁻¹ * Bᴴ * R⁻¹ = P * Bᴴ * (B * P * Bᴴ + R)⁻¹ := by
   letI : Invertible P := hP.isUnit.invertible
   letI : Invertible R := hR.isUnit.invertible
-  letI : Invertible (R + B*P*Bᴴ) := by
-    refine IsUnit.invertible <| PosDef.isUnit ?_
-    refine hR.add_posSemidef ?_
-    exact hP.posSemidef.mul_mul_conjTranspose_same B
+  letI : Invertible (R + B*P*Bᴴ) :=
+    (hR.add_posSemidef <| hP.posSemidef.mul_mul_conjTranspose_same B).isUnit.invertible
   rw [Matrix.add_mul_mul_inv_eq_sub, add_comm _ R]
   simp_rw [Matrix.inv_inv_of_invertible, Matrix.sub_mul, Matrix.mul_assoc, ← Matrix.mul_sub]
   congr 2
@@ -122,8 +120,8 @@ theorem eq_158 (P : Matrix n n ℂ) (R : Matrix m m ℂ) (B : Matrix m n ℂ)
   simp_rw [Matrix.sub_mul, sub_eq_iff_eq_add, Matrix.mul_assoc, ← Matrix.mul_add,
     ← Matrix.mul_assoc, Matrix.inv_mul_cancel_right_of_invertible,
     Matrix.inv_mul_of_invertible]
-  · simpa using hP.isUnit
-  · simpa using hR.isUnit
+  · simpa only [isUnit_nonsing_inv_iff] using hP.isUnit
+  · simpa only [isUnit_nonsing_inv_iff] using hR.isUnit
   · simp_rw [Matrix.inv_inv_of_invertible]
     exact isUnit_of_invertible _
 
