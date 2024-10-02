@@ -104,10 +104,28 @@ theorem eq_157 (A : Matrix n n ℂ) (B : Matrix m m ℂ) (U : Matrix n m ℂ) (V
   Matrix.add_mul_mul_inv_eq_sub _ _ _ _ hA hB h
 
 open scoped ComplexOrder in
+/-- Note that this has been generalized from the `ℝ`/`ᵀ` in the source to `ℂ`/`ᴴ`. -/
 theorem eq_158 (P : Matrix n n ℂ) (R : Matrix m m ℂ) (B : Matrix m n ℂ)
     (hP : P.PosDef) (hR : R.PosDef) :
-    (P + Bᵀ * R * B)⁻¹ * Bᵀ * R⁻¹ = P * Bᵀ * (B*P⁻¹*Bᵀ + R)⁻¹ := by
-  sorry
+    (P⁻¹ + Bᴴ * R⁻¹ * B)⁻¹ * Bᴴ * R⁻¹ = P * Bᴴ * (B * P * Bᴴ + R)⁻¹ := by
+  letI : Invertible P := hP.isUnit.invertible
+  letI : Invertible R := hR.isUnit.invertible
+  letI : Invertible (R + B*P*Bᴴ) := by
+    refine IsUnit.invertible <| PosDef.isUnit ?_
+    refine hR.add_posSemidef ?_
+    exact hP.posSemidef.mul_mul_conjTranspose_same B
+  rw [Matrix.add_mul_mul_inv_eq_sub, add_comm _ R]
+  simp_rw [Matrix.inv_inv_of_invertible, Matrix.sub_mul, Matrix.mul_assoc, ← Matrix.mul_sub]
+  congr 2
+  simp_rw [← Matrix.mul_assoc]
+  refine hR.isUnit.isRegular.right ?_
+  simp_rw [Matrix.sub_mul, sub_eq_iff_eq_add, Matrix.mul_assoc, ← Matrix.mul_add,
+    ← Matrix.mul_assoc, Matrix.inv_mul_cancel_right_of_invertible,
+    Matrix.inv_mul_of_invertible]
+  · simpa using hP.isUnit
+  · simpa using hR.isUnit
+  · simp_rw [Matrix.inv_inv_of_invertible]
+    exact isUnit_of_invertible _
 
 /-! ### The Kailath Variant -/
 
