@@ -138,7 +138,7 @@ where
   color : Status → String
     | .missing => "darkred"
     | .notStated => "red"
-    | .stated => "yellow"
+    | .stated => "goldenrod"
     | .proved => "green"
 
 def makeTIKZ (cells : List (ℕ × String × Option String × Status))
