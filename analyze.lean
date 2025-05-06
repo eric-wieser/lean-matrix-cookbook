@@ -124,7 +124,7 @@ def makeSVG (cells : List (ℕ × String × Option String × Status))
     f!"<tspan fill=\"{color k}\">{k}: {v} <tspan style=\"opacity: 0.75\">({⌊(v*100/cells.length : ℚ) + 0.5⌋}%)</tspan></tspan>"
   let legend := f!"<text x=\"0\" y=\"85\" width=\"{width*cells.length}\">{Format.joinSep legendEntries ", "}</text>"
 
-  let titleEntries ← sections.toList.enum.mapM (fun (i, sn, s, e) => do
+  let titleEntries ← sections.toList.zipIdx.mapM (fun ((sn, s, e), i) => do
     let y := if i % 2 = 0 then 23 else 52
     let (anchor, x) := if i = sections.size - 1 then
         ("end", (e*width : ℚ))
@@ -161,7 +161,7 @@ def makeTIKZ (cells : List (ℕ × String × Option String × Status))
 
   let legend := ""
 
-  let titleEntries ← sections.toList.enum.mapM (fun (i, sn, s, e) => do
+  let titleEntries ← sections.toList.zipIdx.mapM (fun ((sn, s, e), i) => do
     let (y, dy, side) := if i % 2 = 0 then
       ("2em", "+", "above")
     else
