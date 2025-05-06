@@ -82,8 +82,8 @@ theorem eq_16 {A : Matrix m n R} {B : Matrix n p R} {C : Matrix p m R} :
     trace (A * B * C) = trace (B * C * A) :=
   (Matrix.trace_mul_cycle B C A).symm
 
-theorem eq_17 {a : m → R} : dotProduct a a = trace (col Unit a * row Unit a) :=
-  (Matrix.trace_col_mul_row _ _).symm
+theorem eq_17 {a : m → R} : dotProduct a a = trace (replicateCol Unit a * replicateRow Unit a) :=
+  (Matrix.trace_replicateCol_mul_replicateRow _ _).symm
 
 end
 
@@ -109,8 +109,8 @@ theorem eq_22 {A : Matrix m m R} : det A⁻¹ = (det A)⁻¹ :=
 theorem eq_23 {A : Matrix m m R} (k : ℕ) : det (A ^ k) = det A ^ k :=
   det_pow _ _
 
-theorem eq_24 {u v : m → R} : det (1 + col Unit u * row Unit v) = 1 + dotProduct u v := by
-  rw [det_one_add_col_mul_row u v, dotProduct_comm]
+theorem eq_24 {u v : m → R} : det (1 + replicateCol Unit u * replicateRow Unit v) = 1 + dotProduct u v := by
+  rw [det_one_add_replicateCol_mul_replicateRow u v, dotProduct_comm]
 
 theorem eq_25 {A : Matrix (Fin 2) (Fin 2) R} : det (1 + A) = 1 + det A + trace A := by
   simp [det_fin_two, trace_fin_two]; ring

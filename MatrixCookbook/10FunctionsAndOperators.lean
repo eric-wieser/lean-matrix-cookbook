@@ -130,17 +130,17 @@ lemma eq_519 : (sorry : Prop) := sorry
 /-! #### The Vec Operator -/
 
 def vec (A : Matrix m n R) : Matrix (n × m) Unit R :=
-  col Unit fun ij => A ij.2 ij.1
+  replicateCol Unit fun ij => A ij.2 ij.1
 
 theorem eq_520 (A : Matrix l m R) (X : Matrix m n R) (B : Matrix n p R) :
     vec (A * X * B) = Bᵀ ⊗ₖ A * vec X := by
   ext ⟨k, l⟩
-  simp_rw [vec, Matrix.mul_apply, Matrix.kroneckerMap_apply, col_apply, Finset.sum_mul,
+  simp_rw [vec, Matrix.mul_apply, Matrix.kroneckerMap_apply, replicateCol_apply, Finset.sum_mul,
     transpose_apply, ← Finset.univ_product_univ, Finset.sum_product, mul_right_comm _ _ (B _ _),
     mul_comm _ (B _ _)]
 
 theorem eq_521 (A B : Matrix m n R) : (Aᵀ * B).trace = ((vec A)ᵀ * vec B) () () := by
-  simp_rw [Matrix.trace, Matrix.diag, Matrix.mul_apply, vec, transpose_apply, col_apply, ←
+  simp_rw [Matrix.trace, Matrix.diag, Matrix.mul_apply, vec, transpose_apply, replicateCol_apply, ←
     Finset.univ_product_univ, Finset.sum_product]
 
 theorem eq_522 (A B : Matrix m n R) : vec (A + B) = vec A + vec B :=
@@ -151,11 +151,11 @@ theorem eq_523 (r : R) (A : Matrix m n R) : vec (r • A) = r • vec A :=
 
 -- note: `Bᵀ` is `B` in the PDF
 theorem eq_524 (a : m → R) (X : Matrix m n R) (B : Matrix n n R) (c : m → R) :
-    row Unit a * X * B * Xᵀ * col Unit c = (vec X)ᵀ * Bᵀ ⊗ₖ (col Unit c * row Unit a) * vec X := by
+    replicateRow Unit a * X * B * Xᵀ * replicateCol Unit c = (vec X)ᵀ * Bᵀ ⊗ₖ (replicateCol Unit c * replicateRow Unit a) * vec X := by
   -- not the proof from the book
   ext ⟨i, j⟩
   simp only [vec, Matrix.mul_apply, Finset.sum_mul, Finset.mul_sum, Matrix.kroneckerMap_apply,
-    transpose_apply, Matrix.row_apply, Matrix.col_apply, Fintype.sum_unique]
+    transpose_apply, Matrix.replicateRow_apply, Matrix.replicateCol_apply, Fintype.sum_unique]
   simp_rw [← Finset.univ_product_univ, Finset.sum_product, @Finset.sum_comm n _ m]
   rw [Finset.sum_comm]
   refine Finset.sum_congr rfl fun k _ => ?_
@@ -175,7 +175,8 @@ theorem eq_525 (x : n → ℂ) : ‖(WithLp.equiv 1 _).symm x‖ = ∑ i, ‖x i
   simpa using PiLp.norm_eq_of_nat 1 Nat.cast_one.symm ((WithLp.equiv 1 _).symm x)
 
 theorem eq_526 (x : n → ℂ) : ↑(‖(WithLp.equiv 2 _).symm x‖ ^ 2 : ℝ) = star x ⬝ᵥ x := by
-  rw [← EuclideanSpace.inner_piLp_equiv_symm, inner_self_eq_norm_sq_to_K, Complex.ofReal_pow]
+  rw [dotProduct_comm, ← EuclideanSpace.inner_piLp_equiv_symm, inner_self_eq_norm_sq_to_K,
+    Complex.ofReal_pow]
   rfl  -- porting note: added
 
 theorem eq_527 (x : n → ℂ) (p : ℝ≥0∞) (h : 0 < p.toReal) :
