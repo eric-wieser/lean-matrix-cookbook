@@ -89,10 +89,10 @@ theorem deriv_matrix (f : R → Matrix m n A) (r : R) (hX : DifferentiableAt R f
   rw [deriv_pi]
   · intro i
     erw [differentiableAt_pi] at hX -- porting note: added
-    simp_rw [differentiableAt_pi] at hX 
+    simp_rw [differentiableAt_pi] at hX
     apply hX
   · intro i
-    rw [differentiableAt_pi] at hX 
+    rw [differentiableAt_pi] at hX
     apply hX
 
 end SupNorm
@@ -106,9 +106,9 @@ variable [NontriviallyNormedField R] [NormedCommRing A] [NormedAlgebra R A] [Com
 theorem HasDerivAt.matrix_inv {X : R → Matrix m m A} {X' : Matrix m m A} {r : R}
     (hX : HasDerivAt X X' r) (hX' : IsUnit (X r)) :
     HasDerivAt (fun a => (X a)⁻¹) (-(X r)⁻¹ * X' * (X r)⁻¹) r := by
-  simp_rw [nonsing_inv_eq_ring_inverse]
+  simp_rw [nonsing_inv_eq_ringInverse]
   obtain ⟨u, hu⟩ := hX'
-  have : HasFDerivAt _ (_ : _ →L[R] _) _ := hasFDerivAt_ring_inverse u
+  have : HasFDerivAt _ (_ : _ →L[R] _) _ := hasFDerivAt_ringInverse u
   simp_rw [← Ring.inverse_unit u, hu] at this
   rw [hasDerivAt_iff_hasFDerivAt] at hX ⊢
   convert HasFDerivAt.comp _ this hX
@@ -117,4 +117,3 @@ theorem HasDerivAt.matrix_inv {X : R → Matrix m m A} {X' : Matrix m m A} {r : 
   simp [Matrix.mul_smul, (ContinuousLinearMap.smulRight_apply), (ContinuousLinearMap.comp_apply), (ContinuousLinearMap.neg_apply)]
 
 end LinftyOpNorm
-

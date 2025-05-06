@@ -304,7 +304,7 @@ theorem eq_442 : (sorry : Prop) :=
 
 -- note this is 0-indexed not 1-indexed
 theorem eq_443 :
-    stdBasisMatrix (1 : Fin 4) (2 : Fin 4) 1 =
+    single (1 : Fin 4) (2 : Fin 4) 1 =
       !![0, 0, 0, 0;
          0, 0, 1, 0;
          0, 0, 0, 0;
@@ -314,30 +314,30 @@ theorem eq_443 :
 /-! ### Swap and Zeros -/
 
 theorem eq_444 (A : Matrix n m R) (i : m) (j : p) :
-    A * stdBasisMatrix i j (1 : R) = updateColumn 0 j (A · i)  :=
+    A * single i j (1 : R) = updateCol 0 j (A · i)  :=
   sorry
 
 theorem eq_445 (i : p) (j : n) (A : Matrix n m R) :
-    stdBasisMatrix i j (1 : R) * A = updateRow 0 i (A j)  :=
+    single i j (1 : R) * A = updateRow 0 i (A j)  :=
   sorry
 
 /-! ### Rewriting product of elements -/
 
 
 theorem eq_446 (A : Matrix l m R) (B : Matrix n p R) (k i j l) :
-    A k i * B j l = (A * stdBasisMatrix i j (1 : R) * B) k l := by
+    A k i * B j l = (A * single i j (1 : R) * B) k l := by
   sorry
 
 theorem eq_447 (A : Matrix l m R) (B : Matrix n p R) (k i j l) :
-    A i k * B l j = (Aᵀ * stdBasisMatrix i j (1 : R) * Bᵀ) k l := by
+    A i k * B l j = (Aᵀ * single i j (1 : R) * Bᵀ) k l := by
   rw [←eq_446]; rfl
 
 theorem eq_448 (A : Matrix l m R) (B : Matrix n p R) (k i j l) :
-    A i k * B j l = (Aᵀ * stdBasisMatrix i j (1 : R) * B) k l := by
+    A i k * B j l = (Aᵀ * single i j (1 : R) * B) k l := by
   rw [←eq_446]; rfl
 
 theorem eq_449 (A : Matrix l m R) (B : Matrix n p R) (k i j l) :
-    A k i * B l j = (A * stdBasisMatrix i j (1 : R) * Bᵀ) k l := by
+    A k i * B l j = (A * single i j (1 : R) * Bᵀ) k l := by
   rw [←eq_446]; rfl
 
 /-! ### Properties of the Singleentry Matrix -/
@@ -347,33 +347,33 @@ theorem eq_449 (A : Matrix l m R) (B : Matrix n p R) (k i j l) :
 
 
 theorem eq_450 (A : Matrix n m R) :
-    trace (A * stdBasisMatrix i j (1 : R)) = Aᵀ i j ∧
-    trace (stdBasisMatrix i j (1 : R) * A) = Aᵀ i j :=
+    trace (A * single i j (1 : R)) = Aᵀ i j ∧
+    trace (single i j (1 : R) * A) = Aᵀ i j :=
   sorry
 
 theorem eq_451 (A : Matrix n n R) (i : n) (j : m) (B : Matrix m n R) :
-    trace (A * stdBasisMatrix i j (1 : R) * B) = (Aᵀ * Bᵀ) i j :=
+    trace (A * single i j (1 : R) * B) = (Aᵀ * Bᵀ) i j :=
   sorry
 
 theorem eq_452 (A : Matrix n n R) (j : n) (i : m) (B : Matrix m n R) :
-    trace (A * stdBasisMatrix j i (1 : R) * B) = (B * A) i j :=
+    trace (A * single j i (1 : R) * B) = (B * A) i j :=
   sorry
 
 /-- The cookbook declares incompatible dimensions here; weassume the matrices are supposed to be
 square. -/
 theorem eq_453 (A : Matrix n n R) (i : n) (j : n) (B : Matrix n n R) :
-    trace (A * stdBasisMatrix i j (1 : R) * stdBasisMatrix i j (1 : R) * B) =
+    trace (A * single i j (1 : R) * single i j (1 : R) * B) =
       diagonal (diag (Aᵀ * Bᵀ)) i j :=
   sorry
 
 theorem eq_454 (A : Matrix n n R) (i : n) (j : m) (B : Matrix m n R) (x : n → R) :
-    x ⬝ᵥ (A * stdBasisMatrix i j (1 : R) * B).mulVec x = (Aᵀ * vecMulVec x x * Bᵀ) i j :=
+    x ⬝ᵥ (A * single i j (1 : R) * B).mulVec x = (Aᵀ * vecMulVec x x * Bᵀ) i j :=
   sorry
 
 /-- The cookbook declares incompatible dimensions here; weassume the matrices are supposed to be
 square. -/
 theorem eq_455  (A : Matrix n n R) (i : n) (j : n) (B : Matrix n n R) (x : n → R) :
-    x ⬝ᵥ (A * stdBasisMatrix i j (1 : R) * stdBasisMatrix i j (1 : R) * B).mulVec x =
+    x ⬝ᵥ (A * single i j (1 : R) * single i j (1 : R) * B).mulVec x =
       diagonal (diag (Aᵀ * vecMulVec x x * Bᵀ)) i j :=
   sorry
 

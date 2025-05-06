@@ -88,10 +88,10 @@ theorem eq_507 [Nontrivial m] [Nonempty n] :
   intro h
   obtain ⟨m1, m2, hm⟩ := exists_pair_ne m
   obtain ⟨n1⟩ := id ‹Nonempty n›
-  let A := stdBasisMatrix m1 n1 (1 : R)
-  let B := stdBasisMatrix m2 n1 (1 : R)
+  let A := single m1 n1 (1 : R)
+  let B := single m2 n1 (1 : R)
   have := Matrix.ext_iff.mpr (h A B) (m1, m2) (n1, n1)
-  simp [StdBasisMatrix.apply_same, StdBasisMatrix.apply_of_row_ne hm,
+  simp [single_apply_same, single_apply_of_row_ne hm,
     mul_zero, mul_one, one_ne_zero, A, B] at this
 
 /-- Note we have to "cast" between the types -/
