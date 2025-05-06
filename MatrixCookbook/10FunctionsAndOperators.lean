@@ -171,7 +171,7 @@ theorem eq_524 (a : m → R) (X : Matrix m n R) (B : Matrix n n R) (c : m → R)
 /-! #### Examples -/
 
 
-theorem eq_525 (x : n → ℂ) : ‖(WithLp.equiv 1 _).symm x‖ = ∑ i, Complex.abs (x i) := by
+theorem eq_525 (x : n → ℂ) : ‖(WithLp.equiv 1 _).symm x‖ = ∑ i, ‖x i‖ := by
   simpa using PiLp.norm_eq_of_nat 1 Nat.cast_one.symm ((WithLp.equiv 1 _).symm x)
 
 theorem eq_526 (x : n → ℂ) : ↑(‖(WithLp.equiv 2 _).symm x‖ ^ 2 : ℝ) = star x ⬝ᵥ x := by
@@ -179,11 +179,11 @@ theorem eq_526 (x : n → ℂ) : ↑(‖(WithLp.equiv 2 _).symm x‖ ^ 2 : ℝ) 
   rfl  -- porting note: added
 
 theorem eq_527 (x : n → ℂ) (p : ℝ≥0∞) (h : 0 < p.toReal) :
-    ‖(WithLp.equiv p _).symm x‖ = (∑ i, Complex.abs (x i) ^ p.toReal) ^ (1 / p.toReal) := by
-  simp_rw [PiLp.norm_eq_sum h, WithLp.equiv_symm_pi_apply, Complex.norm_eq_abs]
+    ‖(WithLp.equiv p _).symm x‖ = (∑ i, ‖x i‖ ^ p.toReal) ^ (1 / p.toReal) := by
+  simp_rw [PiLp.norm_eq_sum h, WithLp.equiv_symm_pi_apply]
 
-theorem eq_528 (x : n → ℂ) : ‖(WithLp.equiv ∞ _).symm x‖ = ⨆ i, Complex.abs (x i) := by
-  simp_rw [PiLp.norm_eq_ciSup, WithLp.equiv_symm_pi_apply, Complex.norm_eq_abs]
+theorem eq_528 (x : n → ℂ) : ‖(WithLp.equiv ∞ _).symm x‖ = ⨆ i, ‖x i‖ := by
+  simp_rw [PiLp.norm_eq_ciSup, WithLp.equiv_symm_pi_apply]
 
 /-! ### Matrix Norms -/
 
