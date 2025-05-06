@@ -1,4 +1,3 @@
-import Mathlib.Algebra.Ring.Idempotents
 import Mathlib.Data.Complex.Basic
 import Mathlib.Data.Matrix.PEquiv
 import Mathlib.Data.Matrix.Reflection
@@ -515,7 +514,7 @@ theorem eq_485 {n : ℕ} (v : Fin n → R) (i j : Fin n) : vandermonde v i j = v
   vandermonde_apply _ _ _
 
 theorem eq_486 {n : ℕ} (v : Fin n → R) :
-    det (vandermonde v) = ∏ i : Fin n, ∏ j in Finset.Ioi i, (v j - v i) :=
+    det (vandermonde v) = ∏ i : Fin n, ∏ j ∈ Finset.Ioi i, (v j - v i) :=
   det_vandermonde _
 
 end MatrixCookbook

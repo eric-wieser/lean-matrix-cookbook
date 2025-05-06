@@ -36,7 +36,7 @@ variable [Field R]
 
 /-- The pdf does not mention `hx`! -/
 theorem eq_487 (X : Matrix m m R) (n : ℕ) (hx : (X - 1).det ≠ 0) :
-    (X ^ n - 1) * (X - 1)⁻¹ = ∑ i in Finset.range n, X ^ i := by
+    (X ^ n - 1) * (X - 1)⁻¹ = ∑ i ∈ Finset.range n, X ^ i := by
   rw [← geom_sum_mul X n, mul_nonsing_inv_cancel_right _ _ hx.isUnit]
 
 /-! #### Taylor Expansion of Scalar Function -/
