@@ -47,11 +47,11 @@ jobs:
         lake env lean analyze.lean > gh-pages/progress_bar.svg
 
     - name: Upload artifact
-      uses: actions/upload-pages-artifact@v1
+      uses: actions/upload-pages-artifact@v3
       with:
         path: 'gh-pages'
 
     - name: Deploy to GitHub Pages
       if: github.ref == 'refs/heads/master'
       id: deployment
-      uses: actions/deploy-pages@v1
+      uses: actions/deploy-pages@v4
