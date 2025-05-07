@@ -8,6 +8,7 @@ import Mathlib.LinearAlgebra.Matrix.SchurComplement
 import Mathlib.LinearAlgebra.Matrix.Symmetric
 import Mathlib.LinearAlgebra.Vandermonde
 import Mathlib.Data.Real.StarOrdered
+import MatrixCookbook.ForMathlib.Data.Matrix
 
 /-! # Special Matrices -/
 
@@ -314,19 +315,21 @@ theorem eq_443 :
 /-! ### Swap and Zeros -/
 
 theorem eq_444 (A : Matrix n m R) (i : m) (j : p) :
-    A * single i j (1 : R) = updateCol 0 j (A · i)  :=
-  sorry
+    A * single i j (1 : R) = updateCol 0 j (A.col i) := by
+  rw [mul_single_eq, MulOpposite.op_one, one_smul]
 
 theorem eq_445 (i : p) (j : n) (A : Matrix n m R) :
-    single i j (1 : R) * A = updateRow 0 i (A j)  :=
-  sorry
+    single i j (1 : R) * A = updateRow 0 i (A.row j) := by
+  rw [single_mul_eq, one_smul]
 
 /-! ### Rewriting product of elements -/
 
 
 theorem eq_446 (A : Matrix l m R) (B : Matrix n p R) (k i j l) :
     A k i * B j l = (A * single i j (1 : R) * B) k l := by
-  sorry
+  rw [eq_444, mul_apply]
+  rw [Fintype.sum_eq_single j, updateCol_self, col_apply]
+  · simp +contextual
 
 theorem eq_447 (A : Matrix l m R) (B : Matrix n p R) (k i j l) :
     A i k * B l j = (Aᵀ * single i j (1 : R) * Bᵀ) k l := by
@@ -348,22 +351,27 @@ theorem eq_449 (A : Matrix l m R) (B : Matrix n p R) (k i j l) :
 
 theorem eq_450 (A : Matrix n m R) :
     trace (A * single i j (1 : R)) = Aᵀ i j ∧
-    trace (single i j (1 : R) * A) = Aᵀ i j :=
-  sorry
+    trace (single i j (1 : R) * A) = Aᵀ i j := by
+  simp_rw [eq_444, eq_445]
+  simp [trace, updateCol_apply, updateRow_apply]
 
 theorem eq_451 (A : Matrix n n R) (i : n) (j : m) (B : Matrix m n R) :
-    trace (A * single i j (1 : R) * B) = (Aᵀ * Bᵀ) i j :=
-  sorry
+    trace (A * single i j (1 : R) * B) = (Aᵀ * Bᵀ) i j := by
+  conv_lhs => rw [← transpose_transpose A]
+  simp_rw [trace, diag, ← eq_448]
+  rfl
 
 theorem eq_452 (A : Matrix n n R) (j : n) (i : m) (B : Matrix m n R) :
-    trace (A * single j i (1 : R) * B) = (B * A) i j :=
-  sorry
+    trace (A * single j i (1 : R) * B) = (B * A) i j := by
+  conv_lhs => rw [← transpose_transpose B]
+  simp_rw [trace, diag, ← eq_449, mul_comm (A _ _)]
+  rfl
 
 /-- The cookbook declares incompatible dimensions here; weassume the matrices are supposed to be
 square. -/
 theorem eq_453 (A : Matrix n n R) (i : n) (j : n) (B : Matrix n n R) :
     trace (A * single i j (1 : R) * single i j (1 : R) * B) =
-      diagonal (diag (Aᵀ * Bᵀ)) i j :=
+      diagonal (diag (Aᵀ * Bᵀ)) i j := by
   sorry
 
 theorem eq_454 (A : Matrix n n R) (i : n) (j : m) (B : Matrix m n R) (x : n → R) :
