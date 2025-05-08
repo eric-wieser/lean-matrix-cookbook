@@ -13,7 +13,7 @@ import Mathlib.Data.Real.StarOrdered
 
 /-! # Functions and Operators -/
 
-variable {ι : Type _} {R : Type _} {l m n p q r : Type _}
+variable {ι : Type*} {R : Type*} {l m n p q r : Type*}
 
 variable [Fintype l] [Fintype m] [Fintype n] [Fintype p] [Fintype q] [Fintype r]
 
@@ -111,7 +111,7 @@ theorem eq_511 (A : Matrix l m R) (B : Matrix p q R) (C : Matrix m n R) (D : Mat
 theorem eq_512 (A : Matrix m m R) (B : Matrix n n R) : (A ⊗ₖ B)⁻¹ = A⁻¹ ⊗ₖ B⁻¹ :=
   inv_kronecker _ _
 
--- lemma eq_513 : (sorry : Prop) := sorry
+lemma eq_513 : (sorry : Prop) := sorry
 
 lemma eq_514 (A : Matrix l m R) (B : Matrix p q R) : rank (A ⊗ₖ B) = rank A * rank B := sorry
 
@@ -244,8 +244,9 @@ end
 
 lemma eq_537 (A : Matrix m n ℝ) : sorry = ⨆ j, ∑ i, ‖A i j‖ := sorry
 
--- lemma eq_538 : (sorry : Prop) := sorry
--- lemma eq_539 : (sorry : Prop) := sorry
+lemma eq_538 : (sorry : Prop) := sorry
+lemma eq_539 : (sorry : Prop) := sorry
+
 section
 
 attribute [local instance] Matrix.linftyOpNormedAddCommGroup Matrix.linftyOpNormedSpace
