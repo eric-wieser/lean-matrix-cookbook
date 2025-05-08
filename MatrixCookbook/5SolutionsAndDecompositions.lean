@@ -75,8 +75,10 @@ theorem eq_269 : (sorry : Prop) :=
 /-! ### Linear form and zeros -/
 
 
-theorem eq_270 (A : Matrix m m ℝ) : (∀ x, A.mulVec x = 0) → A = 0 :=
-  sorry
+theorem eq_270 (A : Matrix m m ℝ) : (∀ x, A.mulVec x = 0) → A = 0 := by
+  intro h
+  ext i j
+  simpa using congr_fun (h (Pi.single j 1)) i
 
 /-! ### Square form and zeros -/
 
