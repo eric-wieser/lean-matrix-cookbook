@@ -313,14 +313,17 @@ theorem eq_546 (A : Matrix m n ℝ) (B : Matrix n r ℝ) :
 /-! ### Miscellaneous -/
 
 
--- lemma eq_547 : (sorry : Prop) := sorry
--- lemma eq_548 : (sorry : Prop) := sorry
+lemma eq_547 : (sorry : Prop) := sorry
+lemma eq_548 : (sorry : Prop) := sorry
+
 theorem eq_549 (A : Matrix m n ℝ) :
     A.rank = Aᵀ.rank ∧ A.rank = (A * Aᵀ).rank ∧ A.rank = (Aᵀ * A).rank :=
   ⟨A.rank_transpose.symm, A.rank_self_mul_transpose.symm, A.rank_transpose_mul_self.symm⟩
 
 theorem eq_550 (A : Matrix m m ℝ) :
-    A.PosDef ↔ ∃ B : (Matrix m m ℝ)ˣ, A = (↑B : Matrix m m ℝ) * ↑Bᵀ :=
-  sorry
+    A.PosDef ↔ ∃ B : Matrix m m ℝ, IsUnit B ∧ A = B * Bᵀ := by
+  rw [PosDef.posDef_iff_eq_conjTranspose_mul_self,
+    (Function.RightInverse.surjective transpose_transpose).exists]
+  simp [isUnit_transpose]
 
 end MatrixCookbook
