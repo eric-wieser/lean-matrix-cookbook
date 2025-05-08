@@ -4,7 +4,7 @@ import Mathlib.Data.Real.StarOrdered
 /-! # Solutions and Decompositions -/
 
 
-variable {m n p : Type _}
+variable {m n p R : Type*}
 
 variable [Fintype m] [Fintype n] [Fintype p]
 
@@ -32,19 +32,23 @@ theorem eq_261 : (sorry : Prop) :=
 /-! ### Standard Square -/
 
 
-theorem eq_262 : (sorry : Prop) :=
-  sorry
+theorem eq_262 [Field R] (A : Matrix n n R) (x b : n → R) (h : IsUnit A) :
+    A *ᵥ x = b ↔ x = A⁻¹ *ᵥ b := by
+  conv_rhs => rw [← Matrix.mulVec_injective_of_isUnit h|>.eq_iff]
+  letI := h.invertible
+  rw [Matrix.mulVec_mulVec, Matrix.mul_inv_of_invertible, Matrix.one_mulVec]
 
 /-! ### Degenerated Square -/
 
 
 /-! ### Cramer's rule -/
 
+/-- This isn't a theorem at all. -/
+theorem eq_263 : True :=
+  trivial
 
-theorem eq_263 : (sorry : Prop) :=
-  sorry
-
-theorem eq_264 : (sorry : Prop) :=
+theorem eq_264 [Field R] (A : Matrix n n R) (x b : n → R) (h : A.det ≠ 0) :
+    A *ᵥ x = b ↔ ∀ i, x i = A.det⁻¹ • A.cramerMap b i :=
   sorry
 
 /-! ### Over-determined Rectangular -/
@@ -131,26 +135,39 @@ theorem eq_281 : (sorry : Prop) :=
 /-! ### Symmetric -/
 
 
-theorem eq_282 : (sorry : Prop) :=
+theorem eq_282 (A : Matrix n n ℝ) (hA : A.IsHermitian) :
+    (hA.eigenvectorUnitary : Matrix n n ℝ) * hA.eigenvectorUnitaryᵀ = 1 := by
+  simpa only [Matrix.mem_unitaryGroup_iff] using hA.eigenvectorUnitary.prop
+
+theorem eq_283 (A : Matrix n n ℝ) (hA : A.IsHermitian) (i : n) :
+    (fun {α} (_ : α) => α) (hA.eigenvalues i) = ℝ :=
+  rfl
+
+theorem eq_284 (A : Matrix n n ℝ) (hA : A.IsHermitian) (p : ℕ):
+    Matrix.trace (A ^ p) = ∑ i, hA.eigenvalues i ^ p := by
+  have := hA.pow p
   sorry
 
-theorem eq_283 : (sorry : Prop) :=
+theorem eq_285 (A : Matrix n n ℝ) (c : ℝ) (hA : A.IsHermitian) :
+    (Matrix.isHermitian_one.add (hA.map (c • ·) (fun i => by aesop))).eigenvalues = 1 + c • hA.eigenvalues :=
   sorry
 
-theorem eq_284 : (sorry : Prop) :=
+theorem eq_286 (A : Matrix n n ℝ) (hA : A.IsHermitian) (c : ℝ) :
+    (hA.sub <| Matrix.isHermitian_diagonal fun _ => c).eigenvalues = hA.eigenvalues - Function.const _ c :=
   sorry
 
-theorem eq_285 : (sorry : Prop) :=
+theorem eq_287 (A : Matrix n n ℝ) (hA : A.IsHermitian) :
+    hA.inv.eigenvalues = hA.eigenvalues⁻¹ := by
   sorry
 
-theorem eq_286 : (sorry : Prop) :=
-  sorry
-
-theorem eq_287 : (sorry : Prop) :=
-  sorry
-
-theorem eq_288 : (sorry : Prop) :=
-  sorry
+theorem eq_288 (A : Matrix n n ℝ) (hA : A.PosDef) :
+    (A.isHermitian_transpose_mul_self).eigenvalues = (A.isHermitian_mul_conjTranspose_self).eigenvalues ∧
+    (A.isHermitian_mul_conjTranspose_self).eigenvalues = hA.isHermitian.eigenvalues^2 := by
+  constructor
+  · congr!
+    · exact hA.isHermitian
+    · exact hA.isHermitian.symm
+  · sorry
 
 /-! ### Characteristic polynomial -/
 
