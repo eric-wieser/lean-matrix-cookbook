@@ -189,10 +189,7 @@ theorem eq_288 (A : Matrix n n ℝ) (hA : A.PosDef) :
 /-! ### Characteristic polynomial -/
 
 theorem eq_289 (A : Matrix m m ℝ) (γ : ℝ) : (-A).charpoly.eval (-γ) = (A - Matrix.scalar _ γ).det := by
-  rw [Matrix.charpoly, ← Polynomial.coe_evalRingHom, RingHom.map_det, Matrix.charmatrix]
-  congr
-  ext i j
-  obtain rfl | hij := eq_or_ne i j <;> simp [*, ← sub_eq_neg_add]
+  rw [Matrix.eval_charpoly, map_neg, neg_sub_neg]
 
 theorem eq_290 : (sorry : Prop) :=
   sorry
