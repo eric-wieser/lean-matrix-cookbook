@@ -10,6 +10,7 @@ import Mathlib.Data.Matrix.Rank
 import Mathlib.LinearAlgebra.Matrix.PosDef
 import Mathlib.Analysis.InnerProductSpace.PiL2
 import Mathlib.Data.Real.StarOrdered
+import MatrixCookbook.ForMathlib.Data.Matrix.Vec
 
 /-! # Functions and Operators -/
 
@@ -129,34 +130,25 @@ lemma eq_519 : (sorry : Prop) := sorry
 
 /-! #### The Vec Operator -/
 
-def vec (A : Matrix m n R) : Matrix (n × m) Unit R :=
-  replicateCol Unit fun ij => A ij.2 ij.1
-
 theorem eq_520 (A : Matrix l m R) (X : Matrix m n R) (B : Matrix n p R) :
-    vec (A * X * B) = Bᵀ ⊗ₖ A * vec X := by
-  ext ⟨k, l⟩
-  simp_rw [vec, Matrix.mul_apply, Matrix.kroneckerMap_apply, replicateCol_apply, Finset.sum_mul,
-    transpose_apply, ← Finset.univ_product_univ, Finset.sum_product, mul_right_comm _ _ (B _ _),
-    mul_comm _ (B _ _)]
+    vec (A * X * B) = Bᵀ ⊗ₖ A *ᵥ vec X := by
+  rw [kronecker_mulVec_vec, transpose_transpose]
 
-theorem eq_521 (A B : Matrix m n R) : (Aᵀ * B).trace = ((vec A)ᵀ * vec B) () () := by
-  simp_rw [Matrix.trace, Matrix.diag, Matrix.mul_apply, vec, transpose_apply, replicateCol_apply, ←
-    Finset.univ_product_univ, Finset.sum_product]
+theorem eq_521 (A B : Matrix m n R) : (Aᵀ * B).trace = (vec A ⬝ᵥ vec B) :=
+  (vec_dotProduct_vec _ _).symm
 
-theorem eq_522 (A B : Matrix m n R) : vec (A + B) = vec A + vec B :=
-  rfl
+theorem eq_522 (A B : Matrix m n R) : vec (A + B) = vec A + vec B := vec_add _ _
 
-theorem eq_523 (r : R) (A : Matrix m n R) : vec (r • A) = r • vec A :=
-  rfl
+theorem eq_523 (r : R) (A : Matrix m n R) : vec (r • A) = r • vec A := vec_smul _ _
 
 -- note: `Bᵀ` is `B` in the PDF
 theorem eq_524 (a : m → R) (X : Matrix m n R) (B : Matrix n n R) (c : m → R) :
-    replicateRow Unit a * X * B * Xᵀ * replicateCol Unit c = (vec X)ᵀ * Bᵀ ⊗ₖ (replicateCol Unit c * replicateRow Unit a) * vec X := by
+    a ᵥ* (X * B * Xᵀ) ⬝ᵥ c = vec X ᵥ* (Bᵀ ⊗ₖ vecMulVec c a) ⬝ᵥ vec X := by
   -- not the proof from the book
-  ext ⟨i, j⟩
-  simp only [vec, Matrix.mul_apply, Finset.sum_mul, Finset.mul_sum, Matrix.kroneckerMap_apply,
+  simp only [vec, dotProduct, vecMul, Matrix.mul_apply, Finset.sum_mul, Finset.mul_sum, Matrix.kroneckerMap_apply,
     transpose_apply, Matrix.replicateRow_apply, Matrix.replicateCol_apply, Fintype.sum_unique]
-  simp_rw [← Finset.univ_product_univ, Finset.sum_product, @Finset.sum_comm n _ m]
+  simp_rw [← Finset.univ_product_univ, Finset.sum_product, @Finset.sum_comm n _ m, vecMulVec,
+    of_apply]
   rw [Finset.sum_comm]
   refine Finset.sum_congr rfl fun k _ => ?_
   refine Finset.sum_congr rfl fun l _ => ?_

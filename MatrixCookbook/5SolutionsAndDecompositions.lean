@@ -1,5 +1,6 @@
 import Mathlib.LinearAlgebra.Matrix.LDL
 import Mathlib.Data.Real.StarOrdered
+import MatrixCookbook.ForMathlib.Data.Matrix.Vec
 
 /-! # Solutions and Decompositions -/
 
@@ -88,21 +89,35 @@ theorem eq_271 (A : Matrix m m ℝ) (hA : A.IsSymm) : (∀ x, x ⬝ᵥ A.mulVec 
 
 /-! ### The Lyapunov Equation -/
 
+/-- This is actually an assumption for the next equation. -/
+theorem eq_272 : True := trivial
 
-theorem eq_272 : (sorry : Prop) :=
-  sorry
-
-theorem eq_273 : (sorry : Prop) :=
-  sorry
+open scoped Kronecker in
+theorem eq_273 (A : Matrix n n ℝ) (B : Matrix n n ℝ) (X : Matrix n n ℝ) (C : Matrix n n ℝ)
+    (h : IsUnit (1 ⊗ₖ A + Bᵀ ⊗ₖ 1)) :
+    A * X + X * B = C ↔ X.vec = (1 ⊗ₖ A + Bᵀ ⊗ₖ 1)⁻¹ *ᵥ C.vec := by
+  letI := h.invertible
+  rw [← Matrix.mulVec_injective_of_isUnit h |>.eq_iff, Matrix.mulVec_mulVec,
+    Matrix.mul_inv_of_invertible, Matrix.one_mulVec, Matrix.add_mulVec, Matrix.kronecker_mulVec_vec,
+    Matrix.kronecker_mulVec_vec, Matrix.transpose_one, Matrix.one_mul, Matrix.mul_one,
+    ← Matrix.vec_add, Matrix.transpose_transpose, Matrix.vec_inj]
 
 /-! ### Encapsulating Sum -/
 
+/-- This is actually an assumption for the next equation. -/
+theorem eq_274 : True := trivial
 
-theorem eq_274 : (sorry : Prop) :=
-  sorry
+open scoped Kronecker in
+theorem eq_275 [Fintype ι] (A : ι → Matrix n n ℝ) (B : ι → Matrix n n ℝ) (X : Matrix n n ℝ) (C : Matrix n n ℝ)
+    (h : IsUnit (∑ i, (B i)ᵀ ⊗ₖ A i)) :
+    ∑ i, A i * X * B i = C ↔ X.vec = (∑ i, (B i)ᵀ ⊗ₖ A i)⁻¹ *ᵥ C.vec := by
+  letI := h.invertible
+  rw [← Matrix.mulVec_injective_of_isUnit h |>.eq_iff, Matrix.mulVec_mulVec,
+    Matrix.mul_inv_of_invertible, Matrix.one_mulVec, ← funext <| Matrix.mulVec.addMonoidHomLeft_apply _ _,
+    map_sum]
+  simp_rw [funext <| Matrix.mulVec.addMonoidHomLeft_apply _ _, Matrix.kronecker_mulVec_vec,
+    Matrix.transpose_transpose, ← Matrix.vec_sum, Matrix.vec_inj]
 
-theorem eq_275 : (sorry : Prop) :=
-  sorry
 
 /-! ## Eigenvalues and Eigenvectors -/
 
