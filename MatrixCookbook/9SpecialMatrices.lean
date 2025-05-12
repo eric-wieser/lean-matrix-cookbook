@@ -383,7 +383,10 @@ theorem eq_453 (A : Matrix n n R) (i : n) (j : n) (B : Matrix n n R) :
 
 theorem eq_454 (A : Matrix n n R) (i : n) (j : m) (B : Matrix m n R) (x : n → R) :
     x ⬝ᵥ (A * single i j (1 : R) * B).mulVec x = (Aᵀ * vecMulVec x x * Bᵀ) i j := by
-  sorry
+  simp_rw [dotProduct, mulVec, dotProduct, Finset.mul_sum, ← eq_446, mul_left_comm (x _),
+    mul_right_comm _ (B _ _)]
+  conv_rhs => simp [mul_apply, vecMulVec, Finset.sum_mul]
+  rw [Finset.sum_comm]
 
 /-- The cookbook declares incompatible dimensions here; weassume the matrices are supposed to be
 square. -/
