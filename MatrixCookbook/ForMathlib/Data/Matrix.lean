@@ -14,29 +14,6 @@ open scoped Matrix BigOperators
 
 namespace Matrix
 
-section NonUnitalNonAssocSemiring
-variable [NonUnitalNonAssocSemiring R]
-
-open RightActions
-
-theorem mul_single_eq [Fintype m] [DecidableEq m] [DecidableEq p]
-    (A : Matrix n m R) (i : m) (j : p) (r : R) :
-    A * single i j r = updateCol 0 j (A.col i <• r) := by
-  ext i' j'
-  obtain rfl | hj := eq_or_ne j' j
-  · rw [mul_single_apply_same, updateCol_self, Pi.smul_apply, col_apply, op_smul_eq_mul]
-  · rw [mul_single_apply_of_ne _ _ _ _ _ hj, updateCol_ne hj, zero_apply]
-
-theorem single_mul_eq [Fintype n] [DecidableEq n] [DecidableEq p]
-    (i : p) (j : n) (r : R)  (A : Matrix n m R) :
-    single i j r * A = updateRow 0 i (r • A.row j) := by
-  ext i' j'
-  obtain rfl | hj := eq_or_ne i' i
-  · rw [single_mul_apply_same, updateRow_self, Pi.smul_apply, row_apply, smul_eq_mul]
-  · rw [single_mul_apply_of_ne _ _ _ _ _ hj, updateRow_ne hj, zero_apply]
-
-end NonUnitalNonAssocSemiring
-
 variable [CommRing R]
 
 theorem one_fin_four :

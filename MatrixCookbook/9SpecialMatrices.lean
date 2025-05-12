@@ -10,6 +10,7 @@ import Mathlib.LinearAlgebra.Vandermonde
 import Mathlib.Data.Real.StarOrdered
 import MatrixCookbook.ForMathlib.Data.Matrix
 import MatrixCookbook.ForMathlib.Data.Matrix.Toeplitz
+import MatrixCookbook.ForMathlib.Data.Matrix.RowCol
 
 /-! # Special Matrices -/
 
@@ -317,11 +318,11 @@ theorem eq_443 :
 
 theorem eq_444 (A : Matrix n m R) (i : m) (j : p) :
     A * single i j (1 : R) = updateCol 0 j (A.col i) := by
-  rw [mul_single_eq, MulOpposite.op_one, one_smul]
+  rw [mul_single_eq_updateCol_zero, MulOpposite.op_one, one_smul]
 
 theorem eq_445 (i : p) (j : n) (A : Matrix n m R) :
     single i j (1 : R) * A = updateRow 0 i (A.row j) := by
-  rw [single_mul_eq, one_smul]
+  rw [single_mul_eq_updateRow_zero, one_smul]
 
 /-! ### Rewriting product of elements -/
 
@@ -353,6 +354,7 @@ theorem eq_449 (A : Matrix l m R) (B : Matrix n p R) (k i j l) :
 theorem eq_450 (A : Matrix n m R) :
     trace (A * single i j (1 : R)) = Aᵀ i j ∧
     trace (single i j (1 : R) * A) = Aᵀ i j := by
+
   simp_rw [eq_444, eq_445]
   simp [trace, updateCol_apply, updateRow_apply]
 
@@ -373,18 +375,30 @@ square. -/
 theorem eq_453 (A : Matrix n n R) (i : n) (j : n) (B : Matrix n n R) :
     trace (A * single i j (1 : R) * single i j (1 : R) * B) =
       diagonal (diag (Aᵀ * Bᵀ)) i j := by
-  sorry
+  rw [mul_assoc _ _ B, mul_single_eq_updateCol_zero, MulOpposite.op_one, one_smul,
+    single_mul_eq_updateRow_zero, one_smul]
+  obtain rfl | hij := eq_or_ne i j
+  · simp [mul_apply, vecMulVec, trace]
+  · simp [hij.symm, trace, hij]
 
 theorem eq_454 (A : Matrix n n R) (i : n) (j : m) (B : Matrix m n R) (x : n → R) :
-    x ⬝ᵥ (A * single i j (1 : R) * B).mulVec x = (Aᵀ * vecMulVec x x * Bᵀ) i j :=
+    x ⬝ᵥ (A * single i j (1 : R) * B).mulVec x = (Aᵀ * vecMulVec x x * Bᵀ) i j := by
   sorry
 
 /-- The cookbook declares incompatible dimensions here; weassume the matrices are supposed to be
 square. -/
 theorem eq_455  (A : Matrix n n R) (i : n) (j : n) (B : Matrix n n R) (x : n → R) :
     x ⬝ᵥ (A * single i j (1 : R) * single i j (1 : R) * B).mulVec x =
-      diagonal (diag (Aᵀ * vecMulVec x x * Bᵀ)) i j :=
-  sorry
+      diagonal (diag (Aᵀ * vecMulVec x x * Bᵀ)) i j := by
+  rw [mul_assoc _ _ B, mul_single_eq_updateCol_zero, MulOpposite.op_one, one_smul,
+    single_mul_eq_updateRow_zero, one_smul]
+  obtain rfl | hij := eq_or_ne i j
+  · simp
+    simp [dotProduct, vecMulVec, mul_apply, mulVec, Finset.sum_mul, Finset.mul_sum]
+    rw [Finset.sum_comm]
+    congr! 2 with j _ k _
+    group
+  · simp [hij.symm, trace, hij]
 
 /-! ### Structure Matrices -/
 
