@@ -9,6 +9,7 @@ import Mathlib.LinearAlgebra.Matrix.Symmetric
 import Mathlib.LinearAlgebra.Vandermonde
 import Mathlib.Data.Real.StarOrdered
 import MatrixCookbook.ForMathlib.Data.Matrix
+import MatrixCookbook.ForMathlib.Data.Matrix.Toeplitz
 
 /-! # Special Matrices -/
 
@@ -430,21 +431,25 @@ theorem eq_464 : (sorry : Prop) :=
 
 /-! ## Toeplitz Matrices -/
 
+-- theorem is really a definition, so give an example
+theorem eq_465 : toeplitz Subtype.val = !![0, 1, 2; -1, 0, 1; -2, -1, 0] :=
+  Matrix.etaExpand_eq _ |>.symm
 
-theorem eq_465 : (sorry : Prop) :=
-  sorry
+-- theorem is really a definition, so give an example
+theorem eq_466 : toeplitzSymm ![0, 1, 2] = !![0, 1, 2; 1, 0, 1; 2, 1, 0] :=
+  Matrix.etaExpand_eq _ |>.symm
 
-theorem eq_466 : (sorry : Prop) :=
-  sorry
+-- theorem is really a definition, so give an example
+theorem eq_467 : toeplitzCirc ![0, 1, 2] = !![0, 1, 2; 2, 0, 1; 1, 2, 0] :=
+  Matrix.etaExpand_eq _ |>.symm
 
-theorem eq_467 : (sorry : Prop) :=
-  sorry
+-- theorem is really a definition, so give an example
+theorem eq_468 : toeplitzUpper ![1, 2, 3] = !![1, 2, 3; 0, 1, 2; 0, 0, 1] :=
+  Matrix.etaExpand_eq _ |>.symm
 
-theorem eq_468 : (sorry : Prop) :=
-  sorry
-
-theorem eq_469 : (sorry : Prop) :=
-  sorry
+-- theorem is really a definition, so give an example
+theorem eq_469 : toeplitzLower ![1, 2, 3] = !![1, 0, 0; 2, 1, 0; 3, 2, 1] :=
+  Matrix.etaExpand_eq _ |>.symm
 
 /-! ### Properties of Toeplitz Matrices -/
 
