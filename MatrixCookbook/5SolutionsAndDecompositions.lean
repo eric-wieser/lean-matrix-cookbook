@@ -1,6 +1,6 @@
 import Mathlib.LinearAlgebra.Matrix.LDL
 import Mathlib.Data.Real.StarOrdered
-import MatrixCookbook.ForMathlib.Data.Matrix.Vec
+import Mathlib.Data.Matrix.Vec
 
 /-! # Solutions and Decompositions -/
 

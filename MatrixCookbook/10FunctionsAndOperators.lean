@@ -10,7 +10,7 @@ import Mathlib.Data.Matrix.Rank
 import Mathlib.LinearAlgebra.Matrix.PosDef
 import Mathlib.Analysis.InnerProductSpace.PiL2
 import Mathlib.Data.Real.StarOrdered
-import MatrixCookbook.ForMathlib.Data.Matrix.Vec
+import Mathlib.Data.Matrix.Vec
 
 /-! # Functions and Operators -/
 

@@ -7,4 +7,4 @@ package matrix_cookbook
 @[default_target]
 lean_lib MatrixCookbook
 
-require "leanprover-community" / "mathlib"
+require "leanprover-community" / "mathlib" @ "git#v4.20.0"
