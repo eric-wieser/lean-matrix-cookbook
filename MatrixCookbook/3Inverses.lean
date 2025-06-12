@@ -176,7 +176,7 @@ theorem eq_163 (hA : IsUnit A) (hB : IsUnit B) :
   simp_rw [Matrix.mul_inv_rev, Matrix.inv_inv_of_invertible, mul_assoc, add_comm]
   simp
 
-theorem eq_164 : A - A * (A + B)⁻¹ * A = B - B * (A + B)⁻¹ * B := by
+theorem eq_164 : A - A * (A + B)⁻¹ * A = B - B * (A + B)⁻¹ * B :=
   sorry
 
 theorem eq_165 (hA : IsUnit A) (hB : IsUnit B) : A⁻¹ + B⁻¹ = A⁻¹ * (A + B) * B⁻¹ :=
