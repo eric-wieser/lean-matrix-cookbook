@@ -152,11 +152,21 @@ theorem eq_160 (b c : n → ℂ) (hA : IsUnit A) (h : 1 + c ⬝ᵥ A⁻¹ *ᵥ b
 /-! ### The Searle Set of Identities -/
 
 
-theorem eq_161 : (1 + A⁻¹)⁻¹ = A * (A + 1)⁻¹ :=
-  sorry
+theorem eq_161 [Invertible A]: (1 + A⁻¹)⁻¹ = A * (A + 1)⁻¹ := by
+  nth_rewrite 2 [← Matrix.inv_inv_of_invertible A]
+  rw [←Matrix.mul_inv_rev, Matrix.add_mul]
+  simp
 
-theorem eq_162 : (A + Bᵀ * B)⁻¹ * B = A⁻¹ * B * (1 + Bᵀ * A⁻¹ * B)⁻¹ :=
-  sorry
+theorem eq_162 (hA: IsUnit A.det) (hAB : IsUnit (1 + Bᵀ * A⁻¹ * B).det) :
+    (A + B * Bᵀ)⁻¹ * B = A⁻¹ * B * (1 + Bᵀ * A⁻¹ * B)⁻¹ := by
+  rw [eq_159, Matrix.sub_mul, sub_eq_iff_eq_add]
+  nth_rewrite 1 [← Matrix.mul_one (1 + Bᵀ * A⁻¹ * B)⁻¹]
+  rw [← Matrix.mul_assoc _ (1 + Bᵀ * A⁻¹ * B)⁻¹]
+  repeat rw [Matrix.mul_assoc (A⁻¹ * B * (1 + Bᵀ * A⁻¹ * B)⁻¹) _ _]
+  rw [← Matrix.mul_add, Matrix.mul_assoc, Matrix.nonsing_inv_mul, Matrix.mul_one]
+  exact hAB
+  exact (isUnit_iff_isUnit_det _).mpr hA
+  exact (isUnit_iff_isUnit_det _).mpr hAB
 
 theorem eq_163 (hA : IsUnit A) (hB : IsUnit B) :
     (A⁻¹ + B⁻¹)⁻¹ = A * (A + B)⁻¹ * B ∧ (A⁻¹ + B⁻¹)⁻¹ = B * (A + B)⁻¹ * A := by
@@ -166,7 +176,7 @@ theorem eq_163 (hA : IsUnit A) (hB : IsUnit B) :
   simp_rw [Matrix.mul_inv_rev, Matrix.inv_inv_of_invertible, mul_assoc, add_comm]
   simp
 
-theorem eq_164 : A - A * (A + B)⁻¹ * A = B - B * (A + B)⁻¹ * B :=
+theorem eq_164 : A - A * (A + B)⁻¹ * A = B - B * (A + B)⁻¹ * B := by
   sorry
 
 theorem eq_165 (hA : IsUnit A) (hB : IsUnit B) : A⁻¹ + B⁻¹ = A⁻¹ * (A + B) * B⁻¹ :=
