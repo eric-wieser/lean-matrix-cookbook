@@ -236,7 +236,10 @@ end
 
 lemma eq_537 (A : Matrix m n ℝ) : sorry = ⨆ j, ∑ i, ‖A i j‖ := sorry
 
-lemma eq_538 : (sorry : Prop) := sorry
+lemma eq_538 (A : Matrix m n ℝ) :
+    (open scoped L2OpNorm in ‖A‖) =
+      NNReal.sqrt (Finset.univ.sup fun i => ⟨_, A.eigenvalues_conjTranspose_mul_self_nonneg i⟩) := sorry
+
 lemma eq_539 : (sorry : Prop) := sorry
 
 section
