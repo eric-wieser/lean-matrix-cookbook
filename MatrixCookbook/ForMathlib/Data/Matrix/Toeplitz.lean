@@ -19,7 +19,7 @@ abbrev toeplitzCirc {n : ℕ} (e : Fin n → R) :
     Matrix (Fin n) (Fin n) R :=
   toeplitz fun i =>
     have : NeZero n := ⟨by obtain ⟨i, hi, hi'⟩ := i; omega⟩
-    e (Int.cast i)
+    e (open scoped Fin.CommRing in Int.cast i)
 
 abbrev toeplitzUpper [Zero R] {n : ℕ} (e : Fin n → R) :
     Matrix (Fin n) (Fin n) R :=

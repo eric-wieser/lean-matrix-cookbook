@@ -167,16 +167,16 @@ theorem eq_525 (x : n → ℂ) : ‖(WithLp.equiv 1 _).symm x‖ = ∑ i, ‖x i
   simpa using PiLp.norm_eq_of_nat 1 Nat.cast_one.symm ((WithLp.equiv 1 _).symm x)
 
 theorem eq_526 (x : n → ℂ) : ↑(‖(WithLp.equiv 2 _).symm x‖ ^ 2 : ℝ) = star x ⬝ᵥ x := by
-  rw [dotProduct_comm, ← EuclideanSpace.inner_piLp_equiv_symm, inner_self_eq_norm_sq_to_K,
+  rw [dotProduct_comm, ← EuclideanSpace.inner_toLp_toLp, inner_self_eq_norm_sq_to_K,
     Complex.ofReal_pow]
   rfl  -- porting note: added
 
 theorem eq_527 (x : n → ℂ) (p : ℝ≥0∞) (h : 0 < p.toReal) :
-    ‖(WithLp.equiv p _).symm x‖ = (∑ i, ‖x i‖ ^ p.toReal) ^ (1 / p.toReal) := by
-  simp_rw [PiLp.norm_eq_sum h, WithLp.equiv_symm_pi_apply]
+    ‖WithLp.toLp p x‖ = (∑ i, ‖x i‖ ^ p.toReal) ^ (1 / p.toReal) := by
+  simp_rw [PiLp.norm_eq_sum h, PiLp.toLp_apply]
 
-theorem eq_528 (x : n → ℂ) : ‖(WithLp.equiv ∞ _).symm x‖ = ⨆ i, ‖x i‖ := by
-  simp_rw [PiLp.norm_eq_ciSup, WithLp.equiv_symm_pi_apply]
+theorem eq_528 (x : n → ℂ) : ‖WithLp.toLp ∞ x‖ = ⨆ i, ‖x i‖ := by
+  simp_rw [PiLp.norm_eq_ciSup, PiLp.toLp_apply]
 
 /-! ### Matrix Norms -/
 

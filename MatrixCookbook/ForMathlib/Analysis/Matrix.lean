@@ -51,7 +51,7 @@ theorem HasDerivAt.matrix_mul {X : R → Matrix m n A} {Y : R → Matrix n p A} 
   rw [hasDerivAt_matrix] at hX hY ⊢
   intro i j
   simp only [mul_apply, Matrix.add_apply, ← Finset.sum_add_distrib]
-  exact HasDerivAt.sum fun k _hk => (hX _ _).mul (hY _ _)
+  exact HasDerivAt.fun_sum fun k _hk => (hX _ _).fun_mul (hY _ _)
 
 theorem HasDerivAt.matrix_kronecker {X : R → Matrix m n A} {Y : R → Matrix p q A}
     {X' : Matrix m n A} {Y' : Matrix p q A} {r : R} (hX : HasDerivAt X X' r)
@@ -69,7 +69,7 @@ theorem HasDerivAt.matrix_hadamard {X Y : R → Matrix m n A} {X' Y' : Matrix m 
 
 theorem HasDerivAt.trace {X : R → Matrix m m A} {X' : Matrix m m A} {r : R}
     (hX : HasDerivAt X X' r) : HasDerivAt (fun a => (X a).trace) X'.trace r :=
-  HasDerivAt.sum fun i _hi => (hasDerivAt_matrix.mp hX : _) i i
+  HasDerivAt.fun_sum fun i _hi => (hasDerivAt_matrix.mp hX : _) i i
 
 theorem HasDerivAt.transpose {X : R → Matrix m n A} {X' : Matrix m n A} {r : R}
     (hX : HasDerivAt X X' r) : HasDerivAt (fun a => (X a)ᵀ) X'ᵀ r :=
