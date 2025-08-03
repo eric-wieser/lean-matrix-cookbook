@@ -11,6 +11,7 @@ import Mathlib.LinearAlgebra.Matrix.PosDef
 import Mathlib.Analysis.InnerProductSpace.PiL2
 import Mathlib.Data.Real.StarOrdered
 import Mathlib.Data.Matrix.Vec
+import Mathlib.Analysis.CStarAlgebra.Matrix
 
 /-! # Functions and Operators -/
 
@@ -185,8 +186,7 @@ theorem eq_528 (x : n → ℂ) : ‖WithLp.toLp ∞ x‖ = ⨆ i, ‖x i‖ := b
 
 
 section
-
-attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
+open scoped Matrix.Norms.Elementwise
 
 theorem eq_529 (A : Matrix n n ℝ) : 0 ≤ ‖A‖ :=
   norm_nonneg _
@@ -237,38 +237,25 @@ end
 lemma eq_537 (A : Matrix m n ℝ) : sorry = ⨆ j, ∑ i, ‖A i j‖ := sorry
 
 lemma eq_538 (A : Matrix m n ℝ) :
-    (open scoped L2OpNorm in ‖A‖) =
+    (open scoped Matrix.Norms.L2Operator in ‖A‖) =
       NNReal.sqrt (Finset.univ.sup fun i => ⟨_, A.eigenvalues_conjTranspose_mul_self_nonneg i⟩) := sorry
 
 lemma eq_539 : (sorry : Prop) := sorry
 
-section
-
-attribute [local instance] Matrix.linftyOpNormedAddCommGroup Matrix.linftyOpNormedSpace
-
-theorem eq_540 (A : Matrix m n ℝ) : ‖A‖ = ↑(Finset.univ.sup fun i => ∑ j, ‖A i j‖₊) := by
+theorem eq_540 (A : Matrix m n ℝ) :
+    (open scoped Matrix.Norms.Operator in ‖A‖) =
+      ↑(Finset.univ.sup fun i => ∑ j, ‖A i j‖₊) := by
   rw [linfty_opNorm_def]
 
-end
-
-section
-
-attribute [local instance] Matrix.frobeniusNormedAddCommGroup Matrix.frobeniusNormedSpace
-
-/- ./././Mathport/Syntax/Translate/Expr.lean:107:6: warning: expanding binder group (i j) -/
-theorem eq_541 (A : Matrix m n ℝ) : ‖A‖ = Real.sqrt (∑ i, ∑ j, ‖A i j‖ ^ (2 : ℝ)) := by
+theorem eq_541 (A : Matrix m n ℝ) :
+    (open scoped Matrix.Norms.Frobenius in ‖A‖) =
+      Real.sqrt (∑ i, ∑ j, ‖A i j‖ ^ (2 : ℝ)) := by
   rw [frobenius_norm_def, Real.sqrt_eq_rpow]
 
-end
-
-section
-
-attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
-
-theorem eq_542 (A : Matrix m n ℝ) : ‖A‖ = ↑(Finset.univ.sup fun ij : _ × _ => ‖A ij.1 ij.2‖₊) := by
+theorem eq_542 (A : Matrix m n ℝ) :
+    (open scoped Matrix.Norms.Elementwise in ‖A‖) =
+      ↑(Finset.univ.sup fun ij : _ × _ => ‖A ij.1 ij.2‖₊) := by
   simp_rw [← Finset.univ_product_univ, Finset.sup_product_left, ← Pi.nnnorm_def, coe_nnnorm]
-
-end
 
 /-! #### Inequalities -/
 
