@@ -212,13 +212,19 @@ attribute [local instance] Matrix.linftyOpNormedAddCommGroup Matrix.linftyOpNorm
 
 attribute [local instance] Matrix.linftyOpNormedRing Matrix.linftyOpNormedAlgebra
 
+theorem ContinuousLinearMap.sSup_sphere_eq_norm {𝕜 𝕜₂ E F : Type*}
+    [NormedAddCommGroup E] [SeminormedAddCommGroup F]
+    [DenselyNormedField 𝕜] [NontriviallyNormedField 𝕜₂] {σ₁₂ : 𝕜 →+* 𝕜₂}
+    [NormedAlgebra ℝ 𝕜] [NormedSpace 𝕜 E]
+    [NormedSpace 𝕜₂ F] [RingHomIsometric σ₁₂] (f : E →SL[σ₁₂] F) :
+    sSup ((fun x => ‖f x‖) '' Metric.sphere 0 1) = ‖f‖ := by
+  simpa only [NNReal.coe_sSup, Set.image_image] using NNReal.coe_inj.2 f.sSup_sphere_eq_nnnorm
+
 lemma eq_533 (A : Matrix m n ℝ) : ‖A‖ = sSup { ‖A.mulVec x‖ | (x) (hx : ‖x‖ = 1)} := by
   suffices ‖A‖ = sSup ((‖A.mulVec ·‖) '' Metric.sphere 0 1) by
     simpa [Set.image, mem_sphere_zero_iff_norm] using this
-  simp_rw [linfty_opNorm_eq_opNorm]
-  -- this is not quite the right lemma
-  rw [←ContinuousLinearMap.sSup_unit_ball_eq_norm]
-  sorry
+  simp_rw [linfty_opNorm_eq_opNorm, ← ContinuousLinearMap.sSup_sphere_eq_norm]
+  simp
 
 theorem eq_534 [Nonempty n] : ‖(1 : Matrix n n ℝ)‖ = 1 :=
   norm_one
