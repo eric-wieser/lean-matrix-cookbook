@@ -263,24 +263,23 @@ theorem eq_542 (A : Matrix m n ℝ) :
       ↑(Finset.univ.sup fun ij : _ × _ => ‖A ij.1 ij.2‖₊) := by
   simp_rw [← Finset.univ_product_univ, Finset.sup_product_left, ← Pi.nnnorm_def, coe_nnnorm]
 
+lemma eq_543 : (sorry : Prop) := sorry
+
 /-! #### Inequalities -/
 
-
-/-! #### Condition Number -/
-
-
-/-! ### Rank -/
-
-
-/-! #### Sylvester’s Inequality -/
-
-
--- lemma eq_543 : (sorry : Prop) := sorry
+-- TODO: are the bounds tight?
 lemma eq_544 (A : Matrix m n ℝ) :
     letI m' := Fintype.card m
     letI n' := Fintype.card n
     letI d := A.rank
-    let norms : Fin 6 → (Matrix m n ℝ → ℝ) := sorry
+    let norms : Fin 6 → (Matrix m n ℝ → ℝ) := ![
+      open scoped Norms.Elementwise in (‖·‖),
+      sorry, -- L1 norm
+      open scoped Norms.Operator in (‖·‖),
+      open scoped Norms.L2Operator in (‖·‖),
+      open scoped Norms.Frobenius in (‖·‖),
+      sorry -- Ky Fan norm
+    ]
     let coeffs : Matrix _ _ ℝ := !![
       1,                   1,              1,              1,        1,        1;
       m',                  1,              m',             .sqrt m', .sqrt m', .sqrt m';
@@ -288,10 +287,30 @@ lemma eq_544 (A : Matrix m n ℝ) :
       .sqrt (m' * n'),     .sqrt n',       .sqrt m',       1,        1,        1;
       .sqrt (m' * n'),     .sqrt n',       .sqrt m',       .sqrt d,  1,        1;
       .sqrt (m' * n' * d), .sqrt (n' * d), .sqrt (m' * d), d,        .sqrt d,  1]
-    ∀ i j, norms i A ≤ coeffs i j * norms j A := sorry
+    ∀ i j, norms i A ≤ coeffs i j * norms j A := by
+  -- unpack the matrix into the elements
+  simp only [Fin.forall_fin_succ, IsEmpty.forall_iff, and_true, Matrix.of_apply, Fin.reduceSucc,
+    cons_val, one_mul]
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩
+  -- the diagonal elements are easy, but 30 missing lemmas remain
+  · refine ⟨le_rfl, sorry, sorry, sorry, sorry, sorry⟩
+  · refine ⟨sorry, le_rfl, sorry, sorry, sorry, sorry⟩
+  · refine ⟨sorry, sorry, le_rfl, sorry, sorry, sorry⟩
+  · refine ⟨sorry, sorry, sorry, le_rfl, sorry, sorry⟩
+  · refine ⟨sorry, sorry, sorry, sorry, le_rfl, sorry⟩
+  · refine ⟨sorry, sorry, sorry, sorry, sorry, le_rfl⟩
 
 
--- lemma eq_545 : (sorry : Prop) := sorry
+
+/-! #### Condition Number -/
+
+open scoped Matrix.Norms.L2Operator in
+lemma eq_545 (A : Matrix n n ℝ) : ‖A‖ * ‖A⁻¹‖ = sorry / sorry := sorry
+
+/-! ### Rank -/
+
+/-! #### Sylvester’s Inequality -/
+
 theorem eq_546 (A : Matrix m n ℝ) (B : Matrix n r ℝ) :
     rank A + rank B - Fintype.card n ≤ rank (A * B) ∧ rank (A * B) ≤ min (rank A) (rank B) :=
   ⟨sorry, rank_mul_le _ _⟩
