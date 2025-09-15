@@ -3,6 +3,7 @@ import Mathlib.Data.Complex.Basic
 import Mathlib.Analysis.RCLike.Basic
 import Mathlib.LinearAlgebra.Matrix.PosDef
 import MatrixCookbook.ForMathlib.Data.Matrix
+import MatrixCookbook.ForMathlib.Algebra.Invertible
 
 /-! # Inverses -/
 
@@ -235,38 +236,13 @@ theorem eq_183 : (sorry : Prop) :=
 /-! ## Implication on Inverses -/
 
 
-theorem eq_184 (h_A : IsUnit A) (h_B : IsUnit B) (h_A_B : IsUnit (A + B)) :
-    (A + B)⁻¹ = A⁻¹ + B⁻¹ → A * B⁻¹ * A = B * A⁻¹ * B := by
-  intro h
-  let : Invertible A := h_A.invertible
-  let : Invertible B := h_B.invertible
-  let : Invertible (A + B) := h_A_B.invertible
-  have h_neg_identity : -1 = A⁻¹ * B + B⁻¹ * A := by
-    have : 1 = 2 + A⁻¹ * B + B⁻¹ * A := by
-      rw [← inv_mul_of_invertible (A + B), h, add_mul, mul_add, mul_add, inv_mul_of_invertible A, inv_mul_of_invertible B]
-      conv => lhs; abel_nf
-      conv => rhs; abel_nf
-      simp
-    apply (add_left_inj 2).mp
-    norm_num
-    rw [add_comm, ← add_assoc]
-    exact this
-  let helper {X Y : Matrix n n ℂ} (h' : -1 = X⁻¹ * Y + Y⁻¹ * X) [Invertible X] [Invertible Y]
-      : -(Y + X) = X * Y⁻¹ * X := by
-    apply (add_left_inj Y).mp
-    rw [(by abel_nf : -(Y + X) + Y = -X)]
-    nth_rw 2 [(by simp : Y = X * X⁻¹ * Y)]
-    rw [mul_assoc, mul_assoc, ← mul_add X]
-    rw [(by simp : -X = X * (-1))]
-    apply (Matrix.mul_right_inj_of_invertible X).mpr
-    rw [add_comm]
-    exact h'
-  have h_a_binv_a : -(B + A) = A * B⁻¹ * A := by
-    exact helper h_neg_identity
-  have h_b_ainv_b : -(A + B) = B * A⁻¹ * B := by
-    rw [add_comm] at h_neg_identity
-    exact helper h_neg_identity
-  rw [← h_a_binv_a, ← h_b_ainv_b, add_comm]
+theorem eq_184 (h_A : IsUnit A) (h_B : IsUnit B) (h_A_B : IsUnit (A + B)) (h : (A + B)⁻¹ = A⁻¹ + B⁻¹) :
+    A * B⁻¹ * A = B * A⁻¹ * B := by
+  letI : Invertible A := h_A.invertible
+  letI : Invertible B := h_B.invertible
+  letI : Invertible (A + B) := h_A_B.invertible
+  repeat rw [← Matrix.invOf_eq_nonsing_inv] at *
+  exact eq_of_invOf_add_eq_invOf_add_invOf h
 
 
 /-! ### A PosDef identity -/
