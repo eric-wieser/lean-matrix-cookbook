@@ -3,6 +3,7 @@ import Mathlib.Data.Complex.Basic
 import Mathlib.Analysis.RCLike.Basic
 import Mathlib.LinearAlgebra.Matrix.PosDef
 import MatrixCookbook.ForMathlib.Data.Matrix
+import MatrixCookbook.ForMathlib.Algebra.Invertible
 
 /-! # Inverses -/
 
@@ -235,8 +236,14 @@ theorem eq_183 : (sorry : Prop) :=
 /-! ## Implication on Inverses -/
 
 
-theorem eq_184 : (A + B)⁻¹ = A⁻¹ + B⁻¹ → A * B⁻¹ * A = B * A⁻¹ * B :=
-  sorry
+theorem eq_184 (h_A : IsUnit A) (h_B : IsUnit B) (h_A_B : IsUnit (A + B)) (h : (A + B)⁻¹ = A⁻¹ + B⁻¹) :
+    A * B⁻¹ * A = B * A⁻¹ * B := by
+  letI : Invertible A := h_A.invertible
+  letI : Invertible B := h_B.invertible
+  letI : Invertible (A + B) := h_A_B.invertible
+  simp_rw [← Matrix.invOf_eq_nonsing_inv] at *
+  exact eq_of_invOf_add_eq_invOf_add_invOf h
+
 
 /-! ### A PosDef identity -/
 
