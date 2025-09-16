@@ -241,7 +241,7 @@ theorem eq_184 (h_A : IsUnit A) (h_B : IsUnit B) (h_A_B : IsUnit (A + B)) (h : (
   letI : Invertible A := h_A.invertible
   letI : Invertible B := h_B.invertible
   letI : Invertible (A + B) := h_A_B.invertible
-  simp [← Matrix.invOf_eq_nonsing_inv] at *
+  simp_rw [← Matrix.invOf_eq_nonsing_inv] at *
   exact eq_of_invOf_add_eq_invOf_add_invOf h
 
 
