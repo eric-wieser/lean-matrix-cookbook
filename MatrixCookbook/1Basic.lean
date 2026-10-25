@@ -119,7 +119,7 @@ theorem eq_26 {A : Matrix (Fin 3) (Fin 3) R} [Invertible (2 : R)] :
     det (1 + A) = 1 + det A + trace A + ⅟ 2 * trace A ^ 2 - ⅟ 2 * trace (A ^ 2) := by
   apply mul_left_cancel₀ (isUnit_of_invertible (2 : R)).ne_zero
   simp only [det_fin_three, trace_fin_three, pow_two, Matrix.mul_apply,
-    Fin.sum_univ_succ, Matrix.one_apply]
+    Fin.sum_univ_succ]
   dsimp
   simp only [mul_add, mul_sub, mul_invOf_cancel_left]
   simp_rw [Matrix.one_apply]

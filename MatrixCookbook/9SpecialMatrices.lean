@@ -401,7 +401,7 @@ theorem eq_455  (A : Matrix n n R) (i : n) (j : n) (B : Matrix n n R) (x : n →
     rw [Finset.sum_comm]
     congr! 2 with j _ k _
     group
-  · simp [hij.symm, trace, hij]
+  · simp [hij.symm, hij]
 
 /-! ### Structure Matrices -/
 

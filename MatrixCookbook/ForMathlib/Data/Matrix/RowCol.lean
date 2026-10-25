@@ -17,6 +17,6 @@ theorem updateCol_zero_mul_updateRow_zero_of_ne
     (i : m) (r : l → α) (j : m) (c : n → α) (hij : i ≠ j):
     (0 : Matrix l m α).updateCol i r * (0 : Matrix m n α).updateRow j c = 0 := by
   ext i' j'
-  simp [mul_apply, vecMulVec, updateRow_apply, hij, hij.symm]
+  simp [mul_apply, updateRow_apply, hij.symm]
 
 end Matrix

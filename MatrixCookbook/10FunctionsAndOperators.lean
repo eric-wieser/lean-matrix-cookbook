@@ -147,7 +147,7 @@ theorem eq_524 (a : m → R) (X : Matrix m n R) (B : Matrix n n R) (c : m → R)
     a ᵥ* (X * B * Xᵀ) ⬝ᵥ c = vec X ᵥ* (Bᵀ ⊗ₖ vecMulVec c a) ⬝ᵥ vec X := by
   -- not the proof from the book
   simp only [vec, dotProduct, vecMul, Matrix.mul_apply, Finset.sum_mul, Finset.mul_sum, Matrix.kroneckerMap_apply,
-    transpose_apply, Matrix.replicateRow_apply, Matrix.replicateCol_apply, Fintype.sum_unique]
+    transpose_apply]
   simp_rw [← Finset.univ_product_univ, Finset.sum_product, @Finset.sum_comm n _ m, vecMulVec,
     of_apply]
   rw [Finset.sum_comm]
@@ -220,7 +220,7 @@ theorem ContinuousLinearMap.sSup_sphere_eq_norm {𝕜 𝕜₂ E F : Type*}
     sSup ((fun x => ‖f x‖) '' Metric.sphere 0 1) = ‖f‖ := by
   simpa only [NNReal.coe_sSup, Set.image_image] using NNReal.coe_inj.2 f.sSup_sphere_eq_nnnorm
 
-lemma eq_533 (A : Matrix m n ℝ) : ‖A‖ = sSup { ‖A.mulVec x‖ | (x) (hx : ‖x‖ = 1)} := by
+lemma eq_533 (A : Matrix m n ℝ) : ‖A‖ = sSup { ‖A.mulVec x‖ | (x) (_ : ‖x‖ = 1)} := by
   suffices ‖A‖ = sSup ((‖A.mulVec ·‖) '' Metric.sphere 0 1) by
     simpa [Set.image, mem_sphere_zero_iff_norm] using this
   simp_rw [linfty_opNorm_eq_opNorm, ← ContinuousLinearMap.sSup_sphere_eq_norm]
@@ -330,7 +330,7 @@ theorem eq_549 (A : Matrix m n ℝ) :
 
 theorem eq_550 (A : Matrix m m ℝ) :
     A.PosDef ↔ ∃ B : Matrix m m ℝ, IsUnit B ∧ A = B * Bᵀ := by
-  rw [PosDef.posDef_iff_eq_conjTranspose_mul_self,
+  rw [posDef_iff_eq_conjTranspose_mul_self,
     (Function.RightInverse.surjective transpose_transpose).exists]
   simp [isUnit_transpose]
 
