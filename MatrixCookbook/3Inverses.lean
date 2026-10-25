@@ -147,7 +147,7 @@ theorem eq_160 (b c : n → ℂ) (hA : IsUnit A) (h : 1 + c ⬝ᵥ A⁻¹ *ᵥ b
       Matrix.inv_subsingleton (m := Unit)]
     simp_rw [Ring.inverse_eq_inv]
     simp [← dotProduct_mulVec]
-  · rw [isUnit_iff_isUnit_det, det_unique, add_apply, one_apply_eq]
+  · rw [isUnit_iff_isUnit_det, det_unique, Matrix.add_apply, one_apply_eq]
     rw [← replicateCol_mulVec, ← replicateRow_vecMul, replicateRow_mulVec_eq_const, ← dotProduct_mulVec, isUnit_iff_ne_zero]
     exact h
 

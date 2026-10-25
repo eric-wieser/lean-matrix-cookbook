@@ -1,6 +1,6 @@
 import Mathlib.Analysis.Matrix.LDL
 import Mathlib.Analysis.Matrix.Spectrum
-import Mathlib.Data.Real.StarOrdered
+import Mathlib.Algebra.Order.Star.Real
 import Mathlib.LinearAlgebra.Matrix.Vec
 
 /-! # Solutions and Decompositions -/
@@ -155,7 +155,9 @@ theorem eq_281 : (sorry : Prop) :=
 
 theorem eq_282 (A : Matrix n n ℝ) (hA : A.IsHermitian) :
     (hA.eigenvectorUnitary : Matrix n n ℝ) * hA.eigenvectorUnitaryᵀ = 1 := by
-  simpa only [Matrix.mem_unitaryGroup_iff] using hA.eigenvectorUnitary.prop
+  simpa only [Matrix.mem_unitaryGroup_iff, Matrix.star_eq_conjTranspose,
+      Matrix.conjTranspose_eq_transpose_of_trivial]
+    using hA.eigenvectorUnitary.prop
 
 theorem eq_283 (A : Matrix n n ℝ) (hA : A.IsHermitian) (i : n) :
     (fun {α} (_ : α) => α) (hA.eigenvalues i) = ℝ :=

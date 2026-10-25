@@ -10,7 +10,7 @@ import Mathlib.LinearAlgebra.Matrix.Rank
 import Mathlib.LinearAlgebra.Matrix.PosDef
 import Mathlib.Analysis.InnerProductSpace.PiL2
 import Mathlib.Analysis.Matrix.Order
-import Mathlib.Data.Real.StarOrdered
+import Mathlib.Algebra.Order.Star.Real
 import Mathlib.LinearAlgebra.Matrix.Vec
 import Mathlib.Analysis.CStarAlgebra.Matrix
 
@@ -219,7 +219,7 @@ theorem ContinuousLinearMap.sSup_sphere_eq_norm {𝕜 𝕜₂ E F : Type*}
     [NormedAlgebra ℝ 𝕜] [NormedSpace 𝕜 E]
     [NormedSpace 𝕜₂ F] [RingHomIsometric σ₁₂] (f : E →SL[σ₁₂] F) :
     sSup ((fun x => ‖f x‖) '' Metric.sphere 0 1) = ‖f‖ := by
-  simpa only [NNReal.coe_sSup, Set.image_image] using NNReal.coe_inj.2 f.sSup_sphere_eq_nnnorm
+  simpa only [NNReal.coe_sSup, Set.image_image, coe_nnnorm] using NNReal.coe_inj.2 f.sSup_sphere_eq_nnnorm
 
 lemma eq_533 (A : Matrix m n ℝ) : ‖A‖ = sSup { ‖A.mulVec x‖ | (x) (_ : ‖x‖ = 1)} := by
   suffices ‖A‖ = sSup ((‖A.mulVec ·‖) '' Metric.sphere 0 1) by

@@ -7,7 +7,7 @@ import Mathlib.LinearAlgebra.Matrix.PosDef
 import Mathlib.LinearAlgebra.Matrix.SchurComplement
 import Mathlib.LinearAlgebra.Matrix.Symmetric
 import Mathlib.LinearAlgebra.Vandermonde
-import Mathlib.Data.Real.StarOrdered
+import Mathlib.Algebra.Order.Star.Real
 import MatrixCookbook.ForMathlib.Data.Matrix
 import MatrixCookbook.ForMathlib.Data.Matrix.Toeplitz
 import MatrixCookbook.ForMathlib.Data.Matrix.RowCol

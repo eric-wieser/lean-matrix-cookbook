@@ -108,7 +108,7 @@ theorem HasDerivAt.matrix_inv {X : R → Matrix m m A} {X' : Matrix m m A} {r : 
   have h1 : HasFDerivAt (𝕜 := R) Ring.inverse _ (X r) := hu ▸ hasFDerivAt_ringInverse u
   have h := HasFDerivAt.comp_hasDerivAt (x := r) h1 hX
   simp_rw [nonsing_inv_eq_ringInverse, ← hu, Ring.inverse_unit] at h ⊢
-  convert h using 1
+  refine h.congr_deriv ?_
   simp
 
 end LinftyOpNorm
