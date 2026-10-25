@@ -1,4 +1,5 @@
 import Mathlib.Analysis.Calculus.Deriv.Add
+import Mathlib.Analysis.Calculus.Deriv.Comp
 import Mathlib.Analysis.Calculus.Deriv.Mul
 import Mathlib.Analysis.Calculus.Deriv.Prod
 import Mathlib.Analysis.Calculus.Deriv.Star
@@ -103,14 +104,11 @@ local instance : HasSummableGeomSeries (Matrix m m A) :=
 theorem HasDerivAt.matrix_inv {X : R → Matrix m m A} {X' : Matrix m m A} {r : R}
     (hX : HasDerivAt X X' r) (hX' : IsUnit (X r)) :
     HasDerivAt (fun a => (X a)⁻¹) (-(X r)⁻¹ * X' * (X r)⁻¹) r := by
-  simp_rw [nonsing_inv_eq_ringInverse]
   obtain ⟨u, hu⟩ := hX'
-  have : HasFDerivAt _ (_ : _ →L[R] _) _ := hasFDerivAt_ringInverse u
-  simp_rw [← Ring.inverse_unit u, hu] at this
-  rw [hasDerivAt_iff_hasFDerivAt] at hX ⊢
-  convert HasFDerivAt.comp _ this hX
-  ext r : 2 -- porting note: added one!
-  -- porting note: added `()`-wrapped lemmas
-  simp [(ContinuousLinearMap.comp_apply), (ContinuousLinearMap.neg_apply)]
+  have h1 : HasFDerivAt (𝕜 := R) Ring.inverse _ (X r) := hu ▸ hasFDerivAt_ringInverse u
+  have h := HasFDerivAt.comp_hasDerivAt (x := r) h1 hX
+  simp_rw [nonsing_inv_eq_ringInverse, ← hu, Ring.inverse_unit] at h ⊢
+  convert h using 1
+  simp
 
 end LinftyOpNorm

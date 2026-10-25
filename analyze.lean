@@ -55,7 +55,7 @@ def status_of (d : ConstantInfo) : Lean.CoreM Status := do
   if d.type.hasSorry then
     return .notStated
   else
-    let some v := d.value? | throwError "Axioms not permitted!"
+    let some v := d.value? (allowOpaque := true) | throwError "Axioms not permitted!"
     if v.hasSorry then
       return .stated
     else
