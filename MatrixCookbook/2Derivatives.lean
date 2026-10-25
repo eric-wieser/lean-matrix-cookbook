@@ -23,15 +23,6 @@ namespace MatrixCookbook
 
 variable [NontriviallyNormedField R]
 
--- this should work but gives timeouts
-attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
-
--- `matrix.normed_space` is about `semi_normed_group` which massively impacts the performance of
--- typeclass search in later lemmas.
-@[implicit_reducible, local instance]
-def matrixFieldNormedSpace : NormedSpace R (Matrix m n R) :=
-  Matrix.normedSpace
-
 open scoped Matrix Kronecker
 
 open Matrix
@@ -40,47 +31,46 @@ open Matrix
 
 
 theorem eq_33 (A : Matrix m n R) : (deriv fun _ : R => A) = 0 :=
+  open scoped Matrix.Norms.Elementwise in
   deriv_const' _
 
 theorem eq_34 (c : R) (X : R → Matrix m n R) (hX : Differentiable R X) :
     deriv (c • X) = c • deriv X :=
+  open scoped Matrix.Norms.Elementwise in
   funext fun _ => deriv_const_smul c (hX _)
 
 theorem eq_35 (X Y : R → Matrix m n R) (hX : Differentiable R X) (hY : Differentiable R Y) :
     deriv (X + Y) = deriv X + deriv Y :=
+  open scoped Matrix.Norms.Elementwise in
   funext fun _ => deriv_add (hX _) (hY _)
 
 theorem eq_36 (X : R → Matrix m m R) (hX : Differentiable R X) :
     (deriv fun a => trace (X a)) = fun a => trace (deriv X a) :=
+  open scoped Matrix.Norms.Elementwise in
   funext fun _ => (hX _).hasDerivAt.trace.deriv
 
 theorem eq_37 (X : R → Matrix m n R) (Y : R → Matrix n p R) (hX : Differentiable R X)
     (hY : Differentiable R Y) :
     (deriv fun a => X a * Y a) = fun a => deriv X a * Y a + X a * deriv Y a :=
+  open scoped Matrix.Norms.Elementwise in
   funext fun a => ((hX a).hasDerivAt.matrix_mul (hY a).hasDerivAt).deriv
 
 theorem eq_38 (X Y : R → Matrix n p R) (hX : Differentiable R X) (hY : Differentiable R Y) :
     (deriv fun a => X a ⊙ Y a) = fun a => deriv X a ⊙ Y a + X a ⊙ deriv Y a :=
+  open scoped Matrix.Norms.Elementwise in
   funext fun a => ((hX a).hasDerivAt.matrix_hadamard (hY a).hasDerivAt).deriv
 
 theorem eq_39 (X : R → Matrix m n R) (Y : R → Matrix p q R) (hX : Differentiable R X)
     (hY : Differentiable R Y) :
     (deriv fun a => X a ⊗ₖ Y a) = fun a => deriv X a ⊗ₖ Y a + X a ⊗ₖ deriv Y a :=
+  open scoped Matrix.Norms.Elementwise in
   funext fun a => ((hX a).hasDerivAt.matrix_kronecker (hY a).hasDerivAt).deriv
 
-section
-
-attribute [-instance] Matrix.normedAddCommGroup Matrix.normedSpace
-
-open scoped Matrix.Norms.Operator
-
-variable [CompleteSpace R]
-
-theorem eq_40 (X : R → Matrix n n R) (hX : Differentiable R X) (hX' : ∀ a, IsUnit (X a)) :
+theorem eq_40 [CompleteSpace R] (X : R → Matrix n n R) (hX : Differentiable R X)
+    (hX' : ∀ a, IsUnit (X a)) :
     (deriv fun a => (X a)⁻¹) = fun a => -(X a)⁻¹ * deriv X a * (X a)⁻¹ :=
+  open scoped Matrix.Norms.Operator in
   funext fun a => ((hX a).hasDerivAt.matrix_inv (hX' a)).deriv
-
-end
 
 theorem eq_41 (X : R → Matrix n n R) (hX : Differentiable R X) :
     (deriv fun a => det (X a)) = fun a => trace (adjugate (X a) * deriv X a) :=
@@ -96,10 +86,12 @@ theorem eq_43 (X : ℝ → Matrix n n ℝ) (hX : Differentiable ℝ X) :
 
 theorem eq_44 (X : R → Matrix m n R) (hX : Differentiable R X) :
     (deriv fun a => (X a)ᵀ) = fun a => (deriv X a)ᵀ :=
+  open scoped Matrix.Norms.Elementwise in
   funext fun _ => (hX _).hasDerivAt.transpose.deriv
 
 theorem eq_45 (X : ℝ → Matrix m n ℂ) (hX : Differentiable ℝ X) :
     (deriv fun a => (X a)ᴴ) = fun a => (deriv X a)ᴴ :=
+  open scoped Matrix.Norms.Elementwise in
   funext fun _ => (hX _).hasDerivAt.conjTranspose.deriv
 
 /-! ## Derivatives of a Determinant -/
