@@ -5,6 +5,7 @@ public import Mathlib.Analysis.Matrix.Spectrum
 public import Mathlib.Analysis.Matrix.HermitianFunctionalCalculus
 public import Mathlib.Algebra.Order.Star.Real
 public import Mathlib.LinearAlgebra.Matrix.Vec
+public import MatrixCookbook.ForMathlib.LinearAlgebra.Matrix.Symmetric
 
 /-! # Solutions and Decompositions -/
 
@@ -55,7 +56,8 @@ theorem eq_263 : True :=
 
 theorem eq_264 [Field R] (A : Matrix n n R) (x b : n → R) (h : A.det ≠ 0) :
     A *ᵥ x = b ↔ ∀ i, x i = A.det⁻¹ • A.cramerMap b i :=
-  sorry
+  ((Matrix.mulVec_injective_of_det_ne_zero h).eq_iff' (b := A.det⁻¹ • A.cramer b) <| by
+    rw [Matrix.mulVec_smul, Matrix.mulVec_cramer, inv_smul_smul₀ h]).trans funext_iff
 
 /-! ### Over-determined Rectangular -/
 
@@ -90,7 +92,7 @@ theorem eq_270 (A : Matrix m m ℝ) : (∀ x, A.mulVec x = 0) → A = 0 := by
 
 
 theorem eq_271 (A : Matrix m m ℝ) (hA : A.IsSymm) : (∀ x, x ⬝ᵥ A.mulVec x = 0) → A = 0 :=
-  sorry
+  (hA.dotProduct_mulVec_self_eq_zero (.of_ne_zero two_ne_zero)).mp
 
 /-! ### The Lyapunov Equation -/
 

@@ -3,6 +3,8 @@ module
 public import Mathlib.Basic.Complex.Basic
 public import Mathlib.Data.Matrix.PEquiv
 public import Mathlib.Data.Matrix.Reflection
+public import Mathlib.Analysis.Matrix.Hermitian
+public import Mathlib.Analysis.RCLike.Basic
 public import Mathlib.LinearAlgebra.Matrix.Hermitian
 public import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
 public import Mathlib.LinearAlgebra.Matrix.PosDef
@@ -132,8 +134,11 @@ theorem eq_412 : (sorry : Prop) :=
 
 
 theorem eq_413 (A : Matrix m m ℂ) :
-    A.IsHermitian ↔ ∀ x : m → ℂ, IsSelfAdjoint (star x ⬝ᵥ A.mulVec x) :=
-  sorry
+    A.IsHermitian ↔ ∀ x : m → ℂ, IsSelfAdjoint (star x ⬝ᵥ A.mulVec x) := by
+  rw [← isSymmetric_toEuclideanLin_iff, LinearMap.isSymmetric_iff_inner_map_self_real,
+    ← (WithLp.equiv 2 (m → ℂ)).symm.forall_congr_right]
+  simp [EuclideanSpace.inner_eq_star_dotProduct, dotProduct_comm _ (star _),
+    star_dotProduct (A *ᵥ _), isSelfAdjoint_iff, eq_comm]
 
 theorem eq_414 (A : Matrix m m ℂ) : A.IsHermitian ↔ sorry :=
   sorry
@@ -142,11 +147,17 @@ theorem eq_414 (A : Matrix m m ℂ) : A.IsHermitian ↔ sorry :=
 
 
 theorem eq_415 (A : Matrix m m ℂ) : A.IsHermitian ↔ Complex.I • A ∈ skewAdjoint (Matrix m m ℂ) :=
-  sorry
+  ⟨fun h => h.isSelfAdjoint.I_smul_mem_skewAdjoint (K := ℂ),
+   fun h => IsSelfAdjoint.isHermitian <| by
+     simpa [smul_smul] using (IsSelfAdjoint.I_smul_of_mem_skewAdjoint (K := ℂ) h).neg⟩
 
 theorem eq_416 (A : Matrix m m ℂ) :
-    A ∈ skewAdjoint (Matrix m m ℂ) ↔ ∀ x y, star x ⬝ᵥ A.mulVec y = -star x ⬝ᵥ Aᴴ.mulVec y :=
-  sorry
+    A ∈ skewAdjoint (Matrix m m ℂ) ↔ ∀ x y, star x ⬝ᵥ A.mulVec y = -star x ⬝ᵥ Aᴴ.mulVec y := by
+  rw [skewAdjoint.mem_iff, star_eq_conjTranspose, ← neg_eq_iff_eq_neg, eq_comm, ext_iff_mulVec,
+    forall_comm]
+  refine forall_congr' fun y => ?_
+  rw [star_involutive.surjective.forall, ← dotProduct_eq_iff]
+  simp [dotProduct_comm _ (A *ᵥ y), dotProduct_comm _ (Aᴴ *ᵥ y), neg_mulVec]
 
 theorem eq_417 (A : Matrix m m ℂ) : A.IsHermitian → (sorry : Prop) :=
   sorry

@@ -306,7 +306,7 @@ lemma eq_545 (A : Matrix n n ℝ) : ‖A‖ * ‖A⁻¹‖ = sorry / sorry := so
 
 theorem eq_546 (A : Matrix m n ℝ) (B : Matrix n r ℝ) :
     rank A + rank B - Fintype.card n ≤ rank (A * B) ∧ rank (A * B) ≤ min (rank A) (rank B) :=
-  ⟨sorry, rank_mul_le _ _⟩
+  ⟨tsub_le_iff_right.mpr (rank_mul_ge A B), rank_mul_le _ _⟩
 
 /-! ### Integral Involving Dirac Delta Functions -/
 
