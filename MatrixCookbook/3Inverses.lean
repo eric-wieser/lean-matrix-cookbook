@@ -1,13 +1,16 @@
-import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
-import Mathlib.Basic.Complex.Basic
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.Analysis.RCLike.Basic
-import Mathlib.LinearAlgebra.Matrix.PosDef
-import MatrixCookbook.ForMathlib.Data.Matrix
-import MatrixCookbook.ForMathlib.Algebra.Invertible
+module
+
+public import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
+public import Mathlib.Basic.Complex.Basic
+public import Mathlib.Analysis.Complex.Basic
+public import Mathlib.Analysis.RCLike.Basic
+public import Mathlib.LinearAlgebra.Matrix.PosDef
+public import MatrixCookbook.ForMathlib.Data.Matrix
+public import MatrixCookbook.ForMathlib.Algebra.Invertible
 
 /-! # Inverses -/
 
+@[expose] public section
 
 namespace MatrixCookbook
 

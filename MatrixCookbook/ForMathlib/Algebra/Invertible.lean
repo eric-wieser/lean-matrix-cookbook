@@ -3,11 +3,14 @@ Copyright (c) 2023 Eric Wieser. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Eric Wieser
 -/
-import Mathlib.Algebra.Ring.Invertible
-import Mathlib.GroupTheory.GroupAction.ConjAct
+module
+
+public import Mathlib.Algebra.Ring.Invertible
+public import Mathlib.GroupTheory.GroupAction.ConjAct
 
 /-! # More lemmas about `invertible` -/
 
+@[expose] public section
 
 variable {G M R : Type _}
 

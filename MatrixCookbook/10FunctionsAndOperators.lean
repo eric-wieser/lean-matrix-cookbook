@@ -1,20 +1,24 @@
-import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
-import Mathlib.LinearAlgebra.Matrix.Trace
-import Mathlib.Basic.NNReal.Basic
-import Mathlib.Topology.MetricSpace.Basic
-import Mathlib.LinearAlgebra.Matrix.Notation
-import Mathlib.RingTheory.PowerSeries.Basic
-import Mathlib.Analysis.Normed.Algebra.MatrixExponential
-import Mathlib.LinearAlgebra.Matrix.Kronecker
-import Mathlib.LinearAlgebra.Matrix.Rank
-import Mathlib.LinearAlgebra.Matrix.PosDef
-import Mathlib.Analysis.InnerProductSpace.PiL2
-import Mathlib.Analysis.Matrix.Order
-import Mathlib.Algebra.Order.Star.Real
-import Mathlib.LinearAlgebra.Matrix.Vec
-import Mathlib.Analysis.CStarAlgebra.Matrix
+module
+
+public import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
+public import Mathlib.LinearAlgebra.Matrix.Trace
+public import Mathlib.Basic.NNReal.Basic
+public import Mathlib.Topology.MetricSpace.Basic
+public import Mathlib.LinearAlgebra.Matrix.Notation
+public import Mathlib.RingTheory.PowerSeries.Basic
+public import Mathlib.Analysis.Normed.Algebra.MatrixExponential
+public import Mathlib.LinearAlgebra.Matrix.Kronecker
+public import Mathlib.LinearAlgebra.Matrix.Rank
+public import Mathlib.LinearAlgebra.Matrix.PosDef
+public import Mathlib.Analysis.InnerProductSpace.PiL2
+public import Mathlib.Analysis.Matrix.Order
+public import Mathlib.Algebra.Order.Star.Real
+public import Mathlib.LinearAlgebra.Matrix.Vec
+public import Mathlib.Analysis.CStarAlgebra.Matrix
 
 /-! # Functions and Operators -/
+
+@[expose] public section
 
 variable {ι : Type*} {R : Type*} {l m n p q r : Type*}
 

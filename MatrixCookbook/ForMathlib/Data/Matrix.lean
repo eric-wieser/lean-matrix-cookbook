@@ -1,12 +1,15 @@
-import Mathlib.LinearAlgebra.Matrix.Trace
-import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
-import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
-import Mathlib.LinearAlgebra.Matrix.Notation
-import Mathlib.Data.Fintype.BigOperators
+module
+
+public import Mathlib.LinearAlgebra.Matrix.Trace
+public import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
+public import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
+public import Mathlib.LinearAlgebra.Matrix.Notation
+public import Mathlib.Data.Fintype.BigOperators
 -- import Mathlib.Tactic.NormFin
 
 /-! # Missing lemmas about Trace and Determinant of 4 x 4 matrices -/
 
+@[expose] public section
 
 variable {R m n p : Type*}
 

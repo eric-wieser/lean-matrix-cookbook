@@ -1,7 +1,10 @@
-import Mathlib.RingTheory.Complex
+module
+
+public import Mathlib.RingTheory.Complex
 
 /-! # Complex Matrices -/
 
+@[expose] public section
 
 namespace MatrixCookbook
 
