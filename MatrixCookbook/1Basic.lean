@@ -15,7 +15,6 @@ public import MatrixCookbook.Lib.TraceDetFinFour
 
 @[expose] public section
 
-
 variable {ι : Type _} {R : Type _} {m n p : Type _}
 
 variable [Fintype m] [Fintype n] [Fintype p]

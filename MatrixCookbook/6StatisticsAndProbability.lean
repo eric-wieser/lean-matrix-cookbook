@@ -1,6 +1,8 @@
 module
 
-/-! # Statistics and Probability -/@[expose] public section
+/-! # Statistics and Probability -/
+
+@[expose] public section
 
 namespace MatrixCookbook
 

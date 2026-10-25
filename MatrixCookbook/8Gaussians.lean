@@ -1,6 +1,8 @@
 module
 
-/-! # Gaussians -/@[expose] public section
+/-! # Gaussians -/
+
+@[expose] public section
 
 namespace MatrixCookbook
 

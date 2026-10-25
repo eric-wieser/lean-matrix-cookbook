@@ -13,7 +13,6 @@ public import MatrixCookbook.ForMathlib.Analysis.Matrix
 
 @[expose] public section
 
-
 variable {ι : Type _} {R : Type _} {m n p q : Type _}
 
 variable [Fintype m] [Fintype n] [Fintype p] [Fintype q]

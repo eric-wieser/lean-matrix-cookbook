@@ -11,7 +11,6 @@ public import Mathlib.Data.Fintype.BigOperators
 
 @[expose] public section
 
-
 variable {R m n p : Type*}
 
 open scoped Matrix BigOperators

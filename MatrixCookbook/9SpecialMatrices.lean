@@ -18,7 +18,6 @@ public import MatrixCookbook.ForMathlib.Data.Matrix.RowCol
 
 @[expose] public section
 
-
 variable {R : Type _} {l m n p q r : Type _}
 
 variable [Fintype l] [Fintype m] [Fintype n] [Fintype p] [Fintype q] [Fintype r]

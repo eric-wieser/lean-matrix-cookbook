@@ -9,7 +9,6 @@ public import Mathlib.LinearAlgebra.Matrix.Vec
 
 @[expose] public section
 
-
 variable {m n p R : Type*}
 
 variable [Fintype m] [Fintype n] [Fintype p]

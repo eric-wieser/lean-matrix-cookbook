@@ -12,7 +12,6 @@ public import MatrixCookbook.ForMathlib.Algebra.Invertible
 
 @[expose] public section
 
-
 namespace MatrixCookbook
 
 variable {m n p : Type _}

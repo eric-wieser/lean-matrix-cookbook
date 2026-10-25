@@ -30,7 +30,6 @@ tactic support in `norm_num`.
 
 @[expose] public section
 
-
 open scoped Matrix BigOperators
 
 open Matrix

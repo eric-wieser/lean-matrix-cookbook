@@ -6,7 +6,6 @@ public import Mathlib.RingTheory.Complex
 
 @[expose] public section
 
-
 namespace MatrixCookbook
 
 theorem eq_225 (z : ℂ) : Algebra.leftMulMatrix Complex.basisOneI z = !![z.re, -z.im; z.im, z.re] :=
