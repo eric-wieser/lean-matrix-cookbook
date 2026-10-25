@@ -1,5 +1,5 @@
 import Mathlib.Analysis.Calculus.Deriv.Basic
-import Mathlib.Analysis.Matrix
+import Mathlib.Analysis.Matrix.Normed
 import Mathlib.LinearAlgebra.Matrix.Kronecker
 import Mathlib.LinearAlgebra.Matrix.Hadamard
 import Mathlib.LinearAlgebra.Matrix.NonsingularInverse

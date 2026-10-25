@@ -1,4 +1,5 @@
 import Mathlib.LinearAlgebra.Matrix.LDL
+import Mathlib.Analysis.Matrix.Spectrum
 import Mathlib.Data.Real.StarOrdered
 import Mathlib.LinearAlgebra.Matrix.Vec
 
@@ -178,7 +179,7 @@ theorem eq_287 (A : Matrix n n ℝ) (hA : A.IsHermitian) :
   sorry
 
 theorem eq_288 (A : Matrix n n ℝ) (hA : A.PosDef) :
-    (A.isHermitian_transpose_mul_self).eigenvalues = (A.isHermitian_mul_conjTranspose_self).eigenvalues ∧
+    (A.isHermitian_conjTranspose_mul_self).eigenvalues = (A.isHermitian_mul_conjTranspose_self).eigenvalues ∧
     (A.isHermitian_mul_conjTranspose_self).eigenvalues = hA.isHermitian.eigenvalues^2 := by
   constructor
   · congr!

@@ -175,10 +175,10 @@ theorem eq_526 (x : n → ℂ) : ↑(‖(WithLp.equiv 2 _).symm x‖ ^ 2 : ℝ) 
 
 theorem eq_527 (x : n → ℂ) (p : ℝ≥0∞) (h : 0 < p.toReal) :
     ‖WithLp.toLp p x‖ = (∑ i, ‖x i‖ ^ p.toReal) ^ (1 / p.toReal) := by
-  simp_rw [PiLp.norm_eq_sum h, PiLp.toLp_apply]
+  simp_rw [PiLp.norm_eq_sum h]
 
 theorem eq_528 (x : n → ℂ) : ‖WithLp.toLp ∞ x‖ = ⨆ i, ‖x i‖ := by
-  simp_rw [PiLp.norm_eq_ciSup, PiLp.toLp_apply]
+  simp_rw [PiLp.norm_eq_ciSup]
 
 /-! ### Matrix Norms -/
 
@@ -329,10 +329,11 @@ theorem eq_549 (A : Matrix m n ℝ) :
     A.rank = Aᵀ.rank ∧ A.rank = (A * Aᵀ).rank ∧ A.rank = (Aᵀ * A).rank :=
   ⟨A.rank_transpose.symm, A.rank_self_mul_transpose.symm, A.rank_transpose_mul_self.symm⟩
 
+open scoped MatrixOrder Matrix.Norms.L2Operator in
 theorem eq_550 (A : Matrix m m ℝ) :
     A.PosDef ↔ ∃ B : Matrix m m ℝ, IsUnit B ∧ A = B * Bᵀ := by
-  rw [posDef_iff_eq_conjTranspose_mul_self,
+  rw [← isStrictlyPositive_iff_posDef, CStarAlgebra.isStrictlyPositive_iff_eq_star_mul_self,
     (Function.RightInverse.surjective transpose_transpose).exists]
-  simp [isUnit_transpose]
+  simp [isUnit_transpose, star_eq_conjTranspose]
 
 end MatrixCookbook
