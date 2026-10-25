@@ -262,8 +262,10 @@ theorem eq_541 (A : Matrix m n ℝ) :
 theorem eq_542 (A : Matrix m n ℝ) :
     (open scoped Matrix.Norms.Elementwise in ‖A‖) =
       ↑(Finset.univ.sup fun ij : _ × _ => ‖A ij.1 ij.2‖₊) := by
-  simp_rw [← Finset.univ_product_univ, Finset.sup_product_left, ← Pi.nnnorm_def, coe_nnnorm]
-  rfl
+  open scoped Matrix.Norms.Elementwise in
+  rw [← coe_nnnorm, Matrix.nnnorm_def, Pi.nnnorm_def, ← Finset.univ_product_univ,
+    Finset.sup_product_left]
+  simp_rw [Pi.nnnorm_def]
 
 lemma eq_543 : (sorry : Prop) := sorry
 

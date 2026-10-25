@@ -61,7 +61,7 @@ theorem eq_399 (A₁₁ : Matrix m m R) (A₁₂ : Matrix m n R) (A₂₁ : Matr
       fromBlocks
         (⅟ C₁) (-(⅟ C₁ * A₁₂ * ⅟ A₂₂))
         (-(⅟ A₂₂ * A₂₁ * ⅟ C₁)) (⅟ A₂₂ + ⅟ A₂₂ * A₂₁ * ⅟ C₁ * A₁₂ * ⅟ A₂₂) := by
-  letI := fromBlocks₂₂Invertible A₁₁ A₁₂ A₂₁ A₂₂
+  let := fromBlocks₂₂Invertible A₁₁ A₁₂ A₂₁ A₂₂
   convert invOf_fromBlocks₂₂_eq A₁₁ A₁₂ A₂₁ A₂₂
   rw [invOf_eq_nonsing_inv]
 
@@ -74,7 +74,7 @@ theorem eq_400 (A₁₁ : Matrix m m R) (A₁₂ : Matrix m n R) (A₂₁ : Matr
       fromBlocks
         (⅟ A₁₁ + ⅟ A₁₁ * A₁₂ * ⅟ C₂ * A₂₁ * ⅟ A₁₁) (-(⅟ A₁₁ * A₁₂ * ⅟ C₂))
         (-(⅟ C₂ * A₂₁ * ⅟ A₁₁)) (⅟ C₂) := by
-  letI := fromBlocks₁₁Invertible A₁₁ A₁₂ A₂₁ A₂₂
+  let := fromBlocks₁₁Invertible A₁₁ A₁₂ A₂₁ A₂₂
   convert invOf_fromBlocks₁₁_eq A₁₁ A₁₂ A₂₁ A₂₂
   rw [invOf_eq_nonsing_inv]
 

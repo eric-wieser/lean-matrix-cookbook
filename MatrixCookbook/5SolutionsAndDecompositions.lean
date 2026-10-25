@@ -37,7 +37,7 @@ theorem eq_261 : (sorry : Prop) :=
 theorem eq_262 [Field R] (A : Matrix n n R) (x b : n → R) (h : IsUnit A) :
     A *ᵥ x = b ↔ x = A⁻¹ *ᵥ b := by
   conv_rhs => rw [← Matrix.mulVec_injective_of_isUnit h|>.eq_iff]
-  letI := h.invertible
+  let := h.invertible
   rw [Matrix.mulVec_mulVec, Matrix.mul_inv_of_invertible, Matrix.one_mulVec]
 
 /-! ### Degenerated Square -/
@@ -97,7 +97,7 @@ open scoped Kronecker in
 theorem eq_273 (A : Matrix n n ℝ) (B : Matrix n n ℝ) (X : Matrix n n ℝ) (C : Matrix n n ℝ)
     (h : IsUnit (1 ⊗ₖ A + Bᵀ ⊗ₖ 1)) :
     A * X + X * B = C ↔ X.vec = (1 ⊗ₖ A + Bᵀ ⊗ₖ 1)⁻¹ *ᵥ C.vec := by
-  letI := h.invertible
+  let := h.invertible
   rw [← Matrix.mulVec_injective_of_isUnit h |>.eq_iff, Matrix.mulVec_mulVec,
     Matrix.mul_inv_of_invertible, Matrix.one_mulVec, Matrix.add_mulVec, Matrix.kronecker_mulVec_vec,
     Matrix.kronecker_mulVec_vec, Matrix.transpose_one, Matrix.one_mul, Matrix.mul_one,
@@ -112,7 +112,7 @@ open scoped Kronecker in
 theorem eq_275 [Fintype ι] (A : ι → Matrix n n ℝ) (B : ι → Matrix n n ℝ) (X : Matrix n n ℝ) (C : Matrix n n ℝ)
     (h : IsUnit (∑ i, (B i)ᵀ ⊗ₖ A i)) :
     ∑ i, A i * X * B i = C ↔ X.vec = (∑ i, (B i)ᵀ ⊗ₖ A i)⁻¹ *ᵥ C.vec := by
-  letI := h.invertible
+  let := h.invertible
   rw [← Matrix.mulVec_injective_of_isUnit h |>.eq_iff, Matrix.mulVec_mulVec,
     Matrix.mul_inv_of_invertible, Matrix.one_mulVec, ← funext <| Matrix.mulVec.addMonoidHomLeft_apply _ _,
     map_sum]

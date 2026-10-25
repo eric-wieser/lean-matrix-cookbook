@@ -110,9 +110,9 @@ open scoped ComplexOrder in
 theorem eq_158 (P : Matrix n n ℂ) (R : Matrix m m ℂ) (B : Matrix m n ℂ)
     (hP : P.PosDef) (hR : R.PosDef) :
     (P⁻¹ + Bᴴ * R⁻¹ * B)⁻¹ * Bᴴ * R⁻¹ = P * Bᴴ * (B * P * Bᴴ + R)⁻¹ := by
-  letI : Invertible P := hP.isUnit.invertible
-  letI : Invertible R := hR.isUnit.invertible
-  letI : Invertible (R + B*P*Bᴴ) :=
+  let : Invertible P := hP.isUnit.invertible
+  let : Invertible R := hR.isUnit.invertible
+  let : Invertible (R + B*P*Bᴴ) :=
     (hR.add_posSemidef <| hP.posSemidef.mul_mul_conjTranspose_same B).isUnit.invertible
   rw [Matrix.add_mul_mul_inv_eq_sub, add_comm _ R]
   · simp_rw [Matrix.inv_inv_of_invertible, Matrix.sub_mul, Matrix.mul_assoc, ← Matrix.mul_sub]
@@ -162,7 +162,7 @@ theorem eq_162 : (A + Bᵀ * B)⁻¹ * B = A⁻¹ * B * (1 + Bᵀ * A⁻¹ * B)�
 
 theorem eq_163 (hA : IsUnit A) (hB : IsUnit B) :
     (A⁻¹ + B⁻¹)⁻¹ = A * (A + B)⁻¹ * B ∧ (A⁻¹ + B⁻¹)⁻¹ = B * (A + B)⁻¹ * A := by
-  letI := hA.invertible; letI := hB.invertible
+  let := hA.invertible; let := hB.invertible
   conv_lhs => rw [add_comm]
   rw [Matrix.inv_add_inv (iff_of_true hA hB), Matrix.inv_add_inv (iff_of_true hB hA)]
   simp_rw [Matrix.mul_inv_rev, Matrix.inv_inv_of_invertible, mul_assoc, add_comm]
@@ -239,9 +239,9 @@ theorem eq_183 : (sorry : Prop) :=
 
 theorem eq_184 (h_A : IsUnit A) (h_B : IsUnit B) (h_A_B : IsUnit (A + B)) (h : (A + B)⁻¹ = A⁻¹ + B⁻¹) :
     A * B⁻¹ * A = B * A⁻¹ * B := by
-  letI : Invertible A := h_A.invertible
-  letI : Invertible B := h_B.invertible
-  letI : Invertible (A + B) := h_A_B.invertible
+  let : Invertible A := h_A.invertible
+  let : Invertible B := h_B.invertible
+  let : Invertible (A + B) := h_A_B.invertible
   simp_rw [← Matrix.invOf_eq_nonsing_inv] at *
   exact eq_of_invOf_add_eq_invOf_add_invOf h
 
