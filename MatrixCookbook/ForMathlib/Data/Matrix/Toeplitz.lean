@@ -1,4 +1,4 @@
-import Mathlib.Data.Matrix.Defs
+import Mathlib.LinearAlgebra.Matrix.Defs
 import Mathlib.Data.ZMod.Defs
 
 namespace Matrix

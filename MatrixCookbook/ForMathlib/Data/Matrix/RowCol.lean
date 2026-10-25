@@ -1,4 +1,4 @@
-import Mathlib.Data.Matrix.RowCol
+import Mathlib.LinearAlgebra.Matrix.RowCol
 
 namespace Matrix
 

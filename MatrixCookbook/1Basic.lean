@@ -1,4 +1,4 @@
-import Mathlib.Data.Matrix.Notation
+import Mathlib.LinearAlgebra.Matrix.Notation
 import Mathlib.Data.NNReal.Basic
 import Mathlib.LinearAlgebra.Matrix.Charpoly.Eigs
 import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
@@ -151,7 +151,7 @@ theorem eq_28 {A : Matrix n n ℝ} :
 -- TODO: or is this statement correct?
 theorem eq_28' {A : Matrix n n R} :
     let ε : PowerSeries R := PowerSeries.X
-    let A : Matrix n n (PowerSeries R) := A.map (PowerSeries.C _)
+    let A : Matrix n n (PowerSeries R) := A.map PowerSeries.C
     (det (1 + ε • A)).trunc 2 =
       (1 + det A + ε • trace A + (1 / 2 : R) • ε ^ 2 * trace A ^ 2 -
             (1 / 2 : R) • ε ^ 2 * trace (A ^ 2)).trunc

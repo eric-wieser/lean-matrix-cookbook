@@ -156,7 +156,7 @@ section
 variable (A : Matrix m m R) (B : Matrix m m R)
 
 theorem eq_418 (hA : IsIdempotentElem A) (n : ℕ) (hn : n ≠ 0) : A ^ n = A := by
-  cases' n with n
+  obtain _ | n := n
   · cases hn rfl
   · exact hA.pow_succ_eq n
 

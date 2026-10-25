@@ -3,8 +3,8 @@ import Mathlib.Analysis.Calculus.Deriv.Mul
 import Mathlib.Analysis.Calculus.Deriv.Prod
 import Mathlib.Analysis.Calculus.Deriv.Star
 import Mathlib.Analysis.Matrix
-import Mathlib.Data.Matrix.Kronecker
-import Mathlib.Data.Matrix.Hadamard
+import Mathlib.LinearAlgebra.Matrix.Kronecker
+import Mathlib.LinearAlgebra.Matrix.Hadamard
 import Mathlib.Topology.UniformSpace.Matrix
 
 /-! # Missing lemmas about matrix analysis -/
