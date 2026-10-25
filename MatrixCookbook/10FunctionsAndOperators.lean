@@ -122,9 +122,8 @@ lemma eq_513 : (sorry : Prop) := sorry
 
 lemma eq_514 (A : Matrix l m R) (B : Matrix p q R) : rank (A ⊗ₖ B) = rank A * rank B := sorry
 
-theorem eq_515 (A : Matrix m m R) (B : Matrix n n R) : trace (A ⊗ₖ B) = trace A * trace B := by
-  simp_rw [Matrix.trace, Matrix.diag, Finset.sum_mul, Finset.mul_sum, ← Finset.univ_product_univ,
-    Finset.sum_product, kronecker_apply]
+theorem eq_515 (A : Matrix m m R) (B : Matrix n n R) : trace (A ⊗ₖ B) = trace A * trace B :=
+  trace_kronecker _ _
 
 theorem eq_516 (A : Matrix m m R) (B : Matrix n n R) :
     det (A ⊗ₖ B) = det A ^ Fintype.card n * det B ^ Fintype.card m :=
@@ -210,14 +209,6 @@ theorem eq_532 (A B : Matrix n n ℝ) : open scoped Matrix.Norms.Elementwise in 
 section
 
 open scoped Matrix.Norms.Operator
-
-theorem ContinuousLinearMap.sSup_sphere_eq_norm {𝕜 𝕜₂ E F : Type*}
-    [NormedAddCommGroup E] [SeminormedAddCommGroup F]
-    [DenselyNormedField 𝕜] [NontriviallyNormedField 𝕜₂] {σ₁₂ : 𝕜 →+* 𝕜₂}
-    [NormedAlgebra ℝ 𝕜] [NormedSpace 𝕜 E]
-    [NormedSpace 𝕜₂ F] [RingHomIsometric σ₁₂] (f : E →SL[σ₁₂] F) :
-    sSup ((fun x => ‖f x‖) '' Metric.sphere 0 1) = ‖f‖ := by
-  simpa only [NNReal.coe_sSup, Set.image_image, coe_nnnorm] using NNReal.coe_inj.2 f.sSup_sphere_eq_nnnorm
 
 lemma eq_533 (A : Matrix m n ℝ) : ‖A‖ = sSup { ‖A.mulVec x‖ | (x) (_ : ‖x‖ = 1)} := by
   suffices ‖A‖ = sSup ((‖A.mulVec ·‖) '' Metric.sphere 0 1) by
