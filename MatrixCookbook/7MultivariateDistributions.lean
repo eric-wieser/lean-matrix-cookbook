@@ -1,4 +1,6 @@
-/-! # Multivariate Distributions -/
+module
+
+/-! # Multivariate Distributions -/@[expose] public section
 
 namespace MatrixCookbook
 

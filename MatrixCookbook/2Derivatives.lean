@@ -1,13 +1,17 @@
-import Mathlib.Analysis.Calculus.Deriv.Basic
-import Mathlib.Analysis.Matrix.Normed
-import Mathlib.LinearAlgebra.Matrix.Kronecker
-import Mathlib.LinearAlgebra.Matrix.Hadamard
-import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
-import Mathlib.LinearAlgebra.Matrix.Trace
-import Mathlib.Analysis.Normed.Field.Basic
-import MatrixCookbook.ForMathlib.Analysis.Matrix
+module
+
+public import Mathlib.Analysis.Calculus.Deriv.Basic
+public import Mathlib.Analysis.Matrix.Normed
+public import Mathlib.LinearAlgebra.Matrix.Kronecker
+public import Mathlib.LinearAlgebra.Matrix.Hadamard
+public import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
+public import Mathlib.LinearAlgebra.Matrix.Trace
+public import Mathlib.Analysis.Normed.Field.Basic
+public import MatrixCookbook.ForMathlib.Analysis.Matrix
 
 /-! # Derivatives -/
+
+@[expose] public section
 
 
 variable {ι : Type _} {R : Type _} {m n p q : Type _}

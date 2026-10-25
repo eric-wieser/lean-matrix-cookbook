@@ -1,9 +1,13 @@
-import Mathlib.Analysis.Matrix.LDL
-import Mathlib.Analysis.Matrix.Spectrum
-import Mathlib.Algebra.Order.Star.Real
-import Mathlib.LinearAlgebra.Matrix.Vec
+module
+
+public import Mathlib.Analysis.Matrix.LDL
+public import Mathlib.Analysis.Matrix.Spectrum
+public import Mathlib.Algebra.Order.Star.Real
+public import Mathlib.LinearAlgebra.Matrix.Vec
 
 /-! # Solutions and Decompositions -/
+
+@[expose] public section
 
 
 variable {m n p R : Type*}

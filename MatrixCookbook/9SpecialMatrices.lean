@@ -1,18 +1,22 @@
-import Mathlib.Basic.Complex.Basic
-import Mathlib.Data.Matrix.PEquiv
-import Mathlib.Data.Matrix.Reflection
-import Mathlib.LinearAlgebra.Matrix.Hermitian
-import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
-import Mathlib.LinearAlgebra.Matrix.PosDef
-import Mathlib.LinearAlgebra.Matrix.SchurComplement
-import Mathlib.LinearAlgebra.Matrix.Symmetric
-import Mathlib.LinearAlgebra.Vandermonde
-import Mathlib.Algebra.Order.Star.Real
-import MatrixCookbook.ForMathlib.Data.Matrix
-import MatrixCookbook.ForMathlib.Data.Matrix.Toeplitz
-import MatrixCookbook.ForMathlib.Data.Matrix.RowCol
+module
+
+public import Mathlib.Basic.Complex.Basic
+public import Mathlib.Data.Matrix.PEquiv
+public import Mathlib.Data.Matrix.Reflection
+public import Mathlib.LinearAlgebra.Matrix.Hermitian
+public import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
+public import Mathlib.LinearAlgebra.Matrix.PosDef
+public import Mathlib.LinearAlgebra.Matrix.SchurComplement
+public import Mathlib.LinearAlgebra.Matrix.Symmetric
+public import Mathlib.LinearAlgebra.Vandermonde
+public import Mathlib.Algebra.Order.Star.Real
+public import MatrixCookbook.ForMathlib.Data.Matrix
+public import MatrixCookbook.ForMathlib.Data.Matrix.Toeplitz
+public import MatrixCookbook.ForMathlib.Data.Matrix.RowCol
 
 /-! # Special Matrices -/
+
+@[expose] public section
 
 
 variable {R : Type _} {l m n p q r : Type _}

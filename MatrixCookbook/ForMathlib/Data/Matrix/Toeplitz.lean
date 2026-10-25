@@ -1,5 +1,9 @@
-import Mathlib.LinearAlgebra.Matrix.Defs
-import Mathlib.Data.ZMod.Defs
+module
+
+public import Mathlib.LinearAlgebra.Matrix.Defs
+public import Mathlib.Data.ZMod.Defs
+
+@[expose] public section
 
 namespace Matrix
 

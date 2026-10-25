@@ -1,4 +1,8 @@
-import Mathlib.LinearAlgebra.Matrix.RowCol
+module
+
+public import Mathlib.LinearAlgebra.Matrix.RowCol
+
+@[expose] public section
 
 namespace Matrix
 

@@ -3,15 +3,17 @@ Copyright (c) 2023 Mohanad Ahmed, Eric Wieser. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Mohanad Ahmed, Eric Wieser
 -/
-import Mathlib.LinearAlgebra.Matrix.Trace
-import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
-import Mathlib.LinearAlgebra.Matrix.Notation
-import Mathlib.Data.Fintype.BigOperators
-import Mathlib.Tactic.Ring
+module
+
+public import Mathlib.LinearAlgebra.Matrix.Trace
+public import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
+public import Mathlib.LinearAlgebra.Matrix.Notation
+public import Mathlib.Data.Fintype.BigOperators
+public import Mathlib.Tactic.Ring
 -- import Mathlib.Tactic.NormFin
-import Mathlib.Analysis.RCLike.Basic
-import Mathlib.Algebra.CharP.Basic
-import MatrixCookbook.ForMathlib.Data.Matrix
+public import Mathlib.Analysis.RCLike.Basic
+public import Mathlib.Algebra.CharP.Basic
+public import MatrixCookbook.ForMathlib.Data.Matrix
 
 /-!
 # Traces and Determinants of 1st, 2nd and 3rd Powers of 4x4 Matrices
@@ -25,6 +27,8 @@ The results are all for commutative rings.
 It's not clear that these results belong in mathlib as lemmas; they might be better suited to
 tactic support in `norm_num`.
 -/
+
+@[expose] public section
 
 
 open scoped Matrix BigOperators

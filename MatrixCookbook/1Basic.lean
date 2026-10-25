@@ -1,15 +1,19 @@
-import Mathlib.LinearAlgebra.Matrix.Notation
-import Mathlib.Basic.NNReal.Basic
-import Mathlib.LinearAlgebra.Matrix.Charpoly.Eigs
-import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
-import Mathlib.LinearAlgebra.Matrix.SchurComplement
-import Mathlib.LinearAlgebra.Matrix.Trace
-import Mathlib.RingTheory.PowerSeries.Trunc
+module
+
+public import Mathlib.LinearAlgebra.Matrix.Notation
+public import Mathlib.Basic.NNReal.Basic
+public import Mathlib.LinearAlgebra.Matrix.Charpoly.Eigs
+public import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
+public import Mathlib.LinearAlgebra.Matrix.SchurComplement
+public import Mathlib.LinearAlgebra.Matrix.Trace
+public import Mathlib.RingTheory.PowerSeries.Trunc
 -- import Mathlib.Tactic.NormFin
-import Mathlib.Topology.MetricSpace.Basic
-import MatrixCookbook.Lib.TraceDetFinFour
+public import Mathlib.Topology.MetricSpace.Basic
+public import MatrixCookbook.Lib.TraceDetFinFour
 
 /-! # Basics -/
+
+@[expose] public section
 
 
 variable {ι : Type _} {R : Type _} {m n p : Type _}
