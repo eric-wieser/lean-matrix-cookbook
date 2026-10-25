@@ -9,6 +9,7 @@ import Mathlib.LinearAlgebra.Matrix.Kronecker
 import Mathlib.LinearAlgebra.Matrix.Rank
 import Mathlib.LinearAlgebra.Matrix.PosDef
 import Mathlib.Analysis.InnerProductSpace.PiL2
+import Mathlib.Analysis.Matrix.Order
 import Mathlib.Data.Real.StarOrdered
 import Mathlib.LinearAlgebra.Matrix.Vec
 import Mathlib.Analysis.CStarAlgebra.Matrix
