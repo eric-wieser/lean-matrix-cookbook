@@ -1,5 +1,6 @@
 import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
 import Mathlib.Data.Complex.Basic
+import Mathlib.Analysis.Complex.Basic
 import Mathlib.Analysis.RCLike.Basic
 import Mathlib.LinearAlgebra.Matrix.PosDef
 import MatrixCookbook.ForMathlib.Data.Matrix

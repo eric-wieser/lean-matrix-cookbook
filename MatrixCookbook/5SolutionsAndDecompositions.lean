@@ -1,4 +1,4 @@
-import Mathlib.LinearAlgebra.Matrix.LDL
+import Mathlib.Analysis.Matrix.LDL
 import Mathlib.Analysis.Matrix.Spectrum
 import Mathlib.Data.Real.StarOrdered
 import Mathlib.LinearAlgebra.Matrix.Vec
