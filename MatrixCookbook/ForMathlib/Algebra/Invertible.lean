@@ -16,6 +16,7 @@ section Monoid
 variable [Group G] [Monoid M] [MulDistribMulAction G M]
 
 /-- A conjugation action preserves invertibility. -/
+@[implicit_reducible]
 def invertibleGroupSmul (g : G) (x : M) [Invertible x] : Invertible (g • x)
     where
   invOf := g • ⅟ x
@@ -29,6 +30,7 @@ theorem invOf_smul {G M} [Group G] [Monoid M] [MulDistribMulAction G M] (g : G) 
 
 variable (x y : M)
 
+@[implicit_reducible]
 def invertibleConj [Invertible x] [Invertible y] : Invertible (x * y * ⅟ x) :=
   invertibleGroupSmul (ConjAct.toConjAct (unitOfInvertible x)) y
 
@@ -37,6 +39,7 @@ theorem invOf_conj [Invertible x] [Invertible y] [Invertible (x * y * ⅟ x)] :
   letI := invertibleConj x y
   convert (rfl : ⅟ (x * y * ⅟ x) = _)
 
+@[implicit_reducible]
 def invertibleConj' [Invertible x] [Invertible y] : Invertible (⅟ x * y * x) :=
   invertibleGroupSmul (ConjAct.toConjAct (unitOfInvertible x)⁻¹) y
 

@@ -25,7 +25,7 @@ attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
 
 -- `matrix.normed_space` is about `semi_normed_group` which massively impacts the performance of
 -- typeclass search in later lemmas.
-@[local instance]
+@[implicit_reducible, local instance]
 def matrixFieldNormedSpace : NormedSpace R (Matrix m n R) :=
   Matrix.normedSpace
 
@@ -69,12 +69,9 @@ section
 
 attribute [-instance] Matrix.normedAddCommGroup Matrix.normedSpace
 
-attribute [local instance] Matrix.linftyOpNormedRing Matrix.linftyOpNormedAlgebra
+open scoped Matrix.Norms.Operator
 
 variable [CompleteSpace R]
-
--- porting note: added
-local instance : NormedSpace R (Matrix n n R) := NormedAlgebra.toNormedSpace _
 
 theorem eq_40 (X : R → Matrix n n R) (hX : Differentiable R X) (hX' : ∀ a, IsUnit (X a)) :
     (deriv fun a => (X a)⁻¹) = fun a => -(X a)⁻¹ * deriv X a * (X a)⁻¹ :=

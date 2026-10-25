@@ -36,7 +36,7 @@ attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
 
 -- `matrix.normed_space` is about `semi_normed_group` which massively impacts the performance of
 -- typeclass search in later lemmas.
-@[local instance]
+@[implicit_reducible, local instance]
 def matrixFieldNormedSpace : NormedSpace R (Matrix m n R) :=
   Matrix.normedSpace
 
@@ -84,24 +84,21 @@ theorem HasDerivAt.conjTranspose [StarRing R] [TrivialStar R] [StarAddMonoid A] 
 theorem deriv_matrix (f : R → Matrix m n A) (r : R) (hX : DifferentiableAt R f r) :
     deriv f r = of fun i j => deriv (fun r => f r i j) r := by
   ext i j
-  rw [of_apply, deriv_pi]
-  dsimp only
-  rw [deriv_pi]
-  · intro i
-    erw [differentiableAt_pi] at hX -- porting note: added
-    simp_rw [differentiableAt_pi] at hX
-    apply hX
-  · intro i
-    rw [differentiableAt_pi] at hX
-    apply hX
+  rw [of_apply]
+  exact ((hasDerivAt_matrix.mp hX.hasDerivAt) i j).deriv.symm
 
 end SupNorm
 
 section LinftyOpNorm
 
-attribute [local instance] Matrix.linftyOpNormedRing Matrix.linftyOpNormedAlgebra
+open scoped Matrix.Norms.Operator
 
 variable [NontriviallyNormedField R] [NormedCommRing A] [NormedAlgebra R A] [CompleteSpace A]
+
+-- The uniform structure from the operator norm only agrees with `Matrix.instUniformSpace` at
+-- default transparency, so this is not found automatically.
+local instance : HasSummableGeomSeries (Matrix m m A) :=
+  @instHasSummableGeomSeriesOfCompleteSpace _ _ (inferInstanceAs (CompleteSpace (Matrix m m A)))
 
 theorem HasDerivAt.matrix_inv {X : R → Matrix m m A} {X' : Matrix m m A} {r : R}
     (hX : HasDerivAt X X' r) (hX' : IsUnit (X r)) :
