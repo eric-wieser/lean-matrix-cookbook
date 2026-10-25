@@ -167,10 +167,10 @@ theorem eq_419 (hA : IsIdempotentElem A) : IsIdempotentElem (1 - A) :=
   hA.one_sub
 
 theorem eq_420 [StarRing R] (hA : IsIdempotentElem A) : IsIdempotentElem Aᴴ :=
-  sorry
+  hA.star
 
 theorem eq_421 [StarRing R] (hA : IsIdempotentElem A) : IsIdempotentElem (1 - Aᴴ) :=
-  sorry
+  hA.star.one_sub
 
 theorem eq_422 (hA : IsIdempotentElem A) (hB : IsIdempotentElem B) (h : Commute A B) :
     IsIdempotentElem (A * B) :=
@@ -250,11 +250,13 @@ theorem eq_438 : (sorry : Prop) :=
 /-! ### Definitions -/
 
 
-theorem eq_439 (A : Matrix n n ℝ) : A.PosDef ↔ ∀ x ≠ 0, x ⬝ᵥ A.mulVec x > 0 :=
-  sorry
+/-- Note: the source omits the symmetry condition, without which this is false. -/
+theorem eq_439 (A : Matrix n n ℝ) : A.PosDef ↔ A.IsSymm ∧ ∀ x ≠ 0, x ⬝ᵥ A.mulVec x > 0 := by
+  simpa [IsHermitian, IsSymm] using posDef_iff_dotProduct_mulVec (M := A)
 
-theorem eq_440 (A : Matrix n n ℝ) : A.PosSemidef ↔ ∀ x, x ⬝ᵥ A.mulVec x ≥ 0 :=
-  sorry
+/-- Note: the source omits the symmetry condition, without which this is false. -/
+theorem eq_440 (A : Matrix n n ℝ) : A.PosSemidef ↔ A.IsSymm ∧ ∀ x, x ⬝ᵥ A.mulVec x ≥ 0 := by
+  simpa [IsHermitian, IsSymm] using posSemidef_iff_dotProduct_mulVec (M := A)
 
 /-! ### Eigenvalues -/
 

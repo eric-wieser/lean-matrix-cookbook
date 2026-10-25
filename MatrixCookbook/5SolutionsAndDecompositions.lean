@@ -2,6 +2,7 @@ module
 
 public import Mathlib.Analysis.Matrix.LDL
 public import Mathlib.Analysis.Matrix.Spectrum
+public import Mathlib.Analysis.Matrix.HermitianFunctionalCalculus
 public import Mathlib.Algebra.Order.Star.Real
 public import Mathlib.LinearAlgebra.Matrix.Vec
 
@@ -168,8 +169,9 @@ theorem eq_283 (A : Matrix n n ℝ) (hA : A.IsHermitian) (i : n) :
 
 theorem eq_284 (A : Matrix n n ℝ) (hA : A.IsHermitian) (p : ℕ):
     Matrix.trace (A ^ p) = ∑ i, hA.eigenvalues i ^ p := by
-  have := hA.pow p
-  sorry
+  rw [← cfc_pow_id (R := ℝ) A p hA.isSelfAdjoint, Matrix.trace_eq_neg_charpoly_nextCoeff,
+    hA.charpoly_cfc_eq, Polynomial.prod_X_sub_C_nextCoeff, neg_neg]
+  simp
 
 theorem eq_285 (A : Matrix n n ℝ) (c : ℝ) (hA : A.IsHermitian) :
     (Matrix.isHermitian_one.add (hA.map (c • ·) (fun i => by aesop))).eigenvalues = 1 + c • hA.eigenvalues :=
