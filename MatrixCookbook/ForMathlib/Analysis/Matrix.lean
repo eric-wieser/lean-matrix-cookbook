@@ -114,6 +114,6 @@ theorem HasDerivAt.matrix_inv {X : R → Matrix m m A} {X' : Matrix m m A} {r : 
   convert HasFDerivAt.comp _ this hX
   ext r : 2 -- porting note: added one!
   -- porting note: added `()`-wrapped lemmas
-  simp [(ContinuousLinearMap.smulRight_apply), (ContinuousLinearMap.comp_apply), (ContinuousLinearMap.neg_apply)]
+  simp [(ContinuousLinearMap.comp_apply), (ContinuousLinearMap.neg_apply)]
 
 end LinftyOpNorm

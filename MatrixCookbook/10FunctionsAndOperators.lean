@@ -56,18 +56,18 @@ theorem eq_487 (X : Matrix m m R) (n : ℕ) (hx : (X - 1).det ≠ 0) :
 section
 open NormedSpace
 
-theorem eq_494 (A : Matrix n n ℝ) : exp ℝ A = ∑' n : ℕ, (n !⁻¹ : ℝ) • A ^ n := by rw [exp_eq_tsum]
+theorem eq_494 (A : Matrix n n ℝ) : exp A = ∑' n : ℕ, (n !⁻¹ : ℝ) • A ^ n := by rw [exp_eq_tsum ℝ]
 
-theorem eq_495 (A : Matrix n n ℝ) : exp ℝ (-A) = ∑' n : ℕ, (n !⁻¹ : ℝ) • (-1 : Matrix _ _ ℝ) ^ n * A ^ n := by
-  simp_rw [exp_eq_tsum, neg_pow A, smul_mul_assoc]
+theorem eq_495 (A : Matrix n n ℝ) : exp (-A) = ∑' n : ℕ, (n !⁻¹ : ℝ) • (-1 : Matrix _ _ ℝ) ^ n * A ^ n := by
+  simp_rw [exp_eq_tsum ℝ, neg_pow A, smul_mul_assoc]
 
-theorem eq_496 (t : ℝ) (A : Matrix n n ℝ) : exp ℝ (t • A) = ∑' n : ℕ, (n !⁻¹ : ℝ) • t ^ (n : ℕ) • A ^ n := by simp_rw [exp_eq_tsum, smul_pow]
+theorem eq_496 (t : ℝ) (A : Matrix n n ℝ) : exp (t • A) = ∑' n : ℕ, (n !⁻¹ : ℝ) • t ^ (n : ℕ) • A ^ n := by simp_rw [exp_eq_tsum ℝ, smul_pow]
 
-theorem eq_498 (A B : Matrix n n ℝ) (h : A * B = B * A) : exp ℝ A * exp ℝ B = exp ℝ (A + B) :=
-  (exp_add_of_commute _ _ _ h).symm
+theorem eq_498 (A B : Matrix n n ℝ) (h : A * B = B * A) : exp A * exp B = exp (A + B) :=
+  (Matrix.exp_add_of_commute A B h).symm
 
-theorem eq_499 (A : Matrix n n ℝ) : (exp ℝ A)⁻¹ = exp ℝ (-A) :=
-  (exp_neg _ _).symm
+theorem eq_499 (A : Matrix n n ℝ) : (exp A)⁻¹ = exp (-A) :=
+  (Matrix.exp_neg A).symm
 
 end
 

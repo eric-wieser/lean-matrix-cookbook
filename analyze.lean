@@ -12,7 +12,7 @@ def url : String := "https://github.com/eric-wieser/lean-matrix-cookbook"
 
 /-- Split a path into an Optional parent component and filename -/
 def path_split (path : String) : Option String × String :=
-  match (path.split (· = '/')).reverse with
+  match (path.splitOn "/").reverse with
   | [] => (none, "/")
   | [a] => (none, a)
   | (a :: as) => ("/".intercalate as.reverse, a)
@@ -32,7 +32,7 @@ def project_file_split (path : System.FilePath) : IO (Option System.FilePath × 
       let some pppparent := ppparent.parent | return .inr (none, rest)
       if (← (pppparent / "lakefile.lean").pathExists) || (← (pppparent / "lakefile.toml").pathExists) then
         return .inr (pppparent, rest)
-      else if "/lib/lean".data.IsSuffix parent.toString.data then
+      else if parent.toString.endsWith "/lib/lean" then
         return .inr (none, rest)
       else
         return .inl (parent, some rest))
@@ -78,7 +78,7 @@ def info_for (n : Name) : Lean.CoreM (Option (System.FilePath × Name) × Option
   pure (fs, p, s)
 
 def commit_sha : IO String :=
-  String.trim <$> IO.Process.run { cmd := "git", args := #["rev-parse", "HEAD"] }
+  (·.trimAscii.toString) <$> IO.Process.run { cmd := "git", args := #["rev-parse", "HEAD"] }
 
 def get_url : IO (System.FilePath → Option DeclarationRange → String) := do
   let sha ← commit_sha
@@ -90,8 +90,8 @@ def getTitle (n : Name) : CoreM String := do
   let some doc := Lean.getModuleDoc? (←getEnv) n | throwError "no docstring"
   if h : 0 < doc.size then
     let s := (doc[0]'h).doc
-    let i := s.find (· = '#')
-    return String.trim <| s.extract (s.next i) (s.findAux (· = '\n') s.endPos i)
+    let title := s.toList.dropWhile (· ≠ '#') |>.drop 1 |>.takeWhile (· ≠ '\n')
+    return (String.ofList title).trimAscii.toString
   throwError "no docstring"
 
 def makeSVG (cells : List (ℕ × String × Option String × Status))
