@@ -24,25 +24,16 @@ open Matrix
 
 open scoped Matrix Kronecker
 
-/-! ### Lemmas about the sup norm on matrices
+/-! ### Lemmas about derivatives of matrices
 
-Note that for each choice of norm, all the lemmas must be repeated...
-
-https://leanprover.zulipchat.com/#narrow/stream/116395-maths/topic/Topology.20on.20continuous_maps.20without.20a.20norm/near/359326930
+These statements only depend on the topology on matrices, so hold for any choice of matrix norm;
+the proofs pick whichever norm is most convenient.
 -/
 
 
-section SupNorm
+section
 
 variable [NontriviallyNormedField R] [NormedRing A] [NormedAlgebra R A]
-
-attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
-
--- `matrix.normed_space` is about `semi_normed_group` which massively impacts the performance of
--- typeclass search in later lemmas.
-@[implicit_reducible, local instance]
-def matrixFieldNormedSpace : NormedSpace R (Matrix m n R) :=
-  Matrix.normedSpace
 
 theorem hasDerivAt_matrix {f : R → Matrix m n A} {r : R} {f' : Matrix m n A} :
     HasDerivAt f f' r ↔ ∀ i j, HasDerivAt (fun r => f r i j) (f' i j) r := by
@@ -84,29 +75,27 @@ theorem HasDerivAt.conjTranspose [StarRing R] [TrivialStar R] [StarAddMonoid A] 
     HasDerivAt (fun a => (X a)ᴴ) X'ᴴ r :=
   hasDerivAt_matrix.mpr fun i j => ((hasDerivAt_matrix.mp hX : _) j i).star
 
--- This is only about the elementwise norm...
 theorem deriv_matrix (f : R → Matrix m n A) (r : R) (hX : DifferentiableAt R f r) :
     deriv f r = of fun i j => deriv (fun r => f r i j) r := by
+  open scoped Matrix.Norms.Elementwise in
   ext i j
   rw [of_apply]
   exact ((hasDerivAt_matrix.mp hX.hasDerivAt) i j).deriv.symm
 
-end SupNorm
+end
 
-section LinftyOpNorm
-
-open scoped Matrix.Norms.Operator
+section
 
 variable [NontriviallyNormedField R] [NormedCommRing A] [NormedAlgebra R A] [CompleteSpace A]
-
--- The uniform structure from the operator norm only agrees with `Matrix.instUniformSpace` at
--- default transparency, so this is not found automatically.
-local instance : HasSummableGeomSeries (Matrix m m A) :=
-  @instHasSummableGeomSeriesOfCompleteSpace _ _ (inferInstanceAs (CompleteSpace (Matrix m m A)))
 
 theorem HasDerivAt.matrix_inv {X : R → Matrix m m A} {X' : Matrix m m A} {r : R}
     (hX : HasDerivAt X X' r) (hX' : IsUnit (X r)) :
     HasDerivAt (fun a => (X a)⁻¹) (-(X r)⁻¹ * X' * (X r)⁻¹) r := by
+  open scoped Matrix.Norms.Operator in
+  -- The uniform structure from the operator norm only agrees with `Matrix.instUniformSpace` at
+  -- default transparency, so this is not found automatically.
+  have : HasSummableGeomSeries (Matrix m m A) :=
+    @instHasSummableGeomSeriesOfCompleteSpace _ _ (inferInstanceAs (CompleteSpace (Matrix m m A)))
   obtain ⟨u, hu⟩ := hX'
   have h1 : HasFDerivAt (𝕜 := R) Ring.inverse _ (X r) := hu ▸ hasFDerivAt_ringInverse u
   have h := HasFDerivAt.comp_hasDerivAt (x := r) h1 hX
@@ -114,4 +103,4 @@ theorem HasDerivAt.matrix_inv {X : R → Matrix m m A} {X' : Matrix m m A} {r : 
   refine h.congr_deriv ?_
   simp
 
-end LinftyOpNorm
+end

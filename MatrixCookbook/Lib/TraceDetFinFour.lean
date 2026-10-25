@@ -10,7 +10,6 @@ public import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 public import Mathlib.LinearAlgebra.Matrix.Notation
 public import Mathlib.Data.Fintype.BigOperators
 public import Mathlib.Tactic.Ring
--- import Mathlib.Tactic.NormFin
 public import Mathlib.Analysis.RCLike.Basic
 public import Mathlib.Algebra.CharP.Basic
 public import MatrixCookbook.ForMathlib.Data.Matrix
@@ -46,8 +45,6 @@ theorem trace_pow_two_fin_four (A : Matrix (Fin 4) (Fin 4) R) :
   simp_rw [Matrix.trace_fin_four, pow_two, mul_apply, Fin.sum_univ_four]
   ring
 
--- porting note: added
-set_option linter.unreachableTactic false in
 theorem trace_pow_three_fin_four (A : Matrix (Fin 4) (Fin 4) R) :
     trace (A ^ 3) =
       A 0 0 * (A 0 0 ^ 2 + A 0 1 * A 1 0 + A 0 2 * A 2 0 + A 0 3 * A 3 0) +

@@ -169,13 +169,13 @@ theorem eq_524 (a : m → R) (X : Matrix m n R) (B : Matrix n n R) (c : m → R)
 /-! #### Examples -/
 
 
-theorem eq_525 (x : n → ℂ) : ‖(WithLp.equiv 1 _).symm x‖ = ∑ i, ‖x i‖ := by
-  simpa using PiLp.norm_eq_of_nat 1 Nat.cast_one.symm ((WithLp.equiv 1 _).symm x)
+theorem eq_525 (x : n → ℂ) : ‖WithLp.toLp 1 x‖ = ∑ i, ‖x i‖ := by
+  simpa using PiLp.norm_eq_of_nat 1 Nat.cast_one.symm (WithLp.toLp 1 x)
 
-theorem eq_526 (x : n → ℂ) : ↑(‖(WithLp.equiv 2 _).symm x‖ ^ 2 : ℝ) = star x ⬝ᵥ x := by
+theorem eq_526 (x : n → ℂ) : ↑(‖WithLp.toLp 2 x‖ ^ 2 : ℝ) = star x ⬝ᵥ x := by
   rw [dotProduct_comm, ← EuclideanSpace.inner_toLp_toLp, inner_self_eq_norm_sq_to_K,
     Complex.ofReal_pow]
-  rfl  -- porting note: added
+  rfl
 
 theorem eq_527 (x : n → ℂ) (p : ℝ≥0∞) (h : 0 < p.toReal) :
     ‖WithLp.toLp p x‖ = (∑ i, ‖x i‖ ^ p.toReal) ^ (1 / p.toReal) := by
@@ -190,22 +190,18 @@ theorem eq_528 (x : n → ℂ) : ‖WithLp.toLp ∞ x‖ = ⨆ i, ‖x i‖ := b
 /-! #### Definitions -/
 
 
-section
-open scoped Matrix.Norms.Elementwise
+theorem eq_529 (A : Matrix n n ℝ) : open scoped Matrix.Norms.Elementwise in 0 ≤ ‖A‖ :=
+  open scoped Matrix.Norms.Elementwise in norm_nonneg _
 
-theorem eq_529 (A : Matrix n n ℝ) : 0 ≤ ‖A‖ :=
-  norm_nonneg _
+theorem eq_530 (A : Matrix n n ℝ) : open scoped Matrix.Norms.Elementwise in ‖A‖ = 0 ↔ A = 0 :=
+  open scoped Matrix.Norms.Elementwise in norm_eq_zero
 
-theorem eq_530 (A : Matrix n n ℝ) : ‖A‖ = 0 ↔ A = 0 :=
-  norm_eq_zero
+theorem eq_531 (r : ℝ) (A : Matrix n n ℝ) :
+    open scoped Matrix.Norms.Elementwise in ‖r • A‖ = |r| * ‖A‖ := by
+  open scoped Matrix.Norms.Elementwise in rw [norm_smul r A, Real.norm_eq_abs]
 
-theorem eq_531 (r : ℝ) (A : Matrix n n ℝ) : ‖r • A‖ = |r| * ‖A‖ := by
-  rw [norm_smul r A, Real.norm_eq_abs]
-
-theorem eq_532 (A B : Matrix n n ℝ) : ‖A + B‖ ≤ ‖A‖ + ‖B‖ :=
-  norm_add_le _ _
-
-end
+theorem eq_532 (A B : Matrix n n ℝ) : open scoped Matrix.Norms.Elementwise in ‖A + B‖ ≤ ‖A‖ + ‖B‖ :=
+  open scoped Matrix.Norms.Elementwise in norm_add_le _ _
 
 /-! #### Induced Norm or Operator Norm -/
 
@@ -213,9 +209,7 @@ end
 -- we just use one of the norms as an example; there is no generalization available
 section
 
-attribute [local instance] Matrix.linftyOpNormedAddCommGroup Matrix.linftyOpNormedSpace
-
-attribute [local instance] Matrix.linftyOpNormedRing Matrix.linftyOpNormedAlgebra
+open scoped Matrix.Norms.Operator
 
 theorem ContinuousLinearMap.sSup_sphere_eq_norm {𝕜 𝕜₂ E F : Type*}
     [NormedAddCommGroup E] [SeminormedAddCommGroup F]

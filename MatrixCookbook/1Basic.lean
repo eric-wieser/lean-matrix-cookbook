@@ -7,7 +7,6 @@ public import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
 public import Mathlib.LinearAlgebra.Matrix.SchurComplement
 public import Mathlib.LinearAlgebra.Matrix.Trace
 public import Mathlib.RingTheory.PowerSeries.Trunc
--- import Mathlib.Tactic.NormFin
 public import Mathlib.Topology.MetricSpace.Basic
 public import MatrixCookbook.Lib.TraceDetFinFour
 

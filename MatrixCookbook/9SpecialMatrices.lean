@@ -180,12 +180,10 @@ theorem eq_423 (hA : IsIdempotentElem A) : sorry = trace A :=
   sorry
 
 theorem eq_424 (hA : IsIdempotentElem A) : A * (1 - A) = 0 := by
-  -- porting note: was `simp [mul_sub, ← Matrix.mul_eq_mul, hA.eq]`
-  rw [Matrix.mul_sub, Matrix.mul_one, hA.eq, sub_self]
+  simp [mul_sub, hA.eq]
 
 theorem eq_425 (hA : IsIdempotentElem A) : (1 - A) * A = 0 := by
-   -- porting note: was `simp [sub_mul, ← Matrix.mul_eq_mul, hA.eq]`
-  rw [Matrix.sub_mul, Matrix.one_mul, hA.eq, sub_self]
+  simp [sub_mul, hA.eq]
 
 theorem eq_426 : (sorry : Prop) :=
   sorry
