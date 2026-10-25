@@ -1,6 +1,6 @@
 import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
 import Mathlib.LinearAlgebra.Matrix.Trace
-import Mathlib.Data.NNReal.Basic
+import Mathlib.Basic.NNReal.Basic
 import Mathlib.Topology.MetricSpace.Basic
 import Mathlib.LinearAlgebra.Matrix.Notation
 import Mathlib.RingTheory.PowerSeries.Basic
