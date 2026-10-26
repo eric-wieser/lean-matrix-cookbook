@@ -308,7 +308,24 @@ lemma eq_544 (A : Matrix m n ℝ) :
   case frob_linf => exact frobenius_norm_le_sqrt_card_mul_linfty_opNorm A
   case frob_l2 => exact frobenius_norm_le_sqrt_rank_mul_l2_opNorm A
   -- the remaining 18 goals all involve the L1 or Ky Fan norms, which are not yet defined
-  all_goals sorry
+  case max_l1 => sorry
+  case max_kf => sorry
+  case l1_max => sorry
+  case l1_linf => sorry
+  case l1_l2 => sorry
+  case l1_frob => sorry
+  case l1_kf => sorry
+  case linf_l1 => sorry
+  case linf_kf => sorry
+  case l2_l1 => sorry
+  case l2_kf => sorry
+  case frob_l1 => sorry
+  case frob_kf => sorry
+  case kf_max => sorry
+  case kf_l1 => sorry
+  case kf_linf => sorry
+  case kf_l2 => sorry
+  case kf_frob => sorry
 
 
 
