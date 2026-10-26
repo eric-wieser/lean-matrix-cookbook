@@ -286,21 +286,27 @@ lemma eq_544 (A : Matrix m n ℝ) :
   -- unpack the matrix into the elements
   simp only [Fin.forall_fin_succ, IsEmpty.forall_iff, and_true, Matrix.of_apply, Fin.reduceSucc,
     cons_val, one_mul]
-  refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩
-  -- the diagonal elements are easy, but 18 missing lemmas remain
-  · refine ⟨le_rfl, sorry, norm_le_linfty_opNorm A, norm_le_l2_opNorm A,
-      norm_le_frobenius_norm A, sorry⟩
-  · refine ⟨sorry, le_rfl, sorry, sorry, sorry, sorry⟩
-  · refine ⟨?_, sorry, le_rfl, linfty_opNorm_le_sqrt_card_mul_l2_opNorm A,
-      linfty_opNorm_le_sqrt_card_mul_frobenius_norm A, sorry⟩
-    simpa [nsmul_eq_mul] using linfty_opNorm_le_card_nsmul_norm A
-  · refine ⟨?_, sorry, l2_opNorm_le_sqrt_card_mul_linfty_opNorm A, le_rfl,
-      l2_opNorm_le_frobenius_norm A, sorry⟩
-    simpa using l2_opNorm_le_sqrt_card_mul_norm A
-  · refine ⟨?_, sorry, frobenius_norm_le_sqrt_card_mul_linfty_opNorm A,
-      frobenius_norm_le_sqrt_rank_mul_l2_opNorm A, le_rfl, sorry⟩
-    simpa using frobenius_norm_le_sqrt_card_mul_norm A
-  · refine ⟨sorry, sorry, sorry, sorry, sorry, le_rfl⟩
+  -- the diagonal elements are easy; `?a_b` is the goal `‖A‖_a ≤ c * ‖A‖_b`
+  refine ⟨⟨le_rfl, ?max_l1, ?max_linf, ?max_l2, ?max_frob, ?max_kf⟩,
+    ⟨?l1_max, le_rfl, ?l1_linf, ?l1_l2, ?l1_frob, ?l1_kf⟩,
+    ⟨?linf_max, ?linf_l1, le_rfl, ?linf_l2, ?linf_frob, ?linf_kf⟩,
+    ⟨?l2_max, ?l2_l1, ?l2_linf, le_rfl, ?l2_frob, ?l2_kf⟩,
+    ⟨?frob_max, ?frob_l1, ?frob_linf, ?frob_l2, le_rfl, ?frob_kf⟩,
+    ⟨?kf_max, ?kf_l1, ?kf_linf, ?kf_l2, ?kf_frob, le_rfl⟩⟩
+  case max_linf => exact norm_le_linfty_opNorm A
+  case max_l2 => exact norm_le_l2_opNorm A
+  case max_frob => exact norm_le_frobenius_norm A
+  case linf_max => simpa [nsmul_eq_mul] using linfty_opNorm_le_card_nsmul_norm A
+  case linf_l2 => exact linfty_opNorm_le_sqrt_card_mul_l2_opNorm A
+  case linf_frob => exact linfty_opNorm_le_sqrt_card_mul_frobenius_norm A
+  case l2_max => simpa using l2_opNorm_le_sqrt_card_mul_norm A
+  case l2_linf => exact l2_opNorm_le_sqrt_card_mul_linfty_opNorm A
+  case l2_frob => exact l2_opNorm_le_frobenius_norm A
+  case frob_max => simpa using frobenius_norm_le_sqrt_card_mul_norm A
+  case frob_linf => exact frobenius_norm_le_sqrt_card_mul_linfty_opNorm A
+  case frob_l2 => exact frobenius_norm_le_sqrt_rank_mul_l2_opNorm A
+  -- the remaining 18 goals all involve the L1 or Ky Fan norms, which are not yet defined
+  all_goals sorry
 
 
 
