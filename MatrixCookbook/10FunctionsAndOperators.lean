@@ -296,13 +296,15 @@ lemma eq_544 (A : Matrix m n ℝ) :
   case max_linf => exact norm_le_linfty_opNorm A
   case max_l2 => exact norm_le_l2_opNorm A
   case max_frob => exact norm_le_frobenius_norm A
-  case linf_max => simpa [nsmul_eq_mul] using linfty_opNorm_le_card_nsmul_norm A
+  case linf_max => simpa only [nsmul_eq_mul] using linfty_opNorm_le_card_nsmul_norm A
   case linf_l2 => exact linfty_opNorm_le_sqrt_card_mul_l2_opNorm A
   case linf_frob => exact linfty_opNorm_le_sqrt_card_mul_frobenius_norm A
-  case l2_max => simpa using l2_opNorm_le_sqrt_card_mul_norm A
+  case l2_max =>
+    simpa only [Nat.cast_nonneg, Real.sqrt_mul] using l2_opNorm_le_sqrt_card_mul_norm A
   case l2_linf => exact l2_opNorm_le_sqrt_card_mul_linfty_opNorm A
   case l2_frob => exact l2_opNorm_le_frobenius_norm A
-  case frob_max => simpa using frobenius_norm_le_sqrt_card_mul_norm A
+  case frob_max =>
+    simpa only [Nat.cast_nonneg, Real.sqrt_mul] using frobenius_norm_le_sqrt_card_mul_norm A
   case frob_linf => exact frobenius_norm_le_sqrt_card_mul_linfty_opNorm A
   case frob_l2 => exact frobenius_norm_le_sqrt_rank_mul_l2_opNorm A
   -- the remaining 18 goals all involve the L1 or Ky Fan norms, which are not yet defined
