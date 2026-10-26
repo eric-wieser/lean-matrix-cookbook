@@ -16,6 +16,7 @@ public import Mathlib.Algebra.Order.Star.Real
 public import Mathlib.LinearAlgebra.Matrix.Vec
 public import Mathlib.Analysis.CStarAlgebra.Matrix
 public import MatrixCookbook.ForMathlib.Analysis.CStarAlgebra.Matrix
+public import MatrixCookbook.ForMathlib.Analysis.Matrix.Spectrum
 
 /-! # Functions and Operators -/
 
@@ -286,7 +287,7 @@ lemma eq_544 (A : Matrix m n ℝ) :
   simp only [Fin.forall_fin_succ, IsEmpty.forall_iff, and_true, Matrix.of_apply, Fin.reduceSucc,
     cons_val, one_mul]
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩
-  -- the diagonal elements are easy, but 19 missing lemmas remain
+  -- the diagonal elements are easy, but 18 missing lemmas remain
   · refine ⟨le_rfl, sorry, norm_le_linfty_opNorm A, norm_le_l2_opNorm A,
       norm_le_frobenius_norm A, sorry⟩
   · refine ⟨sorry, le_rfl, sorry, sorry, sorry, sorry⟩
@@ -296,7 +297,8 @@ lemma eq_544 (A : Matrix m n ℝ) :
   · refine ⟨?_, sorry, l2_opNorm_le_sqrt_card_mul_linfty_opNorm A, le_rfl,
       l2_opNorm_le_frobenius_norm A, sorry⟩
     simpa using l2_opNorm_le_sqrt_card_mul_norm A
-  · refine ⟨?_, sorry, frobenius_norm_le_sqrt_card_mul_linfty_opNorm A, sorry, le_rfl, sorry⟩
+  · refine ⟨?_, sorry, frobenius_norm_le_sqrt_card_mul_linfty_opNorm A,
+      frobenius_norm_le_sqrt_rank_mul_l2_opNorm A, le_rfl, sorry⟩
     simpa using frobenius_norm_le_sqrt_card_mul_norm A
   · refine ⟨sorry, sorry, sorry, sorry, sorry, le_rfl⟩
 
