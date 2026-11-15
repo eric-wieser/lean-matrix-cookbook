@@ -17,11 +17,9 @@ set_option doc.verso true
 
 This chapter collects elementary identities about inverses, transposes, conjugate transposes,
 traces and determinants.
-Text and equations quoted from the cookbook are set apart like this:
-
-> Text from _The Matrix Cookbook_.
-
-Everything else, including the Lean statements and proofs, is commentary on the formalization.
+Text and equations quoted from _The Matrix Cookbook_ are set in a serif face; on wide screens
+they fill the left-hand column. Everything else, including the Lean statements and proofs, is
+commentary on the formalization.
 
 Throughout, matrices ({name}`Matrix`) have entries in a field {lit}`R`, and are indexed by
 arbitrary finite types ({lit}`m`, {lit}`n`, {lit}`p`) rather than by {lit}`Fin n`, except where
@@ -321,19 +319,21 @@ theorem eq_30 {A : Matrix (Fin 2) (Fin 2) R} : trace A = A 0 0 + A 1 1 :=
 /-!
 ### Eigenvalues
 
-These unnumbered facts are not yet formalized.
-
 > $$`\lambda_1 = \frac{\operatorname{Tr}(\mathbf{A}) + \sqrt{\operatorname{Tr}(\mathbf{A})^2 - 4\det(\mathbf{A})}}{2}`
 
   $$`\lambda_2 = \frac{\operatorname{Tr}(\mathbf{A}) - \sqrt{\operatorname{Tr}(\mathbf{A})^2 - 4\det(\mathbf{A})}}{2}`
 
-  $$`\lambda_1 + \lambda_2 = \operatorname{Tr}(\mathbf{A}) \qquad \lambda_1\lambda_2 = \det(\mathbf{A}) \qquad \lambda^2 - \lambda \cdot \operatorname{Tr}(\mathbf{A}) + \det(\mathbf{A}) = 0`
+  $$`\lambda_1 + \lambda_2 = \operatorname{Tr}(\mathbf{A}) \qquad \lambda_1\lambda_2 = \det(\mathbf{A})`
+
+  $$`\lambda^2 - \lambda \cdot \operatorname{Tr}(\mathbf{A}) + \det(\mathbf{A}) = 0`
+
+These unnumbered facts are not yet formalized.
 
 ### Eigenvectors
 
-This is not yet formalized either.
-
 > $$`\mathbf{v}_1 \propto \begin{bmatrix} A_{12} \\ \lambda_1 - A_{11} \end{bmatrix} \qquad \mathbf{v}_2 \propto \begin{bmatrix} A_{12} \\ \lambda_2 - A_{11} \end{bmatrix}`
+
+This is not yet formalized either.
 
 ### Inverse
 -/

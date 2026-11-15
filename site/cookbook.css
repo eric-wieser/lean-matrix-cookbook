@@ -111,6 +111,39 @@ in columns 1 and 2 pairs them on one grid row. Chapter prose (`/-! -/`, which ha
     }
 
     /*
+    Module docs (`/-! -/`) after the chapter's introduction are split the same way: headings span
+    both columns, quotes go left and commentary right. Verso wraps their contents in `<section>`s,
+    which are flattened too.
+    */
+    .code-content > .verso-text.mod-doc[id] ~ .verso-text.mod-doc[id],
+    .code-content > .verso-text.mod-doc[id] ~ .verso-text.mod-doc[id] section {
+        display: contents;
+    }
+
+    .code-content > .verso-text.mod-doc[id] ~ .verso-text.mod-doc[id] section > :is(h1, h2, h3, h4) {
+        grid-column: 1 / -1;
+    }
+
+    .code-content > .verso-text.mod-doc[id] ~ .verso-text.mod-doc[id] section > blockquote {
+        grid-column: 1;
+    }
+
+    .code-content > .verso-text.mod-doc[id] ~ .verso-text.mod-doc[id] section > :is(p, ul, ol) {
+        grid-column: 2;
+        color: var(--verso-muted-color);
+        font-size: 0.95em;
+    }
+
+    /* The left column is all cookbook, so quotes need no panel here; the serif face is enough. */
+    .code-content > .verso-text.mod-doc blockquote,
+    .code-content > .md-text.mod-doc blockquote {
+        background: none;
+        border: none;
+        border-radius: 0;
+        padding: 0.25rem 0;
+    }
+
+    /*
     `overflow: visible` matters: with Verso's `overflow-x: auto`, Chromium leaves the code box out
     of the row height, so boxes overlap the next row. Long lines scroll within the code instead.
     */
