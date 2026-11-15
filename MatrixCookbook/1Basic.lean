@@ -175,7 +175,7 @@ end
 
 -- `matrix.is_hermitian.det_eq_prod_eigenvalues` is close, but needs `A` to be hermitian which is too strong
 /--
-> $$`\det(\mathbf{A}) = \prod_i \lambda_i, \quad \lambda_i = \operatorname{eig}(\mathbf{A}) \tag{18}`
+> $$`\det(\mathbf{A}) = \prod_i \lambda_i \qquad \lambda_i = \operatorname{eig}(\mathbf{A}) \tag{18}`
 
 As for (12), this needs an algebraically closed field.
 -/
@@ -245,10 +245,11 @@ theorem eq_26 {A : Matrix (Fin 3) (Fin 3) R} [Invertible (2 : R)] :
 /--
 > For $`n = 4`:
 
-  $$`\begin{aligned}\det(\mathbf{I}+\mathbf{A}) = {}& 1+\det(\mathbf{A})+\operatorname{Tr}(\mathbf{A}) \\ &+\tfrac{1}{2}\operatorname{Tr}(\mathbf{A})^2-\tfrac{1}{2}\operatorname{Tr}(\mathbf{A}^2) \\ &+\tfrac{1}{6}\operatorname{Tr}(\mathbf{A})^3-\tfrac{1}{2}\operatorname{Tr}(\mathbf{A})\operatorname{Tr}(\mathbf{A}^2)+\tfrac{1}{3}\operatorname{Tr}(\mathbf{A}^3)\end{aligned} \tag{27}`
+  $$`\begin{aligned}\det(\mathbf{I}+\mathbf{A}) &= 1+\det(\mathbf{A})+\operatorname{Tr}(\mathbf{A})+\frac{1}{2} \\ &\quad +\operatorname{Tr}(\mathbf{A})^2-\frac{1}{2}\operatorname{Tr}(\mathbf{A}^2) \\ &\quad +\frac{1}{6}\operatorname{Tr}(\mathbf{A})^3-\frac{1}{2}\operatorname{Tr}(\mathbf{A})\operatorname{Tr}(\mathbf{A}^2)+\frac{1}{3}\operatorname{Tr}(\mathbf{A}^3)\end{aligned} \tag{27}`
 
-The cookbook's typesetting of this equation is garbled; this is the intended
-formula, and the one formalized below.
+As printed, the $`\frac{1}{2}` ending the first line belongs to the
+$`\operatorname{Tr}(\mathbf{A})^2` term that starts the second. The theorem below states the
+intended formula.
 -/
 theorem eq_27 {A : Matrix (Fin 4) (Fin 4) R} [CharZero R] :
     det (1 + A) =
@@ -290,22 +291,22 @@ theorem eq_28' {A : Matrix n n R} :
   sorry
 
 /-!
-## The Special Case 2×2
+## The Special Case 2x2
 
 > Consider the matrix $`\mathbf{A}`
 
   $$`\mathbf{A} = \begin{bmatrix} A_{11} & A_{12} \\ A_{21} & A_{22} \end{bmatrix}`
 
 In Lean, {lit}`A : Matrix (Fin 2) (Fin 2) R`, and indices start from {lit}`0` rather than {lit}`1`.
-
-### Determinant and trace
 -/
 
 
 section
 
 /--
-> $$`\det(\mathbf{A}) = A_{11}A_{22}-A_{12}A_{21} \tag{29}`
+> Determinant and trace
+
+  $$`\det(\mathbf{A}) = A_{11}A_{22}-A_{12}A_{21} \tag{29}`
 -/
 theorem eq_29 {A : Matrix (Fin 2) (Fin 2) R} : det A = A 0 0 * A 1 1 - A 0 1 * A 1 0 :=
   det_fin_two _
@@ -317,30 +318,28 @@ theorem eq_30 {A : Matrix (Fin 2) (Fin 2) R} : trace A = A 0 0 + A 1 1 :=
   trace_fin_two _
 
 /-!
-### Eigenvalues
+> Eigenvalues
 
-> $$`\lambda_1 = \frac{\operatorname{Tr}(\mathbf{A}) + \sqrt{\operatorname{Tr}(\mathbf{A})^2 - 4\det(\mathbf{A})}}{2}`
+  $$`\lambda^2 - \lambda \cdot \operatorname{Tr}(\mathbf{A}) + \det(\mathbf{A}) = 0`
+
+  $$`\lambda_1 = \frac{\operatorname{Tr}(\mathbf{A}) + \sqrt{\operatorname{Tr}(\mathbf{A})^2 - 4\det(\mathbf{A})}}{2}`
 
   $$`\lambda_2 = \frac{\operatorname{Tr}(\mathbf{A}) - \sqrt{\operatorname{Tr}(\mathbf{A})^2 - 4\det(\mathbf{A})}}{2}`
 
   $$`\lambda_1 + \lambda_2 = \operatorname{Tr}(\mathbf{A}) \qquad \lambda_1\lambda_2 = \det(\mathbf{A})`
 
-  $$`\lambda^2 - \lambda \cdot \operatorname{Tr}(\mathbf{A}) + \det(\mathbf{A}) = 0`
+  Eigenvectors
 
-These unnumbered facts are not yet formalized.
+  $$`\mathbf{v}_1 \propto \begin{bmatrix} A_{12} \\ \lambda_1 - A_{11} \end{bmatrix} \qquad \mathbf{v}_2 \propto \begin{bmatrix} A_{12} \\ \lambda_2 - A_{11} \end{bmatrix}`
 
-### Eigenvectors
-
-> $$`\mathbf{v}_1 \propto \begin{bmatrix} A_{12} \\ \lambda_1 - A_{11} \end{bmatrix} \qquad \mathbf{v}_2 \propto \begin{bmatrix} A_{12} \\ \lambda_2 - A_{11} \end{bmatrix}`
-
-This is not yet formalized either.
-
-### Inverse
+The eigenvalue and eigenvector facts are not yet formalized.
 -/
 
 
 /--
-> $$`\mathbf{A}^{-1} = \frac{1}{\det(\mathbf{A})}\begin{bmatrix} A_{22} & -A_{12} \\ -A_{21} & A_{11} \end{bmatrix} \tag{31}`
+> Inverse
+
+  $$`\mathbf{A}^{-1} = \frac{1}{\det(\mathbf{A})}\begin{bmatrix} A_{22} & -A_{12} \\ -A_{21} & A_{11} \end{bmatrix} \tag{31}`
 -/
 theorem eq_31 {A : Matrix (Fin 2) (Fin 2) R} : A⁻¹ = (det A)⁻¹ • !![A 1 1, -A 0 1; -A 1 0, A 0 0] := by
   rw [inv_def, adjugate_fin_two, Ring.inverse_eq_inv]
