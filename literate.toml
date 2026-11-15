@@ -7,9 +7,12 @@ extra_css = ["site/cookbook.css"]
 extra_js = ["site/cookbook.js"]
 landing_page = "MatrixCookbook.«1Basic»"
 
-# Only chapter 1 is published for now; add further chapters here as they are converted.
+# Chapters are published as they are converted; add each one here, and to `order_children` below.
 [[targets]]
 module = "MatrixCookbook.«1Basic»"
+
+[[targets]]
+module = "MatrixCookbook.«2Derivatives»"
 
 [metadata]
 title = "The Matrix Cookbook, in Lean"
@@ -22,3 +25,11 @@ url = "/"
 [modules."MatrixCookbook.«1Basic»"]
 title = "1 Basics"
 url = "basics"
+
+[modules."MatrixCookbook.«2Derivatives»"]
+title = "2 Derivatives"
+url = "derivatives"
+
+# Module names sort as text ("10…" before "2…"), so list the chapters in order.
+[order_children]
+"MatrixCookbook" = ["MatrixCookbook.«1Basic»", "MatrixCookbook.«2Derivatives»"]

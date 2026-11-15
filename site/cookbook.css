@@ -229,3 +229,26 @@ matching rule beside the cookbook equation.
     --cookbook-status: var(--cookbook-not-stated);
     --cookbook-status-bg: var(--cookbook-not-stated-bg);
 }
+
+/*
+KaTeX positions an equation number (`\tag`) absolutely, so a formula wider than its column runs
+underneath it. Lay the formula and its number out in a row instead: the formula stays centred while
+it fits, and otherwise the number is pushed aside and the row scrolls (see `.katex-display` above).
+*/
+.code-content .katex-display > .katex > .katex-html:has(> .tag) {
+    display: flex;
+    /* KaTeX splits a formula into several boxes; they must share a baseline. */
+    align-items: baseline;
+}
+
+.code-content .katex-display > .katex > .katex-html:has(> .tag)::before {
+    content: "";
+    flex: 1 0 1em;
+}
+
+.code-content .katex-display > .katex > .katex-html > .tag {
+    position: static;
+    flex: 1 0 auto;
+    padding-left: 1em;
+    text-align: right;
+}
