@@ -14,7 +14,7 @@ public import Mathlib.Topology.UniformSpace.Matrix
 
 @[expose] public section
 
-variable {ι : Type _} {R : Type _} {A : Type _} {m n p q : Type _}
+variable {ι : Type*} {R : Type*} {A : Type*} {m n p q : Type*}
 
 variable [Fintype m] [Fintype n] [Fintype p] [Fintype q]
 

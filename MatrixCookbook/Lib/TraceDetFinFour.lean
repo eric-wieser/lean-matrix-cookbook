@@ -33,7 +33,7 @@ open scoped Matrix BigOperators
 
 open Matrix
 
-variable {R : Type _} [CommRing R]
+variable {R : Type*} [CommRing R]
 
 theorem trace_pow_two_fin_four (A : Matrix (Fin 4) (Fin 4) R) :
     trace (A ^ 2) =

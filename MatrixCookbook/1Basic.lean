@@ -14,7 +14,7 @@ public import MatrixCookbook.Lib.TraceDetFinFour
 
 @[expose] public section
 
-variable {ι : Type _} {R : Type _} {m n p : Type _}
+variable {ι : Type*} {R : Type*} {m n p : Type*}
 
 variable [Fintype m] [Fintype n] [Fintype p]
 
@@ -92,7 +92,7 @@ end
 /-! ### Determinant -/
 
 
--- `matrix.is_hermitian.det_eq_prod_eigenvalues` is close, but needs `A` to be hermitian which is too strong
+-- `Matrix.IsHermitian.det_eq_prod_eigenvalues` is close, but needs `A` to be hermitian which is too strong
 theorem eq_18 {A : Matrix m m R} [IsAlgClosed R] : det A = A.charpoly.roots.prod :=
   det_eq_prod_roots_charpoly _
 
@@ -125,10 +125,9 @@ theorem eq_26 {A : Matrix (Fin 3) (Fin 3) R} [Invertible (2 : R)] :
   dsimp
   simp only [mul_add, mul_sub, mul_invOf_cancel_left]
   simp_rw [Matrix.one_apply]
-  simp (config := {decide := true})
+  simp +decide
   ring
 
--- ring,
 theorem eq_27 {A : Matrix (Fin 4) (Fin 4) R} [CharZero R] :
     det (1 + A) =
       1 + det A + trace A + 1 / 2 * (trace A ^ 2 - trace (A ^ 2)) +

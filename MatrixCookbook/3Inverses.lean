@@ -14,7 +14,7 @@ public import MatrixCookbook.ForMathlib.Algebra.Invertible
 
 namespace MatrixCookbook
 
-variable {m n p : Type _}
+variable {m n p : Type*}
 
 variable [Fintype m] [Fintype n] [Fintype p]
 
