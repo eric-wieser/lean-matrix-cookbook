@@ -86,13 +86,20 @@ def get_url : IO (System.FilePath → Option DeclarationRange → String) := do
     | some r => s!"#L{r.pos.line}-L{r.endPos.line}"
     | none => ""
 
+/-- The title of a chapter, taken from the first heading in its module docs. -/
 def getTitle (n : Name) : CoreM String := do
-  let some doc := Lean.getModuleDoc? (←getEnv) n | throwError "no docstring"
-  if h : 0 < doc.size then
-    let s := (doc[0]'h).doc
-    let title := s.toList.dropWhile (· ≠ '#') |>.drop 1 |>.takeWhile (· ≠ '\n')
-    return (String.ofList title).trimAscii.toString
-  throwError "no docstring"
+  -- Markdown module docs (`/-! # Title ... -/`)
+  if let some doc := Lean.getModuleDoc? (←getEnv) n then
+    if h : 0 < doc.size then
+      let s := (doc[0]'h).doc
+      let title := s.toList.dropWhile (· ≠ '#') |>.drop 1 |>.takeWhile (· ≠ '\n')
+      return (String.ofList title).trimAscii.toString
+  -- Verso module docs (`set_option doc.verso true`), which are stored separately
+  if let some snippets := Lean.getVersoModuleDoc? (←getEnv) n then
+    for snippet in snippets do
+      if h : 0 < snippet.sections.size then
+        return snippet.sections[0].2.2.titleString
+  throwError "no module docstring with a title in {n}"
 
 def makeSVG (cells : List (ℕ × String × Option String × Status))
     (sections : Array (String × ℕ × ℕ)): Id String := do

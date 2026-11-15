@@ -11,7 +11,8 @@ Clicking on the progress bar will take you to a version that links to each lemma
 
 ### Website
 
-The chapters are also rendered as a literate website with [Verso](https://github.com/leanprover/verso), showing each cookbook equation alongside its Lean statement and proof.
+The chapters are also rendered as a [literate website](https://eric-wieser.github.io/lean-matrix-cookbook/) with [Verso](https://github.com/leanprover/verso), showing each cookbook equation alongside its Lean statement and proof.
+CI publishes it to GitHub Pages on every push to `master`, next to the progress bar.
 To build it locally:
 
 ```
@@ -20,3 +21,7 @@ lake build :literateHtml
 
 The site is written to `.lake/build/literate-html/`. `literate.toml` controls which chapters are included; currently only chapter 1 (`MatrixCookbook/Basic.lean`) is published.
 Prose and equations live in the Lean files themselves, as Verso-syntax module comments (`/-! -/`) and docstrings (`set_option doc.verso true`), with LaTeX written as ``$`...` `` (inline) or ``$$`...` `` (display).
+Text quoted from the cookbook is written as a blockquote (`> ...`); everything else is commentary on the formalization.
+Styling, including the two-column layout on wide screens, is in `site/cookbook.css`. Verso does not notice changes to that file, so delete `.lake/build/literate-html` before rebuilding after editing it.
+
+Verso and Mathlib must be on matching Lean versions, so bump the `verso` tag in `lakefile.toml` alongside Mathlib.

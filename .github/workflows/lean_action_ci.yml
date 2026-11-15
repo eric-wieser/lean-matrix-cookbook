@@ -19,10 +19,16 @@ jobs:
       - uses: actions/checkout@v7
       - uses: leanprover/lean-action@v1
 
+      # The literate website (see `literate.toml`) goes at the root of GitHub Pages
+      - name: Build website
+        run: |
+          lake build :literateHtml
+          mkdir gh-pages
+          cp -r .lake/build/literate-html/. gh-pages/
+
       # In place of `leanprover-community/docgen-action`, publish the progress bar
       - name: Make progress bar
         run: |
-          mkdir gh-pages
           lake env lean analyze.lean > gh-pages/progress_bar.svg
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
