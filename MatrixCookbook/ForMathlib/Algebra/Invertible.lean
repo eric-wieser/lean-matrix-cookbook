@@ -12,7 +12,7 @@ public import Mathlib.GroupTheory.GroupAction.ConjAct
 
 @[expose] public section
 
-variable {G M R : Type _}
+variable {G M R : Type*}
 
 section Monoid
 
