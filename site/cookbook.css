@@ -182,9 +182,9 @@ in columns 1 and 2 pairs them on one grid row. Chapter prose (`/-! -/`, which ha
 }
 
 /*
-Theorems that are not yet proved, or not yet stated, as found by `cookbook.js` (which matches the
-statuses in `analyze.lean`): a coloured edge and label on the code box, and a matching rule beside
-the cookbook equation it formalizes.
+Theorems that are not yet proved, and cookbook equations not yet stated, as found by `cookbook.js`
+(which matches the statuses in `analyze.lean`): a coloured edge and label on the code box, and a
+matching rule beside the cookbook equation.
 */
 .code-content > .code-box[data-status] {
     border-left: 4px solid var(--cookbook-status);
@@ -206,17 +206,26 @@ the cookbook equation it formalizes.
     text-transform: uppercase;
 }
 
-.code-content > .verso-text.mod-doc[class*="status-"] blockquote {
+.code-content > .verso-text.mod-doc[class*="status-"] blockquote,
+.code-content .verso-text.mod-doc blockquote.status-not-stated {
     border-left: 4px solid var(--cookbook-status);
     padding-left: 0.9rem;
 }
 
-.code-content > .status-unproved {
+/* Added by `cookbook.js` after a numbered equation that has no `eq_n` theorem. */
+.code-content .verso-text.mod-doc p.status-placeholder,
+.code-content > .verso-text.mod-doc[id] ~ .verso-text.mod-doc[id] section > p.status-placeholder {
+    color: var(--cookbook-status);
+    font-size: 0.85em;
+    font-weight: 600;
+}
+
+.code-content .status-unproved {
     --cookbook-status: var(--cookbook-unproved);
     --cookbook-status-bg: var(--cookbook-unproved-bg);
 }
 
-.code-content > .status-not-stated {
+.code-content .status-not-stated {
     --cookbook-status: var(--cookbook-not-stated);
     --cookbook-status-bg: var(--cookbook-not-stated-bg);
 }
