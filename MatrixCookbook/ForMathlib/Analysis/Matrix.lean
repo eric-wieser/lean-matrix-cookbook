@@ -45,7 +45,7 @@ theorem HasDerivAt.matrix_mul {X : R → Matrix m n A} {Y : R → Matrix n p A} 
     HasDerivAt (fun a => X a * Y a) (X' * Y r + X r * Y') r := by
   rw [hasDerivAt_matrix] at hX hY ⊢
   intro i j
-  simp only [mul_apply, Matrix.add_apply, ← Finset.sum_add_distrib]
+  simp only [Matrix.mul_apply, Matrix.add_apply, ← Finset.sum_add_distrib]
   exact HasDerivAt.fun_sum fun k _hk => (hX _ _).fun_mul (hY _ _)
 
 theorem HasDerivAt.matrix_kronecker {X : R → Matrix m n A} {Y : R → Matrix p q A}

@@ -343,7 +343,7 @@ theorem eq_445 (i : p) (j : n) (A : Matrix n m R) :
 
 theorem eq_446 (A : Matrix l m R) (B : Matrix n p R) (k i j l) :
     A k i * B j l = (A * single i j (1 : R) * B) k l := by
-  rw [eq_444, mul_apply]
+  rw [eq_444, Matrix.mul_apply]
   rw [Fintype.sum_eq_single j, updateCol_self, col_apply]
   · simp +contextual
 
@@ -392,14 +392,14 @@ theorem eq_453 (A : Matrix n n R) (i : n) (j : n) (B : Matrix n n R) :
   rw [mul_assoc _ _ B, mul_single_eq_updateCol_zero, MulOpposite.op_one, one_smul,
     single_mul_eq_updateRow_zero, one_smul]
   obtain rfl | hij := eq_or_ne i j
-  · simp [mul_apply, vecMulVec, trace]
+  · simp [Matrix.mul_apply, vecMulVec, trace]
   · simp [hij.symm, trace, hij]
 
 theorem eq_454 (A : Matrix n n R) (i : n) (j : m) (B : Matrix m n R) (x : n → R) :
     x ⬝ᵥ (A * single i j (1 : R) * B).mulVec x = (Aᵀ * vecMulVec x x * Bᵀ) i j := by
   simp_rw [dotProduct, mulVec, dotProduct, Finset.mul_sum, ← eq_446, mul_left_comm (x _),
     mul_right_comm _ (B _ _)]
-  conv_rhs => simp [mul_apply, vecMulVec, Finset.sum_mul]
+  conv_rhs => simp [Matrix.mul_apply, vecMulVec, Finset.sum_mul]
   rw [Finset.sum_comm]
 
 /-- The cookbook declares incompatible dimensions here; weassume the matrices are supposed to be
@@ -411,7 +411,7 @@ theorem eq_455  (A : Matrix n n R) (i : n) (j : n) (B : Matrix n n R) (x : n →
     single_mul_eq_updateRow_zero, one_smul]
   obtain rfl | hij := eq_or_ne i j
   · simp
-    simp [dotProduct, vecMulVec, mul_apply, mulVec, Finset.sum_mul, Finset.mul_sum]
+    simp [dotProduct, vecMulVec, Matrix.mul_apply, mulVec, Finset.sum_mul, Finset.mul_sum]
     rw [Finset.sum_comm]
     congr! 2 with j _ k _
     group
