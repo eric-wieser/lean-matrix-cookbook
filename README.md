@@ -22,6 +22,7 @@ lake build :literateHtml
 The site is written to `.lake/build/literate-html/`. `literate.toml` controls which chapters are included; currently only chapter 1 (`MatrixCookbook/1Basic.lean`) is published.
 Prose and equations live in the Lean files themselves, as Verso-syntax module comments (`/-! -/`) and docstrings (`set_option doc.verso true`), with LaTeX written as ``$`...` `` (inline) or ``$$`...` `` (display).
 Text quoted from the cookbook is written as a blockquote (`> ...`); everything else is commentary on the formalization.
-Styling, including the two-column layout on wide screens, is in `site/cookbook.css`. Verso does not notice changes to that file, so delete `.lake/build/literate-html` before rebuilding after editing it.
+Styling, including the two-column layout on wide screens, is in `site/cookbook.css`.
+`site/cookbook.js` flags theorems that are unproved (the proof uses `sorry`) or not yet stated (`eq_n : (sorry : Prop) := sorry`), matching the progress bar's statuses. Verso does not notice changes to that file, so delete `.lake/build/literate-html` before rebuilding after editing it.
 
 Verso and Mathlib must be on matching Lean versions, so bump the `verso` tag in `lakefile.toml` alongside Mathlib.

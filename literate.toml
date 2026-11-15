@@ -4,6 +4,7 @@
 hide_commands = ["import", "open", "variable", "section", "end", "namespace", "set_option", "public section"]
 docstrings_as_text = true
 extra_css = ["site/cookbook.css"]
+extra_js = ["site/cookbook.js"]
 landing_page = "MatrixCookbook.«1Basic»"
 
 # Only chapter 1 is published for now; add further chapters here as they are converted.

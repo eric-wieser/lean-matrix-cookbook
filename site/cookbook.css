@@ -13,6 +13,10 @@ specificity rather than relying on `!important`.
     --cookbook-quote-bg: #f8f4ea;
     --cookbook-quote-border: #c49a6c;
     --cookbook-quote-color: #2b2b2b;
+    --cookbook-unproved: #b7791f;
+    --cookbook-unproved-bg: #fdf3dc;
+    --cookbook-not-stated: #c53030;
+    --cookbook-not-stated-bg: #fde8e8;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -20,6 +24,10 @@ specificity rather than relying on `!important`.
         --cookbook-quote-bg: #2a2620;
         --cookbook-quote-border: #a8835c;
         --cookbook-quote-color: #ece6da;
+        --cookbook-unproved: #e0a63a;
+        --cookbook-unproved-bg: #3a2e14;
+        --cookbook-not-stated: #f07070;
+        --cookbook-not-stated-bg: #3d1c1c;
         /* Verso's literate theme leaves highlighted Lean code black in dark mode. */
         --verso-code-color: #e0e0e0;
     }
@@ -171,4 +179,44 @@ in columns 1 and 2 pairs them on one grid row. Chapter prose (`/-! -/`, which ha
     .page-toc {
         display: none;
     }
+}
+
+/*
+Theorems that are not yet proved, or not yet stated, as found by `cookbook.js` (which matches the
+statuses in `analyze.lean`): a coloured edge and label on the code box, and a matching rule beside
+the cookbook equation it formalizes.
+*/
+.code-content > .code-box[data-status] {
+    border-left: 4px solid var(--cookbook-status);
+}
+
+.code-content > .code-box[data-status]::after {
+    content: attr(data-status);
+    position: absolute;
+    right: 0.6rem;
+    bottom: 0.45rem;
+    padding: 0.05rem 0.45rem;
+    border-radius: 0.25rem;
+    background: var(--cookbook-status-bg);
+    color: var(--cookbook-status);
+    font-family: var(--verso-text-font-family);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.code-content > .verso-text.mod-doc[class*="status-"] blockquote {
+    border-left: 4px solid var(--cookbook-status);
+    padding-left: 0.9rem;
+}
+
+.code-content > .status-unproved {
+    --cookbook-status: var(--cookbook-unproved);
+    --cookbook-status-bg: var(--cookbook-unproved-bg);
+}
+
+.code-content > .status-not-stated {
+    --cookbook-status: var(--cookbook-not-stated);
+    --cookbook-status-bg: var(--cookbook-not-stated-bg);
 }
