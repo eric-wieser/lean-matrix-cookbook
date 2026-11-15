@@ -20,6 +20,9 @@ module = "MatrixCookbook.«3Inverses»"
 [[targets]]
 module = "MatrixCookbook.«4ComplexMatrices»"
 
+[[targets]]
+module = "MatrixCookbook.«5SolutionsAndDecompositions»"
+
 [metadata]
 title = "The Matrix Cookbook, in Lean"
 description = "The identities of The Matrix Cookbook (Petersen & Pedersen, 2012), stated and proved with Mathlib."
@@ -44,6 +47,10 @@ url = "inverses"
 title = "4 Complex Matrices"
 url = "complex-matrices"
 
+[modules."MatrixCookbook.«5SolutionsAndDecompositions»"]
+title = "5 Solutions and Decompositions"
+url = "solutions-and-decompositions"
+
 # Module names sort as text ("10…" before "2…"), so list the chapters in order.
 [order_children]
-"MatrixCookbook" = ["MatrixCookbook.«1Basic»", "MatrixCookbook.«2Derivatives»", "MatrixCookbook.«3Inverses»", "MatrixCookbook.«4ComplexMatrices»"]
+"MatrixCookbook" = ["MatrixCookbook.«1Basic»", "MatrixCookbook.«2Derivatives»", "MatrixCookbook.«3Inverses»", "MatrixCookbook.«4ComplexMatrices»", "MatrixCookbook.«5SolutionsAndDecompositions»"]
