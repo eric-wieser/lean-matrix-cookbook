@@ -32,6 +32,9 @@ module = "MatrixCookbook.«7MultivariateDistributions»"
 [[targets]]
 module = "MatrixCookbook.«8Gaussians»"
 
+[[targets]]
+module = "MatrixCookbook.«9SpecialMatrices»"
+
 [metadata]
 title = "The Matrix Cookbook, in Lean"
 description = "The identities of The Matrix Cookbook (Petersen & Pedersen, 2012), stated and proved with Mathlib."
@@ -72,6 +75,10 @@ url = "multivariate-distributions"
 title = "8 Gaussians"
 url = "gaussians"
 
+[modules."MatrixCookbook.«9SpecialMatrices»"]
+title = "9 Special Matrices"
+url = "special-matrices"
+
 # Module names sort as text ("10…" before "2…"), so list the chapters in order.
 [order_children]
-"MatrixCookbook" = ["MatrixCookbook.«1Basic»", "MatrixCookbook.«2Derivatives»", "MatrixCookbook.«3Inverses»", "MatrixCookbook.«4ComplexMatrices»", "MatrixCookbook.«5SolutionsAndDecompositions»", "MatrixCookbook.«6StatisticsAndProbability»", "MatrixCookbook.«7MultivariateDistributions»", "MatrixCookbook.«8Gaussians»"]
+"MatrixCookbook" = ["MatrixCookbook.«1Basic»", "MatrixCookbook.«2Derivatives»", "MatrixCookbook.«3Inverses»", "MatrixCookbook.«4ComplexMatrices»", "MatrixCookbook.«5SolutionsAndDecompositions»", "MatrixCookbook.«6StatisticsAndProbability»", "MatrixCookbook.«7MultivariateDistributions»", "MatrixCookbook.«8Gaussians»", "MatrixCookbook.«9SpecialMatrices»"]
