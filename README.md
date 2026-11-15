@@ -8,3 +8,15 @@ The progress bar below shows the state of this repository; green represents lemm
 Clicking on the progress bar will take you to a version that links to each lemma.
 
 [![](https://eric-wieser.github.io/lean-matrix-cookbook/progress_bar.svg)](https://eric-wieser.github.io/lean-matrix-cookbook/progress_bar.svg)
+
+### Website
+
+The chapters are also rendered as a literate website with [Verso](https://github.com/leanprover/verso), showing each cookbook equation alongside its Lean statement and proof.
+To build it locally:
+
+```
+lake build :literateHtml
+```
+
+The site is written to `.lake/build/literate-html/`. `literate.toml` controls which chapters are included; currently only chapter 1 (`MatrixCookbook/Basic.lean`) is published.
+Prose and equations live in the Lean files themselves, as Verso-syntax module comments (`/-! -/`) and docstrings (`set_option doc.verso true`), with LaTeX written as ``$`...` `` (inline) or ``$$`...` `` (display).
