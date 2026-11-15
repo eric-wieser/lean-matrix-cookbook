@@ -3,7 +3,7 @@
 
 # Only chapter 1 is published for now; add further chapters here as they are converted.
 [[targets]]
-module = "MatrixCookbook.1Basic"
+module = "MatrixCookbook.«1Basic»"
 
 hide_commands = ["import", "open", "variable", "section", "end", "namespace"]
 docstrings_as_text = true
@@ -12,6 +12,6 @@ docstrings_as_text = true
 title = "The Matrix Cookbook, in Lean"
 description = "The identities of The Matrix Cookbook (Petersen & Pedersen, 2012), stated and proved with Mathlib."
 
-[modules."MatrixCookbook.1Basic"]
+[modules."MatrixCookbook.«1Basic»"]
 title = "1 Basics"
 url = "basics"
