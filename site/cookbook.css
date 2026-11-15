@@ -1,0 +1,59 @@
+/*
+Extra styles for the literate site, loaded after Verso's own (see `extra_css` in `literate.toml`).
+
+Text quoted from The Matrix Cookbook is written as a blockquote (`> ...`) in the Lean source.
+It is set in a serif face on a paper-coloured panel, so that it reads like the original PDF and
+stands apart from the sans-serif commentary about the formalization.
+
+Selectors repeat Verso's own (`.code-content > .verso-text.mod-doc ...`) so that they win on
+specificity rather than relying on `!important`.
+*/
+
+:root {
+    --cookbook-quote-bg: #f8f4ea;
+    --cookbook-quote-border: #c49a6c;
+    --cookbook-quote-color: #2b2b2b;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --cookbook-quote-bg: #2a2620;
+        --cookbook-quote-border: #a8835c;
+        --cookbook-quote-color: #ece6da;
+        /* Verso's literate theme leaves highlighted Lean code black in dark mode. */
+        --verso-code-color: #e0e0e0;
+    }
+}
+
+.code-content > .verso-text.mod-doc blockquote,
+.code-content > .md-text.mod-doc blockquote {
+    background: var(--cookbook-quote-bg);
+    border-left: 4px solid var(--cookbook-quote-border);
+    border-radius: 0 6px 6px 0;
+    color: var(--cookbook-quote-color);
+    font-family: "KaTeX_Main", Georgia, "Times New Roman", serif;
+    font-size: 1.08em;
+    margin: 0.5rem 0 0.75rem;
+    padding: 0.6rem 1.1rem;
+}
+
+.code-content > .verso-text.mod-doc blockquote > p:last-child,
+.code-content > .md-text.mod-doc blockquote > p:last-child {
+    margin-bottom: 0;
+}
+
+.code-content > .verso-text.mod-doc blockquote .katex-display,
+.code-content > .md-text.mod-doc blockquote .katex-display {
+    margin: 0.3rem 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+/* Math is emitted as `<code class="math ...">`; drop the inline-code chip around it. */
+.code-content > .verso-text.mod-doc code.math,
+.code-content > .md-text.mod-doc code.math {
+    background: none;
+    border: none;
+    color: inherit;
+    padding: 0;
+}
