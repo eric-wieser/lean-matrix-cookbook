@@ -57,3 +57,65 @@ specificity rather than relying on `!important`.
     color: inherit;
     padding: 0;
 }
+
+/*
+Two-column layout on wide screens: each equation's text (the quoted cookbook statement and any
+note about it) on the left, with the Lean statement and proof beside it on the right.
+
+Verso emits every item as a direct child of `.code-content`, in source order: a theorem's
+docstring (an id-less `.verso-text`) is immediately followed by its `.code-box`. Placing those two
+in columns 1 and 2 pairs them on one grid row. Chapter prose (`/-! -/`, which has an
+`id="mod-doc-…"`) and anything else spans the full width.
+*/
+@media (min-width: 1400px) {
+    .code-content {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        column-gap: 1.75rem;
+        align-content: start;
+        align-items: start;
+    }
+
+    .code-content > * {
+        grid-column: 1 / -1;
+        min-width: 0;
+    }
+
+    .code-content > .verso-text.mod-doc:not([id]) {
+        grid-column: 1;
+    }
+
+    /*
+    `overflow: visible` matters: with Verso's `overflow-x: auto`, Chromium leaves the code box out
+    of the row height, so boxes overlap the next row. Code wraps here, so nothing needs scrolling.
+    */
+    .code-content > .code-box {
+        grid-column: 2;
+        overflow: visible;
+    }
+
+    /* Line the quote panel up with the top of the code box beside it. */
+    .code-content > .verso-text.mod-doc:not([id]) > blockquote:first-child {
+        margin-top: 0;
+    }
+
+    /*
+    The code column is narrower than Lean's 100-character lines. Keep Lean's own line breaks and
+    indentation, and let long lines scroll within the code itself rather than the box (see above).
+    */
+    .code-content > .code-box {
+        font-size: 0.875rem;
+    }
+
+    .code-content > .code-box code.hl.lean.block {
+        display: block;
+        overflow-x: auto;
+    }
+}
+
+/* Between 1400px and 1800px, give the two columns the room taken by the "On this page" panel. */
+@media (min-width: 1400px) and (max-width: 1799px) {
+    .page-toc {
+        display: none;
+    }
+}

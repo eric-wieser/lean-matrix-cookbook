@@ -247,7 +247,7 @@ theorem eq_26 {A : Matrix (Fin 3) (Fin 3) R} [Invertible (2 : R)] :
 /--
 > For $`n = 4`:
 
-  $$`\begin{aligned}\det(\mathbf{I}+\mathbf{A}) = {}& 1+\det(\mathbf{A})+\operatorname{Tr}(\mathbf{A})+\tfrac{1}{2}\operatorname{Tr}(\mathbf{A})^2-\tfrac{1}{2}\operatorname{Tr}(\mathbf{A}^2) \\ &+\tfrac{1}{6}\operatorname{Tr}(\mathbf{A})^3-\tfrac{1}{2}\operatorname{Tr}(\mathbf{A})\operatorname{Tr}(\mathbf{A}^2)+\tfrac{1}{3}\operatorname{Tr}(\mathbf{A}^3)\end{aligned} \tag{27}`
+  $$`\begin{aligned}\det(\mathbf{I}+\mathbf{A}) = {}& 1+\det(\mathbf{A})+\operatorname{Tr}(\mathbf{A}) \\ &+\tfrac{1}{2}\operatorname{Tr}(\mathbf{A})^2-\tfrac{1}{2}\operatorname{Tr}(\mathbf{A}^2) \\ &+\tfrac{1}{6}\operatorname{Tr}(\mathbf{A})^3-\tfrac{1}{2}\operatorname{Tr}(\mathbf{A})\operatorname{Tr}(\mathbf{A}^2)+\tfrac{1}{3}\operatorname{Tr}(\mathbf{A}^3)\end{aligned} \tag{27}`
 
 The cookbook's typesetting of this equation is garbled; this is the intended
 formula, and the one formalized below.
@@ -268,7 +268,7 @@ theorem eq_27 {A : Matrix (Fin 4) (Fin 4) R} [CharZero R] :
 /--
 > For small $`\varepsilon`, the following approximation holds
 
-  $$`\det(\mathbf{I}+\varepsilon\mathbf{A}) \cong 1+\det(\mathbf{A})+\varepsilon\operatorname{Tr}(\mathbf{A})+\tfrac{1}{2}\varepsilon^2\operatorname{Tr}(\mathbf{A})^2-\tfrac{1}{2}\varepsilon^2\operatorname{Tr}(\mathbf{A}^2) \tag{28}`
+  $$`\begin{aligned}\det(\mathbf{I}+\varepsilon\mathbf{A}) \cong {}& 1+\det(\mathbf{A})+\varepsilon\operatorname{Tr}(\mathbf{A}) \\ &+\tfrac{1}{2}\varepsilon^2\operatorname{Tr}(\mathbf{A})^2-\tfrac{1}{2}\varepsilon^2\operatorname{Tr}(\mathbf{A}^2)\end{aligned} \tag{28}`
 
 It is not clear what the precise statement should be, and the $`\det(\mathbf{A})` term looks
 wrong in the source material.
