@@ -81,22 +81,42 @@ in columns 1 and 2 pairs them on one grid row. Chapter prose (`/-! -/`, which ha
         min-width: 0;
     }
 
+    /*
+    A theorem's docstring holds the quoted cookbook text (a blockquote) and any commentary on the
+    formalization (everything else). `display: contents` makes those separate grid items, so the
+    quote goes in the left column and the commentary in the right, above the Lean code. When there
+    is commentary, the quote spans both of its rows.
+    */
     .code-content > .verso-text.mod-doc:not([id]) {
+        display: contents;
+    }
+
+    .code-content > .verso-text.mod-doc:not([id]) > * {
+        grid-column: 2;
+    }
+
+    .code-content > .verso-text.mod-doc:not([id]) > blockquote {
         grid-column: 1;
+        margin-top: 0;
+    }
+
+    .code-content > .verso-text.mod-doc:not([id]):has(> :not(blockquote)) > blockquote {
+        grid-row: span 2;
+    }
+
+    .code-content > .verso-text.mod-doc:not([id]) > :not(blockquote) {
+        color: var(--verso-muted-color);
+        font-size: 0.95em;
+        margin-bottom: 0.5rem;
     }
 
     /*
     `overflow: visible` matters: with Verso's `overflow-x: auto`, Chromium leaves the code box out
-    of the row height, so boxes overlap the next row. Code wraps here, so nothing needs scrolling.
+    of the row height, so boxes overlap the next row. Long lines scroll within the code instead.
     */
     .code-content > .code-box {
         grid-column: 2;
         overflow: visible;
-    }
-
-    /* Line the quote panel up with the top of the code box beside it. */
-    .code-content > .verso-text.mod-doc:not([id]) > blockquote:first-child {
-        margin-top: 0;
     }
 
     /*

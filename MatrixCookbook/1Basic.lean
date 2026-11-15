@@ -231,7 +231,7 @@ theorem eq_25 {A : Matrix (Fin 2) (Fin 2) R} : det (1 + A) = 1 + det A + trace A
 /--
 > For $`n = 3`:
 
-  $$`\det(\mathbf{I}+\mathbf{A}) = 1+\det(\mathbf{A})+\operatorname{Tr}(\mathbf{A})+\tfrac{1}{2}\operatorname{Tr}(\mathbf{A})^2-\tfrac{1}{2}\operatorname{Tr}(\mathbf{A}^2) \tag{26}`
+  $$`\begin{aligned}\det(\mathbf{I}+\mathbf{A}) = {}& 1+\det(\mathbf{A})+\operatorname{Tr}(\mathbf{A}) \\ &+\tfrac{1}{2}\operatorname{Tr}(\mathbf{A})^2-\tfrac{1}{2}\operatorname{Tr}(\mathbf{A}^2)\end{aligned} \tag{26}`
 -/
 theorem eq_26 {A : Matrix (Fin 3) (Fin 3) R} [Invertible (2 : R)] :
     det (1 + A) = 1 + det A + trace A + ⅟ 2 * trace A ^ 2 - ⅟ 2 * trace (A ^ 2) := by
