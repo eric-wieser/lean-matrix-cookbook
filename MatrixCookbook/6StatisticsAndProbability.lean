@@ -12,7 +12,7 @@ set_option doc.verso true
 ### Mean
 -/
 
-public section
+@[expose] public section
 
 namespace MatrixCookbook
 

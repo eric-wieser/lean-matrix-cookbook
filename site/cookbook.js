@@ -1,4 +1,4 @@
-// Flags cookbook equations that are not yet stated in Lean, and theorems that are not yet proved.
+// Tidies the literate site, and flags cookbook equations that are not yet stated in Lean, and theorems that are not yet proved.
 //
 // The statuses match `analyze.lean` (which draws the progress bar):
 // * "not stated": there is no `eq_n` theorem for equation (n), or its statement is a
@@ -7,6 +7,13 @@
 document.addEventListener("DOMContentLoaded", () => {
   const content = document.querySelector(".code-content");
   if (!content) return;
+
+  // `hide_commands` in literate.toml matches leading keywords, and `@[expose] public section`
+  // starts with an attribute rather than a keyword, so hide that boilerplate here instead.
+  for (const box of content.querySelectorAll(":scope > .code-box")) {
+    const code = [...box.querySelectorAll("code.hl.lean.block")].map(c => c.textContent).join("");
+    if (/^\s*@\[expose\]\s*public\s+section\s*$/.test(code)) box.hidden = true;
+  }
 
   const mark = (box, status) => {
     box.classList.add(`status-${status}`);

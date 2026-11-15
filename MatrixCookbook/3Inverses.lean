@@ -18,7 +18,7 @@ set_option doc.verso true
 ### Definition
 -/
 
-public section
+@[expose] public section
 
 namespace MatrixCookbook
 
@@ -43,7 +43,7 @@ theorem eq_145 (h : IsUnit A.det) : A * A⁻¹ = 1 ∧ A⁻¹ * A = 1 :=
   ⟨mul_nonsing_inv _ h, nonsing_inv_mul _ h⟩
 
 -- mathlib has no need for this due to `eq_148`, but we include it for completeness
-@[reducible, expose]
+@[reducible]
 def cofactor {n : ℕ} (A : Matrix (Fin n.succ) (Fin n.succ) ℂ) :
     Matrix (Fin n.succ) (Fin n.succ) ℂ :=
   of fun i j : Fin n.succ => (-1) ^ (i + j : ℕ) * det (A.submatrix i.succAboveEmb j.succAboveEmb)

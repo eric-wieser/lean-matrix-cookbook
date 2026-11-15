@@ -25,7 +25,7 @@ set_option doc.verso true
   $$`\begin{array}{lll} R_{xx} = \mathbf{x}^T\mathbf{x} & R_{x1} = \mathbf{x}^T\mathbf{1} & R_{11} = \mathbf{1}^T\mathbf{1} \\ R_{yx} = \mathbf{y}^T\mathbf{x} & R_{y1} = \mathbf{y}^T\mathbf{1} & \end{array}`
 -/
 
-public section
+@[expose] public section
 
 variable {m n p R : Type*}
 

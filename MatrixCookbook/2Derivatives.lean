@@ -23,7 +23,7 @@ set_option doc.verso true
   $$`\left[\frac{\partial \mathbf{x}}{\partial y}\right]_i = \frac{\partial x_i}{\partial y} \qquad \left[\frac{\partial x}{\partial \mathbf{y}}\right]_i = \frac{\partial x}{\partial y_i} \qquad \left[\frac{\partial \mathbf{x}}{\partial \mathbf{y}}\right]_{ij} = \frac{\partial x_i}{\partial y_j}`
 -/
 
-public section
+@[expose] public section
 
 variable {ι : Type _} {R : Type _} {m n p q : Type _}
 

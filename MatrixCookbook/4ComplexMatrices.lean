@@ -8,7 +8,7 @@ set_option doc.verso true
 # Complex Matrices
 -/
 
-public section
+@[expose] public section
 
 namespace MatrixCookbook
 

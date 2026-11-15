@@ -34,7 +34,7 @@ set_option doc.verso true
 ### The Determinant
 -/
 
-public section
+@[expose] public section
 
 variable {R : Type _} {l m n p q r : Type _}
 

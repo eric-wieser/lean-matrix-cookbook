@@ -29,7 +29,7 @@ returning {lit}`0` when {lit}`A` is singular, so most of these identities hold w
 invertibility hypothesis.
 -/
 
-public section
+@[expose] public section
 
 variable {ι : Type _} {R : Type _} {m n p : Type _}
 

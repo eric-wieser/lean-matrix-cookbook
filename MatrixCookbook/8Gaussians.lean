@@ -10,7 +10,7 @@ set_option doc.verso true
 ### Density and normalization
 -/
 
-public section
+@[expose] public section
 
 namespace MatrixCookbook
 

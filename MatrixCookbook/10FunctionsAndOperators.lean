@@ -26,7 +26,7 @@ set_option doc.verso true
 ### Finite Series
 -/
 
-public section
+@[expose] public section
 
 variable {ι : Type*} {R : Type*} {l m n p q r : Type*}
 

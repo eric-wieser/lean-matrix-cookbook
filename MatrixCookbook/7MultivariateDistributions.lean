@@ -8,7 +8,7 @@ set_option doc.verso true
 ## Cauchy
 -/
 
-public section
+@[expose] public section
 
 namespace MatrixCookbook
 
