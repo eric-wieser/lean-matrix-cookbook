@@ -3,10 +3,12 @@ defaultTargets = ["MatrixCookbook"]
 
 # Verso renders the literate website (`lake build :literateHtml`).
 # Mathlib is required last so that its versions of shared dependencies take precedence.
+# Temporarily on a fork with a fix for `«»`-escaped module names such as `«1Basic»`; switch back
+# to `leanprover/verso` once that fix is released.
 [[require]]
 name = "verso"
-git = "https://github.com/leanprover/verso"
-rev = "v4.36.0-rc2"
+git = "https://github.com/eric-wieser/verso-fork"
+rev = "fix-literate-escaped-module-names"
 
 [[require]]
 name = "mathlib"

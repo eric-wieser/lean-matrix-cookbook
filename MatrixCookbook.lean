@@ -1,12 +1,12 @@
 module
 
-public import MatrixCookbook.Basic
-public import MatrixCookbook.Derivatives
-public import MatrixCookbook.Inverses
-public import MatrixCookbook.ComplexMatrices
-public import MatrixCookbook.SolutionsAndDecompositions
-public import MatrixCookbook.StatisticsAndProbability
-public import MatrixCookbook.MultivariateDistributions
-public import MatrixCookbook.Gaussians
-public import MatrixCookbook.SpecialMatrices
-public import MatrixCookbook.FunctionsAndOperators
+public import MatrixCookbook.«1Basic»
+public import MatrixCookbook.«2Derivatives»
+public import MatrixCookbook.«3Inverses»
+public import MatrixCookbook.«4ComplexMatrices»
+public import MatrixCookbook.«5SolutionsAndDecompositions»
+public import MatrixCookbook.«6StatisticsAndProbability»
+public import MatrixCookbook.«7MultivariateDistributions»
+public import MatrixCookbook.«8Gaussians»
+public import MatrixCookbook.«9SpecialMatrices»
+public import MatrixCookbook.«10FunctionsAndOperators»

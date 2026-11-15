@@ -19,7 +19,7 @@ To build it locally:
 lake build :literateHtml
 ```
 
-The site is written to `.lake/build/literate-html/`. `literate.toml` controls which chapters are included; currently only chapter 1 (`MatrixCookbook/Basic.lean`) is published.
+The site is written to `.lake/build/literate-html/`. `literate.toml` controls which chapters are included; currently only chapter 1 (`MatrixCookbook/1Basic.lean`) is published.
 Prose and equations live in the Lean files themselves, as Verso-syntax module comments (`/-! -/`) and docstrings (`set_option doc.verso true`), with LaTeX written as ``$`...` `` (inline) or ``$$`...` `` (display).
 Text quoted from the cookbook is written as a blockquote (`> ...`); everything else is commentary on the formalization.
 Styling, including the two-column layout on wide screens, is in `site/cookbook.css`. Verso does not notice changes to that file, so delete `.lake/build/literate-html` before rebuilding after editing it.
