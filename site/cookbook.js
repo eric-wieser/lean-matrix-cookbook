@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // `hide_commands` in literate.toml matches leading keywords, and `@[expose] public section`
   // starts with an attribute rather than a keyword, so hide that boilerplate here instead.
+  // Remove once https://github.com/leanprover/verso/issues/1107 is fixed.
   for (const box of content.querySelectorAll(":scope > .code-box")) {
     const code = [...box.querySelectorAll("code.hl.lean.block")].map(c => c.textContent).join("");
     if (/^\s*@\[expose\]\s*public\s+section\s*$/.test(code)) box.hidden = true;
